@@ -10,6 +10,6 @@ language: c
 compiler: gcc
 
 script: 
-	- echo "OK"
-	- erco "k"
-	- echo "OK"
+ - echo "OK"
+ - erco "k"
+ - echo "OK"
