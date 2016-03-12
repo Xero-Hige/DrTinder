@@ -10,3 +10,5 @@ language: c
 compiler: gcc
 
 script: echo "OK"
+script: erco "k"
+script: echo "OK"
