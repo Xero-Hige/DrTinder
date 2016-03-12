@@ -3,6 +3,7 @@ notifications:
   slack:
     rooms:
       - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#talk-to-travis
+      - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#general-build-status
 #############
 
 language: c
@@ -11,5 +12,5 @@ compiler: gcc
 
 script: 
  - echo "OK"
- - erco "k"
+ - echo "OK"
  - echo "OK"
