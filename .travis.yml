@@ -9,6 +9,7 @@ language: c
 
 compiler: gcc
 
-script: echo "OK"
-script: erco "k"
-script: echo "OK"
+script: 
+	- echo "OK"
+	- erco "k"
+	- echo "OK"
