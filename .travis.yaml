@@ -1,0 +1,12 @@
+#No modificar
+notifications:
+  slack:
+    rooms:
+      - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#talk-to-travis
+#############
+
+language: c
+
+compiler: gcc
+
+script: echo "OK"
