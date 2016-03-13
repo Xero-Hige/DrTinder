@@ -13,12 +13,12 @@ language: c
 
 compiler: gcc
 
-deploy:
-  provider: heroku
-  api_key:
-    secure: PqH92l1gcf3DMlvyafgwCD4iWqZp7Yzs9XfNLPzAbwcp08fDRxDLNZB2+A+YzqRMTkEyZvvZSANmw1FlnJjeXKs5cLsSeWnNnJfsNY3mSRaRC3Ri5k/l8kwbNL4m+Jw++Mcf/g5a+MZiaMs0Z63OFWHdJCjY890ZSX3B8arXgGIXDPQqCTllFGxRJg1bKsHK5+6qbF8CcJv2Uz5olpkIoqwJVsKFVvE+wC3TD3EtrcxxfdbnxcjNlWXoEi7R8j0sp3lJhcGu3M6g++aZBRQ94A/uPmmwPyaK4toxU7b8TnuGXzeDhhm4ow2ABzBm+tLNk7GIgudLCZkSJjmOxw+TqAOObvTss0IDnH8I+1JglKn189oNvTDcB4fDLk40efZ5TMPExFpdIxLF9bzmTaD+JMleoLCwFjTyv95UOnSpAxR7AtaFWbY6X5gioz+afvVLUaktDw3zH8bGUTDRFZAd+8kcde4ViSUr7BdH109eQRHW3cE5c8azWBPu5dnsidA7OEDdBm1UDNb3de54GrS8jfeMnhHbFq2iUDHaaHO3DJ/aRIOhAUJNqTljPsCS/NI7PC/HLw+54OqeQ40VLINa6TngV5S9MJsoxDG+KBPc+aP0wCwwhq8d5X7O/JQEkt3xnH4INbWbyjzB7hS8kag/5/zX3FvFqK1W50V3eYGBGVE=
-  app: dr-tinder
-  on: master
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: PqH92l1gcf3DMlvyafgwCD4iWqZp7Yzs9XfNLPzAbwcp08fDRxDLNZB2+A+YzqRMTkEyZvvZSANmw1FlnJjeXKs5cLsSeWnNnJfsNY3mSRaRC3Ri5k/l8kwbNL4m+Jw++Mcf/g5a+MZiaMs0Z63OFWHdJCjY890ZSX3B8arXgGIXDPQqCTllFGxRJg1bKsHK5+6qbF8CcJv2Uz5olpkIoqwJVsKFVvE+wC3TD3EtrcxxfdbnxcjNlWXoEi7R8j0sp3lJhcGu3M6g++aZBRQ94A/uPmmwPyaK4toxU7b8TnuGXzeDhhm4ow2ABzBm+tLNk7GIgudLCZkSJjmOxw+TqAOObvTss0IDnH8I+1JglKn189oNvTDcB4fDLk40efZ5TMPExFpdIxLF9bzmTaD+JMleoLCwFjTyv95UOnSpAxR7AtaFWbY6X5gioz+afvVLUaktDw3zH8bGUTDRFZAd+8kcde4ViSUr7BdH109eQRHW3cE5c8azWBPu5dnsidA7OEDdBm1UDNb3de54GrS8jfeMnhHbFq2iUDHaaHO3DJ/aRIOhAUJNqTljPsCS/NI7PC/HLw+54OqeQ40VLINa6TngV5S9MJsoxDG+KBPc+aP0wCwwhq8d5X7O/JQEkt3xnH4INbWbyjzB7hS8kag/5/zX3FvFqK1W50V3eYGBGVE=
+#  app: dr-tinder
+#  on: master
 
 script:
 - echo "OK"
