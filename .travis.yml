@@ -4,13 +4,22 @@ notifications:
     rooms:
       - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#talk-to-travis
       - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#general-build-status
+#------------ 
+      - taller2-drv:p0qCWhuViwNDcP2vT6DjS8Qv#heroku-deploy
 #############
 
 language: c
 
 compiler: gcc
 
+deploy:
+  provider: heroku
+  api_key:
+    secure: "YOUR ENCRYPTED API KEY"
+  app: dr-tinder
+  on: master
+
 script: 
- - echo "OK"
- - echo "OK"
- - echo "OK"
+  - echo "OK"
+  - echo "OK"
+  - echo "OK"
