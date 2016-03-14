@@ -5,13 +5,15 @@ notifications:
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#talk-to-travis
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#general-build-status
 #Branch specific          
-          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#heroku-deploy
+          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#android-app
     email: false
 ##############################
 
-language: c
+language: android
 
-compiler: gcc
+android:
+  components:
+    -android-21
 
 script:
 - echo "OK"
