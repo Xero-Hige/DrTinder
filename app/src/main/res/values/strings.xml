@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DrTinder</string>
+    <string name="app_name">Dr Tinder</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
