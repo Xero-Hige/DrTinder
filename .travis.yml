@@ -5,7 +5,7 @@ notifications:
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#talk-to-travis
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#general-build-status
 #Branch specific          
-          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#heroku-deploy
+          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#app-server
     email: false
 ##############################
 
@@ -20,3 +20,4 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - bash execute.sh
