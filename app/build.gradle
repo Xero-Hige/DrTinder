@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../config/quality.gradle'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 23
@@ -17,6 +18,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    productFlavors {
+        free {}
     }
 }
 
