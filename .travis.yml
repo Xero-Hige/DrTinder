@@ -5,18 +5,23 @@ notifications:
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#talk-to-travis
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#general-build-status
 #Branch specific          
-          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#heroku-deploy
+          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#shared-server
     email: false
 ##############################
 
-language: c
+language: node_js
 
-compiler: gcc
+node_js:
+   - "0.8"
+
+before_install: npm install -g grunt-cli
+
+install: npm install
+
+before_script: grunt build
 
 script:
-  - gcc -coverage -O0 hello.c -o hello
-  - ./hello
-  - gcov hello.c
+  - echo "hello"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
