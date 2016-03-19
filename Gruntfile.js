@@ -418,6 +418,7 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-internal');
@@ -428,7 +429,7 @@ module.exports = function(grunt) {
     'jshint',
     'jscs',
     'clean',
-    'uglify',
+ /*   'uglify',*/
     'nodeunit'
   ]);
 
