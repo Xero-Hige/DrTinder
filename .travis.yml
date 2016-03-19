@@ -4,8 +4,6 @@ notifications:
     rooms:       
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#talk-to-travis
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#general-build-status
-#Branch specific          
-          - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#heroku-deploy
     email: false
 ##############################
 
