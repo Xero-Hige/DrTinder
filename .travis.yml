@@ -12,13 +12,13 @@ notifications:
 language: node_js
 
 node_js:
-   - "0.8"
+   - "0.9"
 
 before_install: npm install -g grunt-cli
 
 install: npm install
 
-before_script: grunt build
+before_script: grunt test
 
 script:
   - echo "hello"
