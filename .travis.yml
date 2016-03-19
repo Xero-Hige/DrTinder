@@ -32,8 +32,9 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window &
 
 script:
-  - if [./gradlew check --continue 2>1 1>Check.out]; then cat ./Check.out; else rm ./Check.out; fi
-#  - ./gradlew build --continue
+  - if ./gradlew check --continue 1>Stdout.out  2>Err.out ; then cat Stdout.out ; else cat Err.out ; fi
+  - rm *.out
+  - ./gradlew build -x test
 
 #  - android-wait-for-emulator
 #  - adb devices
@@ -41,6 +42,7 @@ script:
 #  - ./gradlew connectedAndroidTest -PdisablePreDex --continue --stacktrace
 #  - rm /home/travis/.gradle/caches/2.8/plugin-resolution/cache.properties.lock
 
+after_success:
   - ./gradlew jacocoTestReport
   - bash <(curl -s https://codecov.io/bash)
 
