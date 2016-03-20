@@ -30,8 +30,8 @@ module.exports = function(grunt) {
                 requireCurlyBraces: ['if']
             },
             all: {
-                src: ['*/*.js', '*.js'],
-            },
+                src: ['*/*.js', '*.js']
+            }
         },
 
         // Before generating any new files, remove any previously-created files.
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
                     mangle: false
                 }
             },
-            compress_explicit: {
+            compressExplicit: {
                 files: {
                     'tmp/compress_explicit.js': ['test/fixtures/src/simple.js']
                 },
@@ -57,12 +57,12 @@ module.exports = function(grunt) {
                     compress: true
                 }
             },
-            compress_mangle: {
+            compressMangle: {
                 files: {
                     'tmp/compress_mangle.js': ['test/fixtures/src/simple.js']
                 }
             },
-            compress_mangle_banner: {
+            compressMangleBanner: {
                 files: {
                     'tmp/compress_mangle_banner.js': ['test/fixtures/src/simple.js']
                 },
@@ -70,12 +70,12 @@ module.exports = function(grunt) {
                     banner: '// banner without sourcemap\n'
                 }
             },
-            no_src: {
+            noSrc: {
                 files: {
                     'tmp/compress_mangle.js': []
                 }
             },
-            compress_mangle_except: {
+            compressMangleExcept: {
                 files: {
                     'tmp/compress_mangle_except.js': ['test/fixtures/src/simple.js']
                 },
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
                     }
                 }
             },
-            compress_mangle_beautify: {
+            compressMangleBeautify: {
                 files: {
                     'tmp/compress_mangle_beautify.js': ['test/fixtures/src/simple.js']
                 },
@@ -164,14 +164,14 @@ module.exports = function(grunt) {
                     exportAll: true
                 }
             },
-            sourcemap_basic: {
+            sourcemapBasic: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_basic.js',
                 options: {
                     sourceMap: true
                 }
             },
-            sourcemap_customName: {
+            sourcemapCustomName: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_customName.js',
                 options: {
@@ -179,7 +179,7 @@ module.exports = function(grunt) {
                     sourceMapName: 'tmp/source_map_custom_name'
                 }
             },
-            sourcemap_customDir: {
+            sourcemapCustomDir: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_customDir.js',
                 options: {
@@ -187,7 +187,7 @@ module.exports = function(grunt) {
                     sourceMapName: 'tmp/deep/directory/location/source_map.js.map'
                 }
             },
-            sourcemap_customRoot: {
+            sourcemapCustomRoot: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_customRoot.js',
                 options: {
@@ -195,7 +195,7 @@ module.exports = function(grunt) {
                     sourceMapRoot: 'https://github.com/RReverser/grunt-contrib-uglify/tree/master/tmp'
                 }
             },
-            sourcemap_customUrl: {
+            sourcemapCustomUrl: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_customUrl.js',
                 options: {
@@ -203,17 +203,17 @@ module.exports = function(grunt) {
                     sourceMapUrl: 'http://www.test.com/test/sourcemap_customUrl.js.map'
                 }
             },
-            sourcemap_functionName: {
+            sourcemapFunctionName: {
                 src: 'test/fixtures/src/simple.js',
                 dest: 'tmp/sourcemap_functionName.js',
                 options: {
                     sourceMap: true,
                     sourceMapName: function(dest) {
-                        return dest + ".fn.map";
+                        return dest + '.fn.map';
                     }
                 }
             },
-            sourcemap_multiple: {
+            sourcemapMultiple: {
                 files: {
                     'tmp/sourcemaps_multiple1.js': ['test/fixtures/src/simple.js'],
                     'tmp/sourcemaps_multiple2.js': ['test/fixtures/src/comments.js']
@@ -222,7 +222,7 @@ module.exports = function(grunt) {
                     sourceMap: true
                 }
             },
-            sourcemap_multipleFunctionNames: {
+            sourcemapMultipleFunctionNames: {
                 files: {
                     'tmp/sourcemaps_multiple1_fnName.js': ['test/fixtures/src/simple.js'],
                     'tmp/sourcemaps_multiple2_fnName.js': ['test/fixtures/src/comments.js']
@@ -248,7 +248,7 @@ module.exports = function(grunt) {
                     sourceMapIncludeSources: false
                 }
             },
-            sourcemap_sources: {
+            sourcemapSources: {
                 files: {
                     'tmp/sourcemap_sources.js': ['test/fixtures/src/simple.js']
                 },
@@ -257,7 +257,7 @@ module.exports = function(grunt) {
                     sourceMapIncludeSources: true
                 }
             },
-            sourcemapin_sources: {
+            sourcemapinSources: {
                 files: {
                     'tmp/sourcemapin_sources.js': ['test/fixtures/src/simple2.js']
                 },
@@ -269,7 +269,7 @@ module.exports = function(grunt) {
                     sourceMapIncludeSources: true
                 }
             },
-            expression_json: {
+            expressionJson: {
                 files: {
                     'tmp/expression.json': ['test/fixtures/src/simple.json']
                 },
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
                     compress: false
                 }
             },
-            expression_js: {
+            expressionJs: {
                 files: {
                     'tmp/expression.js': ['test/fixtures/src/expression.js']
                 },
@@ -297,7 +297,7 @@ module.exports = function(grunt) {
                     mangleProperties: true
                 }
             },
-            mangleprops_withExcept: {
+            manglepropsWithExcept: {
                 files: {
                     'tmp/mangleprops_withExcept.js': ['test/fixtures/src/mangleprops.js']
                 },
@@ -308,7 +308,7 @@ module.exports = function(grunt) {
                     mangleProperties: true
                 }
             },
-            mangleprops_withExceptionsFiles: {
+            manglepropsWithExceptionsFiles: {
                 files: {
                     'tmp/mangleprops_withExceptionsFiles.js': ['test/fixtures/src/mangleprops.js']
                 },
@@ -317,10 +317,12 @@ module.exports = function(grunt) {
                         toplevel: true
                     },
                     mangleProperties: true,
-                    exceptionsFiles: ['test/fixtures/src/exceptionsfile1.json', 'test/fixtures/src/exceptionsfile2.json']
+                    exceptionsFiles: ['test/fixtures/src/exceptionsfile1.json',
+                        'test/fixtures/src/exceptionsfile2.json'
+                    ]
                 }
             },
-            mangleprops_withExceptAndExceptionsFiles: {
+            manglepropsWithExceptAndExceptionsFiles: {
                 files: {
                     'tmp/mangleprops_withExceptAndExceptionsFiles.js': ['test/fixtures/src/mangleprops.js']
                 },
@@ -330,13 +332,17 @@ module.exports = function(grunt) {
                         except: ['dontMangleMeVariable']
                     },
                     mangleProperties: true,
-                    exceptionsFiles: ['test/fixtures/src/exceptionsfile1.json', 'test/fixtures/src/exceptionsfile2.json']
+                    exceptionsFiles: ['test/fixtures/src/exceptionsfile1.json',
+                        'test/fixtures/src/exceptionsfile2.json'
+                    ]
                 }
             },
-            mangleprops_withNameCacheFile: {
+            manglepropsWithNameCacheFile: {
                 files: {
                     'tmp/mangleprops_withNameCacheFile1.js': ['test/fixtures/src/mangleprops.js'],
-                    'tmp/mangleprops_withNameCacheFile2.js': ['test/fixtures/src/mangleprops_withNameCache.js']
+                    'tmp/mangleprops_withNameCacheFile2.js': [
+                        'test/fixtures/src/mangleprops_withNameCache.js'
+                    ]
                 },
                 options: {
                     mangle: {
@@ -346,7 +352,7 @@ module.exports = function(grunt) {
                     nameCache: 'tmp/uglify_name_cache.json'
                 }
             },
-            mangleprops_withRegex: {
+            manglepropsWithRegex: {
                 files: {
                     'tmp/mangleprops_withRegex.js': ['test/fixtures/src/mangleprops_withRegex.js']
                 },
@@ -356,7 +362,7 @@ module.exports = function(grunt) {
                     }
                 }
             },
-            quotes_single: {
+            quotesSingle: {
                 files: {
                     'tmp/quotes_single.js': ['test/fixtures/src/quotes.js']
                 },
@@ -364,7 +370,7 @@ module.exports = function(grunt) {
                     quoteStyle: 1
                 }
             },
-            quotes_double: {
+            quotesDouble: {
                 files: {
                     'tmp/quotes_double.js': ['test/fixtures/src/quotes.js']
                 },
@@ -372,7 +378,7 @@ module.exports = function(grunt) {
                     quoteStyle: 2
                 }
             },
-            quotes_original: {
+            quotesOriginal: {
                 files: {
                     'tmp/quotes_original.js': ['test/fixtures/src/quotes.js']
                 },
@@ -380,7 +386,7 @@ module.exports = function(grunt) {
                     quoteStyle: 3
                 }
             },
-            mangle_isNotObject: {
+            mangleIsNotObject: {
                 files: {
                     'tmp/mangle.js': ['test/fixtures/src/simple.js']
                 },
@@ -401,8 +407,8 @@ module.exports = function(grunt) {
         var done = this.async();
 
         function onComplete(error, result) {
-            grunt.log.write("\n > " + result.stdout.split("\n").join("\n > ") + "\n");
-            var rv = error ? true : new Error("Task " + task + " unexpectedly passed.");
+            grunt.log.write('\n > ' + result.stdout.split('\n').join('\n > ') + '\n');
+            var rv = error ? true : new Error('Task ' + task + ' unexpectedly passed.');
             done(rv);
         }
 
@@ -422,7 +428,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-contrib-internal');
 
-    // Whenever the "test" task is run, first clean the "tmp" dir, then run this
+    // Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
     // plugin's task(s), then test the result.
     grunt.registerTask('test', [
         'jshint',
