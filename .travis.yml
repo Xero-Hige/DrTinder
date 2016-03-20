@@ -17,6 +17,7 @@ before_install:
   - npm install load-grunt-tasks
   - npm install grunt-contrib-jshint
   - npm install grunt-jscs
+  - npm install jscs-stylish
   - npm install grunt-contrib-clean
   - npm install grunt-contrib-nodeunit
   - npm install grunt-contrib-internal
