@@ -12,7 +12,7 @@ task checkstyle(type: Checkstyle) {
     include '**/*.java'
     exclude '**/gen/**'
     classpath = files()
-    ignoreFailures = true
+    ignoreFailures = true    
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
@@ -41,9 +41,8 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
 }
 
 task pmd(type: Pmd) {
-    ignoreFailures = true
+    ignoreFailures = true    
     ruleSetFiles = files("${project.rootDir}/config/quality/pmd/pmd-ruleset.xml")
-    ruleSets = []
 
     source 'src'
     include '**/*.java'
