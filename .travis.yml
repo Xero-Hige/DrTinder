@@ -25,7 +25,7 @@ before_install:
 
 install: npm install
 
-before_script: grunt test
+before_script: grunt test --force
 
 script:
   - echo "hello"
