@@ -15,6 +15,12 @@ before_install:
   - npm -g install npm@latest-2
   - npm install -g grunt-cli
   - npm install load-grunt-tasks
+  - npm install grunt-contrib-jshint
+  - npm install grunt-jscs
+  - npm install grunt-contrib-clean
+  - npm install grunt-contrib-nodeunit
+  - npm install grunt-contrib-internal
+
 
 install: npm install
 
