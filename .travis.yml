@@ -32,9 +32,9 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window &
 
 script:
-  - if ./gradlew check --continue 1>Stdout.out  2>Err.out ; then cat Stdout.out ; else cat Err.out ; fi
-  - rm *.out
-  - ./gradlew build -x test -x checkstyle -x findbugs -x pmd -x lint
+#  - if ./gradlew check --continue 1>Stdout.out  2>Err.out ; then cat Stdout.out ; else cat Err.out ; fi
+#  - rm *.out
+  - ./gradlew build --continue #-x test -x checkstyle -x findbugs -x pmd -x lint
 
 #  - android-wait-for-emulator
 #  - adb devices
