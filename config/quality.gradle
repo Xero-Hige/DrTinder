@@ -15,29 +15,27 @@ task checkstyle(type: Checkstyle) {
     ignoreFailures = true    
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+findbugs {
     ignoreFailures = true
-    effort = "max"
+    reportsDir = file("$project.buildDir/reports/findbugs/")
     reportLevel = "high"
-    excludeFilter = new File("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    effort = "max"
+}
 
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+    classes = fileTree("build/intermediates/classes/debug/")
+    source = fileTree('src/main/java/')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
 
     reports {
         xml.enabled = false
         html.enabled = true
-        xml {
-            destination "$project.buildDir/reports/findbugs/findbugs.xml"
-        }
-        html {
-            destination "$project.buildDir/reports/findbugs/findbugs.html"
-        }
     }
 
-    classpath = files()
 }
 
 task pmd(type: Pmd) {
@@ -69,4 +67,8 @@ android {
         htmlOutput file("$project.buildDir/reports/lint/lint-result.html")
         xmlOutput file("$project.buildDir/reports/lint/lint-result.xml")
     }
+}
+
+check.doLast {
+    project.tasks.getByName("findbugs").execute()
 }
