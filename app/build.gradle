@@ -1,8 +1,11 @@
 apply plugin: 'com.android.application'
 apply from: '../config/quality.gradle'
 apply plugin: 'jacoco-android'
-apply plugin: 'me.tatarka.retrolambda'
 
+apply plugin: 'me.tatarka.retrolambda'
+retrolambda {
+    jvmArgs '-noverify'
+}
 
 android {
     compileSdkVersion 23
@@ -26,6 +29,8 @@ android {
         }
     }
     dexOptions{javaMaxHeapSize "2g"}
+
+
 }
 
 dependencies {
