@@ -32,7 +32,7 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window &
 
 script:
-  - ./gradlew prepareDebugDependencies --continue
+  - ./gradlew build --continue || echo "ok" #Fixme
   - ./gradlew build --continue
 
 #  - android-wait-for-emulator
