@@ -13,4 +13,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="nope_button">Que asco</string>
+    <string name="like_button">Le entro</string>
 </resources>
