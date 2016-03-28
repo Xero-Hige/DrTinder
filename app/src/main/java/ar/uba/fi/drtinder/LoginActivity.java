@@ -42,6 +42,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
         // Set up the login form.
 
+        mEmailTextView = (EditText) findViewById(R.id.email);
         mPasswordTextView = (EditText) findViewById(R.id.password);
         mPasswordTextView.setOnEditorActionListener((textView, actorId, keyEvent) -> {
             if (actorId == R.id.login || actorId == EditorInfo.IME_NULL) {
