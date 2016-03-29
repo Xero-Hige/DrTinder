@@ -1,56 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daprlabs.cardstack.SwipeFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ar.uba.fi.drtinder.SelectionActivity">
+    android:id="@+id/swipeLayout"
+    android:orientation="vertical">
 
-    <com.daprlabs.cardstack.SwipeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/view"
+
+    <com.daprlabs.cardstack.SwipeDeck
+        android:id="@+id/swipe_deck"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.daprlabs.cardstack.SwipeDeck
-            android:id="@+id/swipe_deck"
-            android:layout_width="wrap_content"
-            android:layout_height="380dp"
-            android:layout_alignTop="@+id/view"
-            android:layout_centerHorizontal="true"
-            android:clipChildren="false"
-            android:padding="20dp"
-            swipedeck:card_spacing="10dp"
-            swipedeck:max_visible="3"
-            swipedeck:render_above="true"
-            swipedeck:rotation_degrees="22" />
-
-    </com.daprlabs.cardstack.SwipeFrameLayout>
+        android:layout_height="480dp"
+        android:padding="40dp"
+        swipedeck:card_spacing="10dp"
+        swipedeck:max_visible="3"
+        swipedeck:render_above="true"
+        swipedeck:rotation_degrees="15"
+        swipedeck:opacity_end="0.2"/>
 
     <Button
         android:id="@+id/like_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/view"
-        android:layout_alignEnd="@+id/view"
-        android:layout_gravity="bottom"
         android:background="#7bdd46"
-        android:text="@string/like_button" />
+        android:text="@string/like_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        />
 
     <Button
         android:id="@+id/nope_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/view"
-        android:layout_alignParentStart="true"
         android:layout_gravity="bottom"
         android:background="#523a3a"
-        android:text="@string/nope_button" />
+        android:text="@string/nope_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
-
-</RelativeLayout>
+</com.daprlabs.cardstack.SwipeFrameLayout>
