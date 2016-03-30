@@ -1,62 +1,56 @@
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="30dp"
+    android:layout_gravity="center"
     android:layout_margin="8dp"
     android:gravity="center_horizontal"
-    android:padding="25dp">
+    android:padding="25dp"
+    card_view:cardCornerRadius="30dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
+        <ImageView
+            android:id="@+id/card_picture"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            tools:src="@drawable/gato_3" />
 
-            <ImageView
-                android:id="@+id/card_picture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                tools:src="@drawable/gato_3" />
+        <ImageView
+            android:id="@+id/card_like"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/like"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/card_nope" />
 
-            <ImageView
-                android:id="@+id/card_like"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/like"
-                android:layout_alignTop="@+id/card_nope"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+        <ImageView
+            android:id="@+id/card_nope"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/nope"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
 
-            <ImageView
-                android:id="@+id/card_nope"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/nope"
-                android:adjustViewBounds="true"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:id="@+id/card_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
-                android:text="PUTA"
-                android:textSize="30sp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:backgroundTint="#83f1f4e8"
-                android:background="#a30505" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/card_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="#a30505"
+            android:backgroundTint="#83f1f4e8"
+            android:text="GATA"
+            android:textAlignment="textStart"
+            android:textSize="30sp" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
