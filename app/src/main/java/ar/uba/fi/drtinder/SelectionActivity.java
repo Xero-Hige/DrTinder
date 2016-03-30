@@ -1,21 +1,20 @@
 package ar.uba.fi.drtinder;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
 
@@ -25,23 +24,18 @@ import java.util.List;
 /**
  * Swipe selection activity
  */
-public class SelectionActivity extends AppCompatActivity {
+public class SelectionActivity extends Fragment {
 
     //TODO: Remove
     private static final String MAIN_ACTIVITY = "MainActivity";
     private SwipeDeck mCardStack;
     private SwipeDeckAdapter mCardDeckAdapter;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient mClient;
 
     @Override
-    protected void onCreate(Bundle instanceState) {
-        super.onCreate(instanceState);
-        setContentView(R.layout.activity_selection);
-        mCardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_selection, container, false);
+
+        mCardStack = (SwipeDeck) view.findViewById(R.id.swipe_deck);
 
         //TODO: Remove testing data
         ArrayList<String> testData = new ArrayList<>();
@@ -55,7 +49,7 @@ public class SelectionActivity extends AppCompatActivity {
         resources.add(R.drawable.gato_1);
         //TODO: remove testing data
 
-        mCardDeckAdapter = new SwipeDeckAdapter(testData, this, resources);
+        mCardDeckAdapter = new SwipeDeckAdapter(testData, view.getContext(), resources);
         mCardStack.setAdapter(mCardDeckAdapter);
 
         mCardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
@@ -89,54 +83,28 @@ public class SelectionActivity extends AppCompatActivity {
         mCardStack.setLeftImage(R.id.card_nope);
         mCardStack.setRightImage(R.id.card_like);
 
-        Button btn = (Button) findViewById(R.id.nope_button);
-        btn.setOnClickListener(view -> mCardStack.swipeTopCardLeft(90));
+        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.nope_button);
+        btn.setBackgroundTintList(ColorStateList.valueOf(-1));//FIXME
+        btn.setRippleColor(-3355444);//FIXME
+        btn.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
 
-        Button btn2 = (Button) findViewById(R.id.like_button);
-        btn2.setOnClickListener(view -> mCardStack.swipeTopCardRight(90));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        FloatingActionButton btn2 = (FloatingActionButton) view.findViewById(R.id.like_button);
+        btn2.setBackgroundTintList(ColorStateList.valueOf(-1));//FIXME
+        btn2.setRippleColor(-3355444);//FIXME
+        btn2.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
+
+        return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Selection Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ar.uba.fi.drtinder/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(mClient, viewAction);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Selection Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://ar.uba.fi.drtinder/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(mClient, viewAction);
-        mClient.disconnect();
     }
 
     /**
@@ -149,9 +117,8 @@ public class SelectionActivity extends AppCompatActivity {
         private List<Integer> mResources; //Fixme: This should be at mData
 
         /**
-         *
-         * @param data Cards data
-         * @param context Caller context
+         * @param data      Cards data
+         * @param context   Caller context
          * @param resources TODO: remove this
          */
         public SwipeDeckAdapter(List<String> data, Context context, List<Integer> resources) {
@@ -180,7 +147,7 @@ public class SelectionActivity extends AppCompatActivity {
 
             View view = convertView;
             if (view == null) {
-                LayoutInflater inflater = getLayoutInflater();
+                LayoutInflater inflater = getActivity().getLayoutInflater();
                 view = inflater.inflate(R.layout.card, parent, false);
             }
             ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
