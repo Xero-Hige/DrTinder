@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:backgroundTint="#ffffff"
-    android:backgroundTintMode="multiply"
+    android:background="@drawable/login_background"
+    android:backgroundTint="#76ffffff"
+    android:backgroundTintMode="src_over"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -42,9 +42,6 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#9cffffff"
-            android:backgroundTint="#fcfcfc"
-            android:backgroundTintMode="multiply"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
