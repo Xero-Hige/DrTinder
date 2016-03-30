@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="navigationActive">#b91111</color>
-    <color name="navigationFocus1">#57b911</color>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#d2d2d2</color>
+    <color name="colorAccent">#6313a9</color>
+    <color name="navigationActive">#b91f36</color>
+    <color name="navigationFocus1">#477426</color>
     <color name="navigationFocus2">#1135b9</color>
-
+    <color name="selectionButtonColor">#f2f2f2</color>
 </resources>
