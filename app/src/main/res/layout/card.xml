@@ -20,28 +20,29 @@
             android:id="@+id/card_picture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:layout_centerInParent="true"
-            tools:src="@color/bel_red_text" /> //"@drawable/gato_3" />
+            tools:src="@color/bel_red_text" />
+        //"@drawable/gato_3" />
 
         <ImageView
             android:id="@+id/card_like"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/like"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:adjustViewBounds="true"
+            android:src="@drawable/like" />
 
         <ImageView
             android:id="@+id/card_nope"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/nope"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:adjustViewBounds="true"
+            android:src="@drawable/nope" />
 
         <TextView
             android:id="@+id/card_text"

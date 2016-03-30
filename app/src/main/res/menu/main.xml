@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
@@ -8,21 +7,20 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
-        android:title="Search"
         android:layout_gravity="start"
         android:icon="@drawable/hot"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="200"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_user"
-        android:orderInCategory="300"
-        android:title="User"
         android:layout_gravity="start"
         android:icon="@drawable/people"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="300"
+        android:title="User"
+        app:showAsAction="ifRoom" />
 
 </menu>
