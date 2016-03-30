@@ -11,13 +11,14 @@
     <com.daprlabs.cardstack.SwipeDeck
         android:id="@+id/swipe_deck"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:padding="40dp"
+        android:layout_height="420dp"
+        android:padding="30dp"
         swipedeck:card_spacing="5dp"
         swipedeck:max_visible="3"
         swipedeck:opacity_end="0.2"
         swipedeck:render_above="true"
-        swipedeck:rotation_degrees="-15" />
+        swipedeck:rotation_degrees="-15"
+        android:layout_gravity="center"/>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="wrap_content"

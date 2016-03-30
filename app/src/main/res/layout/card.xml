@@ -22,15 +22,17 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            tools:src="@drawable/gato_3" />
+            android:layout_centerInParent="true"
+            tools:src="@color/bel_red_text" /> //"@drawable/gato_3" />
 
         <ImageView
             android:id="@+id/card_like"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/like"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/card_nope" />
+            android:layout_alignParentStart="true" />
 
         <ImageView
             android:id="@+id/card_nope"
@@ -46,7 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
             android:background="#a30505"
             android:backgroundTint="#83f1f4e8"
             android:text="GATA"
