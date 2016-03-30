@@ -214,7 +214,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent menuIntent = new Intent(this.mTaskContext, SelectionActivity.class);
+                Intent menuIntent = new Intent(this.mTaskContext, MainActivity.class);
                 menuIntent.putExtra("User", this.mUserEmail);
                 startActivity(menuIntent);
             } else {
