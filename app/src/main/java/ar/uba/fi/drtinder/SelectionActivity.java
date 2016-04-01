@@ -56,16 +56,21 @@ public class SelectionActivity extends Fragment {
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i(MAIN_ACTIVITY, "card was swiped left, position in adapter: " + position);
+                Snackdebug.showMessage("No te gusto este gato", getView());
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i(MAIN_ACTIVITY, "card was swiped right, position in adapter: " + position);
+                Snackdebug.showMessage("Este gato te gustó", getView());
+
             }
 
             @Override
             public void cardsDepleted() {
                 Log.i(MAIN_ACTIVITY, "no more cards");
+                Snackdebug.showMessage("No more cats", getView());
+
             }
 
             @Override
