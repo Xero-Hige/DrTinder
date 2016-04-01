@@ -8,7 +8,7 @@
     android:layout_margin="8dp"
     android:gravity="center_horizontal"
     android:padding="25dp"
-    card_view:cardCornerRadius="30dp">
+    card_view:cardCornerRadius="8dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/relativeLayout"
