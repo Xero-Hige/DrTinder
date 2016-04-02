@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+<% include ../partials/nav.ejs %>
+
+<div class="container">
+	<header>
+		<h2>Usuarios en Base de Datos</h2> 
+		<button id="crear_usuario_pop_up" class="btn mini red-stripe">Crear Usuario</button>
+	</header>                
+
+	<table class="table table-striped table-hover table-users" id="dataBase">
+		<thead>
+			<tr>
+			<% Object.keys(results[0]).forEach(function (key){ %>
+				<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= key %></th>
+			<% }); %>
+			</tr>
+		</thead>
+		<tbody>
+			<% var keys = Object.keys(results[0]) %>
+			<% results.forEach(function(r) { %>
+			<tr id ="<%= r.id %>">
+				<% for (var i = 0; i < keys.length; i++) { %>
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= r[keys[i]] %></td>
+				<% } %>
+	        </tr>
+	    <% }); %>
+		</tbody>
+	</table>
+</div>
+
+<div id ="new_user">
+  <table>
+    <thead>
+      <tr>
+      <% keys.forEach(function (key) { %>
+      	<td class="col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= key %></td>
+      <% }); %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <% keys.forEach(function (key) { %>
+      	<td class="col-lg-1 col-md-1 col-sm-2 col-xs-3"><input id="crear_user_<%= key %>"></input></td>
+      <% }); %>
+      </tr>
+    </tbody>
+  </table>
+  <button id = "crear_usuario" class="btn mini red-stripe">Create</button>
+</div>
+
+</body>
+<script type="text/javascript" src = "scripts/functionality.js"></script>
+</html>

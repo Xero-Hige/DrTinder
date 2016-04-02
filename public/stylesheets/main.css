@@ -1,0 +1,52 @@
+.jumbotron {
+  background: white;
+  color: black;
+  padding-bottom: 80px; }
+
+.jumbotron p {
+  color: black;
+  max-width: 75%;
+  margin: 1em auto 2em; 
+  font-size: 17px;
+  }
+
+.navbar + .jumbotron {
+    margin-top: -20px; }
+
+.jumbotron .tinder-logo {
+    display: block;
+    background: white;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    border: 2px solid white; }
+
+.jumbotron .tinder-logo img {
+      max-width: 100%; 
+    }
+.navbar{
+  z-index: 5;
+}
+
+#opacity {
+  background-color: rgba(255,255,255,0.6);
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height: 100%;
+}
+#new_user {
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(255,255,255,0.5);
+  top:0;
+  left:0;
+  height: 100%;
+  width:100%;
+}
+
+/*problemas de display, posicion con opacity y new user*/
