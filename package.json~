@@ -1,15 +1,25 @@
 {
   "name": "node-js-sample",
   "version": "0.2.0",
-  "description": "A sample Node.js app using Express 4",
+<<<<<<< HEAD
+  "description": "Web service DrTinder",
+=======
+  "description": "Web Service para administrar DrTinder",
+>>>>>>> 3e2b067c85dbf235e8661579cfb3e5239e0452c2
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
+<<<<<<< HEAD
     "ejs": "2.3.3",
 	 "pg": "4.x",
     "express": "4.13.3"
+=======
+	 "ejs": "2.3.3",
+	 "pg": "4.x",
+    "express": "^4.13.3"
+>>>>>>> 3e2b067c85dbf235e8661579cfb3e5239e0452c2
   },  
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -18,11 +28,11 @@
     "grunt-contrib-uglify": "~0.5.0"
   },
   "engines": {
-    "node": "4.0.0"
+    "node": "0.10.25"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-sample"
+    "url": "https://git.heroku.com/drtinder.git"
   },
   "keywords": [
     "node",

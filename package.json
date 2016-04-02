@@ -1,7 +1,7 @@
 {
   "name": "node-js-sample",
   "version": "0.2.0",
-  "description": "Web service DrTinder",
+  "description": "Web Service para administrar DrTinder",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -18,11 +18,11 @@
     "grunt-contrib-uglify": "~0.5.0"
   },
   "engines": {
-    "node": "4.0.0"
+    "node": "0.10.25"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-sample"
+    "url": "https://git.heroku.com/drtinder.git"
   },
   "keywords": [
     "node",
