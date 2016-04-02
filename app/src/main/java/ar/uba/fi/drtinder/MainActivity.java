@@ -75,16 +75,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
         } else if (id == R.id.nav_gallery) {
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
 
         } else if (id == R.id.nav_slideshow) {
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
 
         } else if (id == R.id.nav_manage) {
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
 
         } else if (id == R.id.nav_share) {
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
 
         } else if (id == R.id.nav_send) {
+            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
 
         }
 
