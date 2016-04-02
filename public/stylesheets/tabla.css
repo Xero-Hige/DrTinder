@@ -1,0 +1,6 @@
+th,td {
+	text-align: center;
+}
+#dataBase tr:hover{
+	background-color: #EBEBEB;
+}
