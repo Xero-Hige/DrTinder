@@ -1,6 +1,7 @@
 package ar.uba.fi.drtinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,12 +30,14 @@ public class SelectionActivity extends Fragment {
     private static final String MAIN_ACTIVITY = "MainActivity";
     private SwipeDeck mCardStack;
     private SwipeDeckAdapter mCardDeckAdapter;
+    private boolean show = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_selection, container, false);
 
         mCardStack = (SwipeDeck) view.findViewById(R.id.swipe_deck);
+        mCardStack.setHardwareAccelerationEnabled(true);
 
         //TODO: Remove testing data
         ArrayList<String> testData = new ArrayList<>();
@@ -57,13 +60,14 @@ public class SelectionActivity extends Fragment {
             public void cardSwipedLeft(int position) {
                 Log.i(MAIN_ACTIVITY, "card was swiped left, position in adapter: " + position);
                 Snackdebug.showMessage("No te gusto este gato", getView());
+                show = false;
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i(MAIN_ACTIVITY, "card was swiped right, position in adapter: " + position);
                 Snackdebug.showMessage("Este gato te gustó", getView());
-
+                show = false;
             }
 
             @Override
@@ -76,11 +80,20 @@ public class SelectionActivity extends Fragment {
             @Override
             public void cardActionDown() {
                 Log.i(" ", "cardActionDown");
+                Snackdebug.showMessage("Down", getView());
+
             }
 
             @Override
             public void cardActionUp() {
+                if (!show) {
+                    show = true;
+                    return;
+                }
                 Log.i(" ", "cardActionUp");
+                Snackdebug.showMessage("Up", getView());
+                Intent menuIntent = new Intent(getContext(), DetailsFragment.class);
+                startActivity(menuIntent);
             }
 
         });
@@ -150,10 +163,16 @@ public class SelectionActivity extends Fragment {
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             View view = convertView;
+
             if (view == null) {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 view = inflater.inflate(R.layout.card, parent, false);
             }
+
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.height = (int) getActivity().getResources().getDimension(R.dimen.activity_horizontal_margin);
+            view.setLayoutParams(layoutParams);
+
             ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
             Picasso.with(mContext).load(getResourceId(position)).fit().centerCrop().into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.card_text);
