@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * Swipe selection activity
@@ -31,6 +33,8 @@ public class SelectionActivity extends Fragment {
     private SwipeDeck mCardStack;
     private SwipeDeckAdapter mCardDeckAdapter;
     private boolean show = true;
+    private Queue<Map<String, String>> testData;
+    private Map<Integer, Map<String, String>> usersdata;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,46 +44,68 @@ public class SelectionActivity extends Fragment {
         mCardStack.setHardwareAccelerationEnabled(true);
 
         //TODO: Remove testing data
-        ArrayList<String> testData = new ArrayList<>();
-        testData.add("Un gato de verdad");
-        testData.add("Un gato");
-        testData.add("Otro gato");
 
-        List<Integer> resources = new ArrayList<>();
-        resources.add(R.drawable.gato_3);
-        resources.add(R.drawable.gato_2);
-        resources.add(R.drawable.gato_1);
+        testData = new LinkedList<>();
+        usersdata = new HashMap<>();
+
+        Map<String, String> cat = new HashMap<>();
+        cat.put("name", "Gata1");
+        cat.put("age", "21");
+        cat.put("img", String.valueOf(R.drawable.gato_1));
+        cat.put("bio", "Una gata");
+
+        usersdata.put(0, cat);
+        usersdata.put(1, cat);
+
+        testData.add(cat);
+        testData.add(cat);
+
+        cat = new HashMap<>();
+        cat.put("name", "Gata2");
+        cat.put("age", "24");
+        cat.put("img", String.valueOf(R.drawable.gato_2));
+        cat.put("bio", "Una gata");
+
+        usersdata.put(2, cat);
+        testData.add(cat);
+
+        cat = new HashMap<>();
+        cat.put("name", "Gata3");
+        cat.put("age", "27");
+        cat.put("img", String.valueOf(R.drawable.gato_3));
+        cat.put("bio", "Una gata");
+
+        usersdata.put(3, cat);
+        testData.add(cat);
         //TODO: remove testing data
 
-        mCardDeckAdapter = new SwipeDeckAdapter(testData, view.getContext(), resources);
+        mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));
         mCardStack.setAdapter(mCardDeckAdapter);
 
         mCardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
             //FIXME: remove debug information
             @Override
             public void cardSwipedLeft(int position) {
-                Log.i(MAIN_ACTIVITY, "card was swiped left, position in adapter: " + position);
-                Snackdebug.showMessage("No te gusto este gato", getView());
+                Map<String, String> data = testData.remove();
+                Snackdebug.showMessage("No te gusto " + data.get("name"), getView());
                 show = false;
             }
 
             @Override
             public void cardSwipedRight(int position) {
-                Log.i(MAIN_ACTIVITY, "card was swiped right, position in adapter: " + position);
-                Snackdebug.showMessage("Este gato te gustó", getView());
+                Map<String, String> data = testData.remove();
+                Snackdebug.showMessage("Te gustó " + data.get("name"), getView());
                 show = false;
             }
 
             @Override
             public void cardsDepleted() {
-                Log.i(MAIN_ACTIVITY, "no more cards");
                 Snackdebug.showMessage("No more cats", getView());
 
             }
 
             @Override
             public void cardActionDown() {
-                Log.i(" ", "cardActionDown");
                 Snackdebug.showMessage("Down", getView());
 
             }
@@ -93,6 +119,11 @@ public class SelectionActivity extends Fragment {
                 Log.i(" ", "cardActionUp");
                 Snackdebug.showMessage("Up", getView());
                 Intent menuIntent = new Intent(getContext(), DetailsFragment.class);
+                Map<String, String> data = testData.peek();
+                menuIntent.putExtra("name", data.get("name"));
+                menuIntent.putExtra("age", data.get("age"));
+                menuIntent.putExtra("img", data.get("img"));
+                menuIntent.putExtra("bio", data.get("bio"));
                 startActivity(menuIntent);
             }
 
@@ -112,7 +143,6 @@ public class SelectionActivity extends Fragment {
 
         return view;
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -129,29 +159,24 @@ public class SelectionActivity extends Fragment {
      */
     public class SwipeDeckAdapter extends BaseAdapter {
 
-        private List<String> mData;
         private Context mContext;
-        private List<Integer> mResources; //Fixme: This should be at mData
 
         /**
-         * @param data      Cards data
          * @param context   Caller context
-         * @param resources TODO: remove this
          */
-        public SwipeDeckAdapter(List<String> data, Context context, List<Integer> resources) {
-            this.mData = data;
+        public SwipeDeckAdapter(Context context) {
+
             this.mContext = context;
-            this.mResources = resources;
         }
 
         @Override
         public int getCount() {
-            return mData.size();
+            return usersdata.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mData.get(position);
+            return usersdata.get(position).get("name");
         }
 
         @Override
@@ -176,7 +201,7 @@ public class SelectionActivity extends Fragment {
             ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
             Picasso.with(mContext).load(getResourceId(position)).fit().centerCrop().into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.card_text);
-            String item = (String) getItem(position);
+            String item = usersdata.get(position).get("name") + " , '" + usersdata.get(position).get("age") + "'";
             textView.setText(item);
 
             view.setOnClickListener(clickListener -> {
@@ -188,7 +213,7 @@ public class SelectionActivity extends Fragment {
         }
 
         private Integer getResourceId(int position) {
-            return mResources.get(position % mResources.size());
+            return Integer.parseInt(usersdata.get(position).get("img"));
         }
     }
 
