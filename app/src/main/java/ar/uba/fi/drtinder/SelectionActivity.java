@@ -143,6 +143,7 @@ public class SelectionActivity extends Fragment {
 
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -162,7 +163,7 @@ public class SelectionActivity extends Fragment {
         private Context mContext;
 
         /**
-         * @param context   Caller context
+         * @param context Caller context
          */
         public SwipeDeckAdapter(Context context) {
 
