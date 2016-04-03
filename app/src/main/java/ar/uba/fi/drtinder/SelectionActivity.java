@@ -77,6 +77,19 @@ public class SelectionActivity extends Fragment {
 
         usersdata.put(3, cat);
         testData.add(cat);
+
+
+        cat = new HashMap<>();
+        cat.put("name", "Tienda");
+        cat.put("age", "35");
+        cat.put("img", String.valueOf(R.drawable.gato_4));
+        cat.put("bio", "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. Si queres conocerme, dale like o super like (previa lectura de mi simpatica plaquita) =)");
+
+        usersdata.put(4, cat);
+        usersdata.put(5, cat);
+        testData.add(cat);
+        testData.add(cat);
+
         //TODO: remove testing data
 
         mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));

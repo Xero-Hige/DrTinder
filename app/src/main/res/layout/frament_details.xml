@@ -47,21 +47,47 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/cardview_light_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="ar.uba.fi.drtinder.DetailsFragment"
         tools:showIn="@layout/frament_details">
 
-        <TextView
-            android:id="@+id/bios"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:enabled="true"
-            android:text="@string/large_text" />
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/text_margin"
+                android:text="Gato NN, 27"
+                android:textSize="30sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:backgroundTint="#bf000000"
+                android:backgroundTintMode="multiply"
+                android:elevation="3dp"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/bios"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/text_margin"
+                android:enabled="true"
+                android:text="@string/catBio"
+                android:textSize="15sp" />
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <!---android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +103,6 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end" /-->
 
 </android.support.design.widget.CoordinatorLayout>
