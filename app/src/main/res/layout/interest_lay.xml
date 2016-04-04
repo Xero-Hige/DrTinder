@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/interest_lay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/interst_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gato_1" />
+
+    <TextView
+        android:id="@+id/interst_txt"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:text="sex"
+        android:textAlignment="center"
+        android:textSize="14dp" />
+
+
+</LinearLayout>

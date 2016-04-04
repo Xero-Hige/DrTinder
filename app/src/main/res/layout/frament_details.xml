@@ -83,6 +83,26 @@
                 android:enabled="true"
                 android:text="@string/catBio"
                 android:textSize="15sp" />
+
+            <HorizontalScrollView
+                android:id="@+id/hsv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:fillViewport="true"
+                android:measureAllChildren="false"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/innerLay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
         </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v4.widget.NestedScrollView>
