@@ -22,7 +22,7 @@ app.listen(app.get('port'), function() {
 app.get('/db', function (request, response) {
   //conexion a database
   buscarUsers(function(busqueda){
-    if (busqueda.status == 500){ 
+    if (busqueda.status >= 500){ 
       console.error(err); 
       response.send("Error " + busqueda.result);
     }
@@ -55,13 +55,27 @@ function getAllUsersAPI(request, response){
 function buscarUsers(callback){
   var respones = {status: '500', result:''};
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-      client.query('SELECT array_to_json(array_agg(row_to_json(test_table))) AS users FROM test_table', function(err, result){
+      client.query(
+        'SELECT array_to_json(array_agg(row_to_json(users))) ' +
+        'FROM (SELECT *, ' +               
+                '(SELECT row_to_json(d) ' +
+                'FROM (SELECT latitude, longitude ' +
+                  'FROM location_table ' +
+                  'WHERE location_table.id = users_table.id' +
+                    ') d'+
+                ') AS location ' +
+              'FROM users_table) AS users;', function(err, result){
         done();
         if (err){
            responses = {status:'500', result:err };
         }
         else{
-          responses = { status:'200', result: result.rows[0]};
+          var return_value = result.rows[0];
+          console.log (return_value);
+          var real_result = {
+              users: return_value['array_to_json'],
+            }
+          responses = { status:'200', result: real_result};
         }
         callback(responses);
       });

@@ -1,7 +1,4 @@
 node_modules
-<<<<<<< HEAD
 .env
-=======
->>>>>>> 3e2b067c85dbf235e8661579cfb3e5239e0452c2
 Dockerfile
 docker-compose.yml
