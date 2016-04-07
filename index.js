@@ -2,6 +2,7 @@ var pg = require('pg');
 var express = require('express');
 var app = express();
 var router = express.Router();
+var version = '0.1';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -11,7 +12,7 @@ app.set('view engine', 'ejs');
 
 //cuando en la app voy a / realizo esto  QUIEN ES RESPONSE??
 app.get('/', function(request, response) {
-    response.render('pages/index');
+  response.render('pages/index');
 });
 
 //muestra puerto en donde estoy corriendo
@@ -34,16 +35,18 @@ app.get('/db', function (request, response) {
 
 });
 
+//COMIENZO API
+
 //funcion con solo request y response
 function getAllUsersAPI(request, response){
-	buscarUsers(function(busqueda){
+  buscarUsers(function(busqueda){
 
     if (busqueda.status == 500){
       response.send(500,busqueda.result);
     }
 
     else {
-      console.log(busqueda.result);
+      //console.log(busqueda.result);
       response.status(200).jsonp(busqueda.result);
     }
 
@@ -55,34 +58,99 @@ function getAllUsersAPI(request, response){
 function buscarUsers(callback){
   var respones = {status: '500', result:''};
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-      client.query(
-        'SELECT array_to_json(array_agg(row_to_json(users))) ' +
-        'FROM (SELECT *, ' +               
-                '(SELECT row_to_json(d) ' +
-                'FROM (SELECT latitude, longitude ' +
-                  'FROM location_table ' +
-                  'WHERE location_table.id = users_table.id' +
-                    ') d'+
-                ') AS location ' +
-              'FROM users_table) AS users;', function(err, result){
+    client.query(
+      'SELECT array_to_json(array_agg(row_to_json(users))) ' +
+      'FROM (SELECT *, ' +               
+      '(SELECT row_to_json(d) ' +
+      'FROM (SELECT latitude, longitude ' +
+      'FROM location_table ' +
+      'WHERE location_table.id = users_table.id' +
+      ') d'+
+      ') AS location, ' +
+      '( SELECT array_to_json(array_agg(row_to_json(i))) ' +
+      'FROM (SELECT category,value ' +
+      'FROM users_interest ' +
+      'WHERE users_interest.id = users_table.id ' +
+      ') i ' +
+      ') AS interests ' +
+      'FROM users_table) AS users;', function(err, result){
         done();
         if (err){
-           responses = {status:'500', result:err };
+         responses = {status:'500', result:err };
+       }
+       else{
+        var return_value = result.rows[0];          
+        var real_result = {
+          users: return_value['array_to_json'],
+          metadata: {
+            version: version,
+            count: return_value['array_to_json'].length
+          }
+        }
+        responses = { status:'200', result: real_result};
+      }
+      callback(responses);
+    });
+  });
+}
+function buscarUser(id,callback){
+  var respones = {status: '500', result:''};
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query(
+      'SELECT row_to_json(users) ' +
+      'FROM (SELECT *, ' +
+      '(SELECT row_to_json(d) '+
+      'FROM (SELECT latitude, longitude ' +
+      'FROM location_table ' +
+      'WHERE location_table.id = users_table.id ' +
+      ') d ' +
+      ') AS location, ' +
+      '( SELECT array_to_json(array_agg(row_to_json(i))) ' +
+      'FROM (SELECT category,value ' +
+      'FROM users_interest ' +
+      'WHERE users_interest.id = users_table.id ' +
+      ') i ' +
+      ') AS interests ' +
+      'FROM users_table WHERE id = ' + id + ' ' +
+      ') AS users;', function(err, result){
+        done();
+        if (err){
+         responses = {status:500, result:err };
+       }
+       else{
+        if (result.rowCount == 0){
+          responses = {status:400, result: 'No existe el usuario'}
         }
         else{
-          var return_value = result.rows[0];
-          console.log (return_value);
+          console.log(result);
+          var return_value = result.rows[0];          
           var real_result = {
-              users: return_value['array_to_json'],
-            }
+            user: return_value['row_to_json'],
+            
+          }
           responses = { status:'200', result: real_result};
         }
-        callback(responses);
-      });
-  }); 
+      }
+      callback(responses);
+    });
+  });
+}
+function getUserAPI(request,response){
+  buscarUser(request.params.id, function(busqueda){
+
+    if (busqueda.status >= 400){
+      response.send(busqueda.status,busqueda.result);
+    }
+
+    else {
+      //console.log(busqueda.result);
+      response.status(200).jsonp(busqueda.result);
+    }
+
+  });
 }
 
 //asi hago la APIII!!!!I!I!I!I!I!
 router.route('/users').get(getAllUsersAPI);
-//router.route('/users/:id').get(getUserAPI).put(addUserAPI).delete(deleteUserAPI);
+router.route('/users/:id').get(getUserAPI)//.put(addUserAPI).delete(deleteUserAPI);
 app.use(express.static(__dirname + '/public'),router);
