@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        Fragment f = new SelectionActivity();
+        Fragment f = new SelectionFragment();
         FragmentManager frag = getSupportFragmentManager();
         frag.beginTransaction().replace(R.id.section_layout, f).commit();
 

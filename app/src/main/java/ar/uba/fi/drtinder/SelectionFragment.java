@@ -26,12 +26,14 @@ import java.util.Queue;
 /**
  * Swipe selection activity
  */
-public class SelectionActivity extends Fragment {
+public class SelectionFragment extends Fragment {
 
+    public static final String EXTRA_USER_NAME = "name";
+    public static final String EXTRA_USER_AGE = "age";
+    public static final String EXTRA_USER_IMAGE = "img";
+    public static final String EXTRA_USER_BIOGRAPHY = "bio";
     //TODO: Remove
-    private static final String MAIN_ACTIVITY = "MainActivity";
     private SwipeDeck mCardStack;
-    private SwipeDeckAdapter mCardDeckAdapter;
     private boolean show = true;
     private Queue<Map<String, String>> testData;
     private Map<Integer, Map<String, String>> usersdata;
@@ -49,10 +51,10 @@ public class SelectionActivity extends Fragment {
         usersdata = new HashMap<>();
 
         Map<String, String> cat = new HashMap<>();
-        cat.put("name", "Gata1");
-        cat.put("age", "21");
-        cat.put("img", String.valueOf(R.drawable.gato_1));
-        cat.put("bio", "Una gata");
+        cat.put(EXTRA_USER_NAME, "Gata1");
+        cat.put(EXTRA_USER_AGE, "21");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_1));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
 
         usersdata.put(0, cat);
         usersdata.put(1, cat);
@@ -61,29 +63,29 @@ public class SelectionActivity extends Fragment {
         testData.add(cat);
 
         cat = new HashMap<>();
-        cat.put("name", "Gata2");
-        cat.put("age", "24");
-        cat.put("img", String.valueOf(R.drawable.gato_2));
-        cat.put("bio", "Una gata");
+        cat.put(EXTRA_USER_NAME, "Gata2");
+        cat.put(EXTRA_USER_AGE, "24");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_2));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
 
         usersdata.put(2, cat);
         testData.add(cat);
 
         cat = new HashMap<>();
-        cat.put("name", "Gata3");
-        cat.put("age", "27");
-        cat.put("img", String.valueOf(R.drawable.gato_3));
-        cat.put("bio", "Una gata");
+        cat.put(EXTRA_USER_NAME, "Gata3");
+        cat.put(EXTRA_USER_AGE, "27");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_3));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
 
         usersdata.put(3, cat);
         testData.add(cat);
 
 
         cat = new HashMap<>();
-        cat.put("name", "Tienda");
-        cat.put("age", "35");
-        cat.put("img", String.valueOf(R.drawable.gato_4));
-        cat.put("bio", "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. Si queres conocerme, dale like o super like (previa lectura de mi simpatica plaquita) =)");
+        cat.put(EXTRA_USER_NAME, "Tienda");
+        cat.put(EXTRA_USER_AGE, "35");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_4));
+        cat.put(EXTRA_USER_BIOGRAPHY, "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. Si queres conocerme, dale like o super like (previa lectura de mi simpatica plaquita) =)");
 
         usersdata.put(4, cat);
         usersdata.put(5, cat);
@@ -92,7 +94,7 @@ public class SelectionActivity extends Fragment {
 
         //TODO: remove testing data
 
-        mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));
+        SwipeDeckAdapter mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));
         mCardStack.setAdapter(mCardDeckAdapter);
 
         mCardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
@@ -100,14 +102,14 @@ public class SelectionActivity extends Fragment {
             @Override
             public void cardSwipedLeft(int position) {
                 Map<String, String> data = testData.remove();
-                Snackdebug.showMessage("No te gusto " + data.get("name"), getView());
+                Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
                 show = false;
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Map<String, String> data = testData.remove();
-                Snackdebug.showMessage("Te gustó " + data.get("name"), getView());
+                Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
                 show = false;
             }
 
@@ -131,12 +133,12 @@ public class SelectionActivity extends Fragment {
                 }
                 Log.i(" ", "cardActionUp");
                 Snackdebug.showMessage("Up", getView());
-                Intent menuIntent = new Intent(getContext(), DetailsFragment.class);
+                Intent menuIntent = new Intent(getContext(), UserDetailsActivity.class);
                 Map<String, String> data = testData.peek();
-                menuIntent.putExtra("name", data.get("name"));
-                menuIntent.putExtra("age", data.get("age"));
-                menuIntent.putExtra("img", data.get("img"));
-                menuIntent.putExtra("bio", data.get("bio"));
+                menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
+                menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
+                menuIntent.putExtra(EXTRA_USER_IMAGE, data.get(EXTRA_USER_IMAGE));
+                menuIntent.putExtra(EXTRA_USER_BIOGRAPHY, data.get(EXTRA_USER_BIOGRAPHY));
                 startActivity(menuIntent);
             }
 
@@ -190,7 +192,7 @@ public class SelectionActivity extends Fragment {
 
         @Override
         public Object getItem(int position) {
-            return usersdata.get(position).get("name");
+            return usersdata.get(position).get(EXTRA_USER_NAME);
         }
 
         @Override
@@ -215,7 +217,7 @@ public class SelectionActivity extends Fragment {
             ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
             Picasso.with(mContext).load(getResourceId(position)).fit().centerCrop().into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.card_text);
-            String item = usersdata.get(position).get("name") + " , '" + usersdata.get(position).get("age") + "'";
+            String item = usersdata.get(position).get(EXTRA_USER_NAME) + " , '" + usersdata.get(position).get(EXTRA_USER_AGE) + "'";
             textView.setText(item);
 
             view.setOnClickListener(clickListener -> {
@@ -227,7 +229,7 @@ public class SelectionActivity extends Fragment {
         }
 
         private Integer getResourceId(int position) {
-            return Integer.parseInt(usersdata.get(position).get("img"));
+            return Integer.parseInt(usersdata.get(position).get(EXTRA_USER_IMAGE));
         }
     }
 

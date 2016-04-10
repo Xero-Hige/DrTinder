@@ -26,9 +26,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DetailsFragment"
+            android:name=".UserDetailsActivity"
             android:label="@string/title_activity_details_fragment"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
