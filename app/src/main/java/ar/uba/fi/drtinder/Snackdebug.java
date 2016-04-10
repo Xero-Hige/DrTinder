@@ -17,30 +17,65 @@ import android.view.View;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see http://www.gnu.org/licenses
  */
-public class Snackdebug {
 
+/**
+ * Snackbar class that could be used to output debug info
+ */
+public final class Snackdebug {
 
-    public static final String DEFAULT_BUTTON = "DONE";
+    private static final String DEFAULT_BUTTON = "DONE";
 
+    private Snackdebug() {
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     */
     public static void showMessage(String message, View coordinatorLayout) {
         showMessage(message, coordinatorLayout, DEFAULT_BUTTON, Snackbar.LENGTH_LONG);
     }
 
-    public static void showMessage(String message, View coordinatorLayout, String button_string) {
-        showMessage(message, coordinatorLayout, button_string, Snackbar.LENGTH_LONG);
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param buttonString      String to use as snackbar "ok" button
+     */
+    public static void showMessage(String message, View coordinatorLayout, String buttonString) {
+        showMessage(message, coordinatorLayout, buttonString, Snackbar.LENGTH_LONG);
 
     }
 
-    public static void showMessage(String message, View coordinatorLayout, int display_time) {
-        showMessage(message, coordinatorLayout, DEFAULT_BUTTON, display_time);
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
+     */
+    public static void showMessage(String message, View coordinatorLayout, int displayTime) {
+        showMessage(message, coordinatorLayout, DEFAULT_BUTTON, displayTime);
     }
 
-    public static void showMessage(String message, View coordinatorLayout, String button_string, int display_time) {
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param buttonString      String to use as snackbar "ok" button
+     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
+     */
+    public static void showMessage(String message, View coordinatorLayout,
+                                   String buttonString, int displayTime) {
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, message, display_time);
-        snackbar.setAction(button_string, view -> {
+                .make(coordinatorLayout, message, displayTime);
+        snackbar.setAction(buttonString, view -> {
             snackbar.dismiss();
         });
         snackbar.show();
