@@ -18,8 +18,8 @@ import com.squareup.picasso.Picasso;
 public class UserDetailsActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.frament_details);
         Intent intent = getIntent();
 
@@ -43,29 +43,30 @@ public class UserDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         for (int i = 9; i > -1; i--) {
             View layout = inflater.inflate(R.layout.interest_lay, null);
-            TextView v = (TextView) layout.findViewById(R.id.interst_txt);
-            v.setText("Interes: " + String.valueOf(i));
-            ImageView vi = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(bar.getContext()).load(R.drawable.ubuntu).fit().centerCrop().into(vi);
+            TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
+            textView.setText("Interes: " + i);
+            ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
+            Picasso.with(bar.getContext()).load(
+                    R.drawable.ubuntu).fit().centerCrop().into(imageView);
             bar.addView(layout);
 
             layout = inflater.inflate(R.layout.interest_lay, null);
-            v = (TextView) layout.findViewById(R.id.interst_txt);
-            v.setText("Interes: " + String.valueOf(i));
-            vi = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(bar.getContext()).load(R.drawable.logo).fit().centerCrop().into(vi);
+            textView = (TextView) layout.findViewById(R.id.interst_txt);
+            textView.setText("Interes: " + i);
+            imageView = (ImageView) layout.findViewById(R.id.interst_img);
+            Picasso.with(bar.getContext()).load(R.drawable.logo).fit().centerCrop().into(imageView);
             bar.addView(layout);
         }
     }
 
     private void setUserBio(Intent intent) {
         TextView bio = (TextView) findViewById(R.id.bios);
-        bio.setText(intent.getStringExtra(SelectionFragment.EXTRA_USER_BIOGRAPHY));
+        bio.setText(intent.getStringExtra(SelectionFragment.EXTRA_USER_BIO));
     }
 
     private void setUserInfo(Intent intent) {
         TextView desc = (TextView) findViewById(R.id.description);
-        String infoDetails = "%0 (%1)";
+        String infoDetails = "%s (%s)";
         String name = intent.getStringExtra(SelectionFragment.EXTRA_USER_NAME);
         String age = intent.getStringExtra(SelectionFragment.EXTRA_USER_AGE);
         String description = String.format(infoDetails, name, age);

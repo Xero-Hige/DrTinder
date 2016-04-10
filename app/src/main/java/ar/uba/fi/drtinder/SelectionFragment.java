@@ -31,7 +31,7 @@ public class SelectionFragment extends Fragment {
     public static final String EXTRA_USER_NAME = "name";
     public static final String EXTRA_USER_AGE = "age";
     public static final String EXTRA_USER_IMAGE = "img";
-    public static final String EXTRA_USER_BIOGRAPHY = "bio";
+    public static final String EXTRA_USER_BIO = "bio";
     //TODO: Remove
     private SwipeDeck mCardStack;
     private boolean mShowSwipeResult = true;
@@ -40,7 +40,7 @@ public class SelectionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.activity_selection, container, false);
 
         mCardStack = (SwipeDeck) view.findViewById(R.id.swipe_deck);
@@ -70,7 +70,7 @@ public class SelectionFragment extends Fragment {
     }
 
     private void setCardsAdapter(View view) {
-        SwipeDeckAdapter mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));
+        SwipeDeckAdapter mCardDeckAdapter = new SwipeDeckAdapter(view.getContext());
         mCardStack.setAdapter(mCardDeckAdapter);
 
         mCardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
@@ -121,7 +121,7 @@ public class SelectionFragment extends Fragment {
         menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
         menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
         menuIntent.putExtra(EXTRA_USER_IMAGE, data.get(EXTRA_USER_IMAGE));
-        menuIntent.putExtra(EXTRA_USER_BIOGRAPHY, data.get(EXTRA_USER_BIOGRAPHY));
+        menuIntent.putExtra(EXTRA_USER_BIO, data.get(EXTRA_USER_BIO));
         startActivity(menuIntent);
     }
 
@@ -131,52 +131,52 @@ public class SelectionFragment extends Fragment {
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
-        Map<String, String> cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata1");
-        cat.put(EXTRA_USER_AGE, "21");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_1));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+        Map<String, String> userMap = new HashMap<>();
+        userMap.put(EXTRA_USER_NAME, "Gata1");
+        userMap.put(EXTRA_USER_AGE, "21");
+        userMap.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_1));
+        userMap.put(EXTRA_USER_BIO, "Una gata");
 
-        mUsersData.put(0, cat);
-        mUsersData.put(1, cat);
+        mUsersData.put(0, userMap);
+        mUsersData.put(1, userMap);
 
-        mUsersQueue.add(cat);
-        mUsersQueue.add(cat);
+        mUsersQueue.add(userMap);
+        mUsersQueue.add(userMap);
 
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata2");
-        cat.put(EXTRA_USER_AGE, "24");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_2));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+        userMap = new HashMap<>();
+        userMap.put(EXTRA_USER_NAME, "Gata2");
+        userMap.put(EXTRA_USER_AGE, "24");
+        userMap.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_2));
+        userMap.put(EXTRA_USER_BIO, "Una gata");
 
-        mUsersData.put(2, cat);
-        mUsersQueue.add(cat);
+        mUsersData.put(2, userMap);
+        mUsersQueue.add(userMap);
 
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata3");
-        cat.put(EXTRA_USER_AGE, "27");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_3));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+        userMap = new HashMap<>();
+        userMap.put(EXTRA_USER_NAME, "Gata3");
+        userMap.put(EXTRA_USER_AGE, "27");
+        userMap.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_3));
+        userMap.put(EXTRA_USER_BIO, "Una gata");
 
-        mUsersData.put(3, cat);
-        mUsersQueue.add(cat);
+        mUsersData.put(3, userMap);
+        mUsersQueue.add(userMap);
 
 
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Tienda");
-        cat.put(EXTRA_USER_AGE, "35");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_4));
-        cat.put(EXTRA_USER_BIOGRAPHY, "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA"
+        userMap = new HashMap<>();
+        userMap.put(EXTRA_USER_NAME, "Tienda");
+        userMap.put(EXTRA_USER_AGE, "35");
+        userMap.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_4));
+        userMap.put(EXTRA_USER_BIO, "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA"
                 + " DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e"
                 + " interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy"
                 + " copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. "
                 + "Si queres conocerme, dale like o super like (previa lectura de mi simpatica"
                 + " plaquita) =)"); //TODO: Remove
 
-        mUsersData.put(4, cat);
-        mUsersData.put(5, cat);
-        mUsersQueue.add(cat);
-        mUsersQueue.add(cat);
+        mUsersData.put(4, userMap);
+        mUsersData.put(5, userMap);
+        mUsersQueue.add(userMap);
+        mUsersQueue.add(userMap);
 
         //TODO: remove testing data
     }
@@ -184,7 +184,6 @@ public class SelectionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override
