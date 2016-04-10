@@ -2,7 +2,9 @@ var pg = require('pg');
 var express = require('express');
 var app = express();
 var router = express.Router();
-var version = '0.1';
+var queryCreator = require('./queryCreator');
+var formater = require('./dataFormater');
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -10,7 +12,7 @@ app.set('port', (process.env.PORT || 5000));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-//cuando en la app voy a / realizo esto  QUIEN ES RESPONSE??
+//cuando en la app voy a / realizo esto
 app.get('/', function(request, response) {
   response.render('pages/index');
 });
@@ -20,137 +22,193 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
+//que pasa cuando voy a 
 app.get('/db', function (request, response) {
   //conexion a database
-  buscarUsers(function(busqueda){
-    if (busqueda.status >= 500){ 
-      console.error(err); 
-      response.send("Error " + busqueda.result);
-    }
-    else {
-      console.log('busco y da la data');
-      response.render('pages/db', {results: busqueda.result.users});
-    }
-  });
+  console.log(queryCreator.buscarUsers);
+  
+  queryDatabase(queryCreator.buscarUsers, processGetUsersWEB , response);
 
 });
 
+function renderDatos(resultado,response){
+  if (resultado.status >= 400){ 
+    response.send("Error " + resultado.result);
+  }
+  else {
+    response.render('pages/db', 
+      {results: resultado.result.users });
+  }
+}
+
+
 //COMIENZO API
+function respondJson(resultado,respuesta){
+  if (resultado.status >= 400){
+    respuesta.send(resultado.status,resultado.result);
+  }
 
-//funcion con solo request y response
-function getAllUsersAPI(request, response){
-  buscarUsers(function(busqueda){
+  else {
+    console.log(resultado.result);
+    respuesta.status(200).jsonp(resultado.result);
+  }
+}
 
-    if (busqueda.status == 500){
-      response.send(500,busqueda.result);
-    }
+//para realizar cualquier query mando el string de query, la funcion a llamar
+//cuando termine y el response para que esa funcione envie la respuesta
+function queryDatabase(query, processResult, response){
+  //conecto a base de datos
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    //realizo query
+    client.query(query,function(err, result){
+      done();
+      if (err){
+        //si hubo errores al realiza query
+        response.send(500,err);
+        console.log("error al hacer query");  
+      }
+      else {
+        //proceso el resultado
+        processResult(result, response);
+      }
+      
 
-    else {
-      //console.log(busqueda.result);
-      response.status(200).jsonp(busqueda.result);
-    }
-
+    });
   });
+}
+
+
+function processGet(result, response, formater_result, err_msg, callback){
+  var resultado;
+  //Si no trajo nada
+  if (result.rowCount == 0){
+    console.log(result);
+    resultado = {status:400, result: err_msg};
+  } else {
+    //formateo la data
+    var data_formateada = formater_result(result.rows[0]);
+    //la devuelvo
+    resultado = { status:'200', result: data_formateada};
+  }
+
+  callback(resultado, response);
+}
+
+
+function processPOST(result, response, succes_msg, err_msg){
+  var resultado;
+  //Si no trajo nada
+  if (result.rowCount == 0){
+    //revisar esto
+    console.log(result);
+    resultado = {status:400, result: err_msg};
+  } else {
+    console.log(result);
+    //la devuelvo
+    resultado = { status:201, result: succes_msg};
+  }
+
+  respuesta.send(resultado.status,resultado.result);
+}
+
+
+function processGetUser(result, response){
+  processGet(result, response, formater.user, "No existe el usuario pedido", respondJson);
+}
+
+function processGetUsers(result, response){
+  processGet(result, response, formater.users, "No existen usuarios", respondJson);
+}
+
+function processGetUsersWEB(result,response){
+  processGet(result, response, formater.users, "No existen usuarios", renderDatos); 
+}
+
+function processGetInterest(result, response){
+  processGet(result, response, formater.intereses, "No existen intereses", respondJson);
+}
+
+
+function processPostInterest(result,response){
+  processPOST(result, response, "Interes creado con exito", "Error al crear interes");
+}
+
+function processPostUser(result,respone){
+  //hay que devolver usuario entero aca...
+  processPOST(result, response, "Usuario creado con exito","Error al crear usuario");
+}
+
+function processPUT(result){
+  //a llenar
+}
+
+function processDelete(result,response){
+
+  console.log(result);
+  if (result.rowCount == 0){
+    resultado = {status:400, result: "No existe el usuario a eliminar"};
+  } else {
+    resultado = { status:201, result: "Elimino"};
+  }
+
+  response.send(resultado.status,resultado.result);
+
+}
+
+//GET a /users
+function getAllUsersAPI(request, response){
+  queryDatabase(queryCreator.buscarUsers, processGetUsers, response);
   
 }
-
-//seguir este formato para todo, hacer funcion que busca, pone o bla para 
-function buscarUsers(callback){
-  var respones = {status: '500', result:''};
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query(
-      'SELECT array_to_json(array_agg(row_to_json(users))) ' +
-      'FROM (SELECT *, ' +               
-      '(SELECT row_to_json(d) ' +
-      'FROM (SELECT latitude, longitude ' +
-      'FROM location_table ' +
-      'WHERE location_table.id = users_table.id' +
-      ') d'+
-      ') AS location, ' +
-      '( SELECT array_to_json(array_agg(row_to_json(i))) ' +
-      'FROM (SELECT category,value ' +
-      'FROM users_interest ' +
-      'WHERE users_interest.id = users_table.id ' +
-      ') i ' +
-      ') AS interests ' +
-      'FROM users_table) AS users;', function(err, result){
-        done();
-        if (err){
-         responses = {status:'500', result:err };
-       }
-       else{
-        var return_value = result.rows[0];          
-        var real_result = {
-          users: return_value['array_to_json'],
-          metadata: {
-            version: version,
-            count: return_value['array_to_json'].length
-          }
-        }
-        responses = { status:'200', result: real_result};
-      }
-      callback(responses);
-    });
-  });
-}
-function buscarUser(id,callback){
-  var respones = {status: '500', result:''};
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query(
-      'SELECT row_to_json(users) ' +
-      'FROM (SELECT *, ' +
-      '(SELECT row_to_json(d) '+
-      'FROM (SELECT latitude, longitude ' +
-      'FROM location_table ' +
-      'WHERE location_table.id = users_table.id ' +
-      ') d ' +
-      ') AS location, ' +
-      '( SELECT array_to_json(array_agg(row_to_json(i))) ' +
-      'FROM (SELECT category,value ' +
-      'FROM users_interest ' +
-      'WHERE users_interest.id = users_table.id ' +
-      ') i ' +
-      ') AS interests ' +
-      'FROM users_table WHERE id = ' + id + ' ' +
-      ') AS users;', function(err, result){
-        done();
-        if (err){
-         responses = {status:500, result:err };
-       }
-       else{
-        if (result.rowCount == 0){
-          responses = {status:400, result: 'No existe el usuario'}
-        }
-        else{
-          console.log(result);
-          var return_value = result.rows[0];          
-          var real_result = {
-            user: return_value['row_to_json'],
-            
-          }
-          responses = { status:'200', result: real_result};
-        }
-      }
-      callback(responses);
-    });
-  });
-}
+//GET a /users/id
 function getUserAPI(request,response){
-  buscarUser(request.params.id, function(busqueda){
+  var id = request.params.id;
+  queryDatabase(queryCreator.fBuscarUser(id), processGetUser, response);
+}
 
-    if (busqueda.status >= 400){
-      response.send(busqueda.status,busqueda.result);
-    }
+//POST a /users
+//201
+function altaUserAPI(request,response){
+  console.log(request);
+  console.log(request.query);
+  console.log(request.body);
+  
+  /*var user = request.query.user;
+  queryDatabase(queryCreator.ffAltaUser(user), userFormater, respondJson, response);*/
 
-    else {
-      //console.log(busqueda.result);
-      response.status(200).jsonp(busqueda.result);
-    }
+}
 
-  });
+//PUT a /users/id
+/*function modifyUserAPI(request,response){
+  queryDatabase(queryModify,??,respondJson??,response);
+}*/
+
+//PUT a /users/id/photo
+/*function putFotoAPI(request,response){
+  queryDatabase(queryActualizarFoto, ?? , respond??, response);
+}*/
+
+//DELTE a /users/id
+function deleteUserAPI(request,response){
+  queryDatabase(queryCreator.fDeleteUser(request.params.id), processDelete,  response);
+}
+
+//GET a /interests
+function getInteresesAPI(request,response){
+  queryDatabase(queryCreator.buscarIntereses, processGetInterest, response);
+}
+
+//POST a /interest
+//201
+function postInteresAPI(request,response){
+  ///NO SE DONDE SE ESTAN PASANDO LOS PARAMETROOOSSSS, como string o como json?
+
+  //queryDatabase(queryCreator.fAgregarInteres(request.query), processPOST, response)
 }
 
 //asi hago la APIII!!!!I!I!I!I!I!
-router.route('/users').get(getAllUsersAPI);
-router.route('/users/:id').get(getUserAPI)//.put(addUserAPI).delete(deleteUserAPI);
+router.route('/users').get(getAllUsersAPI)//.post(altaUserAPI);
+router.route('/users/:id').get(getUserAPI).delete(deleteUserAPI);//.put(modifyUserAPI);
+router.route('/interests').get(getInteresesAPI)//.post(postInteresAPI);
+//router.route('/users/:id/photo').put(putFotoAPI);
 app.use(express.static(__dirname + '/public'),router);

@@ -4,3 +4,27 @@ th,td {
 #dataBase tr:hover{
 	background-color: #EBEBEB;
 }
+
+ul > .dropdown-header {
+	text-transform: capitalize;
+	padding: 3px;
+}
+
+td > .btn-group > ul > li{
+	padding: 3px;
+}
+
+td > .btn-group > .dropdown-menu{
+	min-width: 85px;
+}
+
+#crear_usuario_pop {
+	margin-bottom: 10px;
+}
+.modal-body .list-group-item{
+	border:none;
+}
+
+.modal-body  .list-group-item > .input-group > span{
+    min-width: 61px;
+}
