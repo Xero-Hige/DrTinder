@@ -34,66 +34,42 @@ public class SelectionFragment extends Fragment {
     public static final String EXTRA_USER_BIOGRAPHY = "bio";
     //TODO: Remove
     private SwipeDeck mCardStack;
-    private boolean show = true;
-    private Queue<Map<String, String>> testData;
-    private Map<Integer, Map<String, String>> usersdata;
+    private boolean mShowSwipeResult = true;
+    private Queue<Map<String, String>> mUsersQueue;
+    private Map<Integer, Map<String, String>> mUsersData;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_selection, container, false);
 
         mCardStack = (SwipeDeck) view.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
-        //TODO: Remove testing data
+        requestUsersData();
 
-        testData = new LinkedList<>();
-        usersdata = new HashMap<>();
+        setCardsAdapter(view);
+        mCardStack.setLeftImage(R.id.card_nope);
+        mCardStack.setRightImage(R.id.card_like);
 
-        Map<String, String> cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata1");
-        cat.put(EXTRA_USER_AGE, "21");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_1));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+        setButtons(view);
 
-        usersdata.put(0, cat);
-        usersdata.put(1, cat);
+        return view;
+    }
 
-        testData.add(cat);
-        testData.add(cat);
+    private void setButtons(View view) {
+        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.nope_button);
+        btn.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
+        btn.setRippleColor(-3355444); //FIXME
+        btn.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
 
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata2");
-        cat.put(EXTRA_USER_AGE, "24");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_2));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+        FloatingActionButton btn2 = (FloatingActionButton) view.findViewById(R.id.like_button);
+        btn2.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
+        btn2.setRippleColor(-3355444); //FIXME
+        btn2.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
+    }
 
-        usersdata.put(2, cat);
-        testData.add(cat);
-
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Gata3");
-        cat.put(EXTRA_USER_AGE, "27");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_3));
-        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
-
-        usersdata.put(3, cat);
-        testData.add(cat);
-
-
-        cat = new HashMap<>();
-        cat.put(EXTRA_USER_NAME, "Tienda");
-        cat.put(EXTRA_USER_AGE, "35");
-        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_4));
-        cat.put(EXTRA_USER_BIOGRAPHY, "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. Si queres conocerme, dale like o super like (previa lectura de mi simpatica plaquita) =)");
-
-        usersdata.put(4, cat);
-        usersdata.put(5, cat);
-        testData.add(cat);
-        testData.add(cat);
-
-        //TODO: remove testing data
-
+    private void setCardsAdapter(View view) {
         SwipeDeckAdapter mCardDeckAdapter = new SwipeDeckAdapter((view.getContext()));
         mCardStack.setAdapter(mCardDeckAdapter);
 
@@ -101,16 +77,16 @@ public class SelectionFragment extends Fragment {
             //FIXME: remove debug information
             @Override
             public void cardSwipedLeft(int position) {
-                Map<String, String> data = testData.remove();
+                Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
-                show = false;
+                mShowSwipeResult = false;
             }
 
             @Override
             public void cardSwipedRight(int position) {
-                Map<String, String> data = testData.remove();
+                Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
-                show = false;
+                mShowSwipeResult = false;
             }
 
             @Override
@@ -127,36 +103,82 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardActionUp() {
-                if (!show) {
-                    show = true;
+                if (!mShowSwipeResult) {
+                    mShowSwipeResult = true;
                     return;
                 }
                 Log.i(" ", "cardActionUp");
                 Snackdebug.showMessage("Up", getView());
-                Intent menuIntent = new Intent(getContext(), UserDetailsActivity.class);
-                Map<String, String> data = testData.peek();
-                menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
-                menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
-                menuIntent.putExtra(EXTRA_USER_IMAGE, data.get(EXTRA_USER_IMAGE));
-                menuIntent.putExtra(EXTRA_USER_BIOGRAPHY, data.get(EXTRA_USER_BIOGRAPHY));
-                startActivity(menuIntent);
+                showActualUserData();
             }
 
         });
-        mCardStack.setLeftImage(R.id.card_nope);
-        mCardStack.setRightImage(R.id.card_like);
+    }
 
-        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.nope_button);
-        btn.setBackgroundTintList(ColorStateList.valueOf(-1));//FIXME
-        btn.setRippleColor(-3355444);//FIXME
-        btn.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
+    private void showActualUserData() {
+        Intent menuIntent = new Intent(getContext(), UserDetailsActivity.class);
+        Map<String, String> data = mUsersQueue.peek();
+        menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
+        menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
+        menuIntent.putExtra(EXTRA_USER_IMAGE, data.get(EXTRA_USER_IMAGE));
+        menuIntent.putExtra(EXTRA_USER_BIOGRAPHY, data.get(EXTRA_USER_BIOGRAPHY));
+        startActivity(menuIntent);
+    }
 
-        FloatingActionButton btn2 = (FloatingActionButton) view.findViewById(R.id.like_button);
-        btn2.setBackgroundTintList(ColorStateList.valueOf(-1));//FIXME
-        btn2.setRippleColor(-3355444);//FIXME
-        btn2.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
+    private void requestUsersData() {
+        //TODO: Remove testing data
 
-        return view;
+        mUsersQueue = new LinkedList<>();
+        mUsersData = new HashMap<>();
+
+        Map<String, String> cat = new HashMap<>();
+        cat.put(EXTRA_USER_NAME, "Gata1");
+        cat.put(EXTRA_USER_AGE, "21");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_1));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+
+        mUsersData.put(0, cat);
+        mUsersData.put(1, cat);
+
+        mUsersQueue.add(cat);
+        mUsersQueue.add(cat);
+
+        cat = new HashMap<>();
+        cat.put(EXTRA_USER_NAME, "Gata2");
+        cat.put(EXTRA_USER_AGE, "24");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_2));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+
+        mUsersData.put(2, cat);
+        mUsersQueue.add(cat);
+
+        cat = new HashMap<>();
+        cat.put(EXTRA_USER_NAME, "Gata3");
+        cat.put(EXTRA_USER_AGE, "27");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_3));
+        cat.put(EXTRA_USER_BIOGRAPHY, "Una gata");
+
+        mUsersData.put(3, cat);
+        mUsersQueue.add(cat);
+
+
+        cat = new HashMap<>();
+        cat.put(EXTRA_USER_NAME, "Tienda");
+        cat.put(EXTRA_USER_AGE, "35");
+        cat.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_4));
+        cat.put(EXTRA_USER_BIOGRAPHY, "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA"
+                + " DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e"
+                + " interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy"
+                + " copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. "
+                + "Si queres conocerme, dale like o super like (previa lectura de mi simpatica"
+                + " plaquita) =)"); //TODO: Remove
+
+        mUsersData.put(4, cat);
+        mUsersData.put(5, cat);
+        mUsersQueue.add(cat);
+        mUsersQueue.add(cat);
+
+        //TODO: remove testing data
     }
 
     @Override
@@ -187,12 +209,12 @@ public class SelectionFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return usersdata.size();
+            return mUsersData.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return usersdata.get(position).get(EXTRA_USER_NAME);
+            return mUsersData.get(position).get(EXTRA_USER_NAME);
         }
 
         @Override
@@ -211,13 +233,17 @@ public class SelectionFragment extends Fragment {
             }
 
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            layoutParams.height = (int) getActivity().getResources().getDimension(R.dimen.activity_horizontal_margin);
+            layoutParams.height = (int) getActivity().getResources().getDimension(
+                    R.dimen.activity_horizontal_margin);
             view.setLayoutParams(layoutParams);
 
             ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
             Picasso.with(mContext).load(getResourceId(position)).fit().centerCrop().into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.card_text);
-            String item = usersdata.get(position).get(EXTRA_USER_NAME) + " , '" + usersdata.get(position).get(EXTRA_USER_AGE) + "'";
+
+            String item = mUsersData.get(position).get(EXTRA_USER_NAME) + " , '"
+                    + mUsersData.get(position).get(EXTRA_USER_AGE) + "'";
+
             textView.setText(item);
 
             view.setOnClickListener(clickListener -> {
@@ -229,7 +255,7 @@ public class SelectionFragment extends Fragment {
         }
 
         private Integer getResourceId(int position) {
-            return Integer.parseInt(usersdata.get(position).get(EXTRA_USER_IMAGE));
+            return Integer.parseInt(mUsersData.get(position).get(EXTRA_USER_IMAGE));
         }
     }
 
