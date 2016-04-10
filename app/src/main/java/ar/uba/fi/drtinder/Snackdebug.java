@@ -5,9 +5,9 @@ import android.view.View;
 
 /**
  * ${FILE}
- * <p/>
+ * <p>
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
- * <p/>
+ * <p>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
