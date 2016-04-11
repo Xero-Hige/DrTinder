@@ -90,29 +90,29 @@ module.exports = function (){
 		"RETURNING id INTO lastid; ";
 
 		var queryLocation = 
-		"INSERT INTO location_table (id, latitude, logitude) " + 
+		"INSERT INTO location_table (id, latitude, longitude) " + 
 		"VALUES ( lastid, '" + user.location.latitude + "','" + 
-		user.location.longitude + "');";
+		user.location.longitude + "'); ";
 
 		//habria que revisar efectividad, no son muchos intereses pero por las dudas
 		var values_intereses = "";
 		for (var i = 0; i < user.interests.length; i++){
 			var interes = user.interests[i];
-			values_intereses += "VALUES ( lastid,'" + interes.category + 
+			values_intereses += "( lastid,'" + interes.category + 
 			"','" + interes.value  + "'),";
 		}
 
 		//para sacar coma de mas
-		values_intereses.slice( 0, -1);
+		values_intereses = values_intereses.slice( 0, -1);
 
 		var queryIntereses = 
-		"INSERT INTO interests_table (id, category, value) " + 
-		values_intereses + ";";
+		"INSERT INTO users_interest (id, category, value) " + 
+		"VALUES " +	values_intereses + "; ";
 
 		var queryEnd = "END $$;";
 
 
-		return queryStart + queryUsersTable + queryLocation + queryIntereses + queryBuscarUser("'lastid'") + queryEnd  ;
+		return queryStart + queryUsersTable + queryLocation + queryIntereses + queryEnd  ;
 		//agrego a todas las tablas
 	}
 

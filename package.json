@@ -9,7 +9,8 @@
   "dependencies": {
     "ejs": "2.3.3",
 	 "pg": "4.x",
-    "express": "4.13.3"
+    "express": "4.13.3",
+	"body-parser": "^1.5.1"
   },  
   "devDependencies": {
     "grunt": "~0.4.5",

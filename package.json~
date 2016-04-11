@@ -1,25 +1,15 @@
 {
   "name": "node-js-sample",
   "version": "0.2.0",
-<<<<<<< HEAD
-  "description": "Web service DrTinder",
-=======
   "description": "Web Service para administrar DrTinder",
->>>>>>> 3e2b067c85dbf235e8661579cfb3e5239e0452c2
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-<<<<<<< HEAD
     "ejs": "2.3.3",
 	 "pg": "4.x",
     "express": "4.13.3"
-=======
-	 "ejs": "2.3.3",
-	 "pg": "4.x",
-    "express": "^4.13.3"
->>>>>>> 3e2b067c85dbf235e8661579cfb3e5239e0452c2
   },  
   "devDependencies": {
     "grunt": "~0.4.5",

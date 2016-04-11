@@ -2,10 +2,11 @@ var pg = require('pg');
 var express = require('express');
 var app = express();
 var router = express.Router();
+var bodyParser = require('body-parser');
 var queryCreator = require('./queryCreator');
 var formater = require('./dataFormater');
 
-
+app.use(bodyParser.json());
 app.set('port', (process.env.PORT || 5000));
 
 // views is directory for all template files, dir base cuando renderea
@@ -88,7 +89,7 @@ function processGet(result, response, formater_result, err_msg, callback){
     //formateo la data
     var data_formateada = formater_result(result.rows[0]);
     //la devuelvo
-    resultado = { status:'200', result: data_formateada};
+    resultado = { status: 200, result: data_formateada};
   }
 
   callback(resultado, response);
@@ -108,7 +109,7 @@ function processPOST(result, response, succes_msg, err_msg){
     resultado = { status:201, result: succes_msg};
   }
 
-  respuesta.send(resultado.status,resultado.result);
+  response.send(resultado.status,resultado.result);
 }
 
 
@@ -133,7 +134,7 @@ function processPostInterest(result,response){
   processPOST(result, response, "Interes creado con exito", "Error al crear interes");
 }
 
-function processPostUser(result,respone){
+function processPostUser(result,response){
   //hay que devolver usuario entero aca...
   processPOST(result, response, "Usuario creado con exito","Error al crear usuario");
 }
@@ -150,7 +151,7 @@ function processDelete(result,response){
   } else {
     resultado = { status:201, result: "Elimino"};
   }
-
+  resultado.result = result.rows[0];
   response.send(resultado.status,resultado.result);
 
 }
@@ -169,13 +170,12 @@ function getUserAPI(request,response){
 //POST a /users
 //201
 function altaUserAPI(request,response){
-  console.log(request);
-  console.log(request.query);
-  console.log(request.body);
-  
-  /*var user = request.query.user;
-  queryDatabase(queryCreator.ffAltaUser(user), userFormater, respondJson, response);*/
-
+  console.log(request.body.user);
+  var user = request.body.user;
+  //crea bien
+  queryDatabase(queryCreator.fAltaUser(user), processPostUser, response);
+  //getid
+  //queryDatabase(queryCreator.fBuscarUser(id),processGetUser, response);
 }
 
 //PUT a /users/id
@@ -201,14 +201,14 @@ function getInteresesAPI(request,response){
 //POST a /interest
 //201
 function postInteresAPI(request,response){
-  ///NO SE DONDE SE ESTAN PASANDO LOS PARAMETROOOSSSS, como string o como json?
-
-  //queryDatabase(queryCreator.fAgregarInteres(request.query), processPOST, response)
+  console.log(request.body.interest);
+  var interes = request.body.interest;
+  queryDatabase(queryCreator.fAgregarInteres(interes), processPostInterest, response)
 }
 
 //asi hago la APIII!!!!I!I!I!I!I!
-router.route('/users').get(getAllUsersAPI)//.post(altaUserAPI);
+router.route('/users').get(getAllUsersAPI).post(altaUserAPI);
 router.route('/users/:id').get(getUserAPI).delete(deleteUserAPI);//.put(modifyUserAPI);
-router.route('/interests').get(getInteresesAPI)//.post(postInteresAPI);
+router.route('/interests').get(getInteresesAPI).post(postInteresAPI);
 //router.route('/users/:id/photo').put(putFotoAPI);
 app.use(express.static(__dirname + '/public'),router);
