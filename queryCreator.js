@@ -19,6 +19,23 @@ module.exports = function (){
 	var queryBuscarIntereses = "SELECT array_to_json(array_agg(row_to_json(interest))) " + 
 	"FROM (SELECT * FROM interest_table) as interest;"
 
+	function queryAgregarIntereses(intereses, id){
+		
+		var values_intereses = "";
+		for (var i = 0; i < intereses.length; i++){
+			var interes = intereses[i];
+			values_intereses += "( " + id + ",'" + interes.category + 
+			"','" + interes.value  + "'),";
+		}
+		//para sacar coma de mas
+		values_intereses = values_intereses.slice( 0, -1);
+
+		var queryIntereses = 
+		"INSERT INTO users_interest (id, category, value) " + 
+		"VALUES " +	values_intereses + "; ";
+		
+		return queryIntereses;
+	}
 
 	function queryBuscarUser(id){
 
@@ -70,10 +87,30 @@ module.exports = function (){
 	}
 
 	function queryActualizarUser(user){
+
 		var query = 
 		"UPDATE users_table "+
-		"SET photo_profile="+ text + " " +
-		"WHERE id = " + id + ";";
+		"SET photo_profile= '"+ user.photo_profile + "', " +
+		"alias= '"+ user.alias + "', " +
+		"name='"+ user.name + "', " +
+		"email='"+ user.email + "', " +
+		"age='"+ user.age + "', " +
+		"sex='"+ user.sex + "' "+
+		"WHERE id=" + user.id + ";" +
+
+		"UPDATE location_table " +
+		"SET latitude="+ user.location.latitude + ", " +
+		"longitude="+ user.location.longitude + " " +
+		"WHERE id="+ user.id + ";" +
+		//elimino todas las categorias del user y agrego otras
+		//es bastante ineficiente pero no se cuales borro y cuales no
+		"DELETE FROM users_interest " +
+		"WHERE users_interest.id= " + user.id + ";" + 
+		queryAgregarIntereses(user.interests, user.id);
+
+		return query;
+
+
 	}
 
 	function queryAltaUser(user){
@@ -119,7 +156,7 @@ module.exports = function (){
 	function queryActualizarFoto(text,id){
 		var query = 
 		"UPDATE users_table "+
-		"SET photo_profile="+ text + " " +
+		"SET photo_profile= '"+ text + "' " +
 		"WHERE id = " + id + ";";
 
 		return query;
@@ -137,6 +174,6 @@ module.exports = function (){
 		fActualizarUser: queryActualizarUser,
 		fAltaUser: queryAltaUser,
 		fActualizarFoto: queryActualizarFoto
-
+		//get last sequence para dsps buscarlo
 	};
 }();

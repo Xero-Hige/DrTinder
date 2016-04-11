@@ -139,8 +139,20 @@ function processPostUser(result,response){
   processPOST(result, response, "Usuario creado con exito","Error al crear usuario");
 }
 
-function processPUT(result){
-  //a llenar
+function processPUT(result,response){
+   var resultado;
+  //Si no trajo nada
+  if (result.rowCount == 0){
+    //revisar esto
+    console.log(result);
+    resultado = {status:400, result: "No se modifico, error"};
+  } else {
+    console.log(result);
+    //la devuelvo
+    resultado = { status:200, result: "Se modifico con exito"};
+  }
+
+  response.send(resultado.status,resultado.result);
 }
 
 function processDelete(result,response){
@@ -149,7 +161,7 @@ function processDelete(result,response){
   if (result.rowCount == 0){
     resultado = {status:400, result: "No existe el usuario a eliminar"};
   } else {
-    resultado = { status:201, result: "Elimino"};
+    resultado = { status:200, result: "Elimino"};
   }
   resultado.result = result.rows[0];
   response.send(resultado.status,resultado.result);
@@ -179,14 +191,22 @@ function altaUserAPI(request,response){
 }
 
 //PUT a /users/id
-/*function modifyUserAPI(request,response){
-  queryDatabase(queryModify,??,respondJson??,response);
-}*/
+function modifyUserAPI(request,response){
+  //verificar que id a postear y id de user es el mismo
+  var user = request.body.user;
+
+  //response.send(200,queryCreator.fActualizarUser(user));
+  queryDatabase(queryCreator.fActualizarUser(user), processPUT,response);
+}
 
 //PUT a /users/id/photo
-/*function putFotoAPI(request,response){
-  queryDatabase(queryActualizarFoto, ?? , respond??, response);
-}*/
+function putFotoAPI(request,response){
+  var id =request.params.id;
+  var photo_text = request.body.photo;
+  console.log(id);
+  console.log(request.body);
+  queryDatabase(queryCreator.fActualizarFoto(photo_text,id), processPUT, response);
+}
 
 //DELTE a /users/id
 function deleteUserAPI(request,response){
@@ -208,7 +228,7 @@ function postInteresAPI(request,response){
 
 //asi hago la APIII!!!!I!I!I!I!I!
 router.route('/users').get(getAllUsersAPI).post(altaUserAPI);
-router.route('/users/:id').get(getUserAPI).delete(deleteUserAPI);//.put(modifyUserAPI);
+router.route('/users/:id').get(getUserAPI).delete(deleteUserAPI).put(modifyUserAPI);
 router.route('/interests').get(getInteresesAPI).post(postInteresAPI);
-//router.route('/users/:id/photo').put(putFotoAPI);
+router.route('/users/:id/photo').put(putFotoAPI);
 app.use(express.static(__dirname + '/public'),router);

@@ -1,5 +1,7 @@
 import requests
 import json
+import base64
+import Image
 
 headers = {'content-type': 'application/json'}
 #LOCAL
@@ -34,16 +36,24 @@ def deleteUser(id):
 	r = requests.delete(usando + 'users/' + str(id) )
 	return r
 
+def modifyUser(user, id):
+	r = requests.put(usando + 'users/' + str(id), data= json.dumps(user), headers= headers)
+	return r
+
+def modifyFoto(photo,id):
+	r = requests.put(usando + 'users/' + str(id) + '/photo', data= json.dumps(photo), headers= headers )
+	return r
 #print deleteUser(5).text
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
-stringUser = '{"user":{"name":"Juana","alias":"Junana","age":"23","sex":"woman","email":"asd@usuasdario.com","interests":[{"category":"music/band","value":"radiohead"},{"category":"music/band","value":"pearl jam"},{"category":"outdoors","value":"running"}],"location":{"latitude":-121.45356,"longitude":46.51119}}}'
+stringUser = '{"user":{"id":1,"name":"Pedro","alias":"Copito","photo_profile":"undefined","age":"21","sex":"man","email":"pepe@usuasdario.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-1.45356,"longitude":4.51119}}}'
 stringInteres = '{"interest":{"category":"music","value":"rock"}}'
+justPhoto = '{"photo":"asdasd"}';
 user = json.loads(stringUser)
 interest = json.loads(stringInteres)
-ass = postUser(user)
-#rI = postInterest(interest)
+photo = json.loads(justPhoto)
+ass = modifyFoto(photo,1)
 print ass.text
 
 
