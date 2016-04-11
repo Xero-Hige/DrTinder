@@ -1,8 +1,10 @@
 #include <iostream>
-
-using namespace std;
+#include "Server.h"
 
 int main() {
-    cout << "Hello world!" << endl;
+	Server server;
+	while (! std::cin.eof()) {	//TODO: mandar a otro thread
+		server.run();
+	}
     return 0;
 }

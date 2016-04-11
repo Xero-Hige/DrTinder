@@ -2,12 +2,14 @@
 #define CLIENT_H
 
 #include "libs/mongoose/mongoose.h"
+#include <string>
 
 class Client {
     public:
         Client();
         virtual ~Client();
-		void connect();
+		void run();
+		void send(std::string message);
     protected:
 		static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
     private:

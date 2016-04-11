@@ -1,0 +1,22 @@
+PROG = client_main
+SSL_LIB=openssl
+
+SOURCES = $(PROG).cpp ./libs/mongoose/mongoose.c ./Client.cpp
+CFLAGS = -g -W -Wall -I../.. -Wno-unused-function $(CFLAGS_EXTRA) $(MODULE_CFLAGS)
+
+all: $(PROG)
+CC = g++
+
+ifeq ($(SSL_LIB),openssl)
+CFLAGS += -DMG_ENABLE_SSL -lssl -lcrypto
+else ifeq ($(SSL_LIB), krypton)
+CFLAGS += -DMG_ENABLE_SSL ../../../krypton/krypton.c
+endif
+CFLAGS += -lpthread
+
+
+$(PROG): $(SOURCES)
+	$(CC) $(SOURCES) -o $@ $(CFLAGS)
+
+clean:
+	rm -rf *.gc* *.dSYM *.exe *.obj *.o a.out $(PROG)

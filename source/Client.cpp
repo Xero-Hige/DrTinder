@@ -1,42 +1,43 @@
 #include "Client.h"
 
 #define DEFAULT_MILISECS_POLL 3000
+#define SERVER_ADDRESS "tcp://127.0.0.1:8080"
 
-static const char *s_url =
-    "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=cesanta";	//TODO: sacar cuando este la conexion
-
+using std::string;
 
 Client::Client() {
 	mg_mgr_init(&manager_, NULL);
-	connection_ = mg_connect_http(&manager_, handleEvent, s_url, NULL, NULL);
-	mg_set_protocol_http_websocket(connection_);
+	connection_ = mg_connect(&manager_, SERVER_ADDRESS, handleEvent);
 }
 
 Client::~Client() {
 	mg_mgr_free(&manager_);
 }
 
-void Client::connect() {
+void Client::run() {
 	mg_mgr_poll(&manager_, DEFAULT_MILISECS_POLL);
 }
 
 
 void Client::handleEvent(struct mg_connection *nc, int ev, void *ev_data) {	//TODO: adaptar todo
-	struct http_message *hm = (struct http_message *) ev_data;
+	struct mbuf *io = &nc->recv_mbuf;
 	int connect_status;
 
 	switch (ev) {
 	case MG_EV_CONNECT:
 		connect_status = *(int *) ev_data;
 		if (connect_status != 0) {
-			printf("Error connecting to %s: %s\n", s_url, strerror(connect_status));
+			printf("Error connecting to %s: %s\n", SERVER_ADDRESS, strerror(connect_status)); //TODO: reemplazar por algo mejor
 		}
 		break;
-	case MG_EV_HTTP_REPLY:
-		printf("Got reply:\n%.*s\n", (int) hm->body.len, hm->body.p);
-		nc->flags |= MG_F_SEND_AND_CLOSE;
+	case MG_EV_RECV:
+		printf("Got reply:\n%.*s\n", (int) io->len, io->buf);
 		break;
 	default:
 		break;
 	}
+}
+
+void Client::send(string message) {
+	mg_send(connection_, message.c_str(), message.size());
 }
