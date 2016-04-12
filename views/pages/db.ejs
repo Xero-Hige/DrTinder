@@ -20,7 +20,7 @@
 				<tr>
 					<% var keys = Object.keys(results[0].user) %>
 					<% keys.forEach(function (key){ %>
-					<% if ( key == "interests" || key == "location" ) { %>
+					<% if ( key == "interests" || key == "location" || key == "photo_profile" ) { %>
 					
 					<% } else {%>
 					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= key %></th>
@@ -28,6 +28,8 @@
 					<% }); %>
 					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">interests</th>
 					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">location</th>
+					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">photo</th>
+
 				</tr>
 			</thead>
 			<tbody>
@@ -36,7 +38,7 @@
 				<tr id ="<%= r.id %>">
 					<% for (var i = 0; i < keys.length; i++) { %>
 					<% var value = r.user[keys[i]]; %>
-					<% if ( keys[i] == "interests" || keys[i] == "location" ) { %>
+					<% if ( keys[i] == "interests" || keys[i] == "location" || keys[i] == "photo_profile") { %>
 					
 					<% } else {%>
 					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= value %></td>
@@ -87,6 +89,11 @@
 							</ul>
 						</div>
 					</td>
+					<% var photo_encoded = r.user["photo_profile"]; %>
+					<% saveImg('public/photos/' + r.user["id"],photo_encoded); %>
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
+						<span class="glyphicon glyphicon-search" data-img="<%= r.user['id'] %>.jpg"></span>
+					</td>
 				</tr>
 				<% }); %>
 			</tbody>
@@ -131,7 +138,22 @@
 
 		</div>
 	</div>
+	<div id="img_user" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<img id="img_a_buscar" src="" style="" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="scripts/show_img.js"></script>
 </body>
-<script type="text/javascript" src = "scripts/functionality.js"></script>
+
 </html>

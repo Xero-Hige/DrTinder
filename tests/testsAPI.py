@@ -1,7 +1,6 @@
 import requests
 import json
 import base64
-import Image
 
 headers = {'content-type': 'application/json'}
 #LOCAL
@@ -47,13 +46,17 @@ def modifyFoto(photo,id):
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
+with open("nouser.jpg", "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read())
+
+
 stringUser = '{"user":{"id":1,"name":"Pedro","alias":"Copito","photo_profile":"undefined","age":"21","sex":"man","email":"pepe@usuasdario.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-1.45356,"longitude":4.51119}}}'
 stringInteres = '{"interest":{"category":"music","value":"rock"}}'
-justPhoto = '{"photo":"asdasd"}';
+justPhoto = '{"photo":"' + encoded_string + '"}';
 user = json.loads(stringUser)
 interest = json.loads(stringInteres)
 photo = json.loads(justPhoto)
-ass = modifyFoto(photo,1)
+ass = modifyFoto(photo,3)
 print ass.text
 
 

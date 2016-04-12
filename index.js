@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var base64 = require('node-base64-image');
 var queryCreator = require('./queryCreator');
 var formater = require('./dataFormater');
 
@@ -38,7 +39,17 @@ function renderDatos(resultado,response){
   }
   else {
     response.render('pages/db', 
-      {results: resultado.result.users });
+      { results: resultado.result.users, 
+        saveImg: function(name,data){
+        var options = {filename: name};
+        var imageData = new Buffer(data, 'base64');
+
+        base64.base64decoder(imageData, options, function (err, saved) {
+          if (err) { console.log(err); }  
+          console.log(saved);    
+        });   
+      }
+      });
   }
 }
 
@@ -221,7 +232,6 @@ function getInteresesAPI(request,response){
 //POST a /interest
 //201
 function postInteresAPI(request,response){
-  console.log(request.body.interest);
   var interes = request.body.interest;
   queryDatabase(queryCreator.fAgregarInteres(interes), processPostInterest, response)
 }

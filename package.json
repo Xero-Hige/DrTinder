@@ -10,7 +10,8 @@
     "ejs": "2.3.3",
 	 "pg": "4.x",
     "express": "4.13.3",
-	"body-parser": "^1.5.1"
+	 "body-parser": "^1.5.1",
+	 "node-base64-image":"0.1.2" 
   },  
   "devDependencies": {
     "grunt": "~0.4.5",
