@@ -1,0 +1,24 @@
+PROG = main
+MODULE_CFLAGS = -DMG_ENABLE_THREADS
+LIBS=/usr/local/lib/librocksdb.a
+SSL_LIB=openssl
+
+SOURCES = $(PROG).cpp ./libs/mongoose/mongoose.c Server.cpp UsersDatabase.cpp MessageHandler.cpp
+CFLAGS = -g -W -Wall -std=c++11 -L. -I../libs/rocksdb/.. -Wno-unused-function $(CFLAGS_EXTRA) $(MODULE_CFLAGS)
+
+all: $(PROG) $(LIBS)
+CC = g++
+
+ifeq ($(SSL_LIB),openssl)
+CFLAGS += -DMG_ENABLE_SSL -lssl -lcrypto
+else ifeq ($(SSL_LIB), krypton)
+CFLAGS += -DMG_ENABLE_SSL ../../../krypton/krypton.c
+endif
+CFLAGS += -lpthread
+
+
+$(PROG): $(SOURCES)
+	$(CC) $(SOURCES) $(CFLAGS) -o $@
+
+clean:
+	rm -rf *.gc* *.dSYM *.exe *.obj *.o a.out $(PROG)
