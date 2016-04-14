@@ -1,9 +1,12 @@
-var ver = document.querySelectorAll('[data-img]');
-for (var i = 0; i < ver.length; i++){
-	ver[i].addEventListener('click',function(e){
-		var name = e.target.getAttribute('data-img');
-		console.log(e.target);
-		$('#img_a_buscar').attr("src", "url(/db/photos/" + name + ")");
-		$('#img_user').modal("show");
-	});
+
+function showImg(e){
+	var data = e.target.getAttribute("data-value");
+	var path = "data:image/jpg;base64," + data; 
+    $('#img_a_buscar').attr("src", path);
+    $('#img_user').modal("show");
+}
+
+var spans = document.querySelectorAll('span[data-value]');
+for (var i = 0; i < spans.length; i++){
+	spans[i].addEventListener('click',showImg);
 }

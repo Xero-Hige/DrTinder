@@ -3,11 +3,11 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
-var base64 = require('node-base64-image');
 var queryCreator = require('./queryCreator');
 var formater = require('./dataFormater');
 
 app.use(bodyParser.json());
+
 app.set('port', (process.env.PORT || 5000));
 
 // views is directory for all template files, dir base cuando renderea
@@ -24,7 +24,7 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
-//que pasa cuando voy a 
+app.use('/db', express.static(__dirname + '/public'));
 app.get('/db', function (request, response) {
   //conexion a database
   console.log(queryCreator.buscarUsers);
@@ -33,26 +33,18 @@ app.get('/db', function (request, response) {
 
 });
 
+
 function renderDatos(resultado,response){
   if (resultado.status >= 400){ 
     response.send("Error " + resultado.result);
   }
   else {
-    response.render('pages/db', 
-      { results: resultado.result.users, 
-        saveImg: function(name,data){
-        var options = {filename: name};
-        var imageData = new Buffer(data, 'base64');
 
-        base64.base64decoder(imageData, options, function (err, saved) {
-          if (err) { console.log(err); }  
-          console.log(saved);    
-        });   
-      }
-      });
+    response.render('pages/db',
+      { results: resultado.result.users }
+      );
   }
 }
-
 
 //COMIENZO API
 function respondJson(resultado,respuesta){
