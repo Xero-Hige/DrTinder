@@ -162,15 +162,6 @@ module.exports = function (){
 		return query;
 	}
 	
-	function getPhotoEncoded(id){
-		var query = 
-		"SELECT photo_profile " +
-		"FROM users_table " +
-		"WHERE id = " + id + ";" 
-		return query;
-	}
-
-
 	return {
 		buscarUsers : queryBuscarUsers,
 		buscarIntereses: queryBuscarIntereses,
@@ -180,8 +171,7 @@ module.exports = function (){
 		fDeleteUser: queryDeleteUser,
 		fActualizarUser: queryActualizarUser,
 		fAltaUser: queryAltaUser,
-		fActualizarFoto: queryActualizarFoto,
-		fImg: getPhotoEncoded
+		fActualizarFoto: queryActualizarFoto
 		//get last sequence para dsps buscarlo
 	};
 }();

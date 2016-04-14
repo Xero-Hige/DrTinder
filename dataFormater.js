@@ -39,9 +39,64 @@ module.exports = function(){
     return data_formateada;
   }
 
+
+  var dict_keys = {
+    location: ["latitude","longitude"],
+    interests: ["category","value"]
+  }
+
+  function hasKeys(array_keys, json){
+      for (var i = 0; i < array_keys.length; i++){
+        var element = json[array_keys[i]];
+        if (!element){
+          console.log("FALTA KEY "+ array_keys[i]);
+          return false;
+        }
+        if (element.constructor === Array){
+          //caso interests
+          var new_keys = dict_keys[array_keys[i]];
+            for (var j = 0; j < element.length; j++){
+              if (!hasKeys(new_keys,element[j])){
+                return false;
+              }
+            }
+        } else if(typeof element === 'object'){
+          //caso location
+          var new_keys = dict_keys[array_keys[i]];
+          if (!hasKeys(new_keys,element)){
+            return false;
+          }
+        }
+
+        //si hay un array que se llame a si mismo en el array
+      }
+      return true;
+  }
+
+  function validateInterest(interes){
+      var keys = ["category","value"];
+      return hasKeys(keys, interes);
+  }
+
+  function validateLocation(location){
+    var keys = ["latitude","longitude"];
+    return hasKeys(keys,location);
+  }
+
+  function validateUser(user,sin_id){
+    sin_id = sin_id ? sin_id: false;
+    var keys = ["name","alias","sex","age","photo_profile","interests","location","email"];
+    if (!sin_id){
+        keys.push("id");
+    }
+    return hasKeys(keys,user);
+  }
+
   return {
     intereses: interesesFormater,
     users: usersFormater,
-    user: userFormater
+    user: userFormater,
+    validateUser: validateUser,
+    validateInterest: validateInterest
   }
 }();

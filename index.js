@@ -5,7 +5,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var queryCreator = require('./queryCreator');
 var formater = require('./dataFormater');
-
+var malFormato = "Error en el formato";
 app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
@@ -27,8 +27,6 @@ app.listen(app.get('port'), function() {
 app.use('/db', express.static(__dirname + '/public'));
 app.get('/db', function (request, response) {
   //conexion a database
-  console.log(queryCreator.buscarUsers);
-  
   queryDatabase(queryCreator.buscarUsers, processGetUsersWEB , response);
 
 });
@@ -187,6 +185,10 @@ function getUserAPI(request,response){
 function altaUserAPI(request,response){
   console.log(request.body.user);
   var user = request.body.user;
+  if (!formater.validateUser(user,true)){
+      response.send(400,malFormato);
+      return;
+  }
   //crea bien
   queryDatabase(queryCreator.fAltaUser(user), processPostUser, response);
   //getid
@@ -197,7 +199,10 @@ function altaUserAPI(request,response){
 function modifyUserAPI(request,response){
   //verificar que id a postear y id de user es el mismo
   var user = request.body.user;
-
+  if (!formater.validateUser(user)){
+      response.send(400,malFormato);
+      return;
+  }
   //response.send(200,queryCreator.fActualizarUser(user));
   queryDatabase(queryCreator.fActualizarUser(user), processPUT,response);
 }
@@ -206,8 +211,6 @@ function modifyUserAPI(request,response){
 function putFotoAPI(request,response){
   var id =request.params.id;
   var photo_text = request.body.photo;
-  console.log(id);
-  console.log(request.body);
   queryDatabase(queryCreator.fActualizarFoto(photo_text,id), processPUT, response);
 }
 
@@ -225,6 +228,10 @@ function getInteresesAPI(request,response){
 //201
 function postInteresAPI(request,response){
   var interes = request.body.interest;
+  if (!formater.validateInterest(interes)){
+      response.send(400,malFormato);
+      return;
+  }
   queryDatabase(queryCreator.fAgregarInteres(interes), processPostInterest, response)
 }
 

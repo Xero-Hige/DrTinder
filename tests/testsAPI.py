@@ -46,18 +46,59 @@ def modifyFoto(photo,id):
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
-with open("nouser.jpg", "rb") as image_file:
-    encoded_string = base64.b64encode(image_file.read())
+with open("pipa.jpg", "rb") as image_file:
+    foto_mujer = base64.b64encode(image_file.read())
 
+with open("pepe.jpg","rb") as image:
+	foto_varon = base64.b64encode(image.read())
 
-stringUser = '{"user":{"id":1,"name":"Pedro","alias":"Copito","photo_profile":"undefined","age":"21","sex":"man","email":"pepe@usuasdario.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-1.45356,"longitude":4.51119}}}'
-stringInteres = '{"interest":{"category":"music","value":"rock"}}'
-justPhoto = '{"photo":"' + encoded_string + '"}';
-user = json.loads(stringUser)
-interest = json.loads(stringInteres)
-photo = json.loads(justPhoto)
-ass = modifyFoto(photo,3)
-print ass.text
+def mostar(r):
+	print r.status_code
+	print r.text
+
+# print "GetUsers"
+# r = getUsers()
+# mostar(r)
+
+# print "getUserExistemte"
+# r = getUser(1)
+# mostar(r)
+
+# print "getUserInexistente"
+# r = getUser(159)
+# mostar(r)
+
+# print "Getintereses"
+# r = getInterests()
+# mostar(r)
+
+# print "PutFotoEn"
+# justPhoto = '{"photo":"'+ foto_mujer +'"}';
+# photo = json.loads(justPhoto)
+# r = modifyFoto(photo,12)
+# mostar(r)
+
+# print "Alta user varon"
+# stringUser = '{"user":{"name":"Alejando","alias":"Alex","photo_profile":"'+foto_varon+'","age":"26","sex":"man","email":"elale@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":3.1416}}}'
+# user = json.loads(stringUser)
+# r = postUser(user);
+# mostar(r)
+
+# print "altaInters"
+# stringInteres = '{"interest":{"category":"sport","value":"rugby"}}'
+# interest = json.loads(stringInteres)
+# r = postInterest(interest)
+# mostar(r)
+
+# # print "deleteUserInexistente"
+# # r = deleteUser(10)
+# # mostar(r)
+
+# print "modifyUser"
+# pedro = '{"user":{"id":1,"name":"Pedro","alias":"Copo","photo_profile":"'+foto_varon+'","age":"21","sex":"man","email":"copito@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-9.87,"longitude":1.234}}}'
+# user_2 = json.loads(pedro)
+# r = modifyUser(user_2,1)
+# mostar(r)
 
 
 #tests
