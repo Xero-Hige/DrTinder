@@ -1,0 +1,3 @@
+[submodule "source/libs/rocksdb"]
+	path = source/libs/rocksdb
+	url = https://github.com/facebook/rocksdb
