@@ -46,11 +46,14 @@ def modifyFoto(photo,id):
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
-with open("pipa.jpg", "rb") as image_file:
+with open("woman.jpg", "rb") as image_file:
     foto_mujer = base64.b64encode(image_file.read())
 
-with open("pepe.jpg","rb") as image:
-	foto_varon = base64.b64encode(image.read())
+# with open("man.jpg","rb") as image:
+# 	foto_varon = base64.b64encode(image.read())
+
+# with open("man2.jpg","rb") as img:
+# 	foto_varon2 = base64.b64encode(img.read())
 
 def mostar(r):
 	print r.status_code
@@ -75,17 +78,17 @@ def mostar(r):
 # print "PutFotoEn"
 # justPhoto = '{"photo":"'+ foto_mujer +'"}';
 # photo = json.loads(justPhoto)
-# r = modifyFoto(photo,12)
+# r = modifyFoto(photo,3)
 # mostar(r)
 
-# print "Alta user varon"
-# stringUser = '{"user":{"name":"Alejando","alias":"Alex","photo_profile":"'+foto_varon+'","age":"26","sex":"man","email":"elale@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":3.1416}}}'
-# user = json.loads(stringUser)
-# r = postUser(user);
-# mostar(r)
+print "Alta user mujer"
+stringUser = '{"user":{"name":"Ariel","alias":"Aru","photo_profile":"'+foto_mujer+'","age":"31","sex":"woman","email":"sirenita@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":3.1416}}}'
+user = json.loads(stringUser)
+r = postUser(user);
+mostar(r)
 
 # print "altaInters"
-# stringInteres = '{"interest":{"category":"sport","value":"rugby"}}'
+# stringInteres = '{"interest":{"category":"sport","value":"surf"}}'
 # interest = json.loads(stringInteres)
 # r = postInterest(interest)
 # mostar(r)
@@ -95,7 +98,7 @@ def mostar(r):
 # # mostar(r)
 
 # print "modifyUser"
-# pedro = '{"user":{"id":1,"name":"Pedro","alias":"Copo","photo_profile":"'+foto_varon+'","age":"21","sex":"man","email":"copito@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-9.87,"longitude":1.234}}}'
+# pedro = '{"user":{"id":1,"name":"Pedro","alias":"JeRo","photo_profile":"'+foto_varon2+'","age":"21","sex":"man","email":"copito@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-9.87,"longitude":1.234}}}'
 # user_2 = json.loads(pedro)
 # r = modifyUser(user_2,1)
 # mostar(r)

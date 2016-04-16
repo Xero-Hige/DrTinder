@@ -14,7 +14,7 @@ module.exports = function (){
 	"WHERE users_interest.id = users_table.id " +
 	") i " +
 	") AS interests " +
-	"FROM users_table) AS users;";
+	"FROM users_table ORDER BY users_table.id ASC) AS users;";
 
 	var queryBuscarIntereses = "SELECT array_to_json(array_agg(row_to_json(interest))) " + 
 	"FROM (SELECT * FROM interest_table) as interest;"
@@ -59,6 +59,8 @@ module.exports = function (){
 
 		return query;
 	}
+
+	var queryLastUser = queryBuscarUser("(SELECT max(id) FROM users_table)");
 
 	function queryAgregarInteres(parametros){
 		var category = parametros.category;
@@ -165,6 +167,7 @@ module.exports = function (){
 	return {
 		buscarUsers : queryBuscarUsers,
 		buscarIntereses: queryBuscarIntereses,
+		lastUser: queryLastUser,
 		//funciones :
 		fBuscarUser: queryBuscarUser,
 		fAgregarInteres: queryAgregarInteres,
@@ -172,6 +175,5 @@ module.exports = function (){
 		fActualizarUser: queryActualizarUser,
 		fAltaUser: queryAltaUser,
 		fActualizarFoto: queryActualizarFoto
-		//get last sequence para dsps buscarlo
 	};
 }();
