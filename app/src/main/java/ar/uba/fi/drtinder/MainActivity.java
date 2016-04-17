@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         actualFragmentItem = item;
         actualFragmentItem.setEnabled(false);
         actualFragmentItem.getIcon().setColorFilter(
-                getResources().getColor(R.color.colorAccent), mMode);
+                getResources().getColor(R.color.accent), mMode);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

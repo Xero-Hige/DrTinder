@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/interest_lay"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <com.pkmmte.view.CircularImageView
         android:id="@+id/interst_img"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/gato_1" />
+        android:src="@drawable/gato_1"
+        app:border="true"
+        app:border_color="@color/accent"
+        app:border_width="2dp"
+        app:shadow="true" />
 
     <TextView
         android:id="@+id/interst_txt"

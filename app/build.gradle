@@ -50,7 +50,10 @@ dependencies {
     //--CardView
     compile 'com.daprlabs.aaron:cardstack:0.3.0'
     //--Image
-    compile 'com.squareup.picasso:picasso:2.5.2'//Image
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    //--Circular
+    compile 'com.pkmmte.view:circularimageview:1.1'
+
 
     androidTestCompile 'junit:junit:4.12'
 
