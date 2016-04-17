@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
-        FragmentManager frag = getSupportFragmentManager();
-        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+        changeFragment(selectionFragment);
 
     }
 
@@ -78,16 +77,21 @@ public class MainActivity extends AppCompatActivity
             changeItemColor(item);
 
             Fragment selectionFragment = new SelectionFragment();
-            FragmentManager frag = getSupportFragmentManager();
-            frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+            changeFragment(selectionFragment);
         }
         if (itemId == R.id.action_users_chat) {
 
             changeItemColor(item);
 
-            Snackdebug.showMessage("No anda", findViewById(R.id.section_layout));
+            Fragment chatsFragment = new ChatFragment();
+            changeFragment(chatsFragment);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void changeFragment(Fragment selectionFragment) {
+        FragmentManager frag = getSupportFragmentManager();
+        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
     }
 
     private void changeItemColor(MenuItem item) {
