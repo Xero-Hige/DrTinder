@@ -30,7 +30,7 @@ public class ChatFragment extends Fragment {
             ageTextView.setText("(" + ((127 * i) % 19 + 20) + ")");
             ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
             Picasso.with(bar.getContext()).load(
-                    R.drawable.gato_3).fit().centerCrop().into(imageView);
+                    R.drawable.gato_5).fit().centerCrop().into(imageView);
 
             final int finalI = i;
             imageView.setOnClickListener(v -> {
@@ -49,7 +49,7 @@ public class ChatFragment extends Fragment {
             ageTextView.setText("(" + ((341 * i) % 19 + 20) + ")");
             imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
             Picasso.with(bar.getContext()).load(
-                    R.drawable.gato_4).fit().centerCrop().into(imageView);
+                    R.drawable.gato_5).fit().centerCrop().into(imageView);
 
             imageView.setOnClickListener(v -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);

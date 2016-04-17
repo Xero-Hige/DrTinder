@@ -36,21 +36,57 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/cardview_light_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="ar.uba.fi.drtinder.ChatSession"
         tools:showIn="@layout/activity_chat_session">
 
-        <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/messages"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        </android.support.v7.widget.LinearLayoutCompat>
+            <LinearLayout
+                android:id="@+id/messages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="400dp"
+                android:orientation="vertical">
 
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/message"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/send"
+                    android:background="@color/primary_light"
+                    android:backgroundTint="@color/accent"
+                    android:backgroundTintMode="add"
+                    android:hint="Message"
+                    android:padding="18dp" />
+
+                <Button
+                    android:id="@+id/send"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+
     <!-- -->
     <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fab"-->
