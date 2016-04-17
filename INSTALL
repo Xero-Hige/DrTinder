@@ -1,0 +1,22 @@
+Cosas necesarias para probar rocksdb:
+
+Antes que nada, hay que inicializar el submodule de rocksdb, estando en la carpeta del proyecto, con
+
+git submodule init
+git submodule update
+
+
+Paquetes a instalar:
+libgflags-dev
+libsnappy-dev
+libbz2-dev
+zlib1g-dev
+
+Instalar rocksdb:
+Pararse en la carpeta DrTinder/source/libs/rocksdb
+
+Ejecutar:
+
+make install
+
+Añadir la librería al proyecto (/usr/local/lib/librocksdb.a)

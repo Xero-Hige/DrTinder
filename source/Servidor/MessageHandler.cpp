@@ -9,8 +9,11 @@
 
 using std::string;
 
-MessageHandler::MessageHandler(UsersDatabase* usersDB) :
-	usersDB(usersDB) {
+MessageHandler::MessageHandler() :
+	usersDB(NULL) {
+}
+
+MessageHandler::MessageHandler(UsersDatabase *pDatabase) : usersDB(pDatabase){
 }
 
 MessageHandler::~MessageHandler() {
@@ -27,6 +30,7 @@ string MessageHandler::divideMessage(string& message) {
 }
 
 bool MessageHandler::parse(string message, string& resultMsg) {
+	std::cout << message << "\n";
 	string token = divideMessage(message);
 	resultMsg += RESULT_TOKEN;
 	resultMsg += SEPARATOR;
@@ -48,3 +52,8 @@ bool MessageHandler::authenticate(string message, string& resultMsg) {
 	resultMsg += CORRECT_LOGIN;
 	return true;
 }
+
+void MessageHandler::setUsersDB(UsersDatabase* usersDB) {
+	this->usersDB = usersDB;
+}
+

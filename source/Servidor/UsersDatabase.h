@@ -3,6 +3,7 @@
 
 #include <string>
 #include "../libs/rocksdb/include/rocksdb/db.h"
+#include <iostream>
 
 class UsersDatabase {
 	public:
@@ -11,7 +12,7 @@ class UsersDatabase {
 		bool correctCredentials(std::string name, std::string pass);
 		bool addUser(std::string name, std::string pass);
 		bool deleteUser(std::string name);
-	private:
+		private:
 		rocksdb::DB* db;
 };
 

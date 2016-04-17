@@ -13,13 +13,14 @@ class Server {
         Server();
         virtual ~Server();
         void run();
-		void setMessageHandler(MessageHandler* msgHandler);
+        void setUsersDB(UsersDatabase *database);
+
     protected:
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
     private:
         struct mg_mgr manager_;
         struct mg_connection* connection_;
-		MessageHandler* msgHandler;
+        UsersDatabase *usersDB;
 };
 
 #endif // SERVER_H

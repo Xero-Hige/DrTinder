@@ -22,8 +22,10 @@ bool UsersDatabase::correctCredentials(string name, string pass) {
 	string value;
 	Status status = db->Get(ReadOptions(), name, &value);
 	if (! status.ok()) {
+		std::cout << "status";
 		return false;
 	} else if (value.compare(pass) != 0) {
+		std::cout << "value";
 		return false;
 	}
 	return true;
