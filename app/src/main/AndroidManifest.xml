@@ -29,7 +29,11 @@
             android:name=".UserDetailsActivity"
             android:label="@string/title_activity_details_fragment"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ChatFragment"></activity>
+        <activity android:name=".ChatFragment" />
+        <activity
+            android:name=".ChatSession"
+            android:label="@string/title_activity_chat_session"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

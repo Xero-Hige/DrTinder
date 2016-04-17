@@ -1,5 +1,6 @@
 package ar.uba.fi.drtinder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,7 @@ public class ChatFragment extends Fragment {
 
 
         LinearLayout bar = (LinearLayout) view.findViewById(R.id.chat_item);
-        for (int i = 0; i < 20; i = i * 2) {
+        for (int i = 1; i < 21; i *= 2) {
             View layout = inflater.inflate(R.layout.chat_user_layout_left, null);
             TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
             nameTextView.setText("Gata " + i);
@@ -30,6 +31,14 @@ public class ChatFragment extends Fragment {
             ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
             Picasso.with(bar.getContext()).load(
                     R.drawable.gato_3).fit().centerCrop().into(imageView);
+
+            final int finalI = i;
+            imageView.setOnClickListener(v -> {
+                Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
+                menuIntent.putExtra("User", "Gata " + finalI);
+                startActivity(menuIntent);
+            });
+
 
             bar.addView(layout);
 
@@ -41,6 +50,12 @@ public class ChatFragment extends Fragment {
             imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
             Picasso.with(bar.getContext()).load(
                     R.drawable.gato_4).fit().centerCrop().into(imageView);
+
+            imageView.setOnClickListener(v -> {
+                Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
+                menuIntent.putExtra("User", "Gata " + (finalI + 1));
+                startActivity(menuIntent);
+            });
 
             bar.addView(layout);
         }
