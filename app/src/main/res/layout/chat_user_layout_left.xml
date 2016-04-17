@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/chat_user_img"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center_horizontal"
+            android:elevation="10dp"
+            android:src="@drawable/gato_4"
+            app:border="true"
+            app:border_color="@color/accent"
+            app:border_width="1dp"
+            app:shadow="true" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chat_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="Gatiensa"
+                android:textAlignment="textStart"
+                android:textColor="@color/primary_dark"
+                android:textSize="25sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/chat_user_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="bottom"
+                android:clickable="false"
+                android:singleLine="false"
+                android:text="35"
+                android:textAlignment="inherit"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.v7.widget.LinearLayoutCompat>
+</RelativeLayout>

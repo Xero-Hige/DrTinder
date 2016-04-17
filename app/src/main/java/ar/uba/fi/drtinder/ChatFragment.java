@@ -19,21 +19,29 @@ public class ChatFragment extends Fragment {
                              @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
 
+
         LinearLayout bar = (LinearLayout) view.findViewById(R.id.chat_item);
-        for (int i = 9; i > -1; i--) {
-            View layout = inflater.inflate(R.layout.interest_lay, null);
-            TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-            textView.setText("Interes: " + i);
-            ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
+        for (int i = 0; i < 20; i = i * 2) {
+            View layout = inflater.inflate(R.layout.chat_user_layout_left, null);
+            TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
+            nameTextView.setText("Gata " + i);
+            TextView ageTextView = (TextView) layout.findViewById(R.id.chat_user_age);
+            ageTextView.setText("(" + ((127 * i) % 19 + 20) + ")");
+            ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
             Picasso.with(bar.getContext()).load(
-                    R.drawable.ubuntu).fit().centerCrop().into(imageView);
+                    R.drawable.gato_3).fit().centerCrop().into(imageView);
+
             bar.addView(layout);
 
-            layout = inflater.inflate(R.layout.interest_lay, null);
-            textView = (TextView) layout.findViewById(R.id.interst_txt);
-            textView.setText("Interes: " + i);
-            imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(bar.getContext()).load(R.drawable.logo).fit().centerCrop().into(imageView);
+            layout = inflater.inflate(R.layout.chat_user_layout_right, null);
+            nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
+            nameTextView.setText("Gata " + (i + 1));
+            ageTextView = (TextView) layout.findViewById(R.id.chat_user_age);
+            ageTextView.setText("(" + ((341 * i) % 19 + 20) + ")");
+            imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
+            Picasso.with(bar.getContext()).load(
+                    R.drawable.gato_4).fit().centerCrop().into(imageView);
+
             bar.addView(layout);
         }
 
