@@ -178,6 +178,17 @@ public class SelectionFragment extends Fragment {
         mUsersQueue.add(userMap);
         mUsersQueue.add(userMap);
 
+        userMap = new HashMap<>();
+        userMap.put(EXTRA_USER_NAME, "Anastasia Steele");
+        userMap.put(EXTRA_USER_AGE, "21");
+        userMap.put(EXTRA_USER_IMAGE, String.valueOf(R.drawable.gato_5));
+        userMap.put(EXTRA_USER_BIO, "Joven estudiante de 21 años que cursa la carrera de Literatura"
+                + "en la Universidad de Washington. Vivo con mi mejor amiga, Katherine Kavanagh, "
+                + "quien escribe para el periódico estudiantil de su universidad."); //TODO: Remove
+
+        mUsersData.put(6, userMap);
+        mUsersQueue.add(userMap);
+
         //TODO: remove testing data
     }
 
