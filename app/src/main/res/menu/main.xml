@@ -9,14 +9,15 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_swipe_pictures"
         android:layout_gravity="start"
         android:icon="@drawable/hot"
         android:orderInCategory="200"
         android:title="Search"
+
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_user"
+        android:id="@+id/action_users_chat"
         android:layout_gravity="start"
         android:icon="@drawable/people"
         android:orderInCategory="300"

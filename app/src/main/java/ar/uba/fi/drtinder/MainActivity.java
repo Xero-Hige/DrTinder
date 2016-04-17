@@ -1,5 +1,6 @@
 package ar.uba.fi.drtinder;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,8 @@ import android.view.MenuItem;
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private MenuItem actualFragmentItem;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -54,6 +57,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        actualFragmentItem = menu.findItem(R.id.action_swipe_pictures);
+        actualFragmentItem.setEnabled(false);
+        PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
+        actualFragmentItem.getIcon().setColorFilter(
+                getResources().getColor(R.color.colorAccent), mMode);
         return true;
     }
 
@@ -65,11 +73,31 @@ public class MainActivity extends AppCompatActivity
         int itemId = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (itemId == R.id.action_settings) {
-            return true;
-        }
+        if (itemId == R.id.action_swipe_pictures) {
 
+            changeItemColor(item);
+
+            Fragment selectionFragment = new SelectionFragment();
+            FragmentManager frag = getSupportFragmentManager();
+            frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+        }
+        if (itemId == R.id.action_users_chat) {
+
+            changeItemColor(item);
+
+            Snackdebug.showMessage("No anda", findViewById(R.id.section_layout));
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void changeItemColor(MenuItem item) {
+        actualFragmentItem.setEnabled(true);
+        PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
+        actualFragmentItem.getIcon().setColorFilter(getResources().getColor(R.color.icons), mMode);
+        actualFragmentItem = item;
+        actualFragmentItem.setEnabled(false);
+        actualFragmentItem.getIcon().setColorFilter(
+                getResources().getColor(R.color.colorAccent), mMode);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
