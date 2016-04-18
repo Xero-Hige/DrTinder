@@ -6,7 +6,6 @@
 void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	std::string line;
 	while (line.compare(QUIT_LINE) != 0) {
-		std::cout << line;
 		std::cin >> line;
 	}
 	result_mutex.lock();
