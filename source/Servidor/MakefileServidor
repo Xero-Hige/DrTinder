@@ -2,7 +2,7 @@ PROG = main
 MODULE_CFLAGS = -DMG_ENABLE_THREADS
 LIBS=/usr/local/lib/librocksdb.a
 SSL_LIB=openssl
-LIB_DIRECTORIES=-L/usr/local/lib/ -L../libs/mongoose/ -L../libs/rocksdb/include/rocksdb/ -L../libs/rocksdb/include/rocksdb/utilities/
+LIB_DIRECTORIES=-L/usr/local/lib/ -L/usr/lib/x86_64-linux-gnu/ -L../libs/mongoose/ -L../libs/rocksdb/include/rocksdb/ -L../libs/rocksdb/include/rocksdb/utilities/
 
 SOURCES = $(PROG).cpp ../libs/mongoose/mongoose.c Server.cpp UsersDatabase.cpp MessageHandler.cpp
 CFLAGS = -g -W -Wall -std=c++11 -L. -Wno-unused-function -lz $(CFLAGS_EXTRA) $(MODULE_CFLAGS) $(LIB_DIRECTORIES)
