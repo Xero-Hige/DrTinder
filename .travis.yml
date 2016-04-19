@@ -1,10 +1,10 @@
 #Slack integration
 notifications:
   slack:
-    rooms:       
+    rooms:
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#talk-to-travis
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#general-build-status
-#Branch specific          
+#Branch specific
           - taller2-drv:7KZQ9SbRYxKXS4XPARTY3Qjs#app-server
     email: false
 ##############################
@@ -13,10 +13,22 @@ language: c
 
 compiler: gcc
 
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install libgflags-dev libsnappy-dev libbz2-dev zlib1g-dev
+  - git submodule init
+  - git submodule update
+
 script:
-  - gcc -coverage -O0 hello.c -o hello
-  - ./hello
-  - gcov hello.c
+  - cd source/libs/rocksdb
+  - make install
+  - cd ..
+  - cd ..
+  - cd Servidor
+  - make MakefileServidor
+  - cd ..
+  - cd Cliente
+  - make MakefileCliente
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
