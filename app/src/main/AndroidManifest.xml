@@ -29,6 +29,12 @@
         <activity
             android:name=".ChatSession"
             android:label="@string/title_activity_chat_session"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UserDetailsActivity"
+            android:label="@string/title_activity_details_fragment"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
