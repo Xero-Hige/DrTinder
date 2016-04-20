@@ -2,6 +2,8 @@ package ar.uba.fi.drtinder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -27,7 +29,19 @@ public class ChatSession extends AppCompatActivity {
         this.setTitle(text);
 
         loadOldMessages();
+        addSendListener();
 
+        FloatingActionButton b = (FloatingActionButton) this.findViewById(R.id.fab);
+        b.setOnClickListener(
+                v -> {
+                    NestedScrollView nestedScrollView =
+                            (NestedScrollView) this.findViewById(R.id.messages_lay);
+                    nestedScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+                });
+
+    }
+
+    private void addSendListener() {
         Button b = (Button) this.findViewById(R.id.send);
         b.setOnClickListener(
                 v -> {
@@ -47,7 +61,6 @@ public class ChatSession extends AppCompatActivity {
                     msgView.setText("");
                     bar.addView(layout);
                 });
-
     }
 
     private void loadOldMessages() {
@@ -107,5 +120,8 @@ public class ChatSession extends AppCompatActivity {
         msgTextView.setText("Bueno. Si pinta sadomasoquismo, avisame.");
 
         bar.addView(layout);
+
+        final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
+        scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
     }
 }
