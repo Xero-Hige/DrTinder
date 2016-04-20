@@ -96,10 +96,16 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/message"
+        android:tint="@color/primary"
+        android:tintMode="src_in"
+        app:borderWidth="0dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
