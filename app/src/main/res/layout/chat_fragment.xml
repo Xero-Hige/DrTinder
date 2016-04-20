@@ -21,15 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="35dp">
-        <LinearLayout
-            android:id="@+id/chat_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="fill_horizontal|center|center_horizontal"
-            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/chat_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="fill_horizontal|center|center_horizontal"
+                android:orientation="vertical">
 
 
-        </LinearLayout>
+            </LinearLayout>
         </android.support.v7.widget.LinearLayoutCompat>
     </ScrollView>
 </RelativeLayout>
