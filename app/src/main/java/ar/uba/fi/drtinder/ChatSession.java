@@ -35,8 +35,7 @@ public class ChatSession extends AppCompatActivity {
         FloatingActionButton b = (FloatingActionButton) this.findViewById(R.id.fab);
         b.setOnClickListener(
                 v -> {
-                    final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
-                    scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
+                    lastMessageAnimation();
                 });
 
     }
@@ -61,8 +60,7 @@ public class ChatSession extends AppCompatActivity {
                     msgView.setText("");
                     bar.addView(layout);
 
-                    final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
-                    scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
+                    lastMessageAnimation();
                 });
     }
 
@@ -124,6 +122,10 @@ public class ChatSession extends AppCompatActivity {
 
         bar.addView(layout);
 
+        lastMessageAnimation();
+    }
+
+    private void lastMessageAnimation() { //FIXME: change to a better name
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
