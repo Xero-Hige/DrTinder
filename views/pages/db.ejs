@@ -2,6 +2,7 @@
 <html>
 <head>
 	<% include ../partials/header.ejs %>
+	<script type ="text/javascript" src="scripts/chosen.jquery.min.js"></script>
 </head>
 
 <body>
@@ -90,7 +91,7 @@
 							</ul>
 						</div>
 					</td>
-			
+
 					<% var data = r.user["photo_profile"]; %>
 					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
 						<span class="glyphicon glyphicon-search" data-value="<%= data %>"></span>
@@ -112,14 +113,36 @@
 					<h4 class="modal-title">Crear Usuario</h4>
 				</div>
 				<div class="modal-body">
+
+					<% var intereses_por_categoria = {};%>
+					<% intereses.forEach(function(cat){ %>
+					<% if (!(cat.category in intereses_por_categoria)){ %>
+					<% intereses_por_categoria[cat.category]=[cat.value]; %>
+					<% } else { %>
+					<% intereses_por_categoria[cat.category].push(cat.value); %>
+					<% } %>
+					<% }); %>
+					<div>
+						<em>Interests</em>
+						<select data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
+							<option value=""></option>
+							<% for (category in intereses_por_categoria){ %>
+							<optgroup label="<%= category %>" >
+								<% intereses_por_categoria[category].forEach(function(value){ %>
+								<option><%= value%></option>
+								<% }); %>
+								<% } %>
+							</optgroup>
+						</select>
+					</div>
+				
 					<div class = "list-group">
 						<% keys.forEach(function (key) { %>
-						<!--A GENERALIZAR DESPUES-->
 						<% if (key == "interests" ||  key == "location" || key == "photo_profile" || key == "id" ) { %>
 
 						<% } else { %>
 						<div class = "list-group-item">
-							<div class="input-group">
+							<div class="input-group basic_info">
 
 								<span class="input-group-addon" ><%= key %></span>
 								<input type="text" class="form-control" id = "crear_<%= key %>">
@@ -130,13 +153,30 @@
 						<% } %>
 						
 						<% }); %>
+
+						<div class = "list-group-item">
+							<div class="input-group" id="location_crear">
+								<span class="input-group-addon" >location</span>
+								<input type="text" class="form-control input-sm" placeholder="latitude" />
+								<input type="text" class="form-control input-sm" placeholder="longitude" />
+							</div>
+						</div>
+						<div class = "list-group-item">
+							<div class="input-group">
+								<span class="input-group-addon" >photo_profile</span>
+								<input id="photo_file" class="form-control input-sm" type="file" />
+								<img id="photo_to_send" src="" style="display: none" />
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<div id="err_msg"></div>
+						<button id="crear_user" type="button" class="btn btn-default" >Crear</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Crear</button>
-				</div>
-			</div>
 
+			</div>
 		</div>
 	</div>
 	<div id="img_user" class="modal fade" role="dialog">
@@ -155,7 +195,9 @@
 	</div>
 	<!-- Para meter la logica de pedir y dar a la base de datos -->
 	<!-- <script type= "text/javascript" src"../resolveQuerys.js"></script>> -->
+
 	<script type="text/javascript" src="scripts/show_img.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap-chosen.css" />
 </body>
 
 </html>

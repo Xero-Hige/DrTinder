@@ -28,3 +28,15 @@ td > .btn-group > .dropdown-menu{
 .modal-body  .list-group-item > .input-group > span{
     min-width: 61px;
 }
+
+.modal-body em{
+	font-style: normal;
+	font-weight: bold;
+}
+
+.modal-body > .list-group .input-group-addon{
+	text-transform: capitalize;
+}
+.group-result{
+	text-transform: capitalize;
+}

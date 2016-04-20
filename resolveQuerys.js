@@ -26,7 +26,7 @@ module.exports = function() {
             response.send(500, err);
             console.log("error al hacer query");
           } else {
-            //proceso el resultado
+            console.log(result.rows);
             processResult(result, response);
           }
         });
@@ -55,6 +55,13 @@ module.exports = function() {
 
   function successGetInterests(result) {
     return successGet(result, formater.intereses);
+  }
+
+  function successGetUsersAndInterests(result){
+    var formatedData = successGetUsers(result);
+    var interests = formater.intereses(result.rows[1]);
+    formatedData.result["intereses"] = interests.interests;
+    return formatedData;
   }
 
   function successPut(result) {
@@ -101,7 +108,8 @@ module.exports = function() {
     } else {
 
       response.render('pages/db', {
-        results: resultado.result.users
+        results: resultado.result.users,
+        intereses: resultado.result.intereses
       });
     }
   }
@@ -178,7 +186,7 @@ module.exports = function() {
 
   //Web, mostrar users
   function processrenderDatos(result, response) {
-    proccess(result, response, successGetUsers, respondRenderDatos, "Error al buscar la base de datos");
+    proccess(result, response, successGetUsersAndInterests, respondRenderDatos, "Error al buscar la base de datos");
   }
 
 
@@ -198,7 +206,7 @@ module.exports = function() {
   //REnder
 
   function renderDatos(request,response){
-    queryDatabase(queryCreator.buscarUsers, processrenderDatos, response);
+    queryDatabase(queryCreator.buscarUsers + queryCreator.buscarIntereses, processrenderDatos, response);
   }
 
   //GET last user
@@ -225,6 +233,7 @@ module.exports = function() {
   //POST a /users
   function postUserAPI(request, response) {
     var user = request.body.user;
+    console.log(request.body);
     if (!formater.validateUser(user, true)) {
       response.send(400, malFormato);
       return;
