@@ -2,6 +2,7 @@ package ar.uba.fi.drtinder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -34,9 +35,8 @@ public class ChatSession extends AppCompatActivity {
         FloatingActionButton b = (FloatingActionButton) this.findViewById(R.id.fab);
         b.setOnClickListener(
                 v -> {
-                    NestedScrollView nestedScrollView =
-                            (NestedScrollView) this.findViewById(R.id.messages_lay);
-                    nestedScrollView.fullScroll(NestedScrollView.FOCUS_DOWN);
+                    final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
+                    scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
                 });
 
     }
@@ -60,13 +60,16 @@ public class ChatSession extends AppCompatActivity {
                     msgTextView.setText(msgView.getText());
                     msgView.setText("");
                     bar.addView(layout);
+
+                    final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
+                    scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
                 });
     }
 
     private void loadOldMessages() {
         LinearLayout bar = (LinearLayout) this.findViewById(R.id.messages);
         LayoutInflater inflater = LayoutInflater.from(this);
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 24; i++) {
 
             View layout = inflater.inflate(R.layout.chat_session_friend, null);
             ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
@@ -123,5 +126,7 @@ public class ChatSession extends AppCompatActivity {
 
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        appBarLayout.setExpanded(false, true);
     }
 }
