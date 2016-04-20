@@ -23,6 +23,17 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:foregroundTint="@color/primary_light"
+                android:foregroundTintMode="multiply"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gato_3"
+                app:layout_collapseMode="parallax" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -86,12 +97,14 @@
             android:hint="Message"
             android:padding="18dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/send"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:background="@color/primary"
+            android:src="@drawable/send" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

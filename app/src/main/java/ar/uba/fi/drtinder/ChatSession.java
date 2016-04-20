@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,16 +32,16 @@ public class ChatSession extends AppCompatActivity {
         loadOldMessages();
         addSendListener();
 
+        ImageView img = (ImageView) findViewById(R.id.backdrop);
+        img.setImageResource(R.drawable.gato_5);
+
         FloatingActionButton b = (FloatingActionButton) this.findViewById(R.id.fab);
-        b.setOnClickListener(
-                v -> {
-                    lastMessageAnimation();
-                });
+        b.setOnClickListener(v -> lastMessageAnimation());
 
     }
 
     private void addSendListener() {
-        Button b = (Button) this.findViewById(R.id.send);
+        ImageButton b = (ImageButton) this.findViewById(R.id.send);
         b.setOnClickListener(
                 v -> {
                     LinearLayout bar = (LinearLayout) this.findViewById(R.id.messages);
