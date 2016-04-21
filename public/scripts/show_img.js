@@ -1,4 +1,4 @@
-function decideToPost(keys_mal){
+function decideToPost(user,keys_mal){
 	if (keys_mal.length > 0){
 		var keys_error = '';
 		for (i = 0; i < keys_mal.length; i++){
@@ -8,6 +8,7 @@ function decideToPost(keys_mal){
 	}else{
 		document.getElementById('err_msg').textContent = '';
 		postUser({user: user});
+
 	}
 }
 
@@ -64,14 +65,14 @@ function _finishUser(user, keys_mal) {
 	photo_b64 = photo_b64.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
 	console.log(photo_b64.substring(0,20));
 	user['photo_profile'] = photo_b64;
-	decideToPost(keys_mal);
+	decideToPost(user,keys_mal);
   };
 
   if (file) {
     reader.readAsDataURL(file);
   } else {
     keys_mal.push('photo_profile');
-    decideToPost(keys_mal);
+    decideToPost(user,keys_mal);
   }
 }
 
@@ -81,16 +82,16 @@ function postUser(user){
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4){
 			if ( xhttp.status == 201){
-				console.log("Todo ok");
+				$("#new_user").modal("hide");
 			}
 			if (xhttp.status >= 400) {
-				console.log("ERR " + xhttp.status);
+				$("#err_msg").text("ERR "+ xhttp.status);
 			}
 		}  
-
 	};
 	//http://
 	//localhost:5000
+	//dr-tinder.herokuapp.com
 	xhttp.open("POST", "http://dr-tinder.herokuapp.com/users", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send(JSON.stringify(user));
