@@ -1,6 +1,7 @@
 th,td {
 	text-align: center;
 }
+
 #dataBase tr:hover{
 	background-color: #EBEBEB;
 }
@@ -21,6 +22,7 @@ td > .btn-group > .dropdown-menu{
 #crear_usuario_pop {
 	margin-bottom: 10px;
 }
+
 .modal-body .list-group-item{
 	border:none;
 }
@@ -37,6 +39,15 @@ td > .btn-group > .dropdown-menu{
 .modal-body > .list-group .input-group-addon{
 	text-transform: capitalize;
 }
+
 .group-result{
 	text-transform: capitalize;
+}
+
+#img_a_buscar{
+    margin: 0 auto;
+}
+
+#err_msg{
+	text-align: justify;
 }
