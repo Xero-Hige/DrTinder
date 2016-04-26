@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
 
     <com.daprlabs.cardstack.SwipeDeck
         android:id="@+id/swipe_deck"
@@ -61,4 +69,6 @@
             app:borderWidth="0dp" />
 
     </android.support.v7.widget.LinearLayoutCompat>
+
+
 </com.daprlabs.cardstack.SwipeCoordinatorLayout>
