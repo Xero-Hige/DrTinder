@@ -23,6 +23,10 @@ import android.widget.TextView;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -55,16 +59,21 @@ public class SelectionFragment extends Fragment {
         mCardStack = (SwipeDeck) fragmentView.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
-        requestUsersData();
-
-        setCardsAdapter(fragmentView);
         mCardStack.setLeftImage(R.id.card_nope);
         mCardStack.setRightImage(R.id.card_like);
         mProgressView = fragmentView.findViewById(R.id.login_progress);
 
         setButtons(fragmentView);
 
+        fillCardStack();
+
         return fragmentView;
+    }
+
+    private void fillCardStack() {
+        showProgress(true);
+        UsersFetchTask mAuthTask = new UsersFetchTask(getContext());
+        mAuthTask.execute((Void) null);
     }
 
     private void setButtons(View view) {
@@ -101,10 +110,7 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardsDepleted() {
-                showProgress(true);
-                UsersFetchTask mAuthTask = new UsersFetchTask(getContext());
-                mAuthTask.execute((Void) null);
-
+                fillCardStack();
                 Snackdebug.showMessage("No more cats", getView());
 
             }
@@ -176,6 +182,17 @@ public class SelectionFragment extends Fragment {
     }
 
     private void requestUsersData() {
+
+        try {
+            InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
+            Socket socket = new Socket(serverAddr, 8080);
+            byte[] buffer = new byte[1024];
+            InputStream input = socket.getInputStream();
+            int bytesRead = input.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //TODO: Remove testing data
 
         mUsersQueue = new LinkedList<>();
