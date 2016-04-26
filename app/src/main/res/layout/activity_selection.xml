@@ -18,8 +18,8 @@
 
     <com.daprlabs.cardstack.SwipeDeck
         android:id="@+id/swipe_deck"
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_gravity="center"
         android:padding="10dp"
         swipedeck:card_spacing="5dp"
