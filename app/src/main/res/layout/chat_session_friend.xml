@@ -7,8 +7,8 @@
     android:clickable="true"
     android:orientation="horizontal"
     android:paddingBottom="5dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="15dp"
+    android:paddingEnd="15dp"
+    android:paddingStart="8dp"
     android:paddingTop="5dp"
     android:weightSum="1">
 
@@ -34,9 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/chat_user_img"
-        android:text="Gatiensa dijo"
         android:textAlignment="textStart"
-        android:textColor="@color/primary_material_dark"
+        android:textColor="@color/colorPrimary_dark"
         android:textSize="18sp"
         android:textStyle="italic" />
 
@@ -54,7 +53,6 @@
         android:minHeight="47dp"
         android:padding="5dp"
         android:singleLine="false"
-        android:text="Una wacha pìola que se pone bien loca."
         android:textAlignment="inherit"
         android:textIsSelectable="true"
         android:textSize="15sp"
