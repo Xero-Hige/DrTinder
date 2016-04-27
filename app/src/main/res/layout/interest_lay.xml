@@ -22,10 +22,7 @@
         android:id="@+id/interst_txt"
         android:layout_width="70dp"
         android:layout_height="25dp"
-        android:layout_alignParentRight="true"
-        android:text="sex"
-        android:textAlignment="center"
-        android:textSize="14dp" />
+        android:textAlignment="center" />
 
 
 </LinearLayout>
