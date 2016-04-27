@@ -13,3 +13,6 @@
 [![codecov.io](https://codecov.io/github/Xero-Hige/DrTinder/coverage.svg?branch=SharedServer)](https://codecov.io/github/Xero-Hige/DrTinder?branch=SharedServer)
 [![Heroku](http://heroku-badge.herokuapp.com/?app=dr-tinder&style=flat)](https://dr-tinder.herokuapp.com/)
 
+##Downloads
+* [Android Apk](https://drive.google.com/open?id=0B-LYfn8OA-K3UGJJNHJhd1NNd1U)
+
