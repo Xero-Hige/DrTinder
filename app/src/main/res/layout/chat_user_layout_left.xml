@@ -36,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="Gatiensa"
                 android:textAlignment="textStart"
                 android:textColor="@color/primary_dark"
                 android:textSize="25sp"
@@ -50,7 +49,6 @@
                 android:layout_gravity="bottom"
                 android:clickable="false"
                 android:singleLine="false"
-                android:text="35"
                 android:textAlignment="inherit"
                 android:textSize="20sp"
                 android:textStyle="bold" />
