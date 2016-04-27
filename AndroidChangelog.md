@@ -1,6 +1,7 @@
 ## Version [0.0.0.0](https://github.com/Xero-Hige/DrTinder/tree/AppVersion_0.0.0.0)
-#### First sprint Mock - 28/04/16
-### App Features
+#### *First sprint Mock* - 28/04/16
+
+### App Features:
 * [#15](https://github.com/Xero-Hige/DrTinder/issues/15) Login screen Mock
 * [#16](https://github.com/Xero-Hige/DrTinder/issues/16) Selection screen Mock
 * [#19](https://github.com/Xero-Hige/DrTinder/issues/19) Chat list screen Mock
