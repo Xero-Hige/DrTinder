@@ -1,7 +1,4 @@
-/*Para hacer cualequier query le tengo que pasar:
-- Un query string
-- como procesar el resultado
-- la response para que el proceso del resultado pueda dar una respuesta*/
+
 
 module.exports = function() {
   var pg = require('pg');
@@ -9,29 +6,53 @@ module.exports = function() {
   var formater = require('./dataFormater');
   var malFormato = "Error en formato";
 
+  /*Para hacer cualequier query le tengo que pasar:
+  - Un query string
+  - como procesar el resultado
+  - la response para que el proceso del resultado pueda dar una respuesta*/
+
   function queryDatabase(query, processResult, response) {
     //conecto a base de datos
 
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-      //realizo query
-      if (!client) {
+      
+      if (err) {
+      	done();
+        //probema que tengo en la fiuba
         response.send(500, "No hay conexion a la base de datos");
-
       } else {
-        console.log(query);
         client.query(query, function(err, result) {
           done();
           if (err) {
-            //si hubo errores al realiza query
             response.send(500, err);
-            console.log("error al hacer query");
           } else {
-            console.log(result.rows);
             processResult(result, response);
           }
         });
       }
     });
+  }
+
+
+  /*Procesar result
+  -response para dar la respuesta
+  -succes es la funcion que devuelve el resultado correcto
+  -callback es la fucnion que decide como dar el resultado al que lo pidio
+  -err_msg el error a dar en caso de que no hubo respuesta desada*/
+
+  function proccess(result, response, success, callback, err_msg) {
+    var resultado;
+    //Si no trajo nada
+    if (result.rowCount == 0) {
+      console.log("No respondio nada");
+      resultado = {
+        status: 400,
+        result: err_msg
+      };
+    } else {
+      resultado = success(result);
+    }
+    callback(resultado, response);
   }
 
   /*Que resultado traer si lo consegui correctamente*/
@@ -123,28 +144,7 @@ module.exports = function() {
       respuesta.status(resultado.status).jsonp(resultado.result);
     }
   }
-
-
-  /*Procesar result
-  -response para dar la respuesta
-  -succes es la funcion que devuelve el resultado correcto
-  -callback es la fucnion que decide como dar el resultado al que lo pidio
-  -err_msg el errror a dar en caso de que no hubo respuesta desada*/
-
-  function proccess(result, response, success, callback, err_msg) {
-    var resultado;
-    //Si no trajo nada
-    if (result.rowCount == 0) {
-      console.log("No respondio nada");
-      resultado = {
-        status: 400,
-        result: err_msg
-      };
-    } else {
-      resultado = success(result);
-    }
-    callback(resultado, response);
-  }
+  
 
   //para los querys que buscan datos, tienen que darle el success valido
   //para el formato de data
@@ -172,12 +172,12 @@ module.exports = function() {
     proccess(result, response, successPut, respondSimple, err_msg);
   }
 
-  function processPutInterest(result, response) {
-    processPut(result, response, "No pudo crear el interes");
-  }
-
   function processPutPhoto(result, response) {
     processPut(result, response, "No Puedo modificar la foto");
+  }
+
+  function processPutUser(result,response){
+  	processPut(result, response, "No pudo modificar el usuario");	
   }
 
   function processDelete(result, response) {
@@ -204,12 +204,11 @@ module.exports = function() {
 
 
   //REnder
-
   function renderDatos(request,response){
     queryDatabase(queryCreator.buscarUsers + queryCreator.buscarIntereses, processrenderDatos, response);
   }
 
-  //GET last user
+  //GET last user, para probar lo hice
   function getLastUser(request,response){
     
     var processGetLastUser = function(result, response){

@@ -46,7 +46,7 @@ def modifyFoto(photo,id):
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
-with open("woman.jpg", "rb") as image_file:
+with open("man.jpg", "rb") as image_file:
     foto_mujer = base64.b64encode(image_file.read())
 
 # with open("man.jpg","rb") as image:
@@ -75,17 +75,17 @@ def mostar(r):
 # r = getInterests()
 # mostar(r)
 
-# print "PutFotoEn"
-# justPhoto = '{"photo":"'+ foto_mujer +'"}';
-# photo = json.loads(justPhoto)
-# r = modifyFoto(photo,3)
-# mostar(r)
-
-print "Alta user mujer"
-stringUser = '{"user":{"name":"Ariel","alias":"Aru","photo_profile":"'+foto_mujer+'","age":"31","sex":"woman","email":"sirenita@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":3.1416}}}'
-user = json.loads(stringUser)
-r = postUser(user);
+print "PutFotoEn"
+justPhoto = '{"photo":"'+ foto_mujer +'"}';
+photo = json.loads(justPhoto)
+r = modifyFoto(photo,1)
 mostar(r)
+
+# print "Alta user mujer"
+# stringUser = '{"user":{"name":"Karina","alias":"Karma","photo_profile":"'+foto_mujer+'","age":"24","sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}}}'
+# user = json.loads(stringUser)
+# r = postUser(user);
+# mostar(r)
 
 # print "altaInters"
 # stringInteres = '{"interest":{"category":"sport","value":"surf"}}'
@@ -98,9 +98,9 @@ mostar(r)
 # # mostar(r)
 
 # print "modifyUser"
-# pedro = '{"user":{"id":1,"name":"Pedro","alias":"JeRo","photo_profile":"'+foto_varon2+'","age":"21","sex":"man","email":"copito@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-9.87,"longitude":1.234}}}'
-# user_2 = json.loads(pedro)
-# r = modifyUser(user_2,1)
+# stringUser = '{"user":{"id":21,"name":"Karina","alias":"Kalista","photo_profile":"'+foto_mujer+'","age":"24","sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}}}'
+# user_2 = json.loads(stringUser)
+# r = modifyUser(user_2,21)
 # mostar(r)
 
 

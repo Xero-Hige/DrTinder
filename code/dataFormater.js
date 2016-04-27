@@ -1,6 +1,6 @@
 
 module.exports = function(){
-  var version = "0.2";
+  var version = "0.2"; //deberia sacarlos del server no???
   function usersFormater(resultado){
     var objeto_sin_formato = resultado['array_to_json'];
     var array_users = [];
@@ -49,6 +49,7 @@ module.exports = function(){
       for (var i = 0; i < array_keys.length; i++){
         var element = json[array_keys[i]];
         if (!element){
+          //se podria devolver para mandar en la respuesta?
           console.log("FALTA KEY "+ array_keys[i]);
           return false;
         }
@@ -68,7 +69,6 @@ module.exports = function(){
           }
         }
 
-        //si hay un array que se llame a si mismo en el array
       }
       return true;
   }

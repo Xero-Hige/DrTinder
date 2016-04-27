@@ -105,7 +105,7 @@ module.exports = function (){
 		"longitude="+ user.location.longitude + " " +
 		"WHERE id="+ user.id + ";" +
 		//elimino todas las categorias del user y agrego otras
-		//es bastante ineficiente pero no se cuales borro y cuales no
+		//no se si es lo mejor pero sino no se cuales borro y cuales no
 		"DELETE FROM users_interest " +
 		"WHERE users_interest.id= " + user.id + ";" + 
 		queryAgregarIntereses(user.interests, user.id);
@@ -133,7 +133,7 @@ module.exports = function (){
 		"VALUES ( lastid, '" + user.location.latitude + "','" + 
 		user.location.longitude + "'); ";
 
-		//habria que revisar efectividad, no son muchos intereses pero por las dudas
+		//armo los values para insertar
 		var values_intereses = "";
 		for (var i = 0; i < user.interests.length; i++){
 			var interes = user.interests[i];
@@ -152,7 +152,7 @@ module.exports = function (){
 
 
 		return queryStart + queryUsersTable + queryLocation + queryIntereses + queryEnd  ;
-		//agrego a todas las tablas
+		
 	}
 
 	function queryActualizarFoto(text,id){
