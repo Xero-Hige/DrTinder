@@ -23,23 +23,31 @@ import android.widget.TextView;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
 /**
- * Swipe selection activity
+ * Swipe selection fragment. Where you can choose if you like someone o not.
  */
 public class SelectionFragment extends Fragment {
 
+    /**
+     * User name key in extra map
+     */
     public static final String EXTRA_USER_NAME = "name";
+    /**
+     * User age key in extra map
+     */
     public static final String EXTRA_USER_AGE = "age";
+    /**
+     * User image key in extra map
+     */
     public static final String EXTRA_USER_IMAGE = "img";
+    /**
+     * User biography key in extra map
+     */
     public static final String EXTRA_USER_BIO = "bio";
     //TODO: Remove
     private SwipeDeck mCardStack;
@@ -49,25 +57,25 @@ public class SelectionFragment extends Fragment {
 
     private Queue<Map<String, String>> mUsersQueue;
     private Map<Integer, Map<String, String>> mUsersData;
-    private View fragmentView;
+    private View mFragmentView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {
-        fragmentView = inflater.inflate(R.layout.activity_selection, container, false);
+        mFragmentView = inflater.inflate(R.layout.activity_selection, container, false);
 
-        mCardStack = (SwipeDeck) fragmentView.findViewById(R.id.swipe_deck);
+        mCardStack = (SwipeDeck) mFragmentView.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
         mCardStack.setLeftImage(R.id.card_nope);
         mCardStack.setRightImage(R.id.card_like);
-        mProgressView = fragmentView.findViewById(R.id.login_progress);
+        mProgressView = mFragmentView.findViewById(R.id.login_progress);
 
-        setButtons(fragmentView);
+        setButtons(mFragmentView);
 
         fillCardStack();
 
-        return fragmentView;
+        return mFragmentView;
     }
 
     private void fillCardStack() {
@@ -182,17 +190,6 @@ public class SelectionFragment extends Fragment {
     }
 
     private void requestUsersData() {
-
-        try {
-            InetAddress serverAddr = InetAddress.getByName("192.168.0.11");
-            Socket socket = new Socket(serverAddr, 8080);
-            byte[] buffer = new byte[1024];
-            InputStream input = socket.getInputStream();
-            int bytesRead = input.read(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         //TODO: Remove testing data
 
         mUsersQueue = new LinkedList<>();
@@ -280,7 +277,7 @@ public class SelectionFragment extends Fragment {
 
             if (success) {
                 requestUsersData();
-                setCardsAdapter(fragmentView);
+                setCardsAdapter(mFragmentView);
                 showProgress(false);
             } else {
                 Snackdebug.showMessage("Really, no more cats", getView());
@@ -290,7 +287,7 @@ public class SelectionFragment extends Fragment {
         @Override
         protected void onCancelled() {
             requestUsersData();
-            setCardsAdapter(fragmentView);
+            setCardsAdapter(mFragmentView);
             showProgress(false);
         }
     }

@@ -39,23 +39,24 @@ public class UserDetailsActivity extends AppCompatActivity {
      * Creates interests list on the view
      */
     private void setInterestsList() {
-        LinearLayout bar = (LinearLayout) findViewById(R.id.innerLay);
+        LinearLayout listLayout = (LinearLayout) findViewById(R.id.innerLay);
+
         LayoutInflater inflater = LayoutInflater.from(this);
         for (int i = 9; i > -1; i--) {
             View layout = inflater.inflate(R.layout.interest_lay, null);
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
             textView.setText("Interes: " + i);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(bar.getContext()).load(
+            Picasso.with(listLayout.getContext()).load(
                     R.drawable.ubuntu).fit().centerCrop().into(imageView);
-            bar.addView(layout);
+            listLayout.addView(layout);
 
             layout = inflater.inflate(R.layout.interest_lay, null);
             textView = (TextView) layout.findViewById(R.id.interst_txt);
             textView.setText("Interes: " + i);
             imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(bar.getContext()).load(R.drawable.logo).fit().centerCrop().into(imageView);
-            bar.addView(layout);
+            Picasso.with(listLayout.getContext()).load(R.drawable.logo).fit().centerCrop().into(imageView);
+            listLayout.addView(layout);
         }
     }
 

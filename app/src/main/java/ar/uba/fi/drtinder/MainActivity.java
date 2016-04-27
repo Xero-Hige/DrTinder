@@ -14,12 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
- * Main app activity of the app
+ * Main app activity of the app Dr Tinder. Displays the 2 main fragments
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private MenuItem actualFragmentItem;
+    private MenuItem mActualFragItem;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        actualFragmentItem = menu.findItem(R.id.action_swipe_pictures);
-        actualFragmentItem.setEnabled(false);
+        mActualFragItem = menu.findItem(R.id.action_swipe_pictures);
+        mActualFragItem.setEnabled(false);
         PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
-        actualFragmentItem.getIcon().setColorFilter(
+        mActualFragItem.getIcon().setColorFilter(
                 getResources().getColor(R.color.colorAccent), mMode);
         return true;
     }
@@ -95,12 +95,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeItemColor(MenuItem item) {
-        actualFragmentItem.setEnabled(true);
+        mActualFragItem.setEnabled(true);
         PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
-        actualFragmentItem.getIcon().setColorFilter(getResources().getColor(R.color.icons), mMode);
-        actualFragmentItem = item;
-        actualFragmentItem.setEnabled(false);
-        actualFragmentItem.getIcon().setColorFilter(
+        mActualFragItem.getIcon().setColorFilter(getResources().getColor(R.color.icons), mMode);
+        mActualFragItem = item;
+        mActualFragItem.setEnabled(false);
+        mActualFragItem.getIcon().setColorFilter(
                 getResources().getColor(R.color.accent), mMode);
     }
 

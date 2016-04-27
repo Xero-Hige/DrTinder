@@ -17,11 +17,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Chat session activity. Represents a chat session between 2 users.
+ */
 public class ChatSession extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_chat_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -35,15 +38,15 @@ public class ChatSession extends AppCompatActivity {
         ImageView img = (ImageView) findViewById(R.id.backdrop);
         img.setImageResource(R.drawable.gato_5);
 
-        FloatingActionButton b = (FloatingActionButton) this.findViewById(R.id.fab);
-        b.setOnClickListener(v -> lastMessageAnimation());
+        FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
+        scrollDownFB.setOnClickListener(listener -> lastMessageAnimation());
 
     }
 
     private void addSendListener() {
-        ImageButton b = (ImageButton) this.findViewById(R.id.send);
-        b.setOnClickListener(
-                v -> {
+        ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
+        sendButton.setOnClickListener(
+                listener -> {
                     LinearLayout bar = (LinearLayout) this.findViewById(R.id.messages);
                     EditText msgView = (EditText) findViewById(R.id.message);
                     LayoutInflater inflater = LayoutInflater.from(this);

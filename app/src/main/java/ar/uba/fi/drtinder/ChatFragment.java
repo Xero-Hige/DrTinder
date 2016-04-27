@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Chat list fragment
+ */
 public class ChatFragment extends Fragment {
 
     @Override
@@ -33,7 +36,7 @@ public class ChatFragment extends Fragment {
                     R.drawable.gato_5).fit().centerCrop().into(imageView);
 
             final int finalI = i;
-            imageView.setOnClickListener(v -> {
+            imageView.setOnClickListener(listener -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
                 menuIntent.putExtra("User", "Gata " + finalI);
                 startActivity(menuIntent);
@@ -51,7 +54,7 @@ public class ChatFragment extends Fragment {
             Picasso.with(bar.getContext()).load(
                     R.drawable.gato_5).fit().centerCrop().into(imageView);
 
-            imageView.setOnClickListener(v -> {
+            imageView.setOnClickListener(listener -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
                 menuIntent.putExtra("User", "Gata " + (finalI + 1));
                 startActivity(menuIntent);

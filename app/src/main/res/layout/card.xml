@@ -24,7 +24,6 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             tools:src="@color/bel_red_text" />
-        //"@drawable/gato_3" />
 
         <ImageView
             android:id="@+id/card_like"
@@ -51,7 +50,6 @@
             android:layout_alignParentBottom="true"
             android:background="#a30505"
             android:backgroundTint="#83f1f4e8"
-            android:text="GATA"
             android:textAlignment="textStart"
             android:textSize="30sp" />
     </RelativeLayout>
