@@ -17,4 +17,9 @@
     <color name="colorPrimary_text">#212121</color>
     <color name="colorSecondary_text">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
+
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="coloPrimaryLight">#D1C4E9</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
 </resources>
