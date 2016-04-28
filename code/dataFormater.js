@@ -45,6 +45,7 @@ module.exports = function(){
     interests: ["category","value"]
   }
 
+  //MEJORAR TODO
   function hasKeys(array_keys, json){
       for (var i = 0; i < array_keys.length; i++){
         var element = json[array_keys[i]];

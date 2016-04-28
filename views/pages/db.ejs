@@ -3,9 +3,26 @@
 <head>
 	<% include ../partials/header.ejs %>
 	<script type ="text/javascript" src="scripts/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/templateDB.js"></script>
 </head>
 
 <body>
+<% function isSpecialKey(key){ %>
+	<% specialKeys = ["interests","location","photo_profile"]; %>
+	<% return (specialKeys.indexOf(key) >= 0); %>
+<% } %>
+
+<% function interesesPorCategoria(interests) { %>
+	<% var interesesOrdenados = {}%> 
+	<% interests.forEach(function(cat){ %>
+		<% if (!(cat.category in interesesOrdenados)){ %>
+			<% interesesOrdenados[cat.category]=[cat.value]; %>
+		<% } else { %>
+		<% interesesOrdenados[cat.category].push(cat.value); %>
+		<% } %>
+	<% }); %>
+	<% return interesesOrdenados%>
+<% } %>
 
 	<% include ../partials/nav.ejs %>
 	<div class="container">
@@ -21,7 +38,7 @@
 					<!--Header users attributes-->
 					<% var keys = Object.keys(results[0].user); %>
 					<% keys.forEach(function (key){ %>
-					<% if ( key == "interests" || key == "location" || key == "photo_profile" ) { %>
+					<% if ( isSpecialKey(key) ) { %>
 					
 					<% } else {%>
 					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= key %></th>
@@ -40,7 +57,7 @@
 				<tr id ="<%= id %>">
 					<% for (var i = 0; i < keys.length; i++) { %>
 					<% var value = r.user[keys[i]]; %>
-					<% if ( keys[i] == "interests" || keys[i] == "location" || keys[i] == "photo_profile") { %>
+					<% if ( isSpecialKey(keys[i]) ) { %>
 					
 					<% } else {%>
 					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= value %></td>
@@ -48,15 +65,9 @@
 					<% } %>
 					
 					<!--lista de categorias-->
-					<% var intereses = r.user["interests"];%>
-					<% var intereses_por_categoria = {};%>
-					<% intereses.forEach(function(cat){ %>
-					<% if (!(cat.category in intereses_por_categoria)){ %>
-					<% intereses_por_categoria[cat.category]=[cat.value]; %>
-					<% } else { %>
-					<% intereses_por_categoria[cat.category].push(cat.value); %>
-					<% } %>
-					<% }); %>
+					
+					<% var interesesOrdenados = interesesPorCategoria(r.user["interests"]);%>
+
 
 					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
 						<div class="btn-group"> 
@@ -66,9 +77,9 @@
 
 							<ul class="dropdown-menu" aria-labelledby="drop-int-<%= id %>">
 
-								<% for (key in intereses_por_categoria){ %>
+								<% for (key in interesesOrdenados){ %>
 								<li class="dropdown-header"><%= key %></li>
-								<% intereses_por_categoria[key].forEach(function(val){ %>
+								<% interesesOrdenados[key].forEach(function(val){ %>
 								<li><%= val%></li>
 								<% }); %>
 								<% } %>
@@ -115,25 +126,17 @@
 				</div>
 				<div class="modal-body">
 					<!--Lista categorias intereses completa-->
-					<% var intereses_por_categoria = {};%>
-					<% intereses.forEach(function(cat){ %>
-					<% if (!(cat.category in intereses_por_categoria)){ %>
-					<% intereses_por_categoria[cat.category]=[cat.value]; %>
-					<% } else { %>
-					<% intereses_por_categoria[cat.category].push(cat.value); %>
-					<% } %>
-					<% }); %>
+					<% var interesesOrdenados = interesesPorCategoria(intereses);%>
 
-				
 					<div class = "list-group">
 						<!--Chosen con itereses-->
 						<div class="list-group-item">
 							<em>Interests</em>
 							<select data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
 								<option value=""></option>
-								<% for (category in intereses_por_categoria){ %>
+								<% for (category in interesesOrdenados){ %>
 								<optgroup label="<%= category %>" >
-									<% intereses_por_categoria[category].forEach(function(value){ %>
+									<% interesesOrdenados[category].forEach(function(value){ %>
 									<option><%= value%></option>
 									<% }); %>
 									<% } %>
@@ -143,7 +146,7 @@
 
 						<!--Atributos basicos-->
 						<% keys.forEach(function (key) { %>
-						<% if (key == "interests" ||  key == "location" || key == "photo_profile" || key == "id" ) { %>
+						<% if ( isSpecialKey(key) ) { %>
 
 						<% } else { %>
 						<div class = "list-group-item">
