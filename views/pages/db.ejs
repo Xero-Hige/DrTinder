@@ -146,7 +146,7 @@
 
 						<!--Atributos basicos-->
 						<% keys.forEach(function (key) { %>
-						<% if ( isSpecialKey(key) ) { %>
+						<% if ( isSpecialKey(key) || key == "id" ) { %>
 
 						<% } else { %>
 						<div class = "list-group-item">

@@ -4,8 +4,8 @@ var proccess = require('../../proccess.js');
 var formater = require('../../dataFormater.js');
 var respondRenderDatos = require('../../processCallbacks.js').respondRenderDatos;
 var successGetUsersAndInterests = require('../../ApiMethods/GET/successGet.js').successGetUsersAndInterests;
-//requiere getUsers
-console.log(successGetUsersAndInterests);
+
+
 module.exports = function(request,response){
 
 	var processrenderDatos=function(result, response){
