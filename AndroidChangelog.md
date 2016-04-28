@@ -1,4 +1,4 @@
-## Version [0.0.0.0](https://github.com/Xero-Hige/DrTinder/tree/AppVersion_0.0.0.0)
+## Version [0.0.0.0](https://github.com/Xero-Hige/DrTinder/releases/tag/v0.0.0-alpha)
 #### *First sprint Mock* - 28/04/16
 
 ### App Features:
