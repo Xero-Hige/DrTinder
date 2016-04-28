@@ -8,14 +8,19 @@
 
 #define DEFAULT_PORT_NUMBER 8080
 
+/* Server that listens incomming connections. */
 class Server {
     public:
+	/* Create new multithreaded server. */
         Server();
+	/* Close connections and destroy server. */
         virtual ~Server();
+	/* Check for new event. */
         void run();
+	/* Set initialized usersDB. */
         void setUsersDB(UsersDatabase *database);
-
     protected:
+	/* Proccess new_event from act_connection. */
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
     private:
         struct mg_mgr manager_;

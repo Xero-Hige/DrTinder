@@ -6,6 +6,7 @@
 
 #define QUIT_LINE "quit"
 
+/* Check std::cin for QUIT_LINE. */
 void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	std::string line;
 	while (line.compare(QUIT_LINE) != 0) {
@@ -16,6 +17,7 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result_mutex.unlock();
 }
 
+/* Set up server and listen to incomming connections. */
 int main() {
 	Server server;
 	
