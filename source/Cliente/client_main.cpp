@@ -1,4 +1,6 @@
 #include <iostream>
+#include <mutex>
+#include <thread>
 #include "Client.h"
 
 #define QUIT_LINE "quit"
