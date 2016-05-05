@@ -2,7 +2,10 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
-//var functions = require('./resolveQuerys');
+var validateInterest = require('./code/validator.js').validateInterest;
+var validateInterests = require('./code/validator.js').validateInterests;
+var validateUser = require('./code/validator.js').validateUser;
+var validateUsers = require('./code/validator.js').validateUsers;
 
 //funciones a usar en API y la pagina
 var _APIdir = './code/ApiMethods/';
@@ -27,14 +30,6 @@ var modifyUserAPI = require( _put + _user);
 var putFotoAPI = require(_put + _photo);
 var deleteUserAPI = require( _del + _user);
 var renderDatos = require ( _render );
-
-// var getInterestsAPI = functions.getInterests;
-// var postUserAPI = functions.postUser;
-// var postInteresAPI = functions.postInteres ;
-// var modifyUserAPI = functions.modifyUser;
-// var putFotoAPI = functions.putFoto;
-// var deleteUserAPI = functions.deleteUser;
-// var renderDatos = functions.renderDatos;
 
 //para recibir json
 app.use(bodyParser.json({limit: '50mb'}));
@@ -63,7 +58,6 @@ app.use('/db', express.static(__dirname + '/public'));
 app.get('/db', function(request, response) {
   renderDatos(request, response);
 });
-
 
 //set API
 router.route('/users').get(getUsersAPI).post(postUserAPI);
