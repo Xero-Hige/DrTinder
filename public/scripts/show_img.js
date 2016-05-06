@@ -48,14 +48,14 @@ function postUser(user){
 				$("#new_user").modal("hide");
 			}
 			if (xhttp.status >= 400) {
-				$("#err_msg").text("ERR "+ xhttp.status);
+				$("#err_msg").text("ERR "+ xhttp.responseText);
 			}
 		}  
 	};
 	//http://
-	//localhost:5000
-	//dr-tinder.herokuapp.com
-	xhttp.open("POST", "http://dr-tinder.herokuapp.com/users", true);
+	var local = "localhost:5000"
+	var page = "dr-tinder.herokuapp.com"
+	xhttp.open("POST", "http://" + local + "/users", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send(JSON.stringify(user));
 }
@@ -103,7 +103,13 @@ function _createUser(basic_info, location_list, interests_values){
 	for (var i = 0; i < basic_info.length; i++){
 		var key = basic_info[i].querySelector('span').textContent;
 		var value = basic_info[i].querySelector('input').value;
-		user[key] = value;
+		if ( key == 'age'){
+			user[key] = parseInt(value);
+		}else{
+			user[key] = value;
+		}
+		
+
 		if (!(validate(value,['novacio',key]))){
 			keys_mal.push(key);
 		}
@@ -113,7 +119,7 @@ function _createUser(basic_info, location_list, interests_values){
 	for (i = 0; i < location_list.length; i++){
 		var x = location_list[i].getAttribute('placeholder');
 		var value = location_list[i].value;
-		location[x] = value;
+		location[x] = parseFloat(value);
 		if (!(validate(value,['novacio','float']))){
 			keys_mal.push(x);
 		}

@@ -1,7 +1,6 @@
 var queryDatabase = require('../../queryDatabase.js');
 var queryCreator = require('../../queryCreator.js');
 var proccess = require('../../proccess.js');
-var formater = require('../../dataFormater.js');
 var respondRenderDatos = require('../../processCallbacks.js').respondRenderDatos;
 var successGetUsersAndInterests = require('../../ApiMethods/GET/successGet.js').successGetUsersAndInterests;
 

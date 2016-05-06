@@ -23,7 +23,7 @@ exports.respondJson = function(resultado, respuesta) {
   if (resultado.status >= 400) {
     respondSimple(resultado, respuesta);
   } else {
-    console.log(resultado.result);
+    //console.log(resultado.result);
     respuesta.status(resultado.status).jsonp(resultado.result);
   }
 }

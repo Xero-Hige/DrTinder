@@ -46,8 +46,8 @@ def modifyFoto(photo,id):
 # print getUser(1).text
 # print getUsers().text
 # print getInterests().text
-# with open("man.jpg", "rb") as image_file:
-#     foto_mujer = base64.b64encode(image_file.read())
+with open("woman.jpg", "rb") as image_file:
+    foto_mujer = base64.b64encode(image_file.read())
 
 # with open("man.jpg","rb") as image:
 # 	foto_varon = base64.b64encode(image.read())
@@ -82,7 +82,7 @@ def mostar(r):
 # mostar(r)
 
 # print "Alta user mujer"
-# stringUser = '{"user":{"name":"Karina","alias":"Karma","photo_profile":"'+foto_mujer+'","age":"24","sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}}}'
+# stringUser = '{"user":{"id":21,"name":"Karina","alias":"Kalista","photo_profile":"'+foto_mujer+'","age":24,"sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}},"metadata":{"version":"1.0"}}'
 # user = json.loads(stringUser)
 # r = postUser(user);
 # mostar(r)
@@ -98,7 +98,7 @@ def mostar(r):
 # mostar(r)
 
 # print "modifyUser"
-# stringUser = '{"user":{"id":21,"name":"Karina","alias":"Kalista","photo_profile":"'+foto_mujer+'","age":"24","sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}}}'
+# stringUser = '{"user":{"id":21,"name":"Karina","alias":"Kalista","photo_profile":"'+foto_mujer+'","age":24,"sex":"woman","email":"escudo@gmail.com","interests":[{"category":"music","value":"rock"},{"category":"music/band","value":"pearl jam"},{"category":"sport","value":"tennis"}],"location":{"latitude":-3.23,"longitude":1.1416}},"metadata":{"version":"1.0"}}'
 # user_2 = json.loads(stringUser)
 # r = modifyUser(user_2,21)
 # mostar(r)

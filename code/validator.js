@@ -61,7 +61,27 @@ var _userSchema= {
       	},
   		"location":{"$ref": "/Location"},
   	},
-  	"required":["id","name","alias","sex","email","photo_profile","age","interests","location"]
+  	"required":["name","alias","sex","email","photo_profile","age","interests","location","id"]
+};
+
+var _userPostSchema = {
+  	"id": "/UserPostBase",
+  	"type": "object",
+  	"properties": {
+  		"name": {"type": "string"},
+  		"alias": {"type": "string"},
+  		"sex":{"type": "string"},
+  		"email":{"type": "string"},
+  		"photo_profile":{"type": "string"},
+  		"age":{"type": "integer"},
+  		"interests": {
+        	"type": "array",
+        	"items": {"$ref": "/Interest"},
+        	"minItems": 1
+      	},
+  		"location":{"$ref": "/Location"},
+  	},
+  	"required":["name","alias","sex","email","photo_profile","age","interests","location"]
 };
 
 var userSchema = {
@@ -69,6 +89,15 @@ var userSchema = {
 	"type":"object",
 	"properties": {
 		"user":{"$ref":"/UserBase","required":"true"}
+	}
+}
+
+var userPostSchema = {
+	"id": "/User",
+	"type":"object",
+	"properties": {
+		"user":{"$ref":"/UserPostBase","required":"true"},
+		"metadata":{"$ref":"/metaSCSchema","required":"true"}
 	}
 }
 
@@ -125,33 +154,41 @@ v.addSchema(locationSchema,"/Location");
 v.addSchema(_userSchema, "/UserBase");
 v.addSchema(interestSchema, "/Interest");
 v.addSchema(userSchema, "/User");
+v.addSchema(_userPostSchema,"/UserPostBase");
 
-function errors(object,schema){
+function validate(object,schema){
 	var err = v.validate(object,schema).errors;
 	var msgs = [];
+	var ok = true;
 	for (var i = 0; i < err.length; i++){
 		var err_msg = "";
 		err_msg+= err[i].property.replace("instance.","") + " ";
 		err_msg+= err[i].message;
 		msgs.push(err_msg);
 	}
-	return msgs;
+	if (msgs.length > 0 ){
+		ok = false;
+	}
+	return {ok: ok, msg: msgs};
 }
 
 exports.validateUsers = function(users) {
-	return errors(users, usersSchema);
+	return validate(users, usersSchema);
 }
 exports.validateInterests = function(interests){
-	return errors(interests,interests);
+	return validate(interests,interests);
 }
 exports.validateInterestSinMeta = function(interest){
-	return errors(interest,interestSchema);
+	return validate(interest,interestSchema);
 }
 exports.validateInterest = function(interest){
-	return errors(interest,interestMetaSchema);
+	return validate(interest,interestMetaSchema);
 }
 exports.validateUser = function (user) {
-	return errors(user,userMetaSchema);
+	return validate(user,userMetaSchema);
+}
+exports.validatePostUser = function (user){
+	return validate(user, userPostSchema);
 }
 
 
