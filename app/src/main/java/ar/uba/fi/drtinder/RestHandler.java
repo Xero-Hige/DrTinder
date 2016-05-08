@@ -1,6 +1,12 @@
 package ar.uba.fi.drtinder;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -21,14 +27,62 @@ import org.springframework.web.client.RestTemplate;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses
  */
+
+/**
+ * FIXME: Rename class
+ */
 public class RestHandler {
 
+    static final String USER_IMAGE = "http://demo2753541.mockable.io/users/image/";
+
     static byte[] getUserImage(String userId) {
-        String url = "http://demo2753541.mockable.io/users/image/" + userId;
+        String url = USER_IMAGE + userId;
+        Log.i("INFO:  ", url);
+
+        return getBase64Img(url);
+    }
+
+    static void fillImageResource(String imageId, String resourceType, ImageView imgView, Context context) {
+        String url = resourceType + imageId;
+        Log.i("INFO Loading: ", url);
+
+        FetchImageTask task = new FetchImageTask(url, imgView, context);
+        task.execute();
+    }
+
+    private static byte[] getBase64Img(String imageUrl) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        String result = restTemplate.getForObject(url, String.class, "Android");
+        String result = restTemplate.getForObject(imageUrl, String.class, "Android");
 
         return Base64.decode(result, Base64.DEFAULT);
+    }
+
+    private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
+
+
+        private final String imageUrl;
+        private final ImageView imageView;
+        private final Context context;
+        private byte[] imageArray;
+
+        FetchImageTask(String resourceUrl, ImageView imageView, Context context) { //FIXME Names
+            this.imageUrl = resourceUrl;
+            this.imageView = imageView;
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            imageArray = getBase64Img(imageUrl);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) return;
+            Glide.with(context).load(imageArray).centerCrop().into(imageView);
+
+        }
     }
 }

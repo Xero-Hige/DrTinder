@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -195,10 +194,9 @@ public class SelectionFragment extends Fragment {
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
-
-        addUserCard(0, "Gata 1", "21", String.valueOf(R.drawable.gato_3), "Una Gata");
-        addUserCard(1, "Gata 2", "21", String.valueOf(R.drawable.gato_3), "Una Gata");
-        addUserCard(2, "Gata 3", "21", String.valueOf(R.drawable.gato_3), "Una Gata");
+        addUserCard(0, "Gata 1", "21", "barrios", "Una Gata");
+        addUserCard(1, "Gata 2", "21", "gatiensa", "Una Gata");
+        addUserCard(2, "Gata 3", "21", "gatiensa", "Una Gata");
 
         String bio = "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA"
                 + " DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e"
@@ -207,13 +205,13 @@ public class SelectionFragment extends Fragment {
                 + "Si queres conocerme, dale like o super like (previa lectura de mi simpatica"
                 + " plaquita) =)";
 
-        addUserCard(3, "Tienda", "25", String.valueOf(R.drawable.gato_4), bio);
+        addUserCard(3, "Tienda", "25", "tienda", bio);
 
         bio = "Joven estudiante de 21 años que cursa la carrera de Literatura"
                 + "en la Universidad de Washington. Vivo con mi mejor amiga, Katherine Kavanagh, "
                 + "quien escribe para el periódico estudiantil de su universidad.";
 
-        addUserCard(4, "Anastasia Steele", "21", String.valueOf(R.drawable.gato_5), bio);
+        addUserCard(4, "Anastasia Steele", "21", "burno", bio);
 
         //TODO: remove testing data
     }
@@ -332,13 +330,13 @@ public class SelectionFragment extends Fragment {
                 view = inflater.inflate(R.layout.card, parent, false);
             }
 
+            fillUserImage(position, view);
+
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
             layoutParams.height = (int) getActivity().getResources().getDimension(
                     R.dimen.activity_horizontal_margin);
             view.setLayoutParams(layoutParams);
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.card_picture);
-            Picasso.with(mContext).load(getResourceId(position)).fit().centerCrop().into(imageView);
             TextView textView = (TextView) view.findViewById(R.id.card_text);
 
             String item = mUsersData.get(position).get(EXTRA_USER_NAME) + " , '"
@@ -354,9 +352,13 @@ public class SelectionFragment extends Fragment {
             return view;
         }
 
-        private Integer getResourceId(int position) {
-            return Integer.parseInt(mUsersData.get(position).get(EXTRA_USER_IMAGE));
+        private void fillUserImage(int position, View context) {
+            String userId = mUsersData.get(position).get(EXTRA_USER_IMAGE); //FIXME change to user id
+            ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
+            RestHandler.fillImageResource(userId, RestHandler.USER_IMAGE, imageView, mContext);
         }
+
+
     }
 
 }

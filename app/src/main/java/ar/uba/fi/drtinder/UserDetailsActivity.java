@@ -75,8 +75,9 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
     private void setUserImage(Intent intent) {
-        ImageView img = (ImageView) findViewById(R.id.backdrop);
-        int resId = Integer.parseInt(intent.getStringExtra(SelectionFragment.EXTRA_USER_IMAGE));
-        img.setImageResource(resId);
+        ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        String userId = intent.getStringExtra(SelectionFragment.EXTRA_USER_IMAGE);
+
+        RestHandler.fillImageResource(userId, RestHandler.USER_IMAGE, imageView, getBaseContext());
     }
 }
