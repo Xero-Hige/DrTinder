@@ -3,13 +3,20 @@ package ar.uba.fi.drtinder;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.common.io.ByteStreams;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * RestHandler.java
@@ -33,20 +40,35 @@ import org.springframework.web.client.RestTemplate;
  */
 public class RestHandler {
 
-    static final String USER_IMAGE = "http://demo2753541.mockable.io/users/image/";
+    static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
 
-    static byte[] getUserImage(String userId) {
-        String url = USER_IMAGE + userId;
-        Log.i("INFO:  ", url);
+    static final int RES_USER_IMG = 0;
 
-        return getBase64Img(url);
+    static final HashMap<String, String> cacheMap = new HashMap<>();
+
+    static private String getUrlByType(Integer type) {
+        switch (type) {
+            case RES_USER_IMG:
+                return USER_IMAGE_URL;
+            default:
+                return "";
+        }
     }
 
-    static void fillImageResource(String imageId, String resourceType, ImageView imgView, Context context) {
-        String url = resourceType + imageId;
-        Log.i("INFO Loading: ", url);
+    static private String getCacheKey(int resourceType, String resId) {
+        return String.format("%d::%s", resourceType, resId);
+    }
 
-        FetchImageTask task = new FetchImageTask(url, imgView, context);
+    static void fillImageResource(String imageId, int resourceType, ImageView imgView, Context context) {
+        String cacheKey = getCacheKey(resourceType, imageId);
+
+        if (cacheMap.containsKey(cacheKey)) {
+            byte[] img = recoverCachedImg(cacheKey);
+            Glide.with(context).load(img).centerCrop().into(imgView);
+            return;
+        }
+
+        FetchImageTask task = new FetchImageTask(resourceType, imageId, imgView, context);
         task.execute();
     }
 
@@ -58,18 +80,52 @@ public class RestHandler {
         return Base64.decode(result, Base64.DEFAULT);
     }
 
+    private static void cacheImgFile(String cacheKey, byte[] dataArray, Context context) {
+        String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
+
+        FileOutputStream file;
+        try {
+            file = new FileOutputStream(cachePath);
+        } catch (FileNotFoundException e) {
+            return; //TODO: Check
+        }
+
+        try {
+            file.write(dataArray);
+            file.close();
+        } catch (IOException e) {
+            return; //TODO: Check
+        }
+
+        cacheMap.put(cacheKey, cachePath);
+    }
+
+    private static byte[] recoverCachedImg(String cacheKey) {
+        String path = cacheMap.get(cacheKey);
+        try {
+            FileInputStream input = new FileInputStream(path);
+            return ByteStreams.toByteArray(input);
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException ignored) {
+            return null; //TODO: Check
+        }
+    }
+
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
-
         private final String imageUrl;
+        private final String cacheKey;
         private final ImageView imageView;
         private final Context context;
         private byte[] imageArray;
 
-        FetchImageTask(String resourceUrl, ImageView imageView, Context context) { //FIXME Names
-            this.imageUrl = resourceUrl;
+        FetchImageTask(int resourceType, String resId, ImageView imageView, Context context) { //FIXME Names
+            String url = getUrlByType(resourceType);
+            this.imageUrl = url + resId;
             this.imageView = imageView;
             this.context = context;
+            this.cacheKey = getCacheKey(resourceType, resId);
         }
 
         @Override
@@ -83,6 +139,8 @@ public class RestHandler {
             if (!success) return;
             Glide.with(context).load(imageArray).centerCrop().into(imageView);
 
+            cacheImgFile(cacheKey, imageArray, context);
         }
+
     }
 }
