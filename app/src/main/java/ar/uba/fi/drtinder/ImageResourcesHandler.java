@@ -38,7 +38,7 @@ import java.util.HashMap;
 /**
  * FIXME: Rename class
  */
-public class RestHandler {
+public class ImageResourcesHandler {
 
     static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
 

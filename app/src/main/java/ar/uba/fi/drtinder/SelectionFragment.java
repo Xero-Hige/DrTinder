@@ -355,7 +355,7 @@ public class SelectionFragment extends Fragment {
         private void fillUserImage(int position, View context) {
             String userId = mUsersData.get(position).get(EXTRA_USER_IMAGE); //FIXME change to user id
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
-            RestHandler.fillImageResource(userId, RestHandler.RES_USER_IMG, imageView, mContext);
+            ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, mContext);
         }
 
 
