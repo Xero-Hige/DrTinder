@@ -48,6 +48,11 @@ public class StringResourcesHandler {
         }
     }
 
+    static void executeQuery(String resId, int resourceType, DataOperation operation) {
+        FetchDataTask task = new FetchDataTask(resourceType, resId, operation);
+        task.execute();
+    }
+
     private static List<String[]> fetchData(String queryUrl) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
