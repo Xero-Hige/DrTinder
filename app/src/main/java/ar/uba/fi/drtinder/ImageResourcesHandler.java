@@ -17,9 +17,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
- * RestHandler.java
+ * ImageResourcesHandler.java
  * <p>
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
@@ -36,7 +37,7 @@ import java.util.HashMap;
  */
 
 /**
- * FIXME: Rename class
+ *
  */
 public class ImageResourcesHandler {
 
@@ -45,6 +46,8 @@ public class ImageResourcesHandler {
     static final int RES_USER_IMG = 0;
 
     static final HashMap<String, String> cacheMap = new HashMap<>();
+    static final HashMap<String, Integer> fetchingMap = new HashMap<>();
+
 
     static private String getUrlByType(Integer type) {
         switch (type) {
@@ -56,18 +59,18 @@ public class ImageResourcesHandler {
     }
 
     static private String getCacheKey(int resourceType, String resId) {
-        return String.format("%d::%s", resourceType, resId);
+        return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId);
+    }
+
+    static void prefetch(String imageId, int resourceType, Context context) {
+        String cacheKey = getCacheKey(resourceType, imageId);
+        if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) return;
+
+        FetchImageTask task = new FetchImageTask(resourceType, imageId, null, context);
+        task.execute();
     }
 
     static void fillImageResource(String imageId, int resourceType, ImageView imgView, Context context) {
-        String cacheKey = getCacheKey(resourceType, imageId);
-
-        if (cacheMap.containsKey(cacheKey)) {
-            byte[] img = recoverCachedImg(cacheKey);
-            Glide.with(context).load(img).centerCrop().into(imgView);
-            return;
-        }
-
         FetchImageTask task = new FetchImageTask(resourceType, imageId, imgView, context);
         task.execute();
     }
@@ -98,6 +101,7 @@ public class ImageResourcesHandler {
         }
 
         cacheMap.put(cacheKey, cachePath);
+        fetchingMap.remove(cacheKey);
     }
 
     private static byte[] recoverCachedImg(String cacheKey) {
@@ -130,15 +134,29 @@ public class ImageResourcesHandler {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            imageArray = getBase64Img(imageUrl);
+            while (fetchingMap.containsKey(cacheKey)) {
+                try {
+                    Thread.sleep(1000, 0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace(); //TODO: Check
+                }
+            }
+
+            if (cacheMap.containsKey(cacheKey))
+                imageArray = recoverCachedImg(cacheKey);
+            else {
+                fetchingMap.put(cacheKey, 0);
+                imageArray = getBase64Img(imageUrl);
+            }
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) return;
-            Glide.with(context).load(imageArray).centerCrop().into(imageView);
-
+            if (imageView != null) {
+                Glide.with(context).load(imageArray).centerCrop().into(imageView);
+            }
             cacheImgFile(cacheKey, imageArray, context);
         }
 

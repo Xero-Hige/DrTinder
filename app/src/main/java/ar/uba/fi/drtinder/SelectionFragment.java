@@ -191,6 +191,11 @@ public class SelectionFragment extends Fragment {
     private void requestUsersData() {
         //TODO: Remove testing data
 
+        ImageResourcesHandler.prefetch("barrios", ImageResourcesHandler.RES_USER_IMG, getContext());
+        ImageResourcesHandler.prefetch("gatiensa", ImageResourcesHandler.RES_USER_IMG, getContext());
+        ImageResourcesHandler.prefetch("tienda", ImageResourcesHandler.RES_USER_IMG, getContext());
+        ImageResourcesHandler.prefetch("burno", ImageResourcesHandler.RES_USER_IMG, getContext());
+
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
@@ -262,6 +267,7 @@ public class SelectionFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             try {
                 // Simulate network access.
+                requestUsersData();
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
@@ -274,7 +280,6 @@ public class SelectionFragment extends Fragment {
             showProgress(false);
 
             if (success) {
-                requestUsersData();
                 setCardsAdapter(mFragmentView);
                 showProgress(false);
             } else {
