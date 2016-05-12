@@ -54,9 +54,11 @@ public class StringResourcesHandler {
     }
 
     private static List<String[]> fetchData(String queryUrl) {
+        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         String result = restTemplate.getForObject(queryUrl, String.class, "Android");
+        DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
 
         StringReader stringReader = new StringReader(result);
         List<String[]> output = new ArrayList<>();
@@ -80,8 +82,8 @@ public class StringResourcesHandler {
         return output;
     }
 
-    public abstract static class DataOperation {
-        public abstract void execute(List<String[]> data);
+    public interface DataOperation {
+        void execute(List<String[]> data);
     }
 
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
