@@ -48,6 +48,11 @@ public class SelectionFragment extends Fragment {
      * User biography key in extra map
      */
     public static final String EXTRA_USER_BIO = "bio";
+
+    private static final int USER_NAME = 0;
+    private static final int USER_AGE = 1;
+    private static final int USER_ID = 2;
+    private static final int USER_BIO = 3;
     //TODO: Remove
     private SwipeDeck mCardStack;
 
@@ -79,7 +84,7 @@ public class SelectionFragment extends Fragment {
 
     private void fillCardStack() {
         showProgress(true);
-        UsersFetchTask mAuthTask = new UsersFetchTask(getContext());
+        UsersFetchTask mAuthTask = new UsersFetchTask();
         mAuthTask.execute((Void) null);
     }
 
@@ -143,7 +148,7 @@ public class SelectionFragment extends Fragment {
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * TODO: Check this, not working
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -189,36 +194,29 @@ public class SelectionFragment extends Fragment {
     }
 
     private void requestUsersData() {
-        //TODO: Remove testing data
-
-        ImageResourcesHandler.prefetch("barrios", ImageResourcesHandler.RES_USER_IMG, getContext());
-        ImageResourcesHandler.prefetch("gatiensa", ImageResourcesHandler.RES_USER_IMG, getContext());
-        ImageResourcesHandler.prefetch("tienda", ImageResourcesHandler.RES_USER_IMG, getContext());
-        ImageResourcesHandler.prefetch("burno", ImageResourcesHandler.RES_USER_IMG, getContext());
-
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
-        addUserCard(0, "Gata 1", "21", "barrios", "Una Gata");
-        addUserCard(1, "Gata 2", "21", "gatiensa", "Una Gata");
-        addUserCard(2, "Gata 3", "21", "gatiensa", "Una Gata");
-
-        String bio = "EN ESTE HIPERMERCADO SECTOR CARNES, BUSCO HACER LA"
-                + " DIFERENCIA. Soy de Zona sur, tengo 35 años y busco algun chico lindo e"
-                + " interesante para conocer y salir. Sin apuros, pero con buenas intenciones. Soy"
-                + " copada, simpatica y compañera. Buena gente, positiva y siempre para adelante. "
-                + "Si queres conocerme, dale like o super like (previa lectura de mi simpatica"
-                + " plaquita) =)";
-
-        addUserCard(3, "Tienda", "25", "tienda", bio);
-
-        bio = "Joven estudiante de 21 años que cursa la carrera de Literatura"
-                + "en la Universidad de Washington. Vivo con mi mejor amiga, Katherine Kavanagh, "
-                + "quien escribe para el periódico estudiantil de su universidad.";
-
-        addUserCard(4, "Anastasia Steele", "21", "burno", bio);
-
-        //TODO: remove testing data
+        StringResourcesHandler.executeQuery("christianGray", StringResourcesHandler.USER_CANDIDATES,
+                data -> {
+                    int excluded = 0;
+                    int i = 0;
+                    for (; i < data.size(); i++) {
+                        String[] userData = data.get(i);
+                        if (userData.length != 4) {
+                            excluded++;
+                            continue;
+                        }
+                        ImageResourcesHandler.prefetch(userData[USER_ID], ImageResourcesHandler.RES_USER_IMG, getContext());
+                        addUserCard(i - excluded, userData[USER_NAME], userData[USER_AGE], userData[USER_ID], userData[USER_BIO]);
+                    }
+                    if (i - excluded > 0) {
+                        setCardsAdapter(mFragmentView);
+                        showProgress(false);
+                    } else {
+                        Snackdebug.showMessage("Really, no more cats", getView());
+                    }
+                });
     }
 
     private void addUserCard(int index, String name, String age, String image, String bio) {
@@ -248,50 +246,22 @@ public class SelectionFragment extends Fragment {
      */
     public class UsersFetchTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final Context mTaskContext;
-
-        /**
-         * Creates a new Login task
-         *
-         * @param context Calling activity context
-         */
-        UsersFetchTask(Context context) {
-            this.mTaskContext = context;
-        }
-
         /**
          * @param params params
          * @return Task successful
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            try {
-                // Simulate network access.
-                requestUsersData();
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            requestUsersData();
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            showProgress(false);
-
-            if (success) {
-                setCardsAdapter(mFragmentView);
-                showProgress(false);
-            } else {
-                Snackdebug.showMessage("Really, no more cats", getView());
-            }
         }
 
         @Override
         protected void onCancelled() {
-            requestUsersData();
-            setCardsAdapter(mFragmentView);
-            showProgress(false);
         }
     }
 
