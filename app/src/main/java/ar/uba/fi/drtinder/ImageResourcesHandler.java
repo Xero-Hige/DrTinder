@@ -76,9 +76,11 @@ public class ImageResourcesHandler {
     }
 
     private static byte[] getBase64Img(String imageUrl) {
+        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         String result = restTemplate.getForObject(imageUrl, String.class, "Android");
+        DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
 
         return Base64.decode(result, Base64.DEFAULT);
     }
