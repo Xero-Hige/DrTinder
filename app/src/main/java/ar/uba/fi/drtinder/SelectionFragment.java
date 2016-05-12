@@ -108,6 +108,9 @@ public class SelectionFragment extends Fragment {
             //FIXME: remove debug information
             @Override
             public void cardSwipedLeft(int position) {
+                if (mUsersQueue.isEmpty()){
+                    return;
+                }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
                 mShowSwipeResult = false;
@@ -115,6 +118,9 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardSwipedRight(int position) {
+                if(mUsersQueue.isEmpty()){
+                    return;
+                }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
                 mShowSwipeResult = false;
@@ -130,7 +136,6 @@ public class SelectionFragment extends Fragment {
             @Override
             public void cardActionDown() {
                 Snackdebug.showMessage("Down", getView());
-
             }
 
             @Override
@@ -139,7 +144,6 @@ public class SelectionFragment extends Fragment {
                     mShowSwipeResult = true;
                     return;
                 }
-                Log.i(" ", "cardActionUp");
                 Snackdebug.showMessage("Up", getView());
                 showActualUserData();
             }
