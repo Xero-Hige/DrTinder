@@ -26,13 +26,13 @@ import au.com.bytecode.opencsv.CSVReader;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
 /**
  *
  */
-public class StringResourcesHandler {
+public final class StringResourcesHandler {
 
     static final String USER_CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
 
@@ -75,10 +75,11 @@ public class StringResourcesHandler {
                 break;
             }
 
-            if (next != null)
+            if (next != null) {
                 output.add(next);
-            else
+            } else {
                 break;
+            }
         }
 
         return output;
@@ -108,7 +109,9 @@ public class StringResourcesHandler {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (!success) return;
+            if (!success) {
+                return;
+            }
             mOperation.execute(mData);
         }
 

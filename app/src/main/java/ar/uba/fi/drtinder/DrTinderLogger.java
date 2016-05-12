@@ -20,7 +20,7 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-public class DrTinderLogger {
+public final class DrTinderLogger {
 
     public static final int INFO = 1;
     public static final int WARN = 2;

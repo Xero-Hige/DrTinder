@@ -39,7 +39,7 @@ import java.util.Locale;
 /**
  *
  */
-public class ImageResourcesHandler {
+public final class ImageResourcesHandler {
 
     public static final int RES_USER_IMG = 0;
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";

@@ -200,19 +200,19 @@ public class SelectionFragment extends Fragment {
         StringResourcesHandler.executeQuery("christianGray", StringResourcesHandler.USER_CANDIDATES,
                 data -> {
                     int excluded = 0;
-                    int i = 0;
-                    for (; i < data.size(); i++) {
-                        String[] userData = data.get(i);
+                    int index = 0;
+                    for (; index < data.size(); index++) {
+                        String[] userData = data.get(index);
                         if (userData.length != 4) {
                             excluded++;
                             continue;
                         }
                         ImageResourcesHandler.prefetch(userData[USER_ID],
                                 ImageResourcesHandler.RES_USER_IMG, getContext());
-                        addUserCard(i - excluded, userData[USER_NAME], userData[USER_AGE],
+                        addUserCard(index - excluded, userData[USER_NAME], userData[USER_AGE],
                                 userData[USER_ID], userData[USER_BIO]);
                     }
-                    if (i - excluded > 0) {
+                    if (index - excluded > 0) {
                         setCardsAdapter(mFragmentView);
                         showProgress(false);
                     } else {
