@@ -43,13 +43,13 @@ public class ImageResourcesHandler {
 
     public static final int RES_USER_IMG = 0;
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
-    private static final HashMap<String, String> cacheMap = new HashMap<>();
-    private static final HashMap<String, Integer> fetchingMap = new HashMap<>();
+    private static HashMap<String, String> cacheMap = new HashMap<>();
+    private static HashMap<String, Integer> fetchingMap = new HashMap<>();
 
     private ImageResourcesHandler() {
     }
 
-    static private String getUrlByType(Integer type) {
+    private static String getUrlByType(Integer type) {
         switch (type) {
             case RES_USER_IMG:
                 return USER_IMAGE_URL;
@@ -58,13 +58,15 @@ public class ImageResourcesHandler {
         }
     }
 
-    static private String getCacheKey(int resourceType, String resId) {
+    private static String getCacheKey(int resourceType, String resId) {
         return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId);
     }
 
     static void prefetch(String imageId, int resourceType, Context context) {
         String cacheKey = getCacheKey(resourceType, imageId);
-        if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) return;
+        if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
+            return;
+        }
 
         FetchImageTask task = new FetchImageTask(resourceType, imageId, null, context);
         task.execute();
@@ -141,13 +143,13 @@ public class ImageResourcesHandler {
                 try {
                     Thread.sleep(1000, 0);
                 } catch (InterruptedException e) {
-                    e.printStackTrace(); //TODO: Check
+                    DrTinderLogger.log(DrTinderLogger.WARN, "Fetch end wait interrupted"); //TODO: Check
                 }
             }
 
-            if (cacheMap.containsKey(mCacheKey))
+            if (cacheMap.containsKey(mCacheKey)) {
                 mImageArray = recoverCachedImg(mCacheKey);
-            else {
+            } else {
                 fetchingMap.put(mCacheKey, 0);
                 mImageArray = getBase64Img(mImageUrl);
             }
@@ -156,7 +158,9 @@ public class ImageResourcesHandler {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (!success) return;
+            if (!success) {
+                return;
+            }
             if (mImageView != null) {
                 Glide.with(mContext).load(mImageArray).centerCrop().into(mImageView);
             }

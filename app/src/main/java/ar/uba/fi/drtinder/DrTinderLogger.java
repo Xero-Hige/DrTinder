@@ -18,7 +18,7 @@ import java.util.Locale;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 public class DrTinderLogger {
 
@@ -28,7 +28,10 @@ public class DrTinderLogger {
     public static final int NET_INFO = 8;
     private static final String TAG = "Dr.Tinder";
 
-    private static void _log(int level, String message) {
+    private DrTinderLogger() {
+    }
+
+    private static void privateLog(int level, String message) {
         switch (level) {
             case WARN:
                 Log.w(TAG, message);
@@ -40,7 +43,6 @@ public class DrTinderLogger {
             default:
         }
     }
-
 
     private static String getLabel(int level) {
         switch (level) {
@@ -61,6 +63,6 @@ public class DrTinderLogger {
         String printLabel = getLabel(level);
 
         String output = String.format(Locale.ENGLISH, "<%s> %s", printLabel, message);
-        _log(level, output);
+        privateLog(level, output);
     }
 }

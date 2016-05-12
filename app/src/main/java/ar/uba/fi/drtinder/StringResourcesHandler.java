@@ -41,7 +41,7 @@ public class StringResourcesHandler {
     private StringResourcesHandler() {
     }
 
-    static private String getUrlByType(Integer type) {
+    private static String getUrlByType(Integer type) {
         switch (type) {
             case USER_CANDIDATES:
                 return USER_CANDIDATES_URL;
