@@ -34,7 +34,7 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public final class StringResourcesHandler {
 
-    static final String USER_CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
+    static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
 
     static final int USER_CANDIDATES = 0;
 
@@ -44,7 +44,7 @@ public final class StringResourcesHandler {
     private static String getUrlByType(Integer type) {
         switch (type) {
             case USER_CANDIDATES:
-                return USER_CANDIDATES_URL;
+                return CANDIDATES_URL;
             default:
                 return "";
         }
