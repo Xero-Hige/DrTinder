@@ -212,6 +212,11 @@ public class SelectionFragment extends Fragment {
                         addUserCard(index - excluded, userData[USER_NAME], userData[USER_AGE],
                                 userData[USER_ID], userData[USER_BIO]);
                     }
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
                     if (index - excluded > 0) {
                         setCardsAdapter(mFragmentView);
                         showProgress(false);
@@ -336,7 +341,6 @@ public class SelectionFragment extends Fragment {
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                     imageView, mContext);
         }
-
 
     }
 
