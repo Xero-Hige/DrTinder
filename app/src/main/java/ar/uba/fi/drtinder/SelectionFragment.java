@@ -207,8 +207,10 @@ public class SelectionFragment extends Fragment {
                             excluded++;
                             continue;
                         }
-                        ImageResourcesHandler.prefetch(userData[USER_ID], ImageResourcesHandler.RES_USER_IMG, getContext());
-                        addUserCard(i - excluded, userData[USER_NAME], userData[USER_AGE], userData[USER_ID], userData[USER_BIO]);
+                        ImageResourcesHandler.prefetch(userData[USER_ID],
+                                ImageResourcesHandler.RES_USER_IMG, getContext());
+                        addUserCard(i - excluded, userData[USER_NAME], userData[USER_AGE],
+                                userData[USER_ID], userData[USER_BIO]);
                     }
                     if (i - excluded > 0) {
                         setCardsAdapter(mFragmentView);
@@ -330,7 +332,8 @@ public class SelectionFragment extends Fragment {
         private void fillUserImage(int position, View context) {
             String userId = mUsersData.get(position).get(EXTRA_USER_IMAGE); //FIXME change to user id
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
-            ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, mContext);
+            ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                    imageView, mContext);
         }
 
 

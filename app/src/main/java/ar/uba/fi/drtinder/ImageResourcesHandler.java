@@ -41,13 +41,13 @@ import java.util.Locale;
  */
 public class ImageResourcesHandler {
 
-    static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
+    public static final int RES_USER_IMG = 0;
+    private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
+    private static final HashMap<String, String> cacheMap = new HashMap<>();
+    private static final HashMap<String, Integer> fetchingMap = new HashMap<>();
 
-    static final int RES_USER_IMG = 0;
-
-    static final HashMap<String, String> cacheMap = new HashMap<>();
-    static final HashMap<String, Integer> fetchingMap = new HashMap<>();
-
+    private ImageResourcesHandler() {
+    }
 
     static private String getUrlByType(Integer type) {
         switch (type) {
@@ -70,7 +70,8 @@ public class ImageResourcesHandler {
         task.execute();
     }
 
-    static void fillImageResource(String imageId, int resourceType, ImageView imgView, Context context) {
+    static void fillImageResource(String imageId, int resourceType, ImageView imgView,
+                                  Context context) {
         FetchImageTask task = new FetchImageTask(resourceType, imageId, imgView, context);
         task.execute();
     }
@@ -120,23 +121,23 @@ public class ImageResourcesHandler {
 
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String imageUrl;
-        private final String cacheKey;
-        private final ImageView imageView;
-        private final Context context;
-        private byte[] imageArray;
+        private final String mImageUrl;
+        private final String mCacheKey;
+        private final ImageView mImageView;
+        private final Context mContext;
+        private byte[] mImageArray;
 
         FetchImageTask(int resourceType, String resId, ImageView imageView, Context context) { //FIXME Names
             String url = getUrlByType(resourceType);
-            this.imageUrl = url + resId;
-            this.imageView = imageView;
-            this.context = context;
-            this.cacheKey = getCacheKey(resourceType, resId);
+            this.mImageUrl = url + resId;
+            this.mImageView = imageView;
+            this.mContext = context;
+            this.mCacheKey = getCacheKey(resourceType, resId);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            while (fetchingMap.containsKey(cacheKey)) {
+            while (fetchingMap.containsKey(mCacheKey)) {
                 try {
                     Thread.sleep(1000, 0);
                 } catch (InterruptedException e) {
@@ -144,11 +145,11 @@ public class ImageResourcesHandler {
                 }
             }
 
-            if (cacheMap.containsKey(cacheKey))
-                imageArray = recoverCachedImg(cacheKey);
+            if (cacheMap.containsKey(mCacheKey))
+                mImageArray = recoverCachedImg(mCacheKey);
             else {
-                fetchingMap.put(cacheKey, 0);
-                imageArray = getBase64Img(imageUrl);
+                fetchingMap.put(mCacheKey, 0);
+                mImageArray = getBase64Img(mImageUrl);
             }
             return true;
         }
@@ -156,10 +157,10 @@ public class ImageResourcesHandler {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) return;
-            if (imageView != null) {
-                Glide.with(context).load(imageArray).centerCrop().into(imageView);
+            if (mImageView != null) {
+                Glide.with(mContext).load(mImageArray).centerCrop().into(mImageView);
             }
-            cacheImgFile(cacheKey, imageArray, context);
+            cacheImgFile(mCacheKey, mImageArray, mContext);
         }
 
     }

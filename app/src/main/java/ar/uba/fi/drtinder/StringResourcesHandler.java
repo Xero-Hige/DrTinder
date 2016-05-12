@@ -38,6 +38,8 @@ public class StringResourcesHandler {
 
     static final int USER_CANDIDATES = 0;
 
+    private StringResourcesHandler() {
+    }
 
     static private String getUrlByType(Integer type) {
         switch (type) {
@@ -88,26 +90,26 @@ public class StringResourcesHandler {
 
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final DataOperation operation;
-        private final String url;
-        private List<String[]> data;
+        private final DataOperation mOperation;
+        private final String mUrl;
+        private List<String[]> mData;
 
         FetchDataTask(int resourceType, String resId, DataOperation operation) { //FIXME Names
-            url = getUrlByType(resourceType) + resId;
-            this.operation = operation;
-            this.data = null;
+            mUrl = getUrlByType(resourceType) + resId;
+            this.mOperation = operation;
+            this.mData = null;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            data = fetchData(url);
+            mData = fetchData(mUrl);
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) return;
-            operation.execute(data);
+            mOperation.execute(mData);
         }
 
     }

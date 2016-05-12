@@ -55,7 +55,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             textView = (TextView) layout.findViewById(R.id.interst_txt);
             textView.setText("Interes: " + i);
             imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(listLayout.getContext()).load(R.drawable.logo).fit().centerCrop().into(imageView);
+            Picasso.with(listLayout.getContext()).load(R.drawable.logo).fit().centerCrop()
+                    .into(imageView);
             listLayout.addView(layout);
         }
     }
@@ -78,6 +79,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String userId = intent.getStringExtra(SelectionFragment.EXTRA_USER_IMAGE);
 
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, getBaseContext());
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                imageView, getBaseContext());
     }
 }
