@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,12 @@ import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  * Swipe selection fragment. Where you can choose if you like someone o not.
@@ -56,7 +57,6 @@ public class SelectionFragment extends Fragment {
     //TODO: Remove
     private SwipeDeck mCardStack;
 
-    private boolean mShowSwipeResult = true;
     private View mProgressView;
 
     private Queue<Map<String, String>> mUsersQueue;
@@ -113,7 +113,6 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
-                mShowSwipeResult = false;
             }
 
             @Override
@@ -123,14 +122,12 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
-                mShowSwipeResult = false;
             }
 
             @Override
             public void cardsDepleted() {
                 fillCardStack();
                 Snackdebug.showMessage("No more cats", getView());
-
             }
 
             @Override
@@ -140,12 +137,7 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardActionUp() {
-                if (!mShowSwipeResult) {
-                    mShowSwipeResult = true;
-                    return;
-                }
                 Snackdebug.showMessage("Up", getView());
-                showActualUserData();
             }
 
         });
@@ -205,6 +197,10 @@ public class SelectionFragment extends Fragment {
                 data -> {
                     int excluded = 0;
                     int index = 0;
+
+                    long seed = System.nanoTime();
+                    Collections.shuffle(data, new Random(seed));
+
                     for (; index < data.size(); index++) {
                         String[] userData = data.get(index);
                         if (userData.length != 4) {
@@ -327,7 +323,8 @@ public class SelectionFragment extends Fragment {
 
             view.setOnClickListener(clickListener -> {
                 String item1 = (String) getItem(position);
-                Log.i("MainActivity", item1);
+                DrTinderLogger.log(DrTinderLogger.INFO, "Touched: " + item1);
+                showActualUserData();
             });
 
             return view;
