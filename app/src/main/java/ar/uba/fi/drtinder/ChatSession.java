@@ -15,12 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 /**
  * Chat session activity. Represents a chat session between 2 users.
  */
 public class ChatSession extends AppCompatActivity {
+
+    private LinearLayout messagesLayout;
+
+    private String yourId;
+    private String friendId;
+    private String friendName;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -28,110 +32,90 @@ public class ChatSession extends AppCompatActivity {
         setContentView(R.layout.activity_chat_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Intent intent = getIntent();
-        String text = intent.getStringExtra("User");
-        this.setTitle(text);
+        friendName = intent.getStringExtra("User");
+        friendId = intent.getStringExtra("ID");
+        yourId = "barrios"; //TODO: remove from here
+
+        this.setTitle(friendName);
+
+        messagesLayout = (LinearLayout) this.findViewById(R.id.messages);
 
         loadOldMessages();
         addSendListener();
 
         ImageView img = (ImageView) findViewById(R.id.backdrop);
-        img.setImageResource(R.drawable.gato_5);
+        ImageResourcesHandler.fillImageResource(friendId, ImageResourcesHandler.RES_USER_IMG, img, this);
 
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
+        assert scrollDownFB != null; //Debug assert
         scrollDownFB.setOnClickListener(listener -> lastMessageAnimation());
-
     }
 
     private void addSendListener() {
         ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
+        assert sendButton != null; //Debug assert
         sendButton.setOnClickListener(
                 listener -> {
-                    LinearLayout bar = (LinearLayout) this.findViewById(R.id.messages);
                     EditText msgView = (EditText) findViewById(R.id.message);
-                    LayoutInflater inflater = LayoutInflater.from(this);
-                    View layout = inflater.inflate(R.layout.chat_session_you, null);
-                    ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-                    Picasso.with(bar.getContext()).load(
-                            R.drawable.man).fit().centerCrop().into(imageView);
 
-                    TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-                    nameTextView.setText("Tu:");
+                    assert msgView != null; //Debug assert
+                    String message = msgView.getText().toString();
 
-                    TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-                    msgTextView.setText(msgView.getText());
-                    msgView.setText("");
-                    bar.addView(layout);
+                    if (message.isEmpty()) {
+                        return;
+                    } else {
 
+                        addPersonalResponse(message);
+                        msgView.setText("");
+                    }
                     lastMessageAnimation();
                 });
     }
 
     private void loadOldMessages() {
-        LinearLayout bar = (LinearLayout) this.findViewById(R.id.messages);
-        LayoutInflater inflater = LayoutInflater.from(this);
         for (int i = 0; i < 24; i++) {
-
-            View layout = inflater.inflate(R.layout.chat_session_friend, null);
-            ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-            Picasso.with(bar.getContext()).load(
-                    R.drawable.gato_5).fit().centerCrop().into(imageView);
-
-            TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-            nameTextView.setText("Anastasia Steele dijo:");
-
-            TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-            msgTextView.setText("Hola, como estas?");
-
-            bar.addView(layout);
+            addFriendResponse("Hola, como estas?");
         }
-
-        View layout = inflater.inflate(R.layout.chat_session_you, null);
-        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-        Picasso.with(bar.getContext()).load(
-                R.drawable.man).fit().centerCrop().into(imageView);
-
-        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-        nameTextView.setText("Tu:");
-
-        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-        msgTextView.setText("Veo que estas desesperada.");
-
-        bar.addView(layout);
-
-        layout = inflater.inflate(R.layout.chat_session_friend, null);
-        imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-        Picasso.with(bar.getContext()).load(
-                R.drawable.gato_5).fit().centerCrop().into(imageView);
-
-        nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-        nameTextView.setText("Anastasia Steele dijo:");
-
-        msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-        msgTextView.setText("no, te parece nomas.");
-
-        bar.addView(layout);
-
-        layout = inflater.inflate(R.layout.chat_session_you, null);
-        imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-        Picasso.with(bar.getContext()).load(
-                R.drawable.man).fit().centerCrop().into(imageView);
-
-        nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-        nameTextView.setText("Tu:");
-
-        msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-        msgTextView.setText("Bueno. Si pinta sadomasoquismo, avisame.");
-
-        bar.addView(layout);
+        addPersonalResponse("Veo que estas desesperada");
+        addFriendResponse("no, te parece nomas.");
+        addPersonalResponse("Bueno. Si pinta sadomasoquismo, avisame.");
 
         lastMessageAnimation();
     }
 
+    private void addPersonalResponse(String message) {
+        addResponse(R.layout.chat_session_you, "Tu", yourId, message);
+    }
+
+    private void addFriendResponse(String message) {
+        addResponse(R.layout.chat_session_friend, friendName, friendId, message);
+    }
+
+    private void addResponse(int layoutId, String username, String userId, String message) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout = inflater.inflate(layoutId, null);
+
+        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, this);
+
+        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
+        nameTextView.setText(username + ":");
+
+        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
+        msgTextView.setText(message);
+
+        messagesLayout.addView(layout);
+    }
+
+
     private void lastMessageAnimation() { //FIXME: change to a better name
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
+        assert scrollview != null; //Debug assert
         scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
     }
 }

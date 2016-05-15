@@ -56,7 +56,8 @@ public class ChatFragment extends Fragment {
 
             imageView.setOnClickListener(listener -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
-                menuIntent.putExtra("User", "Gata " + (finalI + 1));
+                menuIntent.putExtra("User", "Anastasia Steel");
+                menuIntent.putExtra("ID", "burno");
                 startActivity(menuIntent);
             });
 
