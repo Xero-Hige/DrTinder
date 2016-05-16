@@ -1,3 +1,6 @@
 [submodule "source/libs/rocksdb"]
 	path = source/libs/rocksdb
 	url = https://github.com/facebook/rocksdb
+[submodule "source/libs/jsoncpp"]
+	path = source/libs/jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git
