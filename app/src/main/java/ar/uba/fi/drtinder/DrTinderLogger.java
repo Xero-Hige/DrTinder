@@ -35,11 +35,14 @@ public final class DrTinderLogger {
         switch (level) {
             case WARN:
                 Log.w(TAG, message);
+                break;
             case ERRO:
                 Log.e(TAG, message);
+                break;
             case INFO:
             case NET_INFO:
                 Log.i(TAG, message);
+                break;
             default:
         }
     }
