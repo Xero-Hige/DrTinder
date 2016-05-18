@@ -2,24 +2,24 @@
 #define PARSER_H
 
 #include <string>
-#include "UsersDatabase.h"
+#include "DatabaseManager.h"
 #include <iostream>
 
 class MessageHandler {
 	public:
 		MessageHandler();
 
-	MessageHandler(UsersDatabase *pDatabase);
+	MessageHandler(DatabaseManager *pDatabase);
 
 	~MessageHandler();
 		bool parse(std::string message, std::string& resultMsg);
-		void setUsersDB(UsersDatabase *usersDB);
+		void setUsersDB(DatabaseManager *usersDB);
 
 	protected:
 		bool authenticate(std::string message, std::string& resultMsg);
 		std::string divideMessage(std::string& message);
 	private:
-		UsersDatabase* usersDB;
+		DatabaseManager * usersDB;
 
 };
 

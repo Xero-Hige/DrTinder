@@ -2,7 +2,7 @@
 #include <thread>
 #include <mutex>
 #include "Server.h"
-#include "UsersDatabase.h"
+#include "DatabaseManager.h"
 
 #define QUIT_LINE "quit"
 
@@ -18,11 +18,12 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 
 int main() {
 	Server server;
-	
-	UsersDatabase usersDB;
-	usersDB.addUser("deb", "123");
 
-	server.setUsersDB(&usersDB);
+	rocksdb::DB* usersDB;
+	DatabaseManager usersDBM(usersDB);
+	usersDBM.addEntry("deb", "123");
+
+	server.setUsersDB(&usersDBM);
 
 	bool quit = false;
 	std::mutex quit_mutex;

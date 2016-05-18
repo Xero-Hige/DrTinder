@@ -1,6 +1,6 @@
 Cosas necesarias para probar rocksdb:
 
-Antes que nada, hay que inicializar el submodule de rocksdb, estando en la carpeta del proyecto, con
+Antes que nada, hay que inicializar el submodule de rocksdb y jsoncpp, estando en la carpeta del proyecto, con:
 
 git submodule init
 git submodule update
@@ -20,3 +20,7 @@ Ejecutar:
 make install
 
 Añadir la librería al proyecto (/usr/local/lib/librocksdb.a)
+
+Para agregar jsoncpp, en la carpeta DrTinder/source/libs/jsoncpp ejecutar:
+
+python amalgamate.py

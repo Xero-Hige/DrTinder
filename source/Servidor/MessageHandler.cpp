@@ -13,7 +13,7 @@ MessageHandler::MessageHandler() :
 	usersDB(NULL) {
 }
 
-MessageHandler::MessageHandler(UsersDatabase *pDatabase) : usersDB(pDatabase){
+MessageHandler::MessageHandler(DatabaseManager *pDatabase) : usersDB(pDatabase){
 }
 
 MessageHandler::~MessageHandler() {
@@ -45,7 +45,7 @@ bool MessageHandler::parse(string message, string& resultMsg) {
 bool MessageHandler::authenticate(string message, string& resultMsg) {
 	string name = divideMessage(message);
 	string pass = divideMessage(message);
-	if (! usersDB->correctCredentials(name, pass)) {
+	if (!usersDB->correctEntry(name, pass)) {
 		resultMsg += INCORRECT_LOGIN;
 		return false;
 	}
@@ -53,7 +53,7 @@ bool MessageHandler::authenticate(string message, string& resultMsg) {
 	return true;
 }
 
-void MessageHandler::setUsersDB(UsersDatabase* usersDB) {
+void MessageHandler::setUsersDB(DatabaseManager * usersDB) {
 	this->usersDB = usersDB;
 }
 
