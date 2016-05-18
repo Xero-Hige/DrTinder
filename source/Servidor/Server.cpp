@@ -29,15 +29,20 @@ void Server::run() {
 }
 
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* data) {
-	rocksdb::DB* usersDB = (rocksdb::DB *) act_connection->user_data;
-	DatabaseManager usersDBM(usersDB);
+	if (new_event == MG_EV_ACCEPT) {
+		rocksdb::DB* usersDB = (rocksdb::DB *) act_connection->user_data;
+		DatabaseManager* usersDBM = new DatabaseManager(usersDB);
+		MessageHandler* msgHandler = new MessageHandler(usersDBM);
 
-	if (new_event == MG_EV_RECV) {
+		act_connection->user_data = msgHandler;
+
+	} if (new_event == MG_EV_RECV) {
+		MessageHandler* msgHandler = (MessageHandler *) act_connection->user_data;
 		struct mbuf *io = &act_connection->recv_mbuf;
 		
 		std::string reply;
-		MessageHandler msgHandler(&usersDBM);
-		msgHandler.parse(io->buf, reply);
+
+		msgHandler->parse(io->buf, reply);
 
 		mg_send(act_connection, reply.c_str(), reply.size());
 		mbuf_remove(io, io->len);

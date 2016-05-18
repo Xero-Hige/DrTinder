@@ -6,7 +6,7 @@
 #include <map>
 #include <exception>
 #include "../libs/jsoncpp/dist/json/json.h"
-#include "api_constants.h"
+#include "api_constants_shared.h"
 
 class Parser {
     public:
