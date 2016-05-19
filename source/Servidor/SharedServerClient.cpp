@@ -89,10 +89,11 @@ void SharedServerClient::postUsersInterests(string* interest) {
 
 void SharedServerClient::handleEvent(struct mg_connection *act_connection, int new_event, void *ev_data) {
     struct http_message *hm = (struct http_message *) ev_data;
+    int connect_status;
 
     switch (new_event) {
         case MG_EV_CONNECT:
-            int connect_status = *(int *) ev_data;
+            connect_status = *(int *) ev_data;
             if (connect_status != 0) {
                 //TODO: error no se pudo conectar al ss
             }

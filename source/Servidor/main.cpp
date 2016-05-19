@@ -25,7 +25,7 @@ int main() {
 	DatabaseManager usersDBM(usersDB);
 	usersDBM.addEntry("deb", "123");
 
-	server.setUsersDB(&usersDBM);
+	server.setUsersDB(usersDB);
 
 	bool quit = false;
 	std::mutex quit_mutex;
