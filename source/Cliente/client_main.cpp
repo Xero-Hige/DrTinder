@@ -1,8 +1,11 @@
 #include <iostream>
+#include <mutex>
+#include <thread>
 #include "Client.h"
 
 #define QUIT_LINE "quit"
 
+/* Check std::cin for QUIT_LINE. */
 void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	std::string line;
 	while (line.compare(QUIT_LINE) != 0) {
@@ -13,6 +16,7 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result_mutex.unlock();
 }
 
+/* Client mock. Connects to server, sends authentication message and gets response. */
 int main() {
 	Client client;
 	
