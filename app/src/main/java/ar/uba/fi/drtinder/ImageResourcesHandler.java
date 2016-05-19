@@ -71,7 +71,7 @@ public final class ImageResourcesHandler {
         }
 
         FetchImageTask task = new FetchImageTask(resourceType, imageId, null, context);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     static void fillImageResource(String imageId, int resourceType, ImageView imgView,
