@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.github.siyamed.shapeimageview.BubbleImageView;
+
 /**
  * Chat session activity. Represents a chat session between 2 users.
  */
@@ -97,8 +100,10 @@ public class ChatSession extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout = inflater.inflate(layoutId, null);
 
-        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
+        BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, this);
+        Glide.with(this).load(R.drawable.gato_2).fitCenter().centerCrop().into(imageView);
+
 
         TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
         nameTextView.setText(username + ":");

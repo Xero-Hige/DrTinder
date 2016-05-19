@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.google.common.io.ByteStreams;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -63,6 +64,7 @@ public final class ImageResourcesHandler {
     }
 
     static void prefetch(String imageId, int resourceType, Context context) {
+        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
         String cacheKey = getCacheKey(resourceType, imageId);
         if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
             return;
@@ -74,6 +76,7 @@ public final class ImageResourcesHandler {
 
     static void fillImageResource(String imageId, int resourceType, ImageView imgView,
                                   Context context) {
+        DrTinderLogger.log(DrTinderLogger.INFO, "Filling resource with: " + imageId);
         FetchImageTask task = new FetchImageTask(resourceType, imageId, imgView, context);
         task.execute();
     }
@@ -82,13 +85,21 @@ public final class ImageResourcesHandler {
         DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        String result = restTemplate.getForObject(imageUrl, String.class, "Android");
-        DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
-
-        return Base64.decode(result, Base64.DEFAULT);
+        try {
+            String result = restTemplate.getForObject(imageUrl, String.class, "Android");
+            DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
+            return Base64.decode(result, Base64.DEFAULT);
+        } catch (HttpClientErrorException e) {
+            return null;
+        }
     }
 
     private static void cacheImgFile(String cacheKey, byte[] dataArray, Context context) {
+        if (context == null) {
+            DrTinderLogger.log(DrTinderLogger.WARN, "Context is null @cacheImgFile");
+            return;
+        }
+
         String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
 
         FileOutputStream file;
@@ -152,16 +163,20 @@ public final class ImageResourcesHandler {
             } else {
                 fetchingMap.put(mCacheKey, 0);
                 mImageArray = getBase64Img(mImageUrl);
+                if (mImageArray == null) {
+                    return false;
+                }
             }
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (!success) {
-                return;
-            }
             if (mImageView != null) {
+                if (!success) {
+                    Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
+                    return;
+                }
                 Glide.with(mContext).load(mImageArray).centerCrop().into(mImageView);
             }
             cacheImgFile(mCacheKey, mImageArray, mContext);
