@@ -40,9 +40,8 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 		MessageHandler* msgHandler = (MessageHandler *) act_connection->user_data;
 		struct mbuf *io = &act_connection->recv_mbuf;
 		
-		std::string reply;
-
-		msgHandler->parse(io->buf, reply);
+		std::string reply, recv_str(io->buf, io->len);
+		msgHandler->parse(recv_str, reply);
 
 		mg_send(act_connection, reply.c_str(), reply.size());
 		mbuf_remove(io, io->len);

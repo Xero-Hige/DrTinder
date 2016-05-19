@@ -17,7 +17,7 @@ class MessageHandler {
 
 	protected:
 		bool authenticate(std::string message, std::string& resultMsg);
-		bool getUsers(std::string resultMsg);
+		bool getUsers(std::string& resultMsg);
 		std::string divideMessage(std::string& message);
 	private:
 		DatabaseManager * usersDB;

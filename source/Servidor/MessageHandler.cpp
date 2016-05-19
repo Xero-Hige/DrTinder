@@ -51,6 +51,8 @@ void MessageHandler::setUsersDB(DatabaseManager * usersDB) {
 	this->usersDB = usersDB;
 }
 
-bool MessageHandler::getUsers(std::string resultMsg) {
-	ssClient.getUsers();
+bool MessageHandler::getUsers(std::string& resultMsg) {
+	ssClient.getUsers(&resultMsg);
+//	TODO: servicio para filtrar usuarios
+	return true;
 }
