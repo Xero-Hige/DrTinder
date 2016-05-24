@@ -1,12 +1,13 @@
 package ar.uba.fi.drtinder;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.common.io.ByteStreams;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
@@ -81,14 +82,15 @@ public final class ImageResourcesHandler {
         task.execute();
     }
 
-    private static byte[] getBase64Img(String imageUrl) {
+    private static Bitmap getImage(String imageUrl) {
         DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         try {
             String result = restTemplate.getForObject(imageUrl, String.class, "Android");
             DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
-            return Base64.decode(result, Base64.DEFAULT);
+            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageString, 0, imageString.length);
         } catch (HttpClientErrorException e) {
             return null;
         }
@@ -120,11 +122,12 @@ public final class ImageResourcesHandler {
         fetchingMap.remove(cacheKey);
     }
 
-    private static byte[] recoverCachedImg(String cacheKey) {
+    private static Bitmap recoverCachedImg(String cacheKey) {
         String path = cacheMap.get(cacheKey);
         try {
             FileInputStream input = new FileInputStream(path);
-            return ByteStreams.toByteArray(input);
+            //return ByteStreams.toByteArray(input);
+            return null; //FIXME
         } catch (FileNotFoundException e) {
             return null;
         } catch (IOException ignored) {
@@ -138,7 +141,7 @@ public final class ImageResourcesHandler {
         private final String mCacheKey;
         private final ImageView mImageView;
         private final Context mContext;
-        private byte[] mImageArray;
+        private Bitmap mImageBitmap;
 
         FetchImageTask(int resourceType, String resId, ImageView imageView, Context context) { //FIXME Names
             String url = getUrlByType(resourceType);
@@ -158,14 +161,14 @@ public final class ImageResourcesHandler {
                 }
             }
 
-            if (cacheMap.containsKey(mCacheKey)) {
-                mImageArray = recoverCachedImg(mCacheKey);
-            } else {
-                fetchingMap.put(mCacheKey, 0);
-                mImageArray = getBase64Img(mImageUrl);
-                if (mImageArray == null) {
+            //if (cacheMap.containsKey(mCacheKey)) {
+            //    mImageBitmap = recoverCachedImg(mCacheKey);
+            //} else {
+            //fetchingMap.put(mCacheKey, 0);
+            mImageBitmap = getImage(mImageUrl);
+            if (mImageBitmap == null) {
                     return false;
-                }
+                //    }
             }
             return true;
         }
@@ -177,9 +180,11 @@ public final class ImageResourcesHandler {
                     Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
                     return;
                 }
-                Glide.with(mContext).load(mImageArray).centerCrop().into(mImageView);
+                //Glide.with(mContext).load(mImageBitmap).centerCrop().into(mImageView);
+                mImageView.setImageBitmap(mImageBitmap);
+                DrTinderLogger.log(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
             }
-            cacheImgFile(mCacheKey, mImageArray, mContext);
+            //cacheImgFile(mCacheKey, mImageBitmap, mContext);
         }
 
     }

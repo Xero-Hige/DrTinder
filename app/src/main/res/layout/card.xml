@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             tools:src="@color/bel_red_text" />
 
         <ImageView
