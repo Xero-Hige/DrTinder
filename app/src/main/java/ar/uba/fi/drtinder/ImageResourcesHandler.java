@@ -46,8 +46,8 @@ public final class ImageResourcesHandler {
 
     public static final int RES_USER_IMG = 0;
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
-    private static HashMap<String, String> cacheMap = new HashMap<>();
-    private static HashMap<String, Integer> fetchingMap = new HashMap<>();
+    private static HashMap<Integer, String> cacheMap = new HashMap<>();
+    private static HashMap<Integer, Integer> fetchingMap = new HashMap<>();
 
     private ImageResourcesHandler() {
     }
@@ -61,13 +61,13 @@ public final class ImageResourcesHandler {
         }
     }
 
-    private static String getCacheKey(int resourceType, String resId) {
-        return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId);
+    private static int getCacheKey(int resourceType, String resId) {
+        return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId).hashCode();
     }
 
     static void prefetch(String imageId, int resourceType, Context context) {
         DrTinderLogger.log(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
-        String cacheKey = getCacheKey(resourceType, imageId);
+        Integer cacheKey = getCacheKey(resourceType, imageId);
         if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
             return;
         }
@@ -88,7 +88,7 @@ public final class ImageResourcesHandler {
         return BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
     }
 
-    private static Bitmap recoverCachedImg(String cacheKey) {
+    private static Bitmap recoverCachedImg(Integer cacheKey) {
         String path = cacheMap.get(cacheKey);
         try {
             FileInputStream input = new FileInputStream(path);
@@ -101,11 +101,11 @@ public final class ImageResourcesHandler {
         }
     }
 
-    private static void addToFetching(String cacheKey) {
+    private static void addToFetching(Integer cacheKey) {
         fetchingMap.put(cacheKey, 0);
     }
 
-    private static void removeFromFetching(String cacheKey) {
+    private static void removeFromFetching(Integer cacheKey) {
         if (fetchingMap.containsKey(cacheKey)) {
             fetchingMap.remove(cacheKey);
         }
@@ -114,7 +114,7 @@ public final class ImageResourcesHandler {
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mImageUrl;
-        private final String mCacheKey;
+        private final Integer mCacheKey;
         private final ImageView mImageView;
         private final Context mContext;
         private Bitmap mImageBitmap;
@@ -159,7 +159,7 @@ public final class ImageResourcesHandler {
             }
         }
 
-        private void cacheImgFile(String cacheKey, byte[] dataArray, Context context) {
+        private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
             if (context == null) {
                 DrTinderLogger.log(DrTinderLogger.WARN, "Context is null @cacheImgFile");
                 return;
