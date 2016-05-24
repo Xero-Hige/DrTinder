@@ -20,7 +20,6 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:elevation="10dp"
-        android:src="@drawable/gato_4"
         app:border="true"
         app:shadow="true"
         app:siArrowPosition="right"
