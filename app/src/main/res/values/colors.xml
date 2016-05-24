@@ -18,6 +18,11 @@
     <color name="colorSecondary_text">#727272</color>
     <color name="colorDivider">#B6B6B6</color>
 
+    <color name="colorPrimary_T">#80673AB7</color>
+    <color name="colorPrimary_Tdark">#80512DA8</color>
+    <color name="coloPrimary_Tlight">#80D1C4E9</color>
+    <color name="colorAccentT">#80FF9800</color>
+
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="coloPrimaryLight">#D1C4E9</color>
     <color name="colorPrimaryText">#212121</color>
