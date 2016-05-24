@@ -101,6 +101,16 @@ public final class ImageResourcesHandler {
         }
     }
 
+    private static void addToFetching(String cacheKey) {
+        fetchingMap.put(cacheKey, 0);
+    }
+
+    private static void removeFromFetching(String cacheKey) {
+        if (fetchingMap.containsKey(cacheKey)) {
+            fetchingMap.remove(cacheKey);
+        }
+    }
+
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mImageUrl;
@@ -131,8 +141,9 @@ public final class ImageResourcesHandler {
                 mImageBitmap = recoverCachedImg(mCacheKey);
                 return true;
             }
-            fetchingMap.put(mCacheKey, 0);
+            addToFetching(mCacheKey);
             mImageBitmap = getImage(mImageUrl);
+            removeFromFetching(mCacheKey);
             return mImageBitmap != null;
         }
 
@@ -171,7 +182,6 @@ public final class ImageResourcesHandler {
             }
 
             cacheMap.put(cacheKey, cachePath);
-            fetchingMap.remove(cacheKey);
         }
 
         private Bitmap getImage(String imageUrl) {
