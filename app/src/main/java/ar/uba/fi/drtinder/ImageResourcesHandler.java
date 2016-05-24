@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.common.io.ByteStreams;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
@@ -82,52 +83,17 @@ public final class ImageResourcesHandler {
         task.execute();
     }
 
-    private static Bitmap getImage(String imageUrl) {
-        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        try {
-            String result = restTemplate.getForObject(imageUrl, String.class, "Android");
-            DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
-            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
-            return BitmapFactory.decodeByteArray(imageString, 0, imageString.length);
-        } catch (HttpClientErrorException e) {
-            return null;
-        }
-    }
 
-    private static void cacheImgFile(String cacheKey, byte[] dataArray, Context context) {
-        if (context == null) {
-            DrTinderLogger.log(DrTinderLogger.WARN, "Context is null @cacheImgFile");
-            return;
-        }
-
-        String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
-
-        FileOutputStream file;
-        try {
-            file = new FileOutputStream(cachePath);
-        } catch (FileNotFoundException e) {
-            return; //TODO: Check
-        }
-
-        try {
-            file.write(dataArray);
-            file.close();
-        } catch (IOException e) {
-            return; //TODO: Check
-        }
-
-        cacheMap.put(cacheKey, cachePath);
-        fetchingMap.remove(cacheKey);
+    private static Bitmap convertToBitmap(byte[] byteImage) {
+        return BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
     }
 
     private static Bitmap recoverCachedImg(String cacheKey) {
         String path = cacheMap.get(cacheKey);
         try {
             FileInputStream input = new FileInputStream(path);
-            //return ByteStreams.toByteArray(input);
-            return null; //FIXME
+            byte[] byteImage = ByteStreams.toByteArray(input);
+            return convertToBitmap(byteImage);
         } catch (FileNotFoundException e) {
             return null;
         } catch (IOException ignored) {
@@ -161,16 +127,13 @@ public final class ImageResourcesHandler {
                 }
             }
 
-            //if (cacheMap.containsKey(mCacheKey)) {
-            //    mImageBitmap = recoverCachedImg(mCacheKey);
-            //} else {
-            //fetchingMap.put(mCacheKey, 0);
-            mImageBitmap = getImage(mImageUrl);
-            if (mImageBitmap == null) {
-                    return false;
-                //    }
+            if (cacheMap.containsKey(mCacheKey)) {
+                mImageBitmap = recoverCachedImg(mCacheKey);
+                return true;
             }
-            return true;
+            fetchingMap.put(mCacheKey, 0);
+            mImageBitmap = getImage(mImageUrl);
+            return mImageBitmap != null;
         }
 
         @Override
@@ -180,11 +143,51 @@ public final class ImageResourcesHandler {
                     Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
                     return;
                 }
-                //Glide.with(mContext).load(mImageBitmap).centerCrop().into(mImageView);
                 mImageView.setImageBitmap(mImageBitmap);
                 DrTinderLogger.log(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
             }
-            //cacheImgFile(mCacheKey, mImageBitmap, mContext);
+        }
+
+        private void cacheImgFile(String cacheKey, byte[] dataArray, Context context) {
+            if (context == null) {
+                DrTinderLogger.log(DrTinderLogger.WARN, "Context is null @cacheImgFile");
+                return;
+            }
+
+            String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
+
+            FileOutputStream file;
+            try {
+                file = new FileOutputStream(cachePath);
+            } catch (FileNotFoundException e) {
+                return; //TODO: Check
+            }
+
+            try {
+                file.write(dataArray);
+                file.close();
+            } catch (IOException e) {
+                return; //TODO: Check
+            }
+
+            cacheMap.put(cacheKey, cachePath);
+            fetchingMap.remove(cacheKey);
+        }
+
+        private Bitmap getImage(String imageUrl) {
+            DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+            String result;
+            try {
+                result = restTemplate.getForObject(imageUrl, String.class, "Android");
+            } catch (HttpClientErrorException e) {
+                return null;
+            }
+            DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
+            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
+            cacheImgFile(mCacheKey, imageString, mContext);
+            return convertToBitmap(imageString);
         }
 
     }
