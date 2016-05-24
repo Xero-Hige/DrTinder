@@ -9,13 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.BubbleImageView;
 
 /**
@@ -68,13 +68,17 @@ public class ChatSession extends AppCompatActivity {
 
                     if (message.isEmpty()) {
                         return;
-                    } else {
-
-                        addPersonalResponse(message);
-                        msgView.setText("");
                     }
+                    addPersonalResponse(message);
+                    msgView.setText("");
+                    hideKeyboard();
                     lastMessageAnimation();
                 });
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     private void loadOldMessages() {
@@ -102,8 +106,6 @@ public class ChatSession extends AppCompatActivity {
 
         BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, this);
-        Glide.with(this).load(R.drawable.gato_2).fitCenter().centerCrop().into(imageView);
-
 
         TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
         nameTextView.setText(username + ":");
