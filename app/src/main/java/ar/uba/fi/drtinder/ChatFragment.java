@@ -38,7 +38,8 @@ public class ChatFragment extends Fragment {
             final int finalI = i;
             imageView.setOnClickListener(listener -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
-                menuIntent.putExtra("User", "Gata " + finalI);
+                menuIntent.putExtra("User", "Anastasia Steel" + finalI);
+                menuIntent.putExtra("ID", "burno");
                 startActivity(menuIntent);
             });
 
@@ -56,7 +57,7 @@ public class ChatFragment extends Fragment {
 
             imageView.setOnClickListener(listener -> {
                 Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
-                menuIntent.putExtra("User", "Anastasia Steel");
+                menuIntent.putExtra("User", "Anastasia Steel" + finalI);
                 menuIntent.putExtra("ID", "burno");
                 startActivity(menuIntent);
             });
