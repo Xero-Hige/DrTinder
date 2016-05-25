@@ -49,7 +49,8 @@ public class UserDetailsActivity extends AppCompatActivity {
 
             View layout = inflater.inflate(R.layout.interest_lay, null);
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-            textView.setText(category + ":\n" + name);
+            String interestLabel = category + ":\n" + name;
+            textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
             ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
                     imageView, this); //FIXME: Cambiar a campo combinado
