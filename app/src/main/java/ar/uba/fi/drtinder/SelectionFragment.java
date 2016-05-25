@@ -113,6 +113,8 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
+                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_IMAGE),
+                        ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
             @Override
@@ -122,6 +124,8 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
+                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_IMAGE),
+                        ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
             @Override
@@ -132,12 +136,10 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardActionDown() {
-                Snackdebug.showMessage("Down", getView());
             }
 
             @Override
             public void cardActionUp() {
-                Snackdebug.showMessage("Up", getView());
             }
 
         });

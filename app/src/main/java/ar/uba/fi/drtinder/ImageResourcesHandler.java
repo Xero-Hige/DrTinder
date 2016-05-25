@@ -111,6 +111,19 @@ public final class ImageResourcesHandler {
         }
     }
 
+    public static void freeCachedResource(String imageId, int resourceType, Context context) {
+        int cacheKey = getCacheKey(resourceType, imageId);
+        if (!cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
+            return;
+        }
+
+        cacheMap.remove(cacheKey);
+
+        String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
+        File cachedImage = new File(cachePath);
+        cachedImage.delete();
+    }
+
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mImageUrl;
