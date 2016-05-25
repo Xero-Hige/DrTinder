@@ -120,7 +120,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
-                Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
+                DrTinderLogger.log(DrTinderLogger.INFO, "Rejected " + data.get(EXTRA_USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -131,7 +131,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
-                Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
+                DrTinderLogger.log(DrTinderLogger.INFO, "Liked  " + data.get(EXTRA_USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -139,7 +139,7 @@ public class SelectionFragment extends Fragment {
             @Override
             public void cardsDepleted() {
                 fillCardStack();
-                Snackdebug.showMessage("No more cats", getView());
+                DrTinderLogger.log(DrTinderLogger.INFO, "No more cards");
             }
 
             @Override

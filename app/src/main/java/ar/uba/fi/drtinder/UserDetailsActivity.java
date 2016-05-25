@@ -41,9 +41,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String interest_extra = intent.getStringExtra(SelectionFragment.EXTRA_USER_INTS);
-        DrTinderLogger.log(DrTinderLogger.INFO, "Extra Interest: " + interest_extra);
         String[] interests = interest_extra.split("\\|\\|");
-        DrTinderLogger.log(DrTinderLogger.INFO, "Extra Interest 1: " + interests[0]);
         for (String interest1 : interests) {
             String[] interest = interest1.split("::");
             String category = interest[0];
@@ -53,7 +51,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
             textView.setText(category + ":\n" + name);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMF, imageView, this); //FIXME: Cambiar a campo combinado
+            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMF,
+                    imageView, this); //FIXME: Cambiar a campo combinado
             listLayout.addView(layout);
         }
     }
