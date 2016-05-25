@@ -6,7 +6,9 @@
 #include <iostream>
 #include "api_constants_client.h"
 #include "SharedServerClient.h"
-
+#include "Parser.h"
+#include "api_server_constants.h"
+#include <stdexcept>
 /* Handler for incomming requests. */
 class MessageHandler {
 	public:
@@ -18,7 +20,7 @@ class MessageHandler {
 		~MessageHandler();
 		/* Parse message and handle request. Get INVALID_REQUEST in resultMsg 
 		or valid answer. */
-		bool parse(std::string message, std::string& resultMsg);
+		int parse(std::string message, std::string& resultMsg);
 		/* Set initialized usersDB. */
 		void setUsersDB(DatabaseManager* usersDB);
 
@@ -30,6 +32,19 @@ class MessageHandler {
 		bool getUsers(std::string& resultMsg);
 		/* Returns first substring of message until SEPARATOR. */
 		std::string divideMessage(std::string& message);
+		/*Matches data /matches */
+		std::string matchHandler(std::string method, std::string& body);
+		bool getMatches(int id, std::string& resultMsg);
+		bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
+		bool postAceptado(int id_origen, int id_rechazado, std::string& resultMsg);
+		/*TODO: pensar formato de la data traida*/
+		/*User data /users */
+		std::string userHandler(std::string method, std::string& body);
+		bool postLogin(std::string user_name, std::string token, std::string& resultMsg);
+		bool postSignUp(std::string data, std::string& resultMsg);
+		/*TODO: POST chat /chat*/
+		/*TODO: PUT /users */
+
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;

@@ -40,5 +40,6 @@ int main() {
 	quit_mutex.unlock();
 
 	quit_control_thread.join();
+
     return 0;
 }

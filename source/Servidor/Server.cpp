@@ -14,7 +14,7 @@ Server::Server() : usersDB(NULL) {
 	
     mg_mgr_init(&manager_, NULL);
     connection_ = mg_bind(&manager_, port.c_str(), handleEvent);
-    mg_enable_multithreading(connection_);
+    mg_set_protocol_http_websocket(connection_);
 }
 
 Server::~Server() {
@@ -29,22 +29,31 @@ void Server::run() {
 }
 
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* data) {
+		
 	if (new_event == MG_EV_ACCEPT) {
+	
 		rocksdb::DB* usersDB = (rocksdb::DB *) act_connection->user_data;
 		DatabaseManager* usersDBM = new DatabaseManager(usersDB);
 		MessageHandler* msgHandler = new MessageHandler(usersDBM);
 
 		act_connection->user_data = msgHandler;
-
 	} if (new_event == MG_EV_RECV) {
+
 		MessageHandler* msgHandler = (MessageHandler *) act_connection->user_data;
 		struct mbuf *io = &act_connection->recv_mbuf;
 		
 		std::string reply, recv_str(io->buf, io->len);
-		msgHandler->parse(recv_str, reply);
+		int status = msgHandler->parse(recv_str, reply);
 
-		mg_send(act_connection, reply.c_str(), reply.size());
 		mbuf_remove(io, io->len);
+
+		mg_printf(act_connection, "HTTP/1.1 %d\r\n"
+						"Transfer-Encoding: chunked\r\n"
+						"\r\n", status);
+		mg_printf_http_chunk(act_connection, "%s", reply.c_str());
+		mg_send_http_chunk(act_connection,"",0);
+		
+		
 	}
 }
 

@@ -48,3 +48,30 @@ string Parser::makeMessage(string verb, string* parameters) {
     string message = "{" + verb;
 }
 
+std::string Parser::deleteFromFirstSpace(const char * line){
+    std::string str(line);
+    std::size_t index = str.find(" ");
+    if ( index <= 0)
+        return str;
+    return str.substr(0,index);
+}
+
+std::string Parser::getBody(struct http_message *hm){
+    return deleteFromFirstSpace(hm->body.p);
+}
+
+std::string Parser::getUri(struct http_message *hm){
+    return deleteFromFirstSpace(hm->uri.p);
+}
+
+std::string Parser::getUriStart(struct http_message *hm){
+    std::string str = getUri(hm);
+    std::size_t index = str.find("/", 1);
+    if ( index <= 0)
+        return str;
+    return str.substr(1, index - 1 );
+}
+
+std::string Parser::getMethod(struct http_message *hm){
+    return deleteFromFirstSpace(hm->method.p);
+}
