@@ -231,7 +231,7 @@ public class SelectionFragment extends Fragment {
                         setCardsAdapter(mFragmentView);
                         showProgress(false);
                     } else {
-                        Snackdebug.showMessage("Really, no more cats", getView());
+                        Snackdebug.showMessage("There is no more candidates. Try later", getView());
                     }
                 });
     }
