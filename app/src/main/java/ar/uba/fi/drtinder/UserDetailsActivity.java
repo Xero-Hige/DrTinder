@@ -51,7 +51,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
             textView.setText(category + ":\n" + name);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMF,
+            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
                     imageView, this); //FIXME: Cambiar a campo combinado
             listLayout.addView(layout);
         }
