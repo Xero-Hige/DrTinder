@@ -35,8 +35,10 @@ import au.com.bytecode.opencsv.CSVReader;
 public final class StringResourcesHandler {
 
     static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
+    static final String MATCHES_URL = "https://demo2753541.mockable.io/matches/";
 
     static final int USER_CANDIDATES = 0;
+    static final int USER_MATCHES = 1;
 
     private StringResourcesHandler() {
     }
@@ -45,6 +47,8 @@ public final class StringResourcesHandler {
         switch (type) {
             case USER_CANDIDATES:
                 return CANDIDATES_URL;
+            case USER_MATCHES:
+                return MATCHES_URL;
             default:
                 return "";
         }
