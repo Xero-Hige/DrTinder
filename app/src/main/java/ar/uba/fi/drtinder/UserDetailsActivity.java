@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 /**
  * Activity used to display users details
  */
@@ -32,31 +30,30 @@ public class UserDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setInterestsList();
+        setInterestsList(intent);
     }
 
     /**
      * Creates interests list on the view
      */
-    private void setInterestsList() {
+    private void setInterestsList(Intent intent) {
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.innerLay);
-
         LayoutInflater inflater = LayoutInflater.from(this);
-        for (int i = 9; i > -1; i--) {
+
+        String interest_extra = intent.getStringExtra(SelectionFragment.EXTRA_USER_INTS);
+        DrTinderLogger.log(DrTinderLogger.INFO, "Extra Interest: " + interest_extra);
+        String[] interests = interest_extra.split("\\|\\|");
+        DrTinderLogger.log(DrTinderLogger.INFO, "Extra Interest 1: " + interests[0]);
+        for (String interest1 : interests) {
+            String[] interest = interest1.split("::");
+            String category = interest[0];
+            String name = interest[1];
+
             View layout = inflater.inflate(R.layout.interest_lay, null);
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-            textView.setText("Interes: " + i);
+            textView.setText(category + ":\n" + name);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(listLayout.getContext()).load(
-                    R.drawable.ubuntu).fit().centerCrop().into(imageView);
-            listLayout.addView(layout);
-
-            layout = inflater.inflate(R.layout.interest_lay, null);
-            textView = (TextView) layout.findViewById(R.id.interst_txt);
-            textView.setText("Interes: " + i);
-            imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            Picasso.with(listLayout.getContext()).load(R.drawable.logo).fit().centerCrop()
-                    .into(imageView);
+            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMF, imageView, this); //FIXME: Cambiar a campo combinado
             listLayout.addView(layout);
         }
     }
@@ -77,7 +74,7 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     private void setUserImage(Intent intent) {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        String userId = intent.getStringExtra(SelectionFragment.EXTRA_USER_IMAGE);
+        String userId = intent.getStringExtra(SelectionFragment.EXTRA_USER_ID);
 
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                 imageView, getBaseContext());

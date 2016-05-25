@@ -44,16 +44,24 @@ public class SelectionFragment extends Fragment {
     /**
      * User image key in extra map
      */
-    public static final String EXTRA_USER_IMAGE = "img";
+    public static final String EXTRA_USER_ID = "id";
     /**
      * User biography key in extra map
      */
     public static final String EXTRA_USER_BIO = "bio";
+    /**
+     * User interest key in extra map
+     */
+    public static final String EXTRA_USER_INTS = "inte";
 
     private static final int USER_NAME = 0;
     private static final int USER_AGE = 1;
     private static final int USER_ID = 2;
     private static final int USER_BIO = 3;
+    private static final int USER_INTS = 4;
+
+    private static final int USER_FIELDS = 5;
+
     //TODO: Remove
     private SwipeDeck mCardStack;
 
@@ -113,7 +121,7 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("No te gusto " + data.get(EXTRA_USER_NAME), getView());
-                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_IMAGE),
+                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
@@ -124,7 +132,7 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<String, String> data = mUsersQueue.remove();
                 Snackdebug.showMessage("Te gustó " + data.get(EXTRA_USER_NAME), getView());
-                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_IMAGE),
+                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
@@ -186,8 +194,9 @@ public class SelectionFragment extends Fragment {
         Map<String, String> data = mUsersQueue.peek();
         menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
         menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
-        menuIntent.putExtra(EXTRA_USER_IMAGE, data.get(EXTRA_USER_IMAGE));
+        menuIntent.putExtra(EXTRA_USER_ID, data.get(EXTRA_USER_ID));
         menuIntent.putExtra(EXTRA_USER_BIO, data.get(EXTRA_USER_BIO));
+        menuIntent.putExtra(EXTRA_USER_INTS, data.get(EXTRA_USER_INTS));
         startActivity(menuIntent);
     }
 
@@ -205,14 +214,13 @@ public class SelectionFragment extends Fragment {
 
                     for (; index < data.size(); index++) {
                         String[] userData = data.get(index);
-                        if (userData.length != 4) {
+                        if (userData.length != USER_FIELDS) {
                             excluded++;
                             continue;
                         }
                         ImageResourcesHandler.prefetch(userData[USER_ID],
                                 ImageResourcesHandler.RES_USER_IMG, getContext());
-                        addUserCard(index - excluded, userData[USER_NAME], userData[USER_AGE],
-                                userData[USER_ID], userData[USER_BIO]);
+                        addUserCard(index - excluded, userData);
                     }
 
                     if (!isAdded()) {
@@ -228,12 +236,13 @@ public class SelectionFragment extends Fragment {
                 });
     }
 
-    private void addUserCard(int index, String name, String age, String image, String bio) {
+    private void addUserCard(int index, String[] userData) {
         Map<String, String> userMap = new HashMap<>();
-        userMap.put(EXTRA_USER_NAME, name);
-        userMap.put(EXTRA_USER_AGE, age);
-        userMap.put(EXTRA_USER_IMAGE, image);
-        userMap.put(EXTRA_USER_BIO, bio);
+        userMap.put(EXTRA_USER_NAME, userData[USER_NAME]);
+        userMap.put(EXTRA_USER_AGE, userData[USER_AGE]);
+        userMap.put(EXTRA_USER_ID, userData[USER_ID]);
+        userMap.put(EXTRA_USER_BIO, userData[USER_BIO]);
+        userMap.put(EXTRA_USER_INTS, userData[USER_INTS]);
 
         mUsersData.put(index, userMap);
         mUsersQueue.add(userMap);
@@ -338,7 +347,7 @@ public class SelectionFragment extends Fragment {
         }
 
         private void fillUserImage(int position, View context) {
-            String userId = mUsersData.get(position).get(EXTRA_USER_IMAGE); //FIXME change to user id
+            String userId = mUsersData.get(position).get(EXTRA_USER_ID); //FIXME change to user id
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                     imageView, mContext);
