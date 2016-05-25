@@ -23,11 +23,11 @@ import com.github.siyamed.shapeimageview.BubbleImageView;
  */
 public class ChatSession extends AppCompatActivity {
 
-    private LinearLayout messagesLayout;
+    private LinearLayout mMessagesLayout;
 
-    private String yourId;
-    private String friendId;
-    private String friendName;
+    private String mYourId;
+    private String mFriendId;
+    private String mFriendName;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -37,19 +37,19 @@ public class ChatSession extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        friendName = intent.getStringExtra("User");
-        friendId = intent.getStringExtra("ID");
-        yourId = "barrios"; //TODO: remove from here
+        mFriendName = intent.getStringExtra("User");
+        mFriendId = intent.getStringExtra("ID");
+        mYourId = "barrios"; //TODO: remove from here
 
-        this.setTitle(friendName);
+        this.setTitle(mFriendName);
 
-        messagesLayout = (LinearLayout) this.findViewById(R.id.messages);
+        mMessagesLayout = (LinearLayout) this.findViewById(R.id.messages);
 
         loadOldMessages();
         addSendListener();
 
         ImageView img = (ImageView) findViewById(R.id.backdrop);
-        ImageResourcesHandler.fillImageResource(friendId, ImageResourcesHandler.RES_USER_IMG, img, this);
+        ImageResourcesHandler.fillImageResource(mFriendId, ImageResourcesHandler.RES_USER_IMG, img, this);
 
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
         assert scrollDownFB != null; //Debug assert
@@ -93,11 +93,11 @@ public class ChatSession extends AppCompatActivity {
     }
 
     private void addPersonalResponse(String message) {
-        addResponse(R.layout.chat_session_you, "Tu", yourId, message);
+        addResponse(R.layout.chat_session_you, "Tu", mYourId, message);
     }
 
     private void addFriendResponse(String message) {
-        addResponse(R.layout.chat_session_friend, friendName, friendId, message);
+        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
     private void addResponse(int layoutId, String username, String userId, String message) {
@@ -113,7 +113,7 @@ public class ChatSession extends AppCompatActivity {
         TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
         msgTextView.setText(message);
 
-        messagesLayout.addView(layout);
+        mMessagesLayout.addView(layout);
     }
 
 

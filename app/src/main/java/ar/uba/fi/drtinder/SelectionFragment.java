@@ -116,7 +116,7 @@ public class SelectionFragment extends Fragment {
             //FIXME: remove debug information
             @Override
             public void cardSwipedLeft(int position) {
-                if (mUsersQueue.isEmpty()){
+                if (mUsersQueue.isEmpty()) {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
@@ -127,7 +127,7 @@ public class SelectionFragment extends Fragment {
 
             @Override
             public void cardSwipedRight(int position) {
-                if(mUsersQueue.isEmpty()){
+                if (mUsersQueue.isEmpty()) {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
