@@ -45,7 +45,9 @@ import java.util.Locale;
 public final class ImageResourcesHandler {
 
     public static final int RES_USER_IMG = 0;
+    public static final int RES_INTEREST_IMF = 1;
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
+    private static final String INTEREST_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, Integer> fetchingMap = new HashMap<>();
 
@@ -56,6 +58,8 @@ public final class ImageResourcesHandler {
         switch (type) {
             case RES_USER_IMG:
                 return USER_IMAGE_URL;
+            case RES_INTEREST_IMF:
+                return INTEREST_IMAGE_URL;
             default:
                 return "";
         }
