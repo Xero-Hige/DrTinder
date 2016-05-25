@@ -1,0 +1,9 @@
+source/Servidor/.idea/
+source/Servidor/CMakeFiles/
+source/Servidor/users/
+source/Servidor/CMakeCache.txt
+source/Servidor/server
+source/Servidor/Makefile
+source/.cproject
+source/.project
+source/Servidor/cmake_install.cmake
