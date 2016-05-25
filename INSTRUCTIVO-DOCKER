@@ -1,0 +1,28 @@
+# Instalar docker:
+# https://docs.docker.com/engine/installation/linux/ubuntulinux/
+
+
+# Pararse en DrTinder/source (donde se encuentra el Dockerfile):
+cd DrTinder/source
+
+
+# Compilar imagen de docker:
+docker build -t docker-server .
+
+
+4. Correr imagen de docker. Esto ya deja el AppServer corriendo en el container de docker, con el puerto 8080 del container mapeado al puerto 8080 del host:
+docker run -p 8080:8080 docker-server
+
+
+5. Para frenar el container, en una terminal aparte ejecutar el siguiente comando para ver los containers de docker corriendo:
+docker ps
+
+
+6. El comando devuelve algo similar a esto:
+
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+1a9363e0906c        docker-server       "/bin/sh -c DrTinder/"   14 seconds ago      Up 13 seconds       0.0.0.0:8080->8080/tcp   boring_jennings
+
+
+7. Para frenar el container, se debe ejecutar el comando docker kill <nombre_del_container>. El nombre del container esta en la columna NAMES (arriba). En este caso:
+docker kill boring_jennings
