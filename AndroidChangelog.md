@@ -1,3 +1,18 @@
+## Version [0.1.0.0](https://github.com/Xero-Hige/DrTinder/releases/tag/v0.1.0-alpha)
+#### *Second sprint Online Mock* - 25/05/16
+
+### New Features:
+* [#24](https://github.com/Xero-Hige/DrTinder/issues/24) Online resources handling via Rest Api
+* [#26](https://github.com/Xero-Hige/DrTinder/issues/26) Exclusive app logger for Logcat debugging
+* [#30](https://github.com/Xero-Hige/DrTinder/issues/30) Every dynamic image resource is fetched from a server
+
+### Bug Fixed:
+* [#29](https://github.com/Xero-Hige/DrTinder/issues/29) Changing fragment while loading crashes app
+* [#34](https://github.com/Xero-Hige/DrTinder/issues/34) Images never load if load is interrupted once
+
+### Known Bugs:
+* [#28](https://github.com/Xero-Hige/DrTinder/issues/28) Cards sticks to the corners
+
 ## Version [0.0.0.0](https://github.com/Xero-Hige/DrTinder/releases/tag/v0.0.0-alpha)
 #### *First sprint Mock* - 28/04/16
 
