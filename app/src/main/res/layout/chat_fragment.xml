@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:fillViewport="true"
         android:measureAllChildren="false"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:scrollbars="none">
 
         <android.support.v7.widget.LinearLayoutCompat
