@@ -62,7 +62,7 @@ public final class DrTinderLogger {
         }
     }
 
-    public static void log(int level, String message) {
+    public static void writeLog(int level, String message) {
         String printLabel = getLabel(level);
 
         String output = String.format(Locale.ENGLISH, "<%s> %s", printLabel, message);

@@ -120,7 +120,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
-                DrTinderLogger.log(DrTinderLogger.INFO, "Rejected " + data.get(EXTRA_USER_NAME));
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(EXTRA_USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -131,7 +131,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<String, String> data = mUsersQueue.remove();
-                DrTinderLogger.log(DrTinderLogger.INFO, "Liked  " + data.get(EXTRA_USER_NAME));
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(EXTRA_USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -139,7 +139,7 @@ public class SelectionFragment extends Fragment {
             @Override
             public void cardsDepleted() {
                 fillCardStack();
-                DrTinderLogger.log(DrTinderLogger.INFO, "No more cards");
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "No more cards");
             }
 
             @Override
@@ -339,7 +339,7 @@ public class SelectionFragment extends Fragment {
 
             view.setOnClickListener(clickListener -> {
                 String item1 = (String) getItem(position);
-                DrTinderLogger.log(DrTinderLogger.INFO, "Touched: " + item1);
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Touched: " + item1);
                 showActualUserData();
             });
 

@@ -40,10 +40,10 @@ public class UserDetailsActivity extends AppCompatActivity {
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.innerLay);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        String interest_extra = intent.getStringExtra(SelectionFragment.EXTRA_USER_INTS);
-        String[] interests = interest_extra.split("\\|\\|");
-        for (String interest1 : interests) {
-            String[] interest = interest1.split("::");
+        String interestExtra = intent.getStringExtra(SelectionFragment.EXTRA_USER_INTS);
+        String[] interests = interestExtra.split("\\|\\|");
+        for (String interestString : interests) {
+            String[] interest = interestString.split("::");
             String category = interest[0];
             String name = interest[1];
 

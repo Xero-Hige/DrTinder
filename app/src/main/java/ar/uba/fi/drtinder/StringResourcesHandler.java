@@ -60,11 +60,11 @@ public final class StringResourcesHandler {
     }
 
     private static List<String[]> fetchData(String queryUrl) {
-        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
+        DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         String result = restTemplate.getForObject(queryUrl, String.class, "Android");
-        DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
+        DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
 
         StringReader stringReader = new StringReader(result);
         List<String[]> output = new ArrayList<>();

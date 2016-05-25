@@ -47,7 +47,7 @@ public final class ImageResourcesHandler {
     public static final int RES_USER_IMG = 0;
     public static final int RES_INTEREST_IMG = 1;
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
-    private static final String INTEREST_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
+    private static final String INTER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, Integer> fetchingMap = new HashMap<>();
 
@@ -59,7 +59,7 @@ public final class ImageResourcesHandler {
             case RES_USER_IMG:
                 return USER_IMAGE_URL;
             case RES_INTEREST_IMG:
-                return INTEREST_IMAGE_URL;
+                return INTER_IMAGE_URL;
             default:
                 return "";
         }
@@ -70,7 +70,7 @@ public final class ImageResourcesHandler {
     }
 
     static void prefetch(String imageId, int resourceType, Context context) {
-        DrTinderLogger.log(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
+        DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
         Integer cacheKey = getCacheKey(resourceType, imageId);
         if (cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
             return;
@@ -82,7 +82,7 @@ public final class ImageResourcesHandler {
 
     static void fillImageResource(String imageId, int resourceType, ImageView imgView,
                                   Context context) {
-        DrTinderLogger.log(DrTinderLogger.INFO, "Filling resource with: " + imageId);
+        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Filling resource with: " + imageId);
         FetchImageTask task = new FetchImageTask(resourceType, imageId, imgView, context);
         task.execute();
     }
@@ -150,7 +150,7 @@ public final class ImageResourcesHandler {
                 try {
                     Thread.sleep(1000, 0);
                 } catch (InterruptedException e) {
-                    DrTinderLogger.log(DrTinderLogger.WARN, "Fetch end wait interrupted"); //TODO: Check
+                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Fetch end wait interrupted"); //TODO: Check
                 }
             }
 
@@ -172,13 +172,13 @@ public final class ImageResourcesHandler {
                     return;
                 }
                 mImageView.setImageBitmap(mImageBitmap);
-                DrTinderLogger.log(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
             }
         }
 
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
             if (context == null) {
-                DrTinderLogger.log(DrTinderLogger.WARN, "Context is null @cacheImgFile");
+                DrTinderLogger.writeLog(DrTinderLogger.WARN, "Context is null @cacheImgFile");
                 return;
             }
 
@@ -202,7 +202,7 @@ public final class ImageResourcesHandler {
         }
 
         private Bitmap getImage(String imageUrl) {
-            DrTinderLogger.log(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             String result;
@@ -211,7 +211,7 @@ public final class ImageResourcesHandler {
             } catch (HttpClientErrorException e) {
                 return null;
             }
-            DrTinderLogger.log(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
             byte[] imageString = Base64.decode(result, Base64.DEFAULT);
             cacheImgFile(mCacheKey, imageString, mContext);
             return convertToBitmap(imageString);
