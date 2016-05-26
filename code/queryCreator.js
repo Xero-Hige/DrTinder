@@ -163,6 +163,12 @@ module.exports = function (){
 
 		return query;
 	}
+
+	function getPhoto(id){
+		var query =
+		"SELECT photo_profile FROM users_table WHERE id = " + id + ";";
+		return query;
+	}
 	
 	return {
 		buscarUsers : queryBuscarUsers,
@@ -174,6 +180,7 @@ module.exports = function (){
 		fDeleteUser: queryDeleteUser,
 		fActualizarUser: queryActualizarUser,
 		fAltaUser: queryAltaUser,
-		fActualizarFoto: queryActualizarFoto
+		fActualizarFoto: queryActualizarFoto,
+		fGetPhoto: getPhoto
 	};
 }();

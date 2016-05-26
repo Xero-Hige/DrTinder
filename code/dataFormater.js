@@ -5,6 +5,7 @@ module.exports = function(){
     var objeto_sin_formato = resultado['array_to_json'];
     var array_users = [];
     objeto_sin_formato.forEach(function(object){
+      object.photo_profile = "http://dr-tinder.herokuapp.com/users/"+ object.id +"/photo";
       array_users.push( { user : object} );
     });
 
@@ -47,9 +48,14 @@ module.exports = function(){
     return data_formateada;
   }
 
+  function userPhoto(result){
+    return result;
+  }
+
   return {
     intereses: interesesFormater,
     users: usersFormater,
-    user: userFormater
+    user: userFormater,
+    photo: userPhoto
   }
 }();

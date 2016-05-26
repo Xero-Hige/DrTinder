@@ -55,7 +55,7 @@ function postUser(user){
 	//http://
 	var local = "localhost:5000"
 	var page = "dr-tinder.herokuapp.com"
-	xhttp.open("POST", "http://" + local + "/users", true);
+	xhttp.open("POST", "http://" + page + "/users", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send(JSON.stringify(user));
 }
@@ -154,13 +154,28 @@ function crearUsuario(){
 
 
 function showImg(e){
-	var data = e.target.getAttribute("data-value");
-	var path = "data:image/jpg;base64," + data; 
-	$('#img_a_buscar').attr("src", path);
-	$('#img_user').modal("show");
+	var link;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4){
+			if ( xhttp.status == 200){
+				var path = "data:image/jpg;base64," + JSON.parse(xhttp.responseText).photo_profile; 
+				$('#img_a_buscar').attr("src", path);
+				$('#img_user').modal("show");			
+			}
+			if (xhttp.status >= 400) {
+				var path = "https://image.freepik.com/free-icon/male-user-shadow_318-34042.png";
+				$('#img_a_buscar').attr("src", path);
+				$('#img_user').modal("show");
+			}
+		}  
+	};
+	var url = e.target.getAttribute('data-value');
+	xhttp.open("GET", url, true);
+	xhttp.setRequestHeader('Content-Type', 'application/json');
+	xhttp.send();
+	
 }
-
-
 
 //inicializo cosas
 $(".chosen-select").chosen({no_results_text: "Nothing found!", allow_single_deselect: true, disable_search_threshold: 5, width:"100%" });

@@ -30,3 +30,7 @@ exports.successGetUsersAndInterests = function(result){
    	formatedData.result["intereses"] = interests.interests;
    	return formatedData;
 }
+
+exports.successGetPhoto = function(result){
+	return successGet(result, formater.photo);
+}

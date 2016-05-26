@@ -1,4 +1,3 @@
-var formater = require('../../dataFormater');
 var queryDatabase = require('../../queryDatabase.js');
 var queryCreator = require('../../queryCreator.js');
 var processGet = require('./processGet.js');

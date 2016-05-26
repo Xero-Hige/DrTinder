@@ -29,7 +29,9 @@ var postInteresAPI = require( _post + _interest);
 var modifyUserAPI = require( _put + _user);
 var putFotoAPI = require(_put + _photo);
 var deleteUserAPI = require( _del + _user);
+var getPhoto = require( _get + _photo);
 var renderDatos = require ( _render );
+
 
 //para recibir json
 app.use(bodyParser.json({limit: '50mb'}));
@@ -63,7 +65,7 @@ app.get('/db', function(request, response) {
 router.route('/users').get(getUsersAPI).post(postUserAPI);
 router.route('/users/:id').get(getUserAPI).delete(deleteUserAPI).put(modifyUserAPI);
 router.route('/interests').get(getInterestsAPI).post(postInteresAPI);
-router.route('/users/:id/photo').put(putFotoAPI);
+router.route('/users/:id/photo').put(putFotoAPI).get(getPhoto);
 //mio propio
 router.route('/last').get(lastUser);
 
