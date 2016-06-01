@@ -25,10 +25,8 @@ script:
   - cd ../jsoncpp
   - python amalgamate.py
   - cd ../../Servidor
-  - make MakefileServidor
-  - cd ..
-  - cd Cliente
-  - make MakefileCliente
+  - cmake .
+  - make
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
