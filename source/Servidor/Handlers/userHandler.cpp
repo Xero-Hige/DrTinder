@@ -9,7 +9,7 @@
 
 userHandler::userHandler() {
 	// TODO Auto-generated constructor stub
-
+	this->uri = USER_URI;
 }
 
 userHandler::~userHandler() {

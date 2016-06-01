@@ -42,8 +42,8 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 		MessageHandler* msgHandler = (MessageHandler *) act_connection->user_data;
 		struct mbuf *io = &act_connection->recv_mbuf;
 		
-		std::string reply, recv_str(io->buf, io->len);
-		HttpResponse resp = msgHandler->parse(recv_str, reply);
+		std::string recv_str(io->buf, io->len);
+		HttpResponse resp = msgHandler->parse(recv_str);
 
 		resp.sentTo(act_connection);
 

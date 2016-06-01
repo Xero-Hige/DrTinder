@@ -24,6 +24,10 @@ SET (Servidor_SRCS main.cpp
 	 HttpResponse.cpp
 	 Handlers/Handler.cpp
 	 Handlers/userHandler.cpp
+	 Handlers/chatHandler.cpp
+	 Handlers/usersHandler.cpp
+	 Handlers/friendsHandler.cpp
+	 Handlers/interestHandler.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
 )
 

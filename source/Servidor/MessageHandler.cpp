@@ -4,12 +4,27 @@ using std::string;
 
 MessageHandler::MessageHandler() :
 	usersDB(NULL) {
+	handlers.push_back((Handler *)new userHandler());
+	handlers.push_back((Handler *) new usersHandler());
+	handlers.push_back((Handler *) new friendsHandler());
+	handlers.push_back((Handler *) new interestHandler());
+	handlers.push_back((Handler *) new chatHandler());
 }
 
 MessageHandler::MessageHandler(DatabaseManager *pDatabase) : usersDB(pDatabase){
+	handlers.push_back((Handler *)new userHandler());
+	handlers.push_back((Handler *) new usersHandler());
+	handlers.push_back((Handler *) new friendsHandler());
+	handlers.push_back((Handler *) new interestHandler());
+	handlers.push_back((Handler *) new chatHandler());
 }
 
 MessageHandler::~MessageHandler() {
+	std::vector<Handler*>::iterator it;
+	for ( it = handlers.begin(); it != handlers.end(); ){
+	      delete * it;
+	      it = handlers.erase(it);
+	}
 }
 
 string MessageHandler::divideMessage(string& message) {
@@ -22,7 +37,7 @@ string MessageHandler::divideMessage(string& message) {
 	return subMsg;
 }
 
-HttpResponse MessageHandler::parse(string message, string& resultMsg) {
+HttpResponse MessageHandler::parse(string message) {
 	Parser parser;
 	HttpResponse resp;
 	struct http_message hm;
@@ -37,23 +52,16 @@ HttpResponse MessageHandler::parse(string message, string& resultMsg) {
 
 		std::cout << uri_start.c_str() << "\n";
 
-		if ( strcmp(uri_start.c_str(),USER_URI) == 0) {
-			userHandler handler;
-			resp = handler.httpRequest(&hm);
-		}else {
-			resp.turnToBadRequest("No existe handler");
+		for (std::vector<Handler*>::iterator it = handlers.begin() ; it != handlers.end(); ++it){
+			if ((*it)->manages(uri_start)){
+				return (*it)->httpRequest(&hm);
+			}
 		}
+
+		resp.turnToBadRequest("No existe handler");
 	}
 	return resp;
-/*
-	string token = divideMessage(message);
-	if (token.compare(AUTHENTICATION_TOKEN) == 0) {
-		return authenticate(message, resultMsg);
-	} if (token.compare(GET_USERS_TOKEN) == 0) {
-		return getUsers(resultMsg);
-	}
-	resultMsg += INVALID_REQUEST;
-	return false;*/
+
 }
 
 bool MessageHandler::authenticate(string message, string& resultMsg) {

@@ -13,18 +13,8 @@
 #include "../DatabaseManager.h"
 #include "../SharedServerClient.h"
 #include "../Parser.h"
+#include "../api_server_constants.h"
 
-#define GET_S "GET"
-#define POST_S "POST"
-#define DELETE_S "DELETE"
-#define PUT_S "PUT"
-#define GET 1
-#define POST 2
-#define DELETE 3
-#define PUT 4
-#define NOT_CREATED 401
-#define STATUS_OK 200
-#define CREATED 201
 
 class Handler {
 public:
@@ -35,6 +25,7 @@ public:
 		this->sharedConnection = sharedConnection;
 	};
 	HttpResponse httpRequest(struct http_message *hm);
+	bool manages(std::string uri);
 protected:
 	virtual HttpResponse httpGet(struct http_message *hm);
 	virtual HttpResponse httpPost(struct http_message *hm);
@@ -46,9 +37,10 @@ protected:
 	std::map<std::string, int> mapMethod;
 	HttpResponse methodNotExist(){
 			HttpResponse resp;
-			resp.turnToBadRequest("No existe el metodo");
+			resp.turnToBadRequest("No existe el metodo, " + this->uri);
 			return resp;
 	}
+	std::string uri;
 
 };
 

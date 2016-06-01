@@ -9,8 +9,14 @@
 #include "Parser.h"
 #include "api_server_constants.h"
 #include <stdexcept>
+#include <vector>
 #include "HttpResponse.h"
+#include "Handlers/Handler.h"
 #include "Handlers/userHandler.h"
+#include "Handlers/usersHandler.h"
+#include "Handlers/chatHandler.h"
+#include "Handlers/friendsHandler.h"
+#include "Handlers/interestHandler.h"
 
 /* Handler for incomming requests. */
 class MessageHandler {
@@ -21,9 +27,8 @@ class MessageHandler {
 		MessageHandler(DatabaseManager *pDatabase);
 		/* Destroy handler. */
 		~MessageHandler();
-		/* Parse message and handle request. Get INVALID_REQUEST in resultMsg 
-		or valid answer. */
-		HttpResponse parse(std::string message, std::string& resultMsg);
+		/* Parse message and handle request. Return HttpResponse  */
+		HttpResponse parse(std::string message);
 		/* Set initialized usersDB. */
 		void setUsersDB(DatabaseManager* usersDB);
 
@@ -49,6 +54,7 @@ class MessageHandler {
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;
+		std::vector<Handler *> handlers;
 };
 
 #endif // PARSER_H

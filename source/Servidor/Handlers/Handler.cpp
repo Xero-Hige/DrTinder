@@ -70,3 +70,8 @@ HttpResponse Handler::httpPost(struct http_message *hm){
 HttpResponse Handler::httpDelete(struct http_message *hm){
 	return this->methodNotExist();
 }
+
+bool Handler::manages(std::string uri){
+	std::cout << uri.c_str() << "<>" << this->uri.c_str() <<"\n";
+	return (uri.compare(this->uri) == 0);
+}
