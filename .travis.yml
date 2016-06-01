@@ -15,7 +15,11 @@ compiler: gcc
 
 before_script:
   - sudo apt-get update
-  - sudo apt-get install -y libgflags-dev libsnappy-dev libbz2-dev zlib1g-dev
+  - sudo apt-get install -y libsnappy-dev libbz2-dev zlib1g-dev
+  - wget https://gflags.googlecode.com/files/libgflags0_2.0-1_amd64.deb
+  - sudo dpkg -i libgflags0_2.0-1_amd64.deb
+  - wget https://gflags.googlecode.com/files/libgflags-dev_2.0-1_amd64.deb
+  - sudo dpkg -i libgflags-dev_2.0-1_amd64.deb
   - git submodule init
   - git submodule update
 
