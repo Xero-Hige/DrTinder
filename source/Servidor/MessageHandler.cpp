@@ -22,36 +22,29 @@ string MessageHandler::divideMessage(string& message) {
 	return subMsg;
 }
 
-int MessageHandler::parse(string message, string& resultMsg) {
+HttpResponse MessageHandler::parse(string message, string& resultMsg) {
 	Parser parser;
+	HttpResponse resp;
 	struct http_message hm;
 	int bad = 400;
 	int good = 200;
 
 	int err = mg_parse_http( message.c_str(), message.length(), &hm, 1);
 	if (err <= 0){
-		//TODO: error? no es un request o esta incompleto el mensajes
-		resultMsg="NO HTTP REQUEST";
-		return 400;
+		resp.turnToBadRequest("NO HTTP REQUEST");
 	}else{
 		std::string uri_start = parser.getUriStart(&hm);
-		std::string uri = parser.getUri(&hm);
-		std::string method = parser.getMethod(&hm);
-		std::string body = parser.getBody(&hm);
-		
+
 		std::cout << uri_start.c_str() << "\n";
 
-		if ( strcmp( uri_start.c_str(),MATCH_URI ) == 0 ){
-			resultMsg = matchHandler(method,body);
-		}else if ( strcmp(uri_start.c_str(),USER_URI) == 0) {
-			resultMsg = userHandler(method,body);
+		if ( strcmp(uri_start.c_str(),USER_URI) == 0) {
+			userHandler handler;
+			resp = handler.httpRequest(&hm);
 		}else {
-			//TODO: bad request
-			resultMsg="BAD REQUEST";
-			return 400;
+			resp.turnToBadRequest("No existe handler");
 		}
-		return 200;
 	}
+	return resp;
 /*
 	string token = divideMessage(message);
 	if (token.compare(AUTHENTICATION_TOKEN) == 0) {
@@ -84,14 +77,4 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 	//	TODO: servicio para filtrar usuarios
 	return true;
-}
-
-std::string MessageHandler::matchHandler(std::string method, std::string& body){
-	std::cout << method.c_str() << body.c_str() <<"\n";
-	return "Matches";
-}
-
-std::string MessageHandler::userHandler(std::string method, std::string& body){
-	std::cout << method.c_str() << body.c_str() << "\n";	
-	return "Users";
 }

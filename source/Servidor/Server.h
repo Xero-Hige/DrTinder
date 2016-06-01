@@ -6,6 +6,7 @@
 #include "../libs/mongoose/mongoose.h"
 #include "MessageHandler.h"
 #include "../libs/rocksdb/include/rocksdb/db.h"
+#include "HttpResponse.h"
 
 #define DEFAULT_PORT_NUMBER 8080
 

@@ -43,17 +43,12 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 		struct mbuf *io = &act_connection->recv_mbuf;
 		
 		std::string reply, recv_str(io->buf, io->len);
-		int status = msgHandler->parse(recv_str, reply);
+		HttpResponse resp = msgHandler->parse(recv_str, reply);
+
+		resp.sentTo(act_connection);
 
 		mbuf_remove(io, io->len);
 
-		mg_printf(act_connection, "HTTP/1.1 %d\r\n"
-						"Transfer-Encoding: chunked\r\n"
-						"\r\n", status);
-		mg_printf_http_chunk(act_connection, "%s", reply.c_str());
-		mg_send_http_chunk(act_connection,"",0);
-		
-		
 	}
 }
 

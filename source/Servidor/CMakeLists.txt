@@ -5,6 +5,7 @@ PROJECT (Servidor)
 SET( CMAKE_VERBOSE_MAKEFILE on )
 
 INCLUDE_DIRECTORIES(../libs/mongoose)
+INCLUDE_DIRECTORIES(Handlers)
 INCLUDE_DIRECTORIES(../libs/jsoncpp/dist/json)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
@@ -20,6 +21,9 @@ SET (Servidor_SRCS main.cpp
     MessageHandler.cpp
     Parser.cpp
     SharedServerClient.cpp
+	 HttpResponse.cpp
+	 Handlers/Handler.cpp
+	 Handlers/userHandler.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
 )
 

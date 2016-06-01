@@ -57,7 +57,8 @@ std::string Parser::deleteFromFirstSpace(const char * line){
 }
 
 std::string Parser::getBody(struct http_message *hm){
-    return deleteFromFirstSpace(hm->body.p);
+	std::string str(hm->body.p);
+	return str;
 }
 
 std::string Parser::getUri(struct http_message *hm){
