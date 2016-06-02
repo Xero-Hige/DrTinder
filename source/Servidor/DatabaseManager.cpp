@@ -38,3 +38,13 @@ bool DatabaseManager::addEntry(string key, string value) {
 bool DatabaseManager::deleteEntry(string key) {
 	return db->Delete(WriteOptions(), key).ok();
 }
+
+bool DatabaseManager::getEntry(string key, string &found){
+	string aux;
+	Status status = db->Get(ReadOptions(), key, &aux);
+	if (! status.ok()) {
+		return false;
+	}
+	found = aux;
+	return true;
+}

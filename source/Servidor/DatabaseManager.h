@@ -18,6 +18,8 @@ class DatabaseManager {
 		bool addEntry(std::string key, std::string value);
 	/* Delete entry from database. */
 		bool deleteEntry(std::string key);
+	/* Get value of key in found, returns false if not found */
+		bool getEntry(std::string key, std::string &found);
 	private:
 		rocksdb::DB* db;
 };
