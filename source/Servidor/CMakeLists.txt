@@ -31,7 +31,9 @@ SET (Servidor_SRCS main.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
 )
 
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -std=c++11 -Wno-unused-function")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function")
+
+ADD_DEFINITIONS(-std=c++11)
 
 ADD_EXECUTABLE (server ${Servidor_SRCS})
 
