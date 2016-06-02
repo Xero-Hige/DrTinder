@@ -11,7 +11,7 @@ INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(mylib_SRCS pthread rocksdb z bz2 snappy)
+SET(mylib_SRCS pthread rt rocksdb z bz2 snappy)
 SET(SSL_LIBS ssl crypto)
 
 SET (Servidor_SRCS main.cpp
