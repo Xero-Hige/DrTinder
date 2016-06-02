@@ -72,6 +72,5 @@ HttpResponse Handler::httpDelete(struct http_message *hm){
 }
 
 bool Handler::manages(std::string uri){
-	std::cout << uri.c_str() << "<>" << this->uri.c_str() <<"\n";
 	return (uri.compare(this->uri) == 0);
 }

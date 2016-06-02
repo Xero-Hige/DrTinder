@@ -23,7 +23,6 @@ public:
 	void setStatus(int status){ this->status = status; };
 	void setBody(std::string body) { this->body = body; };
 	void turnToBadRequest(std::string error){
-		//no se si lo voy a usar
 		this->status = 400;
 		this->body = error;
 	};

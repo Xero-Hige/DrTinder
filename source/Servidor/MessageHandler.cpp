@@ -50,8 +50,6 @@ HttpResponse MessageHandler::parse(string message) {
 	}else{
 		std::string uri_start = parser.getUriStart(&hm);
 
-		std::cout << uri_start.c_str() << "\n";
-
 		for (std::vector<Handler*>::iterator it = handlers.begin() ; it != handlers.end(); ++it){
 			if ((*it)->manages(uri_start)){
 				return (*it)->httpRequest(&hm);
