@@ -5,8 +5,8 @@
  *      Author: tobias
  */
 
-#ifndef SERVIDOR_USERMOCK_H_
-#define SERVIDOR_USERMOCK_H_
+#ifndef SERVIDOR_USER_H_
+#define SERVIDOR_USER_H_
 #include <string>
 #include "dataTypes.h"
 #include "Interests.h"
@@ -21,12 +21,12 @@
 #define LOC_X 0
 #define LOC_Y 1
 
-class UserMock {
+class User {
 public:
-	UserMock(std::string userData, dataType type);
+	User(std::string userData, dataType type);
 	std::string exportTo(dataType type);
-	bool matches(UserMock otroUser);
-	virtual ~UserMock();
+	bool matches(User otroUser);
+	virtual ~User();
 private:
 	int id;
 	int age;
@@ -39,4 +39,4 @@ private:
 	Interests interests;
 };
 
-#endif /* SERVIDOR_USERMOCK_H_ */
+#endif /* SERVIDOR_USER_H_ */

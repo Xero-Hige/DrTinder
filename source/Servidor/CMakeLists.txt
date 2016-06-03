@@ -28,8 +28,9 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 Handlers/friendsHandler.cpp
 	 Handlers/interestHandler.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
-	 UserMock.cpp
+	 User.cpp
 	 Interests.cpp
+	 Tokenizer.cpp
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS})
 
