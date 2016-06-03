@@ -33,7 +33,7 @@ void Interests::add(std::string category, std::string value){
 	if ( it != this->intereses.end() ){
 		vector<string> *valores = &it->second;
 		//http://stackoverflow.com/questions/3450860/check-if-a-stdvector-contains-a-certain-object
-		if (std::find(valores->begin(), valores->end(), value) != valores->end()){
+		if (std::find(valores->begin(), valores->end(), value) == valores->end()){
 			valores->push_back(value);
 		}
 
@@ -48,7 +48,7 @@ bool Interests::getAll(string category,vector<string> &values){
 	map<string,vector<string>>::iterator it = this->intereses.find(category);
 
 	if ( it != this->intereses.end() ){
-		//devuelve copia o no copia?
+		//devuelve copia
 		values = it->second;
 		return true;
 	}
