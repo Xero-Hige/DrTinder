@@ -7,3 +7,4 @@ source/Servidor/Makefile
 source/.cproject
 source/.project
 source/Servidor/cmake_install.cmake
+source/Servidor/unit_test
