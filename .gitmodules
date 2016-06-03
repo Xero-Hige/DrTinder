@@ -4,3 +4,6 @@
 [submodule "source/libs/jsoncpp"]
 	path = source/libs/jsoncpp
 	url = https://github.com/open-source-parsers/jsoncpp.git
+[submodule "source/libs/googletest"]
+	path = source/libs/googletest
+	url = https://github.com/google/googletest

@@ -21,6 +21,11 @@ make install
 
 Añadir la librería al proyecto (/usr/local/lib/librocksdb.a)
 
+Instalar googletest:
+Pararse en la carpeta DrTinder/source/libs/googletest
+Ejecutar:
+sudo make install
+
 Para agregar jsoncpp, en la carpeta DrTinder/source/libs/jsoncpp ejecutar:
 
 python amalgamate.py
