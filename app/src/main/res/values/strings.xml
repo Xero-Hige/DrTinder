@@ -104,4 +104,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_chat_session">ChatSession</string>
+    <string name="title_activity_user_data">UserData</string>
 </resources>
