@@ -1,5 +1,6 @@
 package ar.uba.fi.drtinder;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -119,8 +120,10 @@ public class MainActivity extends AppCompatActivity
             Snackdebug.showMessage("Basta", findViewById(R.id.section_layout));
 
         } else if (itemId == R.id.nav_manage) {
-            Snackdebug.showMessage("No anda", findViewById(R.id.section_layout));
-
+            Intent intent = new Intent(this, UserProfile.class);
+            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, "barrios");
+            intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
+            startActivity(intent);
         } else if (itemId == R.id.nav_share) {
             Snackdebug.showMessage("Compartir?", findViewById(R.id.section_layout));
 

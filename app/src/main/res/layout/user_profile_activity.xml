@@ -49,19 +49,20 @@
         tools:showIn="@layout/user_profile_activity">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/userAvatar"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:elevation="20dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/not_found" />
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView3"
+            android:layout_below="@+id/userAvatar"
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:hint="Name"
@@ -135,7 +136,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/imageView3"
+            android:layout_alignEnd="@+id/userAvatar"
             android:layout_below="@+id/editText2"
             android:text="Buscando"
             android:textAppearance="?android:attr/textAppearanceMedium" />
