@@ -41,7 +41,7 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UserData"
+            android:name=".UserProfile"
             android:label="@string/title_activity_user_data"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
