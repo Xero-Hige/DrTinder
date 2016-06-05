@@ -30,6 +30,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     private UserLoginTask mAuthTask = null;
 
+    /**
+     * Keep track of the login task to ensure we can cancel it if requested.
+     */
+    private RegisterTask mRegisterTask = null;
+
     // UI references.
     private TextView mEmailTextView;
     private EditText mPasswordTextView;
@@ -55,16 +60,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         Button mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mSignInButton.setOnClickListener(view -> attemptLogin());
 
+        Button mRegisterButton = (Button) findViewById(R.id.Register);
+        mRegisterButton.setOnClickListener(view -> attemptRegister());
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
+     * Executes a TaskExecutor with the user data from email and password fields */
+    private void executeWithLData(TaskExecutor executor) {
         if (mAuthTask != null) {
             return;
         }
@@ -105,10 +110,32 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, this);
-            mAuthTask.execute((Void) null);
+            executor.execute(email, password);
         }
+    }
+
+    private void attemptRegister() {
+        executeWithLData(this::executeRegisterTask);
+    }
+
+    private void attemptLogin() {
+        executeWithLData(this::executeLoginTask);
+    }
+
+    private void executeLoginTask(String email, String password) {
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        showProgress(true);
+        mAuthTask = new UserLoginTask(email, password, this);
+        mAuthTask.execute((Void) null);
+    }
+
+    private void executeRegisterTask(String email, String password) {
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        showProgress(true);
+        mRegisterTask = new RegisterTask(email, password, this);
+        mRegisterTask.execute((Void) null);
     }
 
     private boolean isEmailValid(String email) {
@@ -170,10 +197,72 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
+    private interface TaskExecutor {
+        void execute(String email, String password);
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+    public class RegisterTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mUserEmail;
+        private final String mUserPassword;
+        private final Context mTaskContext;
+
+        /**
+         * Creates a new Login task
+         *
+         * @param email    User email
+         * @param password User password
+         * @param context  Calling activity context
+         */
+        RegisterTask(String email, String password, Context context) {
+            mUserEmail = email;
+            mUserPassword = password;
+            this.mTaskContext = context;
+        }
+
+        /**
+         * @param params params
+         * @return Task successful
+         */
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+            return mUserPassword == mUserPassword; //Todo: Replace with user don't exists
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mRegisterTask = null;
+            showProgress(false);
+
+            if (success) {
+                Intent intent = new Intent(this.mTaskContext, UserProfile.class);
+                intent.putExtra("User", this.mUserEmail);
+                intent.putExtra("Action", "register");
+                startActivity(intent);
+                finish();
+            } else {
+                mEmailTextView.setError("User already exists");
+                mEmailTextView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mRegisterTask = null;
+            showProgress(false);
+        }
+    }
+
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserEmail;
@@ -230,5 +319,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
         }
     }
+
 }
 
