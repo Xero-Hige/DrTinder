@@ -7,7 +7,12 @@
     android:fitsSystemWindows="true"
     tools:context=".UserProfile">
 
-    <android.support.design.widget.AppBarLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -22,6 +27,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/view">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -31,14 +43,15 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:scrollIndicators="left"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".UserProfile"
         tools:showIn="@layout/user_profile_activity">
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:elevation="20dp"
@@ -66,7 +79,7 @@
             android:inputType="textPassword" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/sexMaleRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView2"
@@ -75,11 +88,11 @@
             android:hint="Hombre" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/sexFemaleRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioButton"
-            android:layout_below="@+id/radioButton"
+            android:layout_alignStart="@+id/sexMaleRadio"
+            android:layout_below="@+id/sexMaleRadio"
             android:checked="false"
             android:text="Mujer" />
 
@@ -87,8 +100,8 @@
             android:id="@+id/checkBox2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/radioButton2"
-            android:layout_alignStart="@+id/checkBox3"
+            android:layout_alignEnd="@+id/textView3"
+            android:layout_below="@+id/textView3"
             android:checked="false"
             android:text="Mujeres" />
 
@@ -96,8 +109,7 @@
             android:id="@+id/checkBox3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/textView3"
+            android:layout_alignStart="@+id/checkBox2"
             android:layout_below="@+id/checkBox2"
             android:checked="false"
             android:text="Hombres" />
@@ -114,8 +126,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/imageView3"
-            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/editText2"
+            android:layout_below="@+id/editText2"
             android:text="Sexo"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -123,18 +135,18 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/checkBox2"
             android:layout_alignEnd="@+id/imageView3"
+            android:layout_below="@+id/editText2"
             android:text="Buscando"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/checkBox3"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/radioButton2"
+            android:layout_below="@+id/sexFemaleRadio"
             android:text="Intereses"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -143,7 +155,7 @@
             android:id="@+id/editText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/radioButton"
+            android:layout_alignEnd="@+id/sexMaleRadio"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/horizontalScrollView"
             android:hint="Category" />
@@ -152,7 +164,7 @@
             android:id="@+id/editText4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/checkBox2"
+            android:layout_alignEnd="@+id/checkBox3"
             android:layout_below="@+id/horizontalScrollView"
             android:layout_toEndOf="@+id/editText3"
             android:hint="Interest" />
@@ -160,14 +172,17 @@
         <Button
             android:id="@+id/button"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignBottom="@+id/editText4"
-            android:layout_alignEnd="@+id/checkBox3"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/horizontalScrollView"
-            android:layout_toEndOf="@+id/editText4"
+            android:layout_toEndOf="@+id/checkBox3"
             android:text="+" />
 
+
+    </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
