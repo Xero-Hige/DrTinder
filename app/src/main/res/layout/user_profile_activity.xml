@@ -51,8 +51,8 @@
             android:layout_below="@+id/imageView3"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editText2"
@@ -62,6 +62,7 @@
             android:layout_alignStart="@+id/editText"
             android:layout_below="@+id/editText"
             android:ems="10"
+            android:hint="Password"
             android:inputType="textPassword" />
 
         <RadioButton
@@ -71,7 +72,7 @@
             android:layout_alignStart="@+id/textView2"
             android:layout_below="@+id/textView2"
             android:checked="false"
-            android:text="Hombre" />
+            android:hint="Hombre" />
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -145,8 +146,7 @@
             android:layout_alignEnd="@+id/radioButton"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/horizontalScrollView"
-            android:autoText="false"
-            android:text="Category" />
+            android:hint="Category" />
 
         <EditText
             android:id="@+id/editText4"
@@ -155,7 +155,7 @@
             android:layout_alignEnd="@+id/checkBox2"
             android:layout_below="@+id/horizontalScrollView"
             android:layout_toEndOf="@+id/editText3"
-            android:text="Interest" />
+            android:hint="Interest" />
 
         <Button
             android:id="@+id/button"
