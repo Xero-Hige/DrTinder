@@ -68,7 +68,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Executes a TaskExecutor with the user data from email and password fields */
+     * Executes a TaskExecutor with the user data from email and password fields
+     */
     private void executeWithLData(TaskExecutor executor) {
         if (mAuthTask != null) {
             return;
