@@ -14,7 +14,7 @@ buildscript {
         }
         classpath 'com.google.guava:guava:18.0'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
-        classpath 'me.tatarka:gradle-retrolambda:2.5.0' //Enables lambdas
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5' //Enables lambdas
     }
 }
 
