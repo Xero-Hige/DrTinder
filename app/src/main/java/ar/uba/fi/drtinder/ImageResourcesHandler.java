@@ -138,7 +138,7 @@ public final class ImageResourcesHandler {
     public static void clearCache(Context context) {
         boolean operationSuccess = true;
         for (int cacheKey : cacheMap.keySet()) {
-            cacheMap.remove(cacheKey);
+            //cacheMap.remove(cacheKey);
             String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
             File cachedImage = new File(cachePath);
             boolean success = cachedImage.delete();
@@ -152,8 +152,8 @@ public final class ImageResourcesHandler {
             DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully cleared cache");
         } else {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Cache clear failed");
-
         }
+        cacheMap.clear();
     }
 
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
