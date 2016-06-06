@@ -138,7 +138,6 @@ public final class ImageResourcesHandler {
     public static void clearCache(Context context) {
         boolean operationSuccess = true;
         for (int cacheKey : cacheMap.keySet()) {
-            //cacheMap.remove(cacheKey);
             String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
             File cachedImage = new File(cachePath);
             boolean success = cachedImage.delete();
