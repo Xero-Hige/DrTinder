@@ -125,7 +125,35 @@ public final class ImageResourcesHandler {
 
         String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
         File cachedImage = new File(cachePath);
-        cachedImage.delete();
+        boolean success = cachedImage.delete();
+        if (success) {
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, String.format(Locale.ENGLISH,
+                    "Removed image with id %s from cache", imageId));
+        } else {
+            DrTinderLogger.writeLog(DrTinderLogger.WARN, String.format(Locale.ENGLISH,
+                    "Failed to remove image with id %s from cache", imageId));
+        }
+    }
+
+    public static void clearCache(Context context) {
+        boolean operationSuccess = true;
+        for (int cacheKey : cacheMap.keySet()) {
+            cacheMap.remove(cacheKey);
+            String cachePath = context.getFilesDir().getAbsolutePath() + File.separator + cacheKey;
+            File cachedImage = new File(cachePath);
+            boolean success = cachedImage.delete();
+            if (!success) {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, String.format(Locale.ENGLISH,
+                        "Failed to remove image with cache id : %d", cacheKey));
+            }
+            operationSuccess = operationSuccess && success;
+        }
+        if (operationSuccess) {
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully cleared cache");
+        } else {
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Cache clear failed");
+
+        }
     }
 
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
@@ -216,6 +244,5 @@ public final class ImageResourcesHandler {
             cacheImgFile(mCacheKey, imageString, mContext);
             return convertToBitmap(imageString);
         }
-
     }
 }
