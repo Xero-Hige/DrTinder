@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
- * Basic login screen based on Android Studion login Activity template
+ * Basic login screen based on Android Studio login Activity template
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
@@ -40,6 +42,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
+
+    private FirebaseAuth mFirebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle instanceState) {
@@ -113,6 +118,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // perform the user login attempt.
             executor.execute(email, password);
         }
+    }
+
+    private void firebaseAuth(String token) {
+
     }
 
     private void attemptRegister() {
