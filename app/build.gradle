@@ -66,6 +66,8 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     //---CSV
     compile 'net.sf.opencsv:opencsv:2.3'
+    //---FCM
+    compile 'com.google.firebase:firebase-messaging:9.0.2'
 
     androidTestCompile 'junit:junit:4.12'
 }
