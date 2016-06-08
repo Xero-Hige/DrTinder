@@ -18,24 +18,15 @@
     <issue id="AdapterViewChildren" severity="ignore" />
     <issue id="AllowBackup" severity="ignore" />
     <issue id="AlwaysShowAction" severity="ignore" />
-    <issue id="ButtonCase" severity="ignore" />
-    <issue id="ButtonOrder" severity="ignore" />
-    <issue id="ButtonStyle" severity="ignore" />
     <issue id="CommitPrefEdits" severity="ignore" />
     <issue id="CommitTransaction" severity="ignore" />
     <issue id="ContentDescription" severity="ignore" />
     <issue id="CutPasteId" severity="ignore" />
     <issue id="DalvikOverride" severity="ignore" />
     <issue id="DefaultLocale" severity="ignore" />
-    <issue id="Deprecated" severity="ignore" />
     <issue id="DeviceAdmin" severity="ignore" />
     <issue id="DisableBaselineAlignment" severity="ignore" />
     <issue id="DrawAllocation" severity="ignore" />
-    <issue id="DuplicateActivity" severity="ignore" />
-    <issue id="DuplicateDefinition" severity="ignore" />
-    <issue id="DuplicateIds" severity="ignore" />
-    <issue id="DuplicateIncludedIds" severity="ignore" />
-    <issue id="DuplicateUsesFeature" severity="ignore" />
     <issue id="EnforceUTF8" severity="ignore" />
     <issue id="ExportedContentProvider" severity="ignore" />
     <issue id="ExportedReceiver" severity="ignore" />
@@ -81,22 +72,10 @@
     <issue id="ManifestTypo" severity="ignore" />
     <issue id="MenuTitle" severity="ignore" />
     <issue id="MergeRootFrame" severity="ignore" />
-    <issue id="MissingApplicationIcon" severity="ignore" />
-    <issue id="MissingId" severity="ignore" />
-    <issue id="MissingPrefix" severity="ignore" />
-    <issue id="MissingQuantity" severity="ignore" />
-    <issue id="MissingRegistered" severity="ignore" />
-    <issue id="MissingSuperCall" severity="ignore" />
-    <issue id="MissingTranslation" severity="ignore" />
-    <issue id="MissingVersion" severity="ignore" />
     <issue id="MockLocation" severity="ignore" />
     <issue id="MultipleUsesSdk" severity="ignore" />
-    <issue id="NamespaceTypo" severity="ignore" />
-    <issue id="NestedScrolling" severity="ignore" />
-    <issue id="NestedWeights" severity="ignore" />
     <issue id="NewApi" severity="ignore" />
     <issue id="NotSibling" severity="ignore" />
-    <issue id="ObsoleteLayoutParam" severity="ignore" />
     <issue id="OldTargetApi" severity="ignore" />
     <issue id="OnClick" severity="ignore" />
     <issue id="Orientation" severity="ignore" />
@@ -125,9 +104,6 @@
     <issue id="SmallSp" severity="ignore" />
     <issue id="SpUsage" severity="ignore" />
     <issue id="StateListReachable" severity="ignore" />
-    <issue id="StringFormatCount" severity="ignore" />
-    <issue id="StringFormatInvalid" severity="ignore" />
-    <issue id="StringFormatMatches" severity="ignore" />
     <issue id="StyleCycle" severity="ignore" />
     <issue id="Suspicious0dp" severity="ignore" />
     <issue id="SuspiciousImport" severity="ignore" />
@@ -140,14 +116,9 @@
     <issue id="TypographyEllipsis" severity="ignore" />
     <issue id="TypographyFractions" severity="ignore" />
     <issue id="TypographyOther" severity="ignore" />
-    <issue id="Typos" severity="ignore" />
     <issue id="UniquePermission" severity="ignore" />
-    <issue id="UnknownId" severity="ignore" />
-    <issue id="UnknownIdInLayout" severity="ignore" />
     <issue id="UnlocalizedSms" severity="ignore" />
-    <issue id="UnusedNamespace" severity="ignore" />
     <issue id="UnusedQuantity" severity="ignore" />
-    <issue id="UnusedResources" severity="ignore" />
     <issue id="UseCheckPermission" severity="ignore" />
     <issue id="UseCompoundDrawables" severity="ignore" />
     <issue id="UseSparseArrays" severity="ignore" />
@@ -161,9 +132,6 @@
     <issue id="Wakelock" severity="ignore" />
     <issue id="WorldReadableFiles" severity="ignore" />
     <issue id="WorldWriteableFiles" severity="ignore" />
-    <issue id="WrongCall" severity="ignore" />
-    <issue id="WrongCase" severity="ignore" />
     <issue id="WrongFolder" severity="ignore" />
     <issue id="WrongManifestParent" severity="ignore" />
-    <issue id="WrongViewCast" severity="ignore" />
 </lint>
