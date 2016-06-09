@@ -44,6 +44,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
 
     private FirebaseAuth mFirebaseAuth;
+    private boolean firebaseLogedIn;
 
 
     @Override
@@ -70,6 +71,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        firebaseLogedIn = false;
     }
 
     /**
@@ -120,8 +124,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    private void firebaseAuth(String token) {
-
+    private void firebaseAuthenticate(String token) {
+        mFirebaseAuth.signInWithCustomToken(token).addOnCompleteListener(this, task -> {
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
+            if (!task.isSuccessful()) {
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
+            } else {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
+            }
+            firebaseLogedIn = task.isSuccessful();
+        });
     }
 
     private void attemptRegister() {
@@ -153,7 +165,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isPasswordValid(String password) {
-        return password.equals(password);
+        return password.length() > 8; //Valid password is at least 8 characters
     }
 
     /**
@@ -220,6 +232,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mUserEmail;
         private final String mUserPassword;
         private final Context mTaskContext;
+        private String mAuthToken;
 
         /**
          * Creates a new Login task
@@ -243,9 +256,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
+                //Send user data
+                //if success
+                //  askToken();
+                //token = getToken();
+                mAuthToken = "SOME TOKEN"; //TODO: Do real job
+                firebaseAuthenticate(mAuthToken);
             } catch (InterruptedException e) {
                 return false;
             }
+
             return mUserPassword == mUserPassword; //Todo: Replace with user don't exists
         }
 
@@ -258,6 +278,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 Intent intent = new Intent(this.mTaskContext, UserProfile.class);
                 intent.putExtra("User", this.mUserEmail);
                 intent.putExtra("Action", "register");
+                intent.putExtra("Token", mAuthToken);
                 startActivity(intent);
                 finish();
             } else {
