@@ -253,18 +253,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-                //Send user data
-                //if success
-                //  askToken();
-                //token = getToken();
-                mAuthToken = "SOME TOKEN"; //TODO: Do real job
-                firebaseAuthenticate(mAuthToken);
-            } catch (InterruptedException e) {
+            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail, mUserPassword, "");
+            if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
                 return false;
             }
+            firebaseAuthenticate(mAuthToken);
 
             return mUserPassword == mUserPassword; //Todo: Replace with user don't exists
         }
