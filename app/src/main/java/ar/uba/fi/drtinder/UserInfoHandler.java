@@ -40,7 +40,7 @@ public class UserInfoHandler {
         CSVWriter writer = new CSVWriter(stringWriter);
         writer.writeNext(params);
 
-        String response = restTemplate.postForObject(stringWriter.toString(), url, String.class);
+        String response = " ";//restTemplate.postForObject(stringWriter.toString(), url, String.class);
 
         if (!response.equals("")) { //TODO Check
             return response;
