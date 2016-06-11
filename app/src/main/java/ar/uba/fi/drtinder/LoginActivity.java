@@ -204,6 +204,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    private String getLocationString() {
+        return LocationHandler.getLocationString(this);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int index, Bundle bundle) {
         return new CursorLoader(this);
@@ -244,7 +248,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         RegisterTask(String email, String password, Context context) {
             mUserEmail = email;
             mUserPassword = password;
-            this.mTaskContext = context;
+            mTaskContext = context;
+            mAuthToken = UserInfoHandler.NULL_TOKEN;
         }
 
         /**
@@ -253,7 +258,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail, mUserPassword, "");
+            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
+                    mUserPassword, getLocationString());
             if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
                 return false;
             }
