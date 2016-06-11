@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Basic login screen based on Android Studio login Activity template
@@ -74,6 +75,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         firebaseLogedIn = false;
+
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if (user != null) {
+            startApp(user.getEmail(), this);
+        }
     }
 
     /**
@@ -124,8 +130,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    private void firebaseAuthenticate(String token) {
-        mFirebaseAuth.signInWithCustomToken(token).addOnCompleteListener(this, task -> {
+    private void firebaseAuthenticate(String email, String password) {
+        mFirebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
             DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
             if (!task.isSuccessful()) {
                 DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
@@ -165,7 +172,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 8; //Valid password is at least 8 characters
+        return password.length() >= 6; //Valid password is at least 6 characters
     }
 
     /**
@@ -223,6 +230,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
+    private void startApp(String userEmail, Context context) {
+        Intent menuIntent = new Intent(context, MainActivity.class);
+        menuIntent.putExtra("User", userEmail);
+        startActivity(menuIntent);
+        finish();
+    }
+
     private interface TaskExecutor {
         void execute(String email, String password);
     }
@@ -258,14 +272,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
+            //Todo: Change
             String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
             if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
                 return false;
             }
-            firebaseAuthenticate(mAuthToken);
+            firebaseAuthenticate(mUserEmail, mUserPassword);
 
-            return mUserPassword == mUserPassword; //Todo: Replace with user don't exists
+            return firebaseLogedIn;
         }
 
         @Override
@@ -318,13 +333,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
+                    mUserPassword, getLocationString());
+            if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
                 return false;
             }
-            return mUserPassword == mUserPassword;
+            firebaseAuthenticate(mUserEmail, mUserPassword);
+
+            return firebaseLogedIn;
         }
 
         @Override
@@ -333,10 +349,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent menuIntent = new Intent(this.mTaskContext, MainActivity.class);
-                menuIntent.putExtra("User", this.mUserEmail);
-                startActivity(menuIntent);
-                finish();
+                startApp(mUserEmail, this.mTaskContext);
             } else {
                 mPasswordTextView.setError(getString(R.string.error_incorrect_password));
                 mPasswordTextView.requestFocus();
