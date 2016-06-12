@@ -28,8 +28,8 @@ import au.com.bytecode.opencsv.CSVWriter;
 //TODO: Name
 public class UserInfoHandler {
 
-    public static String NULL_TOKEN = "";
-    private static String LOGIN_URL = "";
+    public static final String NULL_TOKEN = "";
+    private static final String LOGIN_URL = "";
 
     static String getLoginToken(String username, String password, String location) {
 

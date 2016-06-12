@@ -15,14 +15,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserProfile extends AppCompatActivity {
 
+    public static final String USER_EXTRA_USERNAME = "name";
+    public static final String USER_EXTRA_USEREMAIL = "email";
+    public static final String PROFILE_EXTRA_ACTION = "action";
+    public static final String PROFILE_ACTION_CREATE = "Create Profile";
+    public static final String PROFILE_ACTION_UPDATE = "Update Profile";
     private static final int PICK_IMAGE = 100;
-    public static String USER_EXTRA_USERNAME = "name";
-    public static String USER_EXTRA_USEREMAIL = "email";
-
-    public static String PROFILE_EXTRA_ACTION = "action";
-    public static String PROFILE_ACTION_CREATE = "Create Profile";
-    public static String PROFILE_ACTION_UPDATE = "Update Profile";
-
     private ImageView profilePic;
     private String action;
     private String username;
