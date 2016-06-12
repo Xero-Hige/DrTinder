@@ -13,6 +13,7 @@
 class friendsHandler: public Handler {
 public:
 	friendsHandler();
+	HttpResponse httpGet(struct http_message *hm);
 	virtual ~friendsHandler();
 };
 

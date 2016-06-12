@@ -32,15 +32,17 @@ protected:
 	virtual HttpResponse httpPut(struct http_message *hm);
 	virtual HttpResponse httpDelete(struct http_message *hm);
 	int getType(std::string method);
-	DatabaseManager *db;
-	SharedServerClient *sharedConnection;
-	std::map<std::string, int> mapMethod;
 	HttpResponse methodNotExist(){
 			HttpResponse resp;
 			resp.turnToBadRequest("No existe el metodo, " + this->uri);
 			return resp;
 	}
+
+	DatabaseManager *db;
+	SharedServerClient *sharedConnection;
+	std::map<std::string, int> mapMethod;
 	std::string uri;
+	Parser parse;
 
 };
 

@@ -13,6 +13,7 @@
 class interestHandler: public Handler {
 public:
 	interestHandler();
+	HttpResponse httpGet(struct http_message * hm);
 	virtual ~interestHandler();
 };
 

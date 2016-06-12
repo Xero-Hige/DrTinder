@@ -12,6 +12,20 @@ interestHandler::interestHandler() {
 	this->uri = INTEREST_URI;
 }
 
+HttpResponse interestHandler::httpGet(struct http_message *hm){
+	HttpResponse resp;
+	std::string url = parse.getUri(hm);
+	std::string token;
+	if (!parse.urlAt(url,1,token)){
+		resp.turnToBadRequest("No hay token en el url");
+	}else {
+		//TODO harcode de imagen
+		resp.setBody("devolver imagen interes");
+		resp.setStatus(200);
+	}
+	return resp;
+}
+
 interestHandler::~interestHandler() {
 	// TODO Auto-generated destructor stub
 }
