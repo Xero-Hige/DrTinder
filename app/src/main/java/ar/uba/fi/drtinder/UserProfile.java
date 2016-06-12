@@ -17,6 +17,8 @@ public class UserProfile extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 100;
     public static String USER_EXTRA_USERNAME = "name";
+    public static String USER_EXTRA_USEREMAIL = "email";
+
     public static String PROFILE_EXTRA_ACTION = "action";
     public static String PROFILE_ACTION_CREATE = "Create Profile";
     public static String PROFILE_ACTION_UPDATE = "Update Profile";
@@ -26,7 +28,7 @@ public class UserProfile extends AppCompatActivity {
     private String username;
 
     private String email;
-    private String password;
+    private TextView passwordTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,17 @@ public class UserProfile extends AppCompatActivity {
         toolbar.setTitle(action);
 
         profilePic = (ImageView) findViewById(R.id.userAvatar);
-        ImageResourcesHandler.fillImageResource(activityIntent.getStringExtra(USER_EXTRA_USERNAME),
-                ImageResourcesHandler.RES_USER_IMG, profilePic, this);
-
         assert profilePic != null; //DEBUG Assert
+
+        if (action.equals(PROFILE_ACTION_UPDATE)) {
+            ImageResourcesHandler.fillImageResource(activityIntent.getStringExtra(USER_EXTRA_USERNAME),
+                    ImageResourcesHandler.RES_USER_IMG, profilePic, this);
+        }
+
+        if (action.equals(PROFILE_ACTION_CREATE)) {
+            email = activityIntent.getStringExtra(USER_EXTRA_USEREMAIL);
+            assert email != null;//DEBUG Assert
+        }
 
         profilePic.setOnClickListener(v -> {
             Intent gallery = new Intent(Intent.ACTION_PICK,
@@ -58,10 +67,10 @@ public class UserProfile extends AppCompatActivity {
 
         addSubmitButton();
 
-        TextView password = (TextView) findViewById(R.id.password);
-        assert password != null;//DEBUG Assert
+        passwordTV = (TextView) findViewById(R.id.password);
+        assert passwordTV != null;//DEBUG Assert
 
-        password.setEnabled(!action.equals(PROFILE_ACTION_CREATE));
+        passwordTV.setEnabled(action.equals(PROFILE_ACTION_CREATE));
     }
 
     private void addSubmitButton() {
@@ -74,8 +83,15 @@ public class UserProfile extends AppCompatActivity {
         if (action.equals(PROFILE_ACTION_CREATE)) {
             label = "Create";
             clickListener = v -> {
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password);
+                String password = passwordTV.getText().toString();
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
+                    } else {
+                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user " + email + " " + password);
+                    }
+                });
+                finish();
             };
         } else if (action.equals(PROFILE_ACTION_UPDATE)) {
             label = "Update";

@@ -281,13 +281,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected Boolean doInBackground(Void... params) {
             //Todo: Change
-            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
-                    mUserPassword, getLocationString());
-            if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
-                return false;
-            }
-            firebaseAuthenticate(mUserEmail, mUserPassword);
-            return firebaseLogedIn;
+            //String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,mUserPassword, getLocationString());
+            //if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
+            //    return false;
+            //}
+            //firebaseAuthenticate(mUserEmail, mUserPassword);
+            return UserInfoHandler.isValidPassword(this.mUserEmail);
         }
 
         @Override
@@ -297,13 +296,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 Intent intent = new Intent(this.mTaskContext, UserProfile.class);
-                intent.putExtra("User", this.mUserEmail);
-                intent.putExtra("Action", "register");
-                intent.putExtra("Token", mAuthToken);
+                intent.putExtra(UserProfile.USER_EXTRA_USEREMAIL, this.mUserEmail);
+                intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_CREATE);
                 startActivity(intent);
-                finish();
             } else {
-                mEmailTextView.setError("User already exists");
+                if (mUserEmail.equals("")) {
+                    mEmailTextView.setError("Email needed");
+                } else if (UserInfoHandler.isValidEmail(mUserEmail)) {
+                    mEmailTextView.setError("Invalid email");
+                } else {
+                    mEmailTextView.setError("Already in use");
+                }
                 mEmailTextView.requestFocus();
             }
         }
