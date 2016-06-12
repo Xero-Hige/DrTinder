@@ -41,8 +41,6 @@ HttpResponse MessageHandler::parse(string message) {
 	Parser parser;
 	HttpResponse resp;
 	struct http_message hm;
-	int bad = 400;
-	int good = 200;
 
 	int err = mg_parse_http( message.c_str(), message.length(), &hm, 1);
 	if (err <= 0){

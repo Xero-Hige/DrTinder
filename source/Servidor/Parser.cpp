@@ -83,6 +83,18 @@ bool Parser::urlAt(std::string url, int index, std::string &value){
 	size_t next = 0;
 	std::string breadCrumb;
 
+	//remove first and last /
+	char first_char = *url.begin();
+	char last_char = *url.rbegin();
+
+	if ( first_char == '/' ){
+		url = url.substr(1, url.length());
+	}
+
+	if ( last_char == '/' ){
+		url = url.substr(0, url.length() - 1);
+	}
+
 	while ((next = url.find("/", last)) != string::npos && (i <= index) ){
 
 		breadCrumb = url.substr(last, next-last);
@@ -96,7 +108,7 @@ bool Parser::urlAt(std::string url, int index, std::string &value){
 		return false;
 	}
 
-	if (next == string::npos){
+	if (next == string::npos && i == index){
 		breadCrumb = url.substr(last);
 	}
 

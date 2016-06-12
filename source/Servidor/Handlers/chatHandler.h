@@ -13,6 +13,7 @@
 class chatHandler: public Handler {
 public:
 	chatHandler();
+	HttpResponse httpGet(struct http_message *hm);
 	virtual ~chatHandler();
 };
 
