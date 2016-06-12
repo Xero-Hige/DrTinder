@@ -6,7 +6,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserProfile extends AppCompatActivity {
 
@@ -20,6 +25,8 @@ public class UserProfile extends AppCompatActivity {
     private String action;
     private String username;
 
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,8 @@ public class UserProfile extends AppCompatActivity {
         assert toolbar != null;//DEBUG Assert
 
         action = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
+        assert action != null; //DEBUG Assert
+
         toolbar.setTitle(action);
 
         profilePic = (ImageView) findViewById(R.id.userAvatar);
@@ -47,6 +56,39 @@ public class UserProfile extends AppCompatActivity {
             startActivityForResult(gallery, PICK_IMAGE);
         });
 
+        addSubmitButton();
+
+        TextView password = (TextView) findViewById(R.id.password);
+        assert password != null;//DEBUG Assert
+
+        password.setEnabled(!action.equals(PROFILE_ACTION_CREATE));
+    }
+
+    private void addSubmitButton() {
+        Button submit = (Button) findViewById(R.id.submmit);
+        assert submit != null; //DEBUG Assert
+
+        String label = null;
+        View.OnClickListener clickListener = v -> {
+        }; //Empty initialize
+        if (action.equals(PROFILE_ACTION_CREATE)) {
+            label = "Create";
+            clickListener = v -> {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password);
+            };
+        } else if (action.equals(PROFILE_ACTION_UPDATE)) {
+            label = "Update";
+            clickListener = v -> {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
+                finish();
+            };
+        }
+
+        assert label != null;
+
+        submit.setText(label);
+        submit.setOnClickListener(clickListener);
     }
 
     @Override
