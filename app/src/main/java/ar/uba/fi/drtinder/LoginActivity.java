@@ -45,12 +45,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private FirebaseAuth mFirebaseAuth;
     private boolean firebaseLogedIn;
+    private boolean firebaseLoginFinished;
 
 
     @Override
     protected void onCreate(Bundle instanceState) {
         super.onCreate(instanceState);
         setContentView(R.layout.activity_login);
+
+        firebaseLoginFinished = false;
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -128,6 +131,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private void firebaseAuthenticate(String email, String password) {
+        firebaseLoginFinished = false;
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
@@ -137,7 +141,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
                     }
                     firebaseLogedIn = task.isSuccessful();
+                    firebaseLoginFinished = true;
                 });
+        try {
+            while (!firebaseLoginFinished) {
+                Thread.sleep(500);//Wait till lock is reached (Needs a real barrier)
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void attemptRegister() {
@@ -275,7 +287,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
             firebaseAuthenticate(mUserEmail, mUserPassword);
-
             return firebaseLogedIn;
         }
 
@@ -335,6 +346,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return false;
             }
             firebaseAuthenticate(mUserEmail, mUserPassword);
+
 
             return firebaseLogedIn;
         }
