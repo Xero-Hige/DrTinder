@@ -29,11 +29,13 @@ public class LocationHandler {
     private static String locationString = "";
 
     static String getLocationString(Activity activity) {
-        LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager =
+                (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                locationString = String.format(Locale.ENGLISH, "%f-%f", location.getLatitude(), location.getLatitude());
+                locationString = String.format(Locale.ENGLISH,
+                        "%f-%f", location.getLatitude(), location.getLatitude());
             }
 
             @Override
@@ -48,7 +50,8 @@ public class LocationHandler {
             public void onProviderDisabled(String provider) {
             }
         };
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        activity.runOnUiThread(() -> locationManager
+                .requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener));
         return locationString;
     }
 }
