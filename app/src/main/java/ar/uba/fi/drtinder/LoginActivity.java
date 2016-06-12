@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Basic login screen based on Android Studio login Activity template
@@ -74,11 +73,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mProgressView = findViewById(R.id.login_progress);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        firebaseLogedIn = false;
 
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        if (user != null) {
-            startApp(user.getEmail(), this);
+        if (UserInfoHandler.isLoggedIn()) {
+            startApp(this);
         }
     }
 
@@ -230,9 +227,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
-    private void startApp(String userEmail, Context context) {
+    private void startApp(Context context) {
         Intent menuIntent = new Intent(context, MainActivity.class);
-        menuIntent.putExtra("User", userEmail);
         startActivity(menuIntent);
         finish();
     }
@@ -349,7 +345,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                startApp(mUserEmail, this.mTaskContext);
+                startApp(this.mTaskContext);
             } else {
                 mPasswordTextView.setError(getString(R.string.error_incorrect_password));
                 mPasswordTextView.requestFocus();

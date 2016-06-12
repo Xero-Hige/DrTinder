@@ -1,5 +1,7 @@
 package ar.uba.fi.drtinder;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.springframework.web.client.RestTemplate;
 
 import java.io.StringWriter;
@@ -54,5 +56,21 @@ public class UserInfoHandler {
 
     static public boolean isValidEmail(String email) {
         return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
+    }
+
+    static public boolean isLoggedIn() {
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    static public String getUserEmail() {
+        if (isLoggedIn()) return "";
+        return FirebaseAuth.getInstance().getCurrentUser().getEmail();
+    }
+
+    static public String getUsername() {
+        if (isLoggedIn()) return "";
+        String base = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String[] fields = base.split("@");
+        return fields[0] + fields[1].replace(".", "");
     }
 }

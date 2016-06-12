@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity
 
     private MenuItem mActualFragItem;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
-
+        username = UserInfoHandler.getUsername();
     }
 
     @Override
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (itemId == R.id.nav_manage) {
             Intent intent = new Intent(this, UserProfile.class);
-            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, "barrios");
+            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, username);
             intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_share) {
