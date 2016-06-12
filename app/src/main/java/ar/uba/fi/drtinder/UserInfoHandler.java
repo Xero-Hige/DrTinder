@@ -63,12 +63,18 @@ public class UserInfoHandler {
     }
 
     static public String getUserEmail() {
-        if (isLoggedIn()) return "";
+        if (!isLoggedIn()) {
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
+            return "";
+        }
         return FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
     static public String getUsername() {
-        if (isLoggedIn()) return "";
+        if (!isLoggedIn()) {
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
+            return "";
+        }
         String base = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         String[] fields = base.split("@");
         return fields[0] + fields[1].replace(".", "");
