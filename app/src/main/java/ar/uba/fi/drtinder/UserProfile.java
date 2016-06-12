@@ -21,12 +21,13 @@ public class UserProfile extends AppCompatActivity {
     public static final String PROFILE_ACTION_CREATE = "Create Profile";
     public static final String PROFILE_ACTION_UPDATE = "Update Profile";
     private static final int PICK_IMAGE = 100;
-    private ImageView profilePic;
-    private String action;
-    private String username;
 
-    private String email;
-    private TextView passwordTV;
+    private ImageView mProfilePic;
+    private String mActivityAction;
+    private String mUsername;
+
+    private String mEmail;
+    private TextView mPasswordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +40,25 @@ public class UserProfile extends AppCompatActivity {
 
         assert toolbar != null;//DEBUG Assert
 
-        action = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
-        assert action != null; //DEBUG Assert
+        mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
+        assert mActivityAction != null; //DEBUG Assert
 
-        toolbar.setTitle(action);
+        toolbar.setTitle(mActivityAction);
 
-        profilePic = (ImageView) findViewById(R.id.userAvatar);
-        assert profilePic != null; //DEBUG Assert
+        mProfilePic = (ImageView) findViewById(R.id.userAvatar);
+        assert mProfilePic != null; //DEBUG Assert
 
-        if (action.equals(PROFILE_ACTION_UPDATE)) {
+        if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             ImageResourcesHandler.fillImageResource(activityIntent.getStringExtra(USER_EXTRA_USERNAME),
-                    ImageResourcesHandler.RES_USER_IMG, profilePic, this);
+                    ImageResourcesHandler.RES_USER_IMG, mProfilePic, this);
         }
 
-        if (action.equals(PROFILE_ACTION_CREATE)) {
-            email = activityIntent.getStringExtra(USER_EXTRA_USEREMAIL);
-            assert email != null;//DEBUG Assert
+        if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
+            mEmail = activityIntent.getStringExtra(USER_EXTRA_USEREMAIL);
+            assert mEmail != null;//DEBUG Assert
         }
 
-        profilePic.setOnClickListener(v -> {
+        mProfilePic.setOnClickListener(v -> {
             Intent gallery = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(gallery, PICK_IMAGE);
@@ -65,10 +66,10 @@ public class UserProfile extends AppCompatActivity {
 
         addSubmitButton();
 
-        passwordTV = (TextView) findViewById(R.id.password);
-        assert passwordTV != null;//DEBUG Assert
+        mPasswordView = (TextView) findViewById(R.id.password);
+        assert mPasswordView != null;//DEBUG Assert
 
-        passwordTV.setEnabled(action.equals(PROFILE_ACTION_CREATE));
+        mPasswordView.setEnabled(mActivityAction.equals(PROFILE_ACTION_CREATE));
     }
 
     private void addSubmitButton() {
@@ -78,20 +79,22 @@ public class UserProfile extends AppCompatActivity {
         String label = null;
         View.OnClickListener clickListener = v -> {
         }; //Empty initialize
-        if (action.equals(PROFILE_ACTION_CREATE)) {
+        if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             label = "Create";
             clickListener = v -> {
-                String password = passwordTV.getText().toString();
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                String password = mPasswordView.getText().toString();
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(mEmail, password)
+                        .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
                     } else {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user " + email + " " + password);
+                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user "
+                                + mEmail + " " + password);
                     }
                 });
                 finish();
             };
-        } else if (action.equals(PROFILE_ACTION_UPDATE)) {
+        } else if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             label = "Update";
             clickListener = v -> {
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
@@ -110,7 +113,7 @@ public class UserProfile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Uri imageUri = data.getData();
-            profilePic.setImageURI(imageUri);
+            mProfilePic.setImageURI(imageUri);
         }
     }
 }

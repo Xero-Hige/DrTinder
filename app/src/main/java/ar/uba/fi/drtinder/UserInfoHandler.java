@@ -26,7 +26,7 @@ import au.com.bytecode.opencsv.CSVWriter;
  */
 
 //TODO: Name
-public class UserInfoHandler {
+public final class UserInfoHandler {
 
     public static final String NULL_TOKEN = "";
     private static final String LOGIN_URL = "";
