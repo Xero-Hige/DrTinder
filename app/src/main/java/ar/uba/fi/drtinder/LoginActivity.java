@@ -133,14 +133,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
-            if (!task.isSuccessful()) {
-                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
-            } else {
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
-            }
-            firebaseLogedIn = task.isSuccessful();
-        });
+                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
+                    if (!task.isSuccessful()) {
+                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
+                    } else {
+                        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
+                    }
+                    firebaseLogedIn = task.isSuccessful();
+                });
     }
 
     private void attemptRegister() {
