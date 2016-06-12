@@ -57,7 +57,7 @@
                     android:src="@drawable/not_found" />
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/userAvatar"
@@ -67,12 +67,12 @@
                     android:inputType="textPersonName" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/editText"
-                    android:layout_alignStart="@+id/editText"
-                    android:layout_below="@+id/editText"
+                    android:layout_alignEnd="@+id/username"
+                    android:layout_alignStart="@+id/username"
+                    android:layout_below="@+id/username"
                     android:ems="10"
                     android:hint="Password"
                     android:inputType="textPassword" />
@@ -125,8 +125,8 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/editText2"
-                    android:layout_below="@+id/editText2"
+                    android:layout_alignStart="@+id/password"
+                    android:layout_below="@+id/password"
                     android:text="Sexo"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/userAvatar"
-                    android:layout_below="@+id/editText2"
+                    android:layout_below="@+id/password"
                     android:text="Buscando"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -151,7 +151,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/interestCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/sexMaleRadio"
@@ -160,37 +160,37 @@
                     android:hint="Category" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/interestId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/checkBox3"
                     android:layout_below="@+id/horizontalScrollView"
-                    android:layout_toEndOf="@+id/editText3"
+                    android:layout_toEndOf="@+id/interestCategory"
                     android:hint="Interest" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/addInterest"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignBottom="@+id/editText4"
+                    android:layout_alignBottom="@+id/interestId"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/horizontalScrollView"
                     android:layout_toEndOf="@+id/checkBox3"
                     android:text="+" />
 
+                <Button
+                    android:id="@+id/submmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/addInterest"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/interestCategory"
+                    android:text="Update profile" />
+
 
             </RelativeLayout>
         </ScrollView>
-
-        <Button
-            android:id="@+id/submmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/scrollView"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:text="Update profile" />
 
     </RelativeLayout>
 
