@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * Main app activity of the app Dr Tinder. Displays the 2 main fragments
  */
@@ -113,25 +115,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int itemId = item.getItemId();
 
-        if (itemId == R.id.nav_camera) {
-            Snackdebug.showMessage("No te podes sacar fotos", findViewById(R.id.section_layout));
-        } else if (itemId == R.id.nav_gallery) {
-            Snackdebug.showMessage("No podes ver fotos", findViewById(R.id.section_layout));
-
-        } else if (itemId == R.id.nav_slideshow) {
-            Snackdebug.showMessage("Basta", findViewById(R.id.section_layout));
-
-        } else if (itemId == R.id.nav_manage) {
+        if (itemId == R.id.nav_profile) {
             Intent intent = new Intent(this, UserProfile.class);
             intent.putExtra(UserProfile.USER_EXTRA_USERNAME, username);
             intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
             startActivity(intent);
-        } else if (itemId == R.id.nav_share) {
-            Snackdebug.showMessage("Compartir?", findViewById(R.id.section_layout));
-
-        } else if (itemId == R.id.nav_send) {
-            Snackdebug.showMessage("Enviar?", findViewById(R.id.section_layout));
-
+        } else if (itemId == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            //Intent intent = new Intent(this, LoginActivity.class);
+            //startActivity(intent);
+            //finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
