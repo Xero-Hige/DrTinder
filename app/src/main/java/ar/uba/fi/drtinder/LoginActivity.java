@@ -44,8 +44,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
 
     private FirebaseAuth mFirebaseAuth;
-    private boolean firebaseLogedIn;
-    private boolean firebaseLoginFinished;
+    private boolean mFirebaseLogedIn;
+    private boolean mFirebaseLoginFinished;
 
 
     @Override
@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(instanceState);
         setContentView(R.layout.activity_login);
 
-        firebaseLoginFinished = false;
+        mFirebaseLoginFinished = false;
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -131,7 +131,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private void firebaseAuthenticate(String email, String password) {
-        firebaseLoginFinished = false;
+        mFirebaseLoginFinished = false;
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
@@ -140,12 +140,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     } else {
                         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
                     }
-                    firebaseLogedIn = task.isSuccessful();
-                    firebaseLoginFinished = true;
+                    mFirebaseLogedIn = task.isSuccessful();
+                    mFirebaseLoginFinished = true;
                 });
         try {
-            while (!firebaseLoginFinished) {
-                Thread.sleep(500);//Wait till lock is reached (Needs a real barrier)
+            while (!mFirebaseLoginFinished) {
+                Thread.sleep(500); //Wait till lock is reached (Needs a real barrier)
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -351,7 +351,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             firebaseAuthenticate(mUserEmail, mUserPassword);
 
 
-            return firebaseLogedIn;
+            return mFirebaseLogedIn;
         }
 
         @Override

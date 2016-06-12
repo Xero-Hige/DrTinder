@@ -22,7 +22,7 @@ import au.com.bytecode.opencsv.CSVWriter;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
 //TODO: Name
@@ -30,6 +30,9 @@ public class UserInfoHandler {
 
     public static final String NULL_TOKEN = "";
     private static final String LOGIN_URL = "";
+
+    private UserInfoHandler() {
+    }
 
     static String getLoginToken(String username, String password, String location) {
 
@@ -42,7 +45,7 @@ public class UserInfoHandler {
         CSVWriter writer = new CSVWriter(stringWriter);
         writer.writeNext(params);
 
-        String response = " ";//restTemplate.postForObject(stringWriter.toString(), url, String.class);
+        String response = " "; //restTemplate.postForObject(stringWriter.toString(), url, String.class);
 
         if (!response.equals("")) { //TODO Check
             return response;
@@ -50,19 +53,19 @@ public class UserInfoHandler {
         return NULL_TOKEN;
     }
 
-    static public boolean isValidPassword(String pass) {
+    public static boolean isValidPassword(String pass) {
         return pass.length() >= 6;
     }
 
-    static public boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
     }
 
-    static public boolean isLoggedIn() {
+    public static boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    static public String getUserEmail() {
+    public static String getUserEmail() {
         if (!isLoggedIn()) {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
             return "";
@@ -70,7 +73,7 @@ public class UserInfoHandler {
         return FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
-    static public String getUsername() {
+    public static String getUsername() {
         if (!isLoggedIn()) {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
             return "";

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
 
     private MenuItem mActualFragItem;
 
-    private String username;
+    private String mUsername;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
-        username = UserInfoHandler.getUsername();
+        mUsername = UserInfoHandler.getUsername();
     }
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
         if (itemId == R.id.nav_profile) {
             Intent intent = new Intent(this, UserProfile.class);
-            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, username);
+            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, mUsername);
             intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_logout) {

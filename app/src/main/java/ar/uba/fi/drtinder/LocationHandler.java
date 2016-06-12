@@ -23,14 +23,17 @@ import java.util.Locale;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 public class LocationHandler {
     private static String locationString = "";
 
+    private LocationHandler() {
+    }
+
     static String getLocationString(Activity activity) {
-        LocationManager locationManager =
-                (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager)
+                activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
