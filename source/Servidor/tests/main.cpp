@@ -5,6 +5,7 @@
  *      Author: tobias
  */
 #include "interestTest.h"
+#include "parserTest.h"
 #include "tokenizerTest.h"
 #include "gtest/gtest.h"
 

@@ -76,3 +76,30 @@ std::string Parser::getUriStart(struct http_message *hm){
 std::string Parser::getMethod(struct http_message *hm){
     return deleteFromFirstSpace(hm->method.p);
 }
+
+bool Parser::urlAt(std::string url, int index, std::string &value){
+	int i = 0;
+	size_t last = 0;
+	size_t next = 0;
+	std::string breadCrumb;
+
+	while ((next = url.find("/", last)) != string::npos && (i <= index) ){
+
+		breadCrumb = url.substr(last, next-last);
+		last = next + 1;
+		i++;
+
+	}
+
+	if (i < index){
+		value = "";
+		return false;
+	}
+
+	if (next == string::npos){
+		breadCrumb = url.substr(last);
+	}
+
+	value = breadCrumb;
+	return true;
+}

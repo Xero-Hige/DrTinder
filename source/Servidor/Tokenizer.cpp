@@ -28,12 +28,12 @@ std::string Tokenizer::newToken(std::string mail, std::string pass){
 	std::string timeStamp(time);
 	std::string toHash = mail + pass + timeStamp;
     const char* string = toHash.c_str();
-
+    const unsigned char* unsignedString = (unsigned char*) string;
     //cout << "string length: " << strlen(string) << endl;
 
 	MD5_CTX ctx;
 	MD5_Init(&ctx);
-	MD5_Update(&ctx, string, strlen(string));
+	MD5_Update(&ctx, unsignedString, strlen(string));
 	MD5_Final(digest, &ctx);
 
 	char mdString[33];

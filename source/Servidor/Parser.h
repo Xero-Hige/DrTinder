@@ -1,7 +1,7 @@
 #ifndef SOURCE_PARSER_H
 #define SOURCE_PARSER_H
 
-
+#include <iostream>
 #include <string>
 #include <exception>
 #include "../libs/jsoncpp/dist/json/json.h"
@@ -21,6 +21,7 @@ class Parser {
         std::string getUri(struct http_message *hm);
         std::string getMethod(struct http_message *hm);
         std::string getUriStart(struct http_message *hm);
+        bool urlAt(std::string url, int index, std::string &value);
     protected:
         void parse(Json::Value node, std::string *parameters_names, std::string& values);
         std::string deleteFromFirstSpace(const char * line);

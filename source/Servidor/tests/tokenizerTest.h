@@ -16,12 +16,14 @@ TEST(Tokenizer,CreatesTokenizerCheckIfExpiresInmediately){
 	EXPECT_FALSE(tokenizer.hasExpired(token));
 }
 
+/* Test lleva tiempo, por eso lo comento
 TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
 	Tokenizer tokenizer;
 	std::string token = tokenizer.newToken("aaa@aaa.com","asdasd");
 	sleep( (EXPIRATION_TIME + 1) );
 	ASSERT_TRUE(tokenizer.hasExpired(token));
-}
+}*/
+
 
 TEST(Tokenizer,CreatesAndRemoveTokenItExpires){
 	Tokenizer tokenizer;
