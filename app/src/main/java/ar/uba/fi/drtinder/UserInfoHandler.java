@@ -47,4 +47,12 @@ public class UserInfoHandler {
         }
         return NULL_TOKEN;
     }
+
+    static public boolean isValidPassword(String pass) {
+        return pass.length() >= 6;
+    }
+
+    static public boolean isValidEmail(String email) {
+        return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
+    }
 }

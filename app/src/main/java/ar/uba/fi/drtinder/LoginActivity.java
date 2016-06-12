@@ -168,11 +168,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isEmailValid(String email) {
-        return email.equals(email);
+        return UserInfoHandler.isValidEmail(email);
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() >= 6; //Valid password is at least 6 characters
+        return UserInfoHandler.isValidPassword(password);
     }
 
     /**
