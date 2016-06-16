@@ -83,6 +83,10 @@ void Interests::remove(string category, string value){
 	}
 }
 
+map<string,vector<string>> Interests::allInterests(){
+	return this->intereses;
+}
+
 Interests::~Interests() {
 
 }

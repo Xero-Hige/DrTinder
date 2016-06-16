@@ -6,6 +6,7 @@
  */
 #include "interestTest.h"
 #include "parserTest.h"
+//#include "sharedServerTest.h"
 #include "tokenizerTest.h"
 #include "gtest/gtest.h"
 

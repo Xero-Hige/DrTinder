@@ -18,13 +18,15 @@ using namespace std;
 class Interests {
 public:
 	Interests();
-	void importFrom(std::string interest, dataType type);
+	void importFrom( std::string interest, dataType type);
 	void add(std::string category, std::string value);
 	bool has(std::string category, std::string value);
 	bool getAll(std::string category, std::vector<std::string> &values);
 	void remove(std::string category, std::string value);
+	map<string,vector<string>> allInterests();
 	virtual ~Interests();
 private:
+
 	map<string,vector<string>> intereses;
 };
 

@@ -6,6 +6,7 @@ SET( CMAKE_VERBOSE_MAKEFILE on )
 
 INCLUDE_DIRECTORIES(../libs/mongoose)
 INCLUDE_DIRECTORIES(Handlers)
+INCLUDE_DIRECTORIES(Parsers)
 INCLUDE_DIRECTORIES(../libs/jsoncpp/dist/json)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
@@ -31,6 +32,7 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 User.cpp
 	 Interests.cpp
 	 Tokenizer.cpp
+	 Parsers/CsvParser.cpp
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS})
 
