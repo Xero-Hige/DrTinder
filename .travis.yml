@@ -26,26 +26,20 @@ android:
   - android-24
   - extra-android-m2repository
   - extra-google-m2repository
-  - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
+#  - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 before_script:
-  - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+#  - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI
+#  - emulator -avd test -no-skin -no-audio -no-window &
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_db032ff21e6e_key -iv $encrypted_db032ff21e6e_iv -in app/google-services.json.enc -out app/google-services.json -d
 
-
 script:
   - ./gradlew build --continue
 
-#  - android-wait-for-emulator
-#  - adb devices
-#  - adb shell input keyevent 82 &
-#  - ./gradlew connectedAndroidTest -PdisablePreDex --continue --stacktrace
-#  - rm /home/travis/.gradle/caches/2.8/plugin-resolution/cache.properties.lock
-
 after_success:
+  - ./gradlew check
   - ./gradlew jacocoTestReport
   - bash <(curl -s https://codecov.io/bash)
 
