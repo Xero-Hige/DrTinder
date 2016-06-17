@@ -238,10 +238,10 @@ public final class ImageResourcesHandler {
             try {
                 result = restTemplate.getForObject(imageUrl, String.class, "Android");
             } catch (HttpClientErrorException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Client error: " + e.getMessage());
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
                 return null;
             } catch (HttpServerErrorException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Server error: " + e.getMessage());
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
                 return null;
             }
             DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
