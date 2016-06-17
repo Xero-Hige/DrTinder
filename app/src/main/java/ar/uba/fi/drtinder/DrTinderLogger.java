@@ -2,6 +2,7 @@ package ar.uba.fi.drtinder;
 
 import android.util.Log;
 
+import java.security.InvalidParameterException;
 import java.util.Locale;
 
 /**
@@ -25,7 +26,13 @@ public final class DrTinderLogger {
     public static final int INFO = 1;
     public static final int WARN = 2;
     public static final int ERRO = 4;
-    public static final int NET_INFO = 8;
+    public static final int DEBG = 8;
+    public static final int NET_INFO = 16;
+    public static final int NET_WARN = 32;
+    public static final int NET_ERRO = 64;
+    public static final int NET_DEBG = 128;
+
+
     private static final String TAG = "Dr.Tinder";
 
     private DrTinderLogger() {
@@ -34,16 +41,23 @@ public final class DrTinderLogger {
     private static void privateLog(int level, String message) {
         switch (level) {
             case WARN:
+            case NET_WARN:
                 Log.w(TAG, message);
                 break;
             case ERRO:
+            case NET_ERRO:
                 Log.e(TAG, message);
                 break;
             case INFO:
             case NET_INFO:
                 Log.i(TAG, message);
                 break;
+            case DEBG:
+            case NET_DEBG:
+                Log.d(TAG, message);
+                break;
             default:
+                throw new InvalidParameterException("Not a valid level");
         }
     }
 
@@ -55,10 +69,18 @@ public final class DrTinderLogger {
                 return "ERROR";
             case INFO:
                 return "INFO";
+            case DEBG:
+                return "DEBUG";
             case NET_INFO:
                 return "NETWORK INFO";
+            case NET_ERRO:
+                return "NETWORK ERROR";
+            case NET_WARN:
+                return "NETWORK WARNING";
+            case NET_DEBG:
+                return "NETWORK DEBUG";
             default:
-                return ""; //TODO: Exception
+                throw new InvalidParameterException("Not a valid level");
         }
     }
 
