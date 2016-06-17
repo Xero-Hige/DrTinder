@@ -14,19 +14,6 @@ Interests::Interests() {
 
 }
 
-void Interests::importFrom(string interest, dataType type){
-	switch(type){
-		case JSON_DATA:
-			//TODO parseo
-			break;
-		case CSV_DATA:
-			//TODO parseo
-			break;
-		default:
-			return;
-	}
-}
-
 void Interests::add(std::string category, std::string value){
 	map<string,vector<string>>::iterator it = this->intereses.find(category);
 

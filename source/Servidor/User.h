@@ -9,7 +9,6 @@
 #define SERVIDOR_USER_H_
 
 #include <string>
-#include "dataTypes.h"
 #include "Interests.h"
 
 #define USER_AGE "age"
@@ -25,8 +24,6 @@
 class User {
 public:
 	User();
-	User(std::string userData, dataType type);
-	std::string exportTo(dataType type);
 	bool matches(User otroUser);
 
 	//set

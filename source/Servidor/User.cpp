@@ -11,18 +11,6 @@ User::User(){
 
 }
 
-User::User(std::string userData, dataType type){
-	switch(type){
-	case(JSON_DATA):
-			break;
-	case(CSV_DATA):
-			break;
-	default:
-		// TODO
-		return;
-	}
-}
-
 void User::setInterests(Interests interest){
 	this->interests = interest;
 }

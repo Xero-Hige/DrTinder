@@ -136,7 +136,7 @@ string CsvParser::interestToCsv(Interests * interests){
 
 	for(; it != inter.end(); ++it){
 		string key = it->first;
-		for (int i = 0; i < it->second.size(); i++){
+		for (unsigned int i = 0; i < it->second.size(); i++){
 			string value = it->second[i];
 			str += key + "::" + value + "||";
 		}
