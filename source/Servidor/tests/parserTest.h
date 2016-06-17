@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../Parser.h"
 #include "../Parsers/CsvParser.h"
+#include "../Parsers/JsonParser.h"
 #include "gtest/gtest.h"
 
 TEST(Parser,UrlAtIndexExists){
@@ -134,5 +135,31 @@ TEST(CsvParser, ParseUserMakeItAgainIsEqual){
 	ASSERT_TRUE(parsed.compare(parsed2) == 0);
 }
 
+TEST(JsonParser, ParseJsonPhoto){
+	JsonParser json;
+	string photo = "asdasdasdasd";
+	string parsed = json.photoToJson(&photo);
+	json.parsing(parsed);
+	string photo_2 = json.getValue(PHOTO_PUT_KEY).asString();
+	ASSERT_TRUE( photo.compare(photo_2) == 0);
+}
+
+TEST(JsonParser, ParseUserReMakeItStaysTheSame){
+	JsonParser json;
+	User user, user2;
+	Json::Value parsed, parsed2;
+	user.setAge(25);
+	user.setCommonData("aaa@aaa.com","pepe","juan","man");
+	user.setDescription("Hago lo que quiero lolollololo");
+	user.setId(12);
+	user.setPhoto("base64");
+	user.setLocation(1.25,-1.4536);
+	user.addInterest("sport","tennis");
+	user.addInterest("sport","rugby");
+	parsed = json.userToJson(&user);
+	json.makeUser(parsed, user2);
+	parsed2 = json.userToJson(&user2);
+	ASSERT_TRUE( parsed == parsed2 );
+}
 
 #endif /* SERVIDOR_TESTS_PARSERTEST_H_ */

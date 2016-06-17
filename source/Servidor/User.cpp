@@ -47,6 +47,22 @@ void User::setLocation(float x, float y){
 	this->location[LOC_Y] = y;
 }
 
+void User::setMail(std::string mail){
+	this->mail = mail;
+}
+
+void User::setAlias(std::string alias){
+	this->alias = alias;
+}
+
+void User::setName(std::string name){
+	this->name = name;
+}
+
+void User::setSex(std::string sex){
+	this->sex = sex;
+}
+
 void User::setCommonData(std::string mail, std::string alias, std::string name, std::string sex){
 	this->mail = mail;
 	this->alias = alias;

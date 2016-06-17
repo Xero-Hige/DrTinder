@@ -33,6 +33,10 @@ public:
 	void setId(int id);
 	void setAge(int age);
 	void setLocation(float x, float y);
+	void setMail(std::string mail);
+	void setAlias(std::string alias);
+	void setName(std::string name);
+	void setSex(std::string sex);
 	void setCommonData(std::string mail, std::string alias, std::string name, std::string sex);
 	void setDescription(std::string description);
 	void setPhoto(std::string photo);
