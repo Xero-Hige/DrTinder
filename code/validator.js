@@ -80,7 +80,7 @@ var _userPostSchema = {
       	},
   		"location":{"$ref": "/Location"},
   	},
-  	"required":["name","alias","sex","email","photo_profile","age","interests","location"]
+  	"required":["name","alias","sex","email","age","interests","location"]
 };
 
 var userSchema = {
