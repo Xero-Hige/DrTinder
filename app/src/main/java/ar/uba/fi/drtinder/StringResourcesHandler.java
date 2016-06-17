@@ -55,7 +55,7 @@ public final class StringResourcesHandler {
         }
     }
 
-    static void executeQuery(String resId, int resourceType, DataOperation operation) {
+    static void executeQuery(String resId, int resourceType, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(resourceType, resId, operation);
         task.execute();
     }
@@ -65,7 +65,7 @@ public final class StringResourcesHandler {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
 
-        String result = "";
+        String result;
 
         try {
             result = restTemplate.getForObject(queryUrl, String.class, "Android");
@@ -96,19 +96,19 @@ public final class StringResourcesHandler {
         }
     }
 
-    public interface DataOperation {
+    public interface CallbackOperation {
         void execute(List<String[]> data);
     }
 
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final DataOperation mOperation;
+        private final CallbackOperation mCallbackOp;
         private final String mUrl;
         private List<String[]> mData;
 
-        FetchDataTask(int resourceType, String resId, DataOperation operation) { //FIXME Names
-            mUrl = getUrlByType(resourceType) + resId;
-            this.mOperation = operation;
+        FetchDataTask(int resourceType, String resourceId, CallbackOperation callbackOperation) {
+            mUrl = getUrlByType(resourceType) + resourceId;
+            this.mCallbackOp = callbackOperation;
             this.mData = null;
         }
 
@@ -124,7 +124,7 @@ public final class StringResourcesHandler {
                 DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to get data from server");
                 return;
             }
-            mOperation.execute(mData);
+            mCallbackOp.execute(mData);
         }
 
     }
