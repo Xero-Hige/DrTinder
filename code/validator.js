@@ -72,7 +72,6 @@ var _userPostSchema = {
   		"alias": {"type": "string"},
   		"sex":{"type": "string"},
   		"email":{"type": "string"},
-  		"photo_profile":{"type": "string"},
   		"age":{"type": "integer"},
   		"interests": {
         	"type": "array",
@@ -88,17 +87,19 @@ var userSchema = {
 	"id": "/User",
 	"type":"object",
 	"properties": {
-		"user":{"$ref":"/UserBase","required":"true"}
-	}
+		"user":{"$ref":"/UserBase"}
+	},
+	"required":["user"]
 }
 
 var userPostSchema = {
 	"id": "/User",
 	"type":"object",
 	"properties": {
-		"user":{"$ref":"/UserPostBase","required":"true"},
-		"metadata":{"$ref":"/metaSCSchema","required":"true"}
-	}
+		"user":{"$ref":"/UserPostBase"},
+		"metadata":{"$ref":"/metaSCSchema"}
+	},
+	"required":["user","metadata"]
 }
 
 var usersSchema = {

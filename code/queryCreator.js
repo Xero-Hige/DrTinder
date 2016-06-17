@@ -122,10 +122,9 @@ module.exports = function (){
 		"BEGIN ";
 
 		var queryUsersTable = 
-		"INSERT INTO users_table (alias, name, email, sex, age , photo_profile) " +
+		"INSERT INTO users_table (alias, name, email, sex, age ) " +
 		"VALUES ('" + user.alias + "','" + user.name + "','" +
-		user.email + "','" + user.sex + "','" + user.age + "','" +
-		user.photo_profile + "') " +
+		user.email + "','" + user.sex + "','" + user.age + "') " +
 		"RETURNING id INTO lastid; ";
 
 		var queryLocation = 
