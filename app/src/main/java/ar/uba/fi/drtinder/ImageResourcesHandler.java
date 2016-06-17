@@ -12,6 +12,7 @@ import com.google.common.io.ByteStreams;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -195,6 +196,7 @@ public final class ImageResourcesHandler {
         protected void onPostExecute(final Boolean success) {
             if (mImageView != null) {
                 if (!success) {
+                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Failed to get image");
                     Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
                     return;
                 }
@@ -236,6 +238,10 @@ public final class ImageResourcesHandler {
             try {
                 result = restTemplate.getForObject(imageUrl, String.class, "Android");
             } catch (HttpClientErrorException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Client error: " + e.getMessage());
+                return null;
+            } catch (HttpServerErrorException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Server error: " + e.getMessage());
                 return null;
             }
             DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
