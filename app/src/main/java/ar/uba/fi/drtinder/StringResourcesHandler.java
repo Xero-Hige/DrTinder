@@ -3,6 +3,7 @@ package ar.uba.fi.drtinder;
 import android.os.AsyncTask;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -63,7 +64,15 @@ public final class StringResourcesHandler {
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        String result = restTemplate.getForObject(queryUrl, String.class, "Android");
+
+        String result = "";
+
+        try {
+            result = restTemplate.getForObject(queryUrl, String.class, "Android");
+        } catch (HttpServerErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+            return null;
+        }
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
 
         StringReader stringReader = new StringReader(result);
@@ -76,17 +85,15 @@ public final class StringResourcesHandler {
             try {
                 next = reader.readNext();
             } catch (IOException e) {
-                break;
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "CSV parse error");
+                return null;
             }
 
-            if (next != null) {
-                output.add(next);
-            } else {
-                break;
+            if (next == null) {
+                return output;
             }
+            output.add(next);
         }
-
-        return output;
     }
 
     public interface DataOperation {
@@ -108,12 +115,13 @@ public final class StringResourcesHandler {
         @Override
         protected Boolean doInBackground(Void... params) {
             mData = fetchData(mUrl);
-            return true;
+            return mData != null;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) {
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to get data from server");
                 return;
             }
             mOperation.execute(mData);
