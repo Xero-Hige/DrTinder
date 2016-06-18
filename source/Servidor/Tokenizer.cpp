@@ -81,14 +81,14 @@ std::string Tokenizer::newToken(std::string mail, std::string pass){
 	//cout << "md5 digest: " << mdString << endl;
 	std::string hashed(mdString);
 
-	database->addEntry(hashed,timeStamp);
+	database->addEntry(TOKENIZER_PREFIX + hashed,timeStamp);
 	return hashed;
 
 }
 
 bool Tokenizer::hasExpired(std::string token){
 	std::string timeStamp;
-	if (database->getEntry(token,timeStamp)){
+	if (database->getEntry(TOKENIZER_PREFIX + token,timeStamp)){
 		return this->timeStampExpired(timeStamp);
 	}
 	return true;
@@ -96,7 +96,7 @@ bool Tokenizer::hasExpired(std::string token){
 }
 
 void Tokenizer::remove(std::string token){
-	this->database->deleteEntry(token);
+	this->database->deleteEntry(TOKENIZER_PREFIX + token);
 }
 Tokenizer::~Tokenizer() {
 	// TODO Auto-generated destructor stub

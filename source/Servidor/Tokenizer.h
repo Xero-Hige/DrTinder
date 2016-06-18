@@ -26,7 +26,7 @@
 #define TS_MIN 4
 #define TS_SEC 5
 #define TS_COUNT 6
-
+#define TOKENIZER_PREFIX "token_"
 class Tokenizer {
 public:
 	Tokenizer(DatabaseManager *data);
