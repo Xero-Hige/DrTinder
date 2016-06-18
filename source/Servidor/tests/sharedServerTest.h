@@ -63,9 +63,9 @@ TEST(SharedServer,CreateUserAndDeleteIt){
 	   "\"metadata\": {"
        "\"version\": \"0.1\"  }}";
 	string response;
-	cout << user.c_str() << endl;
+
 	bool correct = ss.postUsers(response,&user);
-	cout << response.c_str() << endl;
+
 	ASSERT_TRUE(correct);
 
 	parser.parsing(response);
@@ -73,6 +73,67 @@ TEST(SharedServer,CreateUserAndDeleteIt){
 
 	bool deleted = ss.deleteUser(id,&response);
 
+	ASSERT_TRUE(deleted);
+
+}
+
+TEST(SharedServer,CreateUserModifyItModifyPhotoAndDeleteIt){
+	JsonParser parser;
+	string user =
+	"{\"user\": {"
+		"\"name\": \"usuario\","
+        "\"alias\": \"not a user\","
+        "\"email\": \"usuario@usuario.com\","
+        "\"sex\": \"man\","
+        "\"age\": 30,"
+		"\"interests\": [{"
+			"\"category\": \"music/band\","
+			"\"value\": \"radiohead\"},"
+			"{\"category\": \"music/band\","
+			"\"value\": \"pearl jam\"},"
+			"{\"category\": \"outdoors\","
+			"\"value\": \"running\"}],"
+		"\"location\": {"
+			"\"latitude\": -121.45356,"
+			"\"longitude\": 46.51119 }},"
+	   "\"metadata\": {"
+       "\"version\": \"0.1\"  }}";
+
+	string photo = "{\"photo\":\"comida\"}";
+	string response;
+
+	bool correct = ss.postUsers(response,&user);
+
+	ASSERT_TRUE(correct);
+	parser.parsing(response);
+	string id = parser.getValue(USER_KEY)[ID_KEY].asString();
+	string user_modified = "{\"user\": {"
+				"\"id\":" + id + ","
+				"\"name\": \"usuario\","
+		        "\"alias\": \"not a user\","
+		        "\"email\": \"usuario@usuario.com\","
+		        "\"sex\": \"man\","
+		        "\"age\": 30,"
+				"\"photo_profile\":\"asdasdasd\","
+				"\"interests\": [{"
+					"\"category\": \"music/band\","
+					"\"value\": \"radiohead\"},"
+					"{\"category\": \"music/band\","
+					"\"value\": \"pearl jam\"},"
+					"{\"category\": \"outdoors\","
+					"\"value\": \"running\"}],"
+				"\"location\": {"
+					"\"latitude\": -121.45356,"
+					"\"longitude\": 46.51119 }},"
+			   "\"metadata\": {"
+		       "\"version\": \"0.1\"  }}";
+	bool modified = ss.changeUser(id,user_modified);
+	ASSERT_TRUE(modified);
+
+	bool photo_modified = ss.changeUserPhoto(id,photo);
+	ASSERT_TRUE(photo_modified);
+
+	bool deleted = ss.deleteUser(id,&response);
 	ASSERT_TRUE(deleted);
 
 }
