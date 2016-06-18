@@ -19,6 +19,7 @@ Server::Server() : usersDB(NULL) {
 
 Server::~Server() {
     mg_mgr_free(&manager_);
+    delete this->usersDB;
 }
 
 void Server::run() {
@@ -31,14 +32,13 @@ void Server::run() {
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* data) {
 		
 	if (new_event == MG_EV_ACCEPT) {
-	
+
 		rocksdb::DB* usersDB = (rocksdb::DB *) act_connection->user_data;
 		DatabaseManager* usersDBM = new DatabaseManager(usersDB);
 		MessageHandler* msgHandler = new MessageHandler(usersDBM);
 
 		act_connection->user_data = msgHandler;
 	} if (new_event == MG_EV_RECV) {
-
 		MessageHandler* msgHandler = (MessageHandler *) act_connection->user_data;
 		struct mbuf *io = &act_connection->recv_mbuf;
 		

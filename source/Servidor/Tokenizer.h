@@ -16,6 +16,7 @@
 #include <ctime>
 #include <vector>
 #include "../libs/mongoose/mongoose.h"
+#include "DatabaseManager.h"
 
 #define EXPIRATION_TIME 5
 #define TS_YEAR 0
@@ -28,7 +29,7 @@
 
 class Tokenizer {
 public:
-	Tokenizer();
+	Tokenizer(DatabaseManager *data);
 	virtual ~Tokenizer();
 	/*Generates new Hash*/
 	std::string newToken(std::string mail,std::string pass);
@@ -41,9 +42,7 @@ private:
 	std::string getNowTimeStamp();
 	/*Verifys if timeStamp has expired*/
 	bool timeStampExpired(std::string timeStamp);
-
-	std::map<std::string,std::string> tokens;
-
+	DatabaseManager *database;
 };
 
 #endif /* SERVIDOR_TOKENIZER_H_ */

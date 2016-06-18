@@ -9,8 +9,8 @@
 
 using namespace std;
 
-Tokenizer::Tokenizer() {
-	// TODO Singleton, solo un tokenizer, solo una base de datos, donde deberia estar guardado esto
+Tokenizer::Tokenizer(DatabaseManager *database) {
+	this->database = database;
 
 }
 
@@ -81,27 +81,22 @@ std::string Tokenizer::newToken(std::string mail, std::string pass){
 	//cout << "md5 digest: " << mdString << endl;
 	std::string hashed(mdString);
 
-	this->tokens[hashed] = timeStamp;
+	database->addEntry(hashed,timeStamp);
 	return hashed;
 
 }
 
 bool Tokenizer::hasExpired(std::string token){
-	std::map<std::string,std::string>::iterator it = this->tokens.find(token);
-
-	if (it != this->tokens.end()){
-		std::string timeStamp = it->second;
+	std::string timeStamp;
+	if (database->getEntry(token,timeStamp)){
 		return this->timeStampExpired(timeStamp);
-	}else{
-		return true;
 	}
+	return true;
+
 }
 
 void Tokenizer::remove(std::string token){
-	std::map<std::string,std::string>::iterator it = this->tokens.find(token);
-	if (it != this->tokens.end()){
-		this->tokens.erase(it);
-	}
+	this->database->deleteEntry(token);
 }
 Tokenizer::~Tokenizer() {
 	// TODO Auto-generated destructor stub

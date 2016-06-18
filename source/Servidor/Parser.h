@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <exception>
-#include "../libs/jsoncpp/dist/json/json.h"
 #include "api_constants_shared.h"
 #include "../libs/mongoose/mongoose.h"
 
