@@ -1,3 +1,7 @@
+var local_url = "localhost:5000";
+var page_url = "dr-tinder.herokuapp.com";
+var using_url =  page_url;
+
 function valid(text,type){
 	var regex;
 	switch (type){
@@ -54,10 +58,8 @@ function postUser(user){
 		}  
 	};
 	//http://
-	var local = "localhost:5000";
-	var page = "dr-tinder.herokuapp.com";
 	user["metadata"] = { version:"0.1" };
-	xhttp.open("POST", "http://" + local + "/users", true);
+	xhttp.open("POST", "http://" + using_url + "/users", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send(JSON.stringify(user));
 }
@@ -75,10 +77,9 @@ function putPhoto(id,photo){
 		}  
 	};
 	//http://
-	var local = "localhost:5000";
-	var page = "dr-tinder.herokuapp.com";
+
 	var send = {photo: photo};
-	xhttp.open("PUT", "http://" + local + "/users/" + id + "/photo", true);
+	xhttp.open("PUT", "http://" + using_url + "/users/" + id + "/photo", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send(JSON.stringify(send));
 }
