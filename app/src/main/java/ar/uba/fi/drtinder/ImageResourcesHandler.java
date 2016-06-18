@@ -1,5 +1,6 @@
 package ar.uba.fi.drtinder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -197,15 +198,29 @@ public final class ImageResourcesHandler {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (mImageView != null) {
-                if (!success) {
-                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Failed to get image");
-                    Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
+
+            if (mContext instanceof Activity) {
+                Activity contextActivity = (Activity) mContext;
+                if (contextActivity.isDestroyed()) {
+                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Trying to load image on destroyed activity");
                     return;
                 }
+            }
+
+            if (mImageView == null) {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Trying to load image on null imageView");
+                return;
+            }
+
+            if (success) {
                 mImageView.setImageBitmap(mImageBitmap);
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
+                return;
             }
+
+            DrTinderLogger.writeLog(DrTinderLogger.WARN, "Failed to get image");
+            Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
+
         }
 
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
