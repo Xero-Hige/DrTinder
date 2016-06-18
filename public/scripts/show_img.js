@@ -45,6 +45,28 @@ function postUser(user){
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4){
 			if ( xhttp.status == 201){
+				var postedUser = JSON.parse(xhttp.responseText)["user"];
+				putPhoto(postedUser["id"], user.user.photo_profile);
+			}
+			if (xhttp.status >= 400) {
+				$("#err_msg").text("ERR "+ xhttp.responseText);
+			}
+		}  
+	};
+	//http://
+	var local = "localhost:5000";
+	var page = "dr-tinder.herokuapp.com";
+	user["metadata"] = { version:"0.1" };
+	xhttp.open("POST", "http://" + local + "/users", true);
+	xhttp.setRequestHeader('Content-Type', 'application/json');
+	xhttp.send(JSON.stringify(user));
+}
+
+function putPhoto(id,photo){
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4){
+			if ( xhttp.status == 200){
 				$("#new_user").modal("hide");
 			}
 			if (xhttp.status >= 400) {
@@ -53,11 +75,12 @@ function postUser(user){
 		}  
 	};
 	//http://
-	var local = "localhost:5000"
-	var page = "dr-tinder.herokuapp.com"
-	xhttp.open("POST", "http://" + page + "/users", true);
+	var local = "localhost:5000";
+	var page = "dr-tinder.herokuapp.com";
+	var send = {photo: photo};
+	xhttp.open("PUT", "http://" + local + "/users/" + id + "/photo", true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
-	xhttp.send(JSON.stringify(user));
+	xhttp.send(JSON.stringify(send));
 }
 
 function decideToPost(user,keys_mal){
