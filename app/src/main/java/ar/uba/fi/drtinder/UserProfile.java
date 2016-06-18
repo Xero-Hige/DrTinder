@@ -85,13 +85,13 @@ public class UserProfile extends AppCompatActivity {
                 String password = mPasswordView.getText().toString();
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(mEmail, password)
                         .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
-                    } else {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user "
-                                + mEmail + " " + password);
-                    }
-                });
+                            if (task.isSuccessful()) {
+                                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user");
+                            } else {
+                                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user "
+                                        + mEmail + " " + password);
+                            }
+                        });
                 finish();
             };
         } else if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
