@@ -11,6 +11,10 @@ libgflags-dev
 libsnappy-dev
 libbz2-dev
 zlib1g-dev
+sudo apt-get install 
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install autoconf
+sudo apt-get install libtool
 
 Instalar rocksdb:
 Pararse en la carpeta DrTinder/source/libs/rocksdb
@@ -25,6 +29,14 @@ Instalar googletest:
 Pararse en la carpeta DrTinder/source/libs/googletest
 Ejecutar:
 sudo make install
+
+Instalar cpprest:
+Pararse en la carpeta DrTinder/source/libs/restclient-cpp
+
+./autogen.sh
+./configure
+sudo make install
+
 
 Para agregar jsoncpp, en la carpeta DrTinder/source/libs/jsoncpp ejecutar:
 

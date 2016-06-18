@@ -12,7 +12,7 @@ INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS pthread rocksdb z bz2 snappy)
+SET(SERVER_LIBS pthread rocksdb z bz2 snappy curl restclient-cpp)
 SET(TEST_LIBS ${SERVER_LIBS} gtest)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c

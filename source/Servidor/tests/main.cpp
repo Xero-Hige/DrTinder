@@ -6,12 +6,15 @@
  */
 #include "interestTest.h"
 #include "parserTest.h"
-//#include "sharedServerTest.h"
+#include "sharedServerTest.h"
 #include "tokenizerTest.h"
 #include "gtest/gtest.h"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  RestClient::init();
+  int result = RUN_ALL_TESTS();
+  RestClient::disable();
+  return result;
 }
 

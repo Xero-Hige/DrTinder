@@ -7,3 +7,6 @@
 [submodule "source/libs/googletest"]
 	path = source/libs/googletest
 	url = https://github.com/google/googletest
+[submodule "source/libs/restclient-cpp"]
+	path = source/libs/restclient-cpp
+	url = https://github.com/mrtazz/restclient-cpp.git

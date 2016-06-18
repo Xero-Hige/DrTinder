@@ -2,6 +2,7 @@
 #define SOURCE_API_TOKENS_H
 
 #define SHARED_SERVER_URL "http://dr-tinder.herokuapp.com"
+//#define SHARED_SERVER_URL "http://localhost:5000"
 #define SHARED_SERVER_USERS_SUB_URL "users"
 #define SHARED_SERVER_PHOTO_SUB_URL "photo"
 #define SHARED_SERVER_INTERESTS_SUB_URL "interests"
