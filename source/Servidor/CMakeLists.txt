@@ -9,9 +9,11 @@ INCLUDE_DIRECTORIES(Handlers)
 INCLUDE_DIRECTORIES(../libs/jsoncpp/dist/json)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
+INCLUDE_DIRECTORIES(../libs/googletest)
+
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS pthread rocksdb z bz2 snappy)
+SET(SERVER_LIBS pthread rt rocksdb z bz2 snappy)
 SET(TEST_LIBS ${SERVER_LIBS} gtest)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
