@@ -28,7 +28,6 @@ class SharedServerClient {
         bool deleteUser(std::string user_id, std::string *response);
         bool changeUserPhoto(std::string user_id, std::string photo);
         bool changeUser(std::string user_id, std::string user_data);
-        bool run();
     protected:
         bool valid(RestClient::Response *r);
         bool setBody(std::string * body, RestClient::Response *r);
