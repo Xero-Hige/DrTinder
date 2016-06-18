@@ -181,7 +181,7 @@ public final class ImageResourcesHandler {
                 try {
                     fetchingMap.get(mCacheKey).await();
                 } catch (InterruptedException e) {
-                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Fetch end wait interrupted"); //TODO: Check
+                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Fetch end wait interrupted");
                 }
             }
 

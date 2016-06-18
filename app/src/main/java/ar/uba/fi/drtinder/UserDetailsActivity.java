@@ -15,6 +15,27 @@ import android.widget.TextView;
  */
 public class UserDetailsActivity extends AppCompatActivity {
 
+    /**
+     * User name key in extra map
+     */
+    public static final String EXTRA_USER_NAME = "name";
+    /**
+     * User age key in extra map
+     */
+    public static final String EXTRA_USER_AGE = "age";
+    /**
+     * User image key in extra map
+     */
+    public static final String EXTRA_USER_ID = "id";
+    /**
+     * User biography key in extra map
+     */
+    public static final String EXTRA_USER_BIO = "bio";
+    /**
+     * User interest key in extra map
+     */
+    public static final String EXTRA_USER_INTS = "inte";
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -40,7 +61,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.innerLay);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        String interestExtra = intent.getStringExtra(SelectionFragment.EXTRA_USER_INTS);
+        String interestExtra = intent.getStringExtra(EXTRA_USER_INTS);
         String[] interests = interestExtra.split("\\|\\|");
         for (String interestString : interests) {
             String[] interest = interestString.split("::");
@@ -54,27 +75,30 @@ public class UserDetailsActivity extends AppCompatActivity {
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
             ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
                     imageView, this); //FIXME: Cambiar a campo combinado
+            assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }
     }
 
     private void setUserBio(Intent intent) {
-        TextView bio = (TextView) findViewById(R.id.bios);
-        bio.setText(intent.getStringExtra(SelectionFragment.EXTRA_USER_BIO));
+        TextView biography = (TextView) findViewById(R.id.bios);
+        assert biography != null;
+        biography.setText(intent.getStringExtra(EXTRA_USER_BIO));
     }
 
     private void setUserInfo(Intent intent) {
-        TextView desc = (TextView) findViewById(R.id.description);
+        TextView descriptionTView = (TextView) findViewById(R.id.description);
         String infoDetails = "%s (%s)";
-        String name = intent.getStringExtra(SelectionFragment.EXTRA_USER_NAME);
-        String age = intent.getStringExtra(SelectionFragment.EXTRA_USER_AGE);
+        String name = intent.getStringExtra(EXTRA_USER_NAME);
+        String age = intent.getStringExtra(EXTRA_USER_AGE);
         String description = String.format(infoDetails, name, age);
-        desc.setText(description);
+        assert descriptionTView != null; //DEBUG Assert
+        descriptionTView.setText(description);
     }
 
     private void setUserImage(Intent intent) {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        String userId = intent.getStringExtra(SelectionFragment.EXTRA_USER_ID);
+        String userId = intent.getStringExtra(EXTRA_USER_ID);
 
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                 imageView, getBaseContext());

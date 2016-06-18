@@ -33,27 +33,6 @@ import java.util.Random;
  */
 public class SelectionFragment extends Fragment {
 
-    /**
-     * User name key in extra map
-     */
-    public static final String EXTRA_USER_NAME = "name";
-    /**
-     * User age key in extra map
-     */
-    public static final String EXTRA_USER_AGE = "age";
-    /**
-     * User image key in extra map
-     */
-    public static final String EXTRA_USER_ID = "id";
-    /**
-     * User biography key in extra map
-     */
-    public static final String EXTRA_USER_BIO = "bio";
-    /**
-     * User interest key in extra map
-     */
-    public static final String EXTRA_USER_INTS = "inte";
-
     private static final int USER_NAME = 0;
     private static final int USER_AGE = 1;
     private static final int USER_ID = 2;
@@ -67,8 +46,8 @@ public class SelectionFragment extends Fragment {
 
     private View mProgressView;
 
-    private Queue<Map<String, String>> mUsersQueue;
-    private Map<Integer, Map<String, String>> mUsersData;
+    private Queue<Map<Integer, String>> mUsersQueue;
+    private Map<Integer, Map<Integer, String>> mUsersData;
     private View mFragmentView;
 
     @Override
@@ -97,15 +76,16 @@ public class SelectionFragment extends Fragment {
     }
 
     private void setButtons(View view) {
-        FloatingActionButton btn = (FloatingActionButton) view.findViewById(R.id.nope_button);
-        btn.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        btn.setRippleColor(-3355444); //FIXME
-        btn.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
+        FloatingActionButton floatingActionButton
+                = (FloatingActionButton) view.findViewById(R.id.nope_button);
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
+        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
 
-        FloatingActionButton btn2 = (FloatingActionButton) view.findViewById(R.id.like_button);
-        btn2.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        btn2.setRippleColor(-3355444); //FIXME
-        btn2.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.like_button);
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
+        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
     }
 
     private void setCardsAdapter(View view) {
@@ -113,15 +93,14 @@ public class SelectionFragment extends Fragment {
         mCardStack.setAdapter(mCardDeckAdapter);
 
         mCardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
-            //FIXME: remove debug information
             @Override
             public void cardSwipedLeft(int position) {
                 if (mUsersQueue.isEmpty()) {
                     return;
                 }
-                Map<String, String> data = mUsersQueue.remove();
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(EXTRA_USER_NAME));
-                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
+                Map<Integer, String> data = mUsersQueue.remove();
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(USER_NAME));
+                ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
@@ -130,9 +109,9 @@ public class SelectionFragment extends Fragment {
                 if (mUsersQueue.isEmpty()) {
                     return;
                 }
-                Map<String, String> data = mUsersQueue.remove();
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(EXTRA_USER_NAME));
-                ImageResourcesHandler.freeCachedResource(data.get(EXTRA_USER_ID),
+                Map<Integer, String> data = mUsersQueue.remove();
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(USER_NAME));
+                ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
 
@@ -190,14 +169,14 @@ public class SelectionFragment extends Fragment {
     }
 
     private void showActualUserData() {
-        Intent menuIntent = new Intent(getContext(), UserDetailsActivity.class);
-        Map<String, String> data = mUsersQueue.peek();
-        menuIntent.putExtra(EXTRA_USER_NAME, data.get(EXTRA_USER_NAME));
-        menuIntent.putExtra(EXTRA_USER_AGE, data.get(EXTRA_USER_AGE));
-        menuIntent.putExtra(EXTRA_USER_ID, data.get(EXTRA_USER_ID));
-        menuIntent.putExtra(EXTRA_USER_BIO, data.get(EXTRA_USER_BIO));
-        menuIntent.putExtra(EXTRA_USER_INTS, data.get(EXTRA_USER_INTS));
-        startActivity(menuIntent);
+        Intent detailsIntent = new Intent(getContext(), UserDetailsActivity.class);
+        Map<Integer, String> data = mUsersQueue.peek();
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_NAME, data.get(USER_NAME));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_AGE, data.get(USER_AGE));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_ID, data.get(USER_ID));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_BIO, data.get(USER_BIO));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_INTS, data.get(USER_INTS));
+        startActivity(detailsIntent);
     }
 
     private void requestUsersData() {
@@ -237,12 +216,12 @@ public class SelectionFragment extends Fragment {
     }
 
     private void addUserCard(int index, String[] userData) {
-        Map<String, String> userMap = new HashMap<>();
-        userMap.put(EXTRA_USER_NAME, userData[USER_NAME]);
-        userMap.put(EXTRA_USER_AGE, userData[USER_AGE]);
-        userMap.put(EXTRA_USER_ID, userData[USER_ID]);
-        userMap.put(EXTRA_USER_BIO, userData[USER_BIO]);
-        userMap.put(EXTRA_USER_INTS, userData[USER_INTS]);
+        Map<Integer, String> userMap = new HashMap<>();
+        userMap.put(USER_NAME, userData[USER_NAME]);
+        userMap.put(USER_AGE, userData[USER_AGE]);
+        userMap.put(USER_ID, userData[USER_ID]);
+        userMap.put(USER_BIO, userData[USER_BIO]);
+        userMap.put(USER_INTS, userData[USER_INTS]);
 
         mUsersData.put(index, userMap);
         mUsersQueue.add(userMap);
@@ -305,7 +284,7 @@ public class SelectionFragment extends Fragment {
 
         @Override
         public Object getItem(int position) {
-            return mUsersData.get(position).get(EXTRA_USER_NAME);
+            return mUsersData.get(position).get(USER_NAME);
         }
 
         @Override
@@ -332,8 +311,8 @@ public class SelectionFragment extends Fragment {
 
             TextView textView = (TextView) view.findViewById(R.id.card_text);
 
-            String item = mUsersData.get(position).get(EXTRA_USER_NAME) + " , '"
-                    + mUsersData.get(position).get(EXTRA_USER_AGE) + "'";
+            String item = mUsersData.get(position).get(USER_NAME) + " ("
+                    + mUsersData.get(position).get(USER_AGE) + ")";
 
             textView.setText(item);
 
@@ -347,7 +326,7 @@ public class SelectionFragment extends Fragment {
         }
 
         private void fillUserImage(int position, View context) {
-            String userId = mUsersData.get(position).get(EXTRA_USER_ID); //FIXME change to user id
+            String userId = mUsersData.get(position).get(USER_ID);
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                     imageView, mContext);
