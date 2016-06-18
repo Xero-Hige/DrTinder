@@ -21,28 +21,45 @@
 /* Handler for incomming requests. */
 class MessageHandler {
 	public:
-		/* Create new handler with NULL usersDB. */
-		MessageHandler();
 		/* Create new handler with pDatabase as usersDB. */
-		MessageHandler(DatabaseManager *pDatabase);
+		MessageHandler(DatabaseManager *pDatabase, std::string mail, std::string pass);
 		/* Destroy handler. */
 		~MessageHandler();
 		/* Parse message and handle request. Return HttpResponse  */
 		HttpResponse parse(std::string message);
 		/* Set initialized usersDB. */
 		void setUsersDB(DatabaseManager* usersDB);
+		bool validateToken(std::string user_token);
 
+		bool authenticate(std::string username, std::string password);
 
-	protected:
+		void createUser(std::string user_data);
+
+		bool getUsers(std::string& resultMsg);
+
+		void updateUser(std::string user_data);
+
+		void deleteUser();
+
+		void getMatches(std::string id);
+
+	void getInterest(std::string photo_64);
+
+	void getChat(std::string chat_history);
+
+	void getPhoto(std::string photo_64);
+
+	void postPhoto(std::string photo_64);
+
+	std::string getToken();
+
+protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
-		bool authenticate(std::string message, std::string& resultMsg);
-		bool getUsers(std::string& resultMsg);
-		/* Returns first substring of message until SEPARATOR. */
+	/* Returns first substring of message until SEPARATOR. */
 		std::string divideMessage(std::string& message);
 
-		bool getMatches(int id, std::string& resultMsg);
-		bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
+	bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
 		bool postAceptado(int id_origen, int id_rechazado, std::string& resultMsg);
 		/*TODO: pensar formato de la data traida*/
 
@@ -55,6 +72,9 @@ class MessageHandler {
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;
 		std::vector<Handler *> handlers;
+		std::string token;
+
+
 };
 
 #endif // PARSER_H

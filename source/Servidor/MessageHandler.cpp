@@ -1,17 +1,9 @@
 #include "MessageHandler.h"
+#include "Tokenizer.h"
 
 using std::string;
 
-MessageHandler::MessageHandler() :
-	usersDB(NULL) {
-	handlers.push_back((Handler *)new userHandler());
-	handlers.push_back((Handler *) new usersHandler());
-	handlers.push_back((Handler *) new friendsHandler());
-	handlers.push_back((Handler *) new interestHandler());
-	handlers.push_back((Handler *) new chatHandler());
-}
-
-MessageHandler::MessageHandler(DatabaseManager *pDatabase) : usersDB(pDatabase){
+MessageHandler::MessageHandler(DatabaseManager *pDatabase, string mail, string pass) : usersDB(pDatabase){
 	handlers.push_back((Handler *)new userHandler());
 	handlers.push_back((Handler *) new usersHandler());
 	handlers.push_back((Handler *) new friendsHandler());
@@ -60,18 +52,6 @@ HttpResponse MessageHandler::parse(string message) {
 
 }
 
-bool MessageHandler::authenticate(string message, string& resultMsg) {
-	//TODO: token
-	string name = divideMessage(message);
-	string pass = divideMessage(message);
-	if (!usersDB->correctEntry(name, pass)) {
-		resultMsg += INCORRECT_LOGIN;
-		return false;
-	}
-	resultMsg += CORRECT_LOGIN;
-	return true;
-}
-
 void MessageHandler::setUsersDB(DatabaseManager * usersDB) {
 	this->usersDB = usersDB;
 }
@@ -82,3 +62,69 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	//	TODO: servicio para filtrar usuarios
 	return true;
 }
+
+bool MessageHandler::authenticate(string username, string password) {
+	return usersDB->correctEntry(username, password);
+}
+
+void MessageHandler::createUser(std::string user_data) {
+	//usersDB->addEntry()
+}
+
+void MessageHandler::updateUser(std::string user_data) {
+	//TODO: cambiar datos en bd
+}
+
+void MessageHandler::deleteUser() {
+	//TODO: quitar de bd
+}
+
+void MessageHandler::getInterest(string photo_64) {
+	//TODO: obtener foto interes, id?
+}
+
+void MessageHandler::getChat(string chat_history) {
+	//TODO: get chat
+}
+
+void MessageHandler::getPhoto(string photo_64) {
+
+}
+
+void MessageHandler::postPhoto(string photo_64) {
+
+}
+
+bool MessageHandler::validateToken(std::string user_token) {
+	return (token.compare(user_token) == 0);
+}
+
+void MessageHandler::getMatches(std::string id) {
+
+}
+
+string MessageHandler::getToken() {
+	return token;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
