@@ -14,18 +14,56 @@ Tokenizer::Tokenizer() {
 
 }
 
-time_t Tokenizer::getNow(){
-	time_t now;
-	time(&now);
-	return now;
+//format year,month,day,hours,min,sec
+bool Tokenizer::timeStampExpired(std::string timeStamp){
+	vector<string> times;
+	time_t now = time(NULL);
+
+	stringstream ss(timeStamp);
+	string cell;
+	while (ss.good()) {
+		getline(ss, cell, ',');
+		times.push_back(cell);
+	}
+	if (times.size() != TS_COUNT){
+		//TODO error
+	}
+	struct tm _then = {0};
+	_then.tm_hour = stoi(times[TS_HOUR]) ;
+	_then.tm_min = stoi(times[TS_MIN]);
+	_then.tm_sec = stoi(times[TS_SEC]);
+	_then.tm_year = stoi(times[TS_YEAR]);
+	_then.tm_mon = stoi(times[TS_MON]);
+	_then.tm_mday = stoi(times[TS_DAY]);
+
+	double elapsedTime = difftime(now, mktime(&_then));
+
+	return elapsedTime > (double)EXPIRATION_TIME;
+
+}
+
+std::string Tokenizer::getNowTimeStamp(){
+	time_t now = time(NULL);
+	struct tm * gmt = localtime(&now);
+	std::string year, month, day, hours, min, sec;
+	year = to_string(gmt->tm_year);
+	month = to_string(gmt->tm_mon);
+	day = to_string(gmt->tm_mday);
+	hours = to_string(gmt->tm_hour);
+	min = to_string(gmt->tm_min);
+	sec = to_string(gmt->tm_sec);
+
+	std::string timeStamp = year + "," + month + ",";
+	timeStamp += day + "," + hours + "," + min + ",";
+	timeStamp += sec;
+	return timeStamp;
 }
 
 std::string Tokenizer::newToken(std::string mail, std::string pass){
 	//hash
     unsigned char digest[16];
-	time_t now = this->getNow();
-	char *time = ctime(&now);
-	std::string timeStamp(time);
+    string timeStamp = getNowTimeStamp();
+
 	std::string toHash = mail + pass + timeStamp;
     const char* string = toHash.c_str();
     const unsigned char* unsignedString = (unsigned char*) string;
@@ -42,34 +80,25 @@ std::string Tokenizer::newToken(std::string mail, std::string pass){
 
 	//cout << "md5 digest: " << mdString << endl;
 	std::string hashed(mdString);
-	this->tokens[hashed] = now;
+
+	this->tokens[hashed] = timeStamp;
 	return hashed;
 
 }
 
 bool Tokenizer::hasExpired(std::string token){
-	double timePassed;
-	std::map<std::string,time_t>::iterator it = this->tokens.find(token);
+	std::map<std::string,std::string>::iterator it = this->tokens.find(token);
 
 	if (it != this->tokens.end()){
-		time_t timestamp = it->second;
-		time_t now = this->getNow();
-		timePassed = difftime(now,timestamp);
-
-		if ( timePassed > EXPIRATION_TIME ){
-			this->tokens.erase(it);
-			return true;
-		}else{
-			return false;
-		}
-
+		std::string timeStamp = it->second;
+		return this->timeStampExpired(timeStamp);
 	}else{
 		return true;
 	}
 }
 
 void Tokenizer::remove(std::string token){
-	std::map<std::string,time_t>::iterator it = this->tokens.find(token);
+	std::map<std::string,std::string>::iterator it = this->tokens.find(token);
 	if (it != this->tokens.end()){
 		this->tokens.erase(it);
 	}

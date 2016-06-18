@@ -7,8 +7,8 @@
 
 #ifndef SERVIDOR_USER_H_
 #define SERVIDOR_USER_H_
+
 #include <string>
-#include "dataTypes.h"
 #include "Interests.h"
 
 #define USER_AGE "age"
@@ -23,9 +23,37 @@
 
 class User {
 public:
-	User(std::string userData, dataType type);
-	std::string exportTo(dataType type);
+	User();
 	bool matches(User otroUser);
+
+	//set
+	void setId(int id);
+	void setAge(int age);
+	void setLocation(float x, float y);
+	void setMail(std::string mail);
+	void setAlias(std::string alias);
+	void setName(std::string name);
+	void setSex(std::string sex);
+	void setCommonData(std::string mail, std::string alias, std::string name, std::string sex);
+	void setDescription(std::string description);
+	void setPhoto(std::string photo);
+	void setInterests(Interests interest);
+	void addInterest(std::string category, std::string value);
+	void removeInterest(std::string category, std::string value);
+
+	//get
+	std::string getMail();
+	std::string getName();
+	std::string getAlias();
+	std::string getDescription();
+	std::string getPhoto();
+	std::string getSex();
+	int getID();
+	int getAge();
+	Interests* getInterests();
+	float getX();
+	float getY();
+
 	virtual ~User();
 private:
 	int id;
@@ -34,6 +62,7 @@ private:
 	std::string alias;
 	std::string name;
 	std::string sex;
+	std::string description;
 	std::string photo;
 	float location[LOC_COORD];
 	Interests interests;
