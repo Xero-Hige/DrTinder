@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * Basic login screen based on Android Studio login Activity template
  */
@@ -47,13 +49,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private boolean mFirebaseLogedIn;
     private boolean mFirebaseLoginFinished;
 
+    private CountDownLatch loginProcessLatch;
+
 
     @Override
     protected void onCreate(Bundle instanceState) {
         super.onCreate(instanceState);
         setContentView(R.layout.activity_login);
 
-        mFirebaseLoginFinished = false;
+        mFirebaseLoginFinished = true;
+        loginProcessLatch = new CountDownLatch(0);
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -132,6 +137,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseLoginFinished = false;
+        loginProcessLatch = new CountDownLatch(1);
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
@@ -142,13 +148,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     }
                     mFirebaseLogedIn = task.isSuccessful();
                     mFirebaseLoginFinished = true;
+                    loginProcessLatch.countDown();
                 });
-        try {
-            while (!mFirebaseLoginFinished) {
-                Thread.sleep(500); //Wait till lock is reached (Needs a real barrier)
+
+        if (!mFirebaseLoginFinished) {
+            try {
+                loginProcessLatch.await();
+            } catch (InterruptedException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

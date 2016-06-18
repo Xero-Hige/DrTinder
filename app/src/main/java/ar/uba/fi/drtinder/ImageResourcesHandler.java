@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * ImageResourcesHandler.java
@@ -50,7 +51,7 @@ public final class ImageResourcesHandler {
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static final String INTER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
-    private static HashMap<Integer, Integer> fetchingMap = new HashMap<>();
+    private static HashMap<Integer, CountDownLatch> fetchingMap = new HashMap<>();
 
     private ImageResourcesHandler() {
     }
@@ -107,13 +108,14 @@ public final class ImageResourcesHandler {
     }
 
     private static void addToFetching(Integer cacheKey) {
-        fetchingMap.put(cacheKey, 0);
+        fetchingMap.put(cacheKey, new CountDownLatch(1));
     }
 
     private static void removeFromFetching(Integer cacheKey) {
-        if (fetchingMap.containsKey(cacheKey)) {
-            fetchingMap.remove(cacheKey);
+        if (!fetchingMap.containsKey(cacheKey)) {
+            return;
         }
+        fetchingMap.get(cacheKey).countDown();
     }
 
     public static void freeCachedResource(String imageId, int resourceType, Context context) {
@@ -154,6 +156,7 @@ public final class ImageResourcesHandler {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Cache clear failed");
         }
         cacheMap.clear();
+        fetchingMap.clear();
     }
 
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
@@ -174,9 +177,9 @@ public final class ImageResourcesHandler {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            while (fetchingMap.containsKey(mCacheKey)) {
+            if (fetchingMap.containsKey(mCacheKey)) {
                 try {
-                    Thread.sleep(1000, 0);
+                    fetchingMap.get(mCacheKey).await();
                 } catch (InterruptedException e) {
                     DrTinderLogger.writeLog(DrTinderLogger.WARN, "Fetch end wait interrupted"); //TODO: Check
                 }
