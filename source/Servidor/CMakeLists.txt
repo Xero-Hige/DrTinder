@@ -15,7 +15,7 @@ INCLUDE_DIRECTORIES(../libs/googletest)
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
 SET(SERVER_LIBS rt pthread rocksdb z bz2 snappy curl restclient-cpp)
-SET(TEST_LIBS ${SERVER_LIBS} gtest)
+SET(TEST_LIBS ${SERVER_LIBS} gtest gcov)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     Server.cpp
@@ -23,13 +23,6 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     MessageHandler.cpp
     Parser.cpp
     SharedServerClient.cpp
-	 HttpResponse.cpp
-	 Handlers/Handler.cpp
-	 Handlers/userHandler.cpp
-	 Handlers/chatHandler.cpp
-	 Handlers/usersHandler.cpp
-	 Handlers/friendsHandler.cpp
-	 Handlers/interestHandler.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
 	 User.cpp
 	 Interests.cpp
@@ -40,12 +33,14 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS})
 
 SET (TEST_SRCS tests/main.cpp ${COMMON_SRCS})
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function ")
 
 ADD_DEFINITIONS(-std=c++11)
 
 ADD_EXECUTABLE (server ${Servidor_SRCS})
 ADD_EXECUTABLE (unit_test ${TEST_SRCS})
+
+target_compile_options(unit_test PRIVATE --coverage)
 
 ADD_DEFINITIONS(-DMG_ENABLE_THREADS)
 

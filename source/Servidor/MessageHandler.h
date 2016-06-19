@@ -10,13 +10,6 @@
 #include "api_server_constants.h"
 #include <stdexcept>
 #include <vector>
-#include "HttpResponse.h"
-#include "Handlers/Handler.h"
-#include "Handlers/userHandler.h"
-#include "Handlers/usersHandler.h"
-#include "Handlers/chatHandler.h"
-#include "Handlers/friendsHandler.h"
-#include "Handlers/interestHandler.h"
 #include "Tokenizer.h"
 #include "Parsers/CsvParser.h"
 
@@ -28,8 +21,6 @@ class MessageHandler {
 		MessageHandler(DatabaseManager *pDatabase, std::string mail, std::string pass);
 		/* Destroy handler. */
 		~MessageHandler();
-		/* Parse message and handle request. Return HttpResponse  */
-		HttpResponse parse(std::string message);
 		/* Set initialized usersDB. */
 		void setUsersDB(DatabaseManager* usersDB);
 		bool validateToken(std::string user_token);
@@ -74,7 +65,6 @@ class MessageHandler {
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;
-		std::vector<Handler *> handlers;
 		std::string token;
 		std::string username;
 };

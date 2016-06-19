@@ -100,7 +100,7 @@ void Server::listenUsersRequest(struct http_message* http_msg, struct mg_connect
 		char user_data[1000];
 		mg_get_http_var(&http_msg->body, "User", user_data, sizeof(user_data));
 		struct mg_str mg_user_data = MG_MK_STR(user_data);
-		msgHandler->updateUser(&mg_user_data);
+		msgHandler->updateUser(mg_user_data.p);
 	} else if (is_equal(&http_msg->method, &s_delete_method)) {
 		msgHandler->deleteUser();
 	} else {
