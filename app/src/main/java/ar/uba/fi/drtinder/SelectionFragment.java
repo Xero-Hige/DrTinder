@@ -102,13 +102,13 @@ public class SelectionFragment extends Fragment {
     private void setButtons(View view) {
         FloatingActionButton floatingActionButton
                 = (FloatingActionButton) view.findViewById(R.id.nope_button);
-        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1));
+        floatingActionButton.setRippleColor(getResources().getColor(R.color.colorAccentT));
         floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
 
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.like_button);
-        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1));
+        floatingActionButton.setRippleColor(getResources().getColor(R.color.colorAccentT));
         floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
     }
 

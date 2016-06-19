@@ -74,7 +74,7 @@ public class ChatSession extends AppCompatActivity {
 
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
         assert scrollDownFB != null; //Debug assert
-        scrollDownFB.setOnClickListener(listener -> lastMessageAnimation());
+        scrollDownFB.setOnClickListener(listener -> scrollToLast());
     }
 
     private void addSendListener() {
@@ -93,7 +93,7 @@ public class ChatSession extends AppCompatActivity {
                     addPersonalResponse(message);
                     msgView.setText("");
                     hideKeyboard();
-                    lastMessageAnimation();
+                    scrollToLast();
                 });
     }
 
@@ -111,7 +111,7 @@ public class ChatSession extends AppCompatActivity {
         addFriendResponse("no, te parece nomas.");
         addPersonalResponse("Bueno. Si pinta sadomasoquismo, avisame.");
 
-        lastMessageAnimation();
+        scrollToLast();
     }
 
     private void addPersonalResponse(String message) {
@@ -138,7 +138,7 @@ public class ChatSession extends AppCompatActivity {
         mMessagesLayout.addView(layout);
     }
 
-    private void lastMessageAnimation() { //FIXME: change to a better name
+    private void scrollToLast() {
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         assert scrollview != null; //Debug assert
         scrollview.postDelayed(() -> scrollview.fullScroll(NestedScrollView.FOCUS_DOWN), 100);
