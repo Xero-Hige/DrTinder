@@ -13,30 +13,16 @@ language: cpp
 
 compiler: g++
 
-before_script:
-  - sudo apt-get update
-  - sudo apt-get install -y libsnappy-dev libbz2-dev zlib1g-dev openssl libssl-dev
-  - wget https://gflags.googlecode.com/files/libgflags0_2.0-1_amd64.deb
-  - sudo dpkg -i libgflags0_2.0-1_amd64.deb
-  - wget https://gflags.googlecode.com/files/libgflags-dev_2.0-1_amd64.deb
-  - sudo dpkg -i libgflags-dev_2.0-1_amd64.deb
-  - git submodule init
-  - git submodule update
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update
-  - sudo apt-get install g++-4.8
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
-  - gcc --version
+sudo: required
+
+services:
+  - docker
+
+before_install:	
+  - docker build --no-cache -t docker-server .
 
 script:
-  - cd source/libs/rocksdb
-  - sudo make install
-  - cd ../jsoncpp
-  - python amalgamate.py
-  - cd ../../Servidor
-  - cmake .
-  - make
+  - docker run docker-server
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

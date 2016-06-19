@@ -28,6 +28,7 @@ Añadir la librería al proyecto (/usr/local/lib/librocksdb.a)
 Instalar googletest:
 Pararse en la carpeta DrTinder/source/libs/googletest
 Ejecutar:
+cmake .
 sudo make install
 
 Instalar cpprest:

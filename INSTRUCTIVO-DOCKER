@@ -2,12 +2,12 @@
 # https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
 
-# Pararse en DrTinder/source (donde se encuentra el Dockerfile):
-cd DrTinder/source
+# Pararse en DrTinder (donde se encuentra el Dockerfile):
+cd DrTinder
 
 
 # Compilar imagen de docker:
-docker build -t docker-server .
+docker build --no-cache -t docker-server .
 
 
 4. Correr imagen de docker. Esto ya deja el AppServer corriendo en el container de docker, con el puerto 8080 del container mapeado al puerto 8080 del host:
