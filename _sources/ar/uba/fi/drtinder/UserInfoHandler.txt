@@ -14,11 +14,7 @@ UserInfoHandler
 
 .. java:type:: public final class UserInfoHandler
 
-   ${FILE}
-
-   Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
-
-   This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see
+   TODO
 
 Fields
 ------
@@ -28,6 +24,8 @@ NULL_TOKEN
 .. java:field:: public static final String NULL_TOKEN
    :outertype: UserInfoHandler
 
+   TODO
+
 Methods
 -------
 getLoginToken
@@ -36,11 +34,19 @@ getLoginToken
 .. java:method:: static String getLoginToken(String username, String password, String location)
    :outertype: UserInfoHandler
 
+   TODO
+
+   :param username:
+   :param password:
+   :param location:
+
 getUserEmail
 ^^^^^^^^^^^^
 
 .. java:method:: public static String getUserEmail()
    :outertype: UserInfoHandler
+
+   TODO
 
 getUsername
 ^^^^^^^^^^^
@@ -48,11 +54,15 @@ getUsername
 .. java:method:: public static String getUsername()
    :outertype: UserInfoHandler
 
+   TODO
+
 isLoggedIn
 ^^^^^^^^^^
 
 .. java:method:: public static boolean isLoggedIn()
    :outertype: UserInfoHandler
+
+   TODO
 
 isValidEmail
 ^^^^^^^^^^^^
@@ -60,9 +70,17 @@ isValidEmail
 .. java:method:: public static boolean isValidEmail(String email)
    :outertype: UserInfoHandler
 
+   TODO
+
+   :param email:
+
 isValidPassword
 ^^^^^^^^^^^^^^^
 
 .. java:method:: public static boolean isValidPassword(String pass)
    :outertype: UserInfoHandler
+
+   TODO
+
+   :param pass:
 

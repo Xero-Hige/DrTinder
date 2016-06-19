@@ -49,6 +49,8 @@ LoginActivity.UserLoginTask
 .. java:type:: public class UserLoginTask extends AsyncTask<Void, Void, Boolean>
    :outertype: LoginActivity
 
+   TODO
+
 Constructors
 ------------
 UserLoginTask

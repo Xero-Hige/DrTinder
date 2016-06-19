@@ -58,3 +58,9 @@ executeQuery
 .. java:method:: static void executeQuery(String resId, int resourceType, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
+   TODO
+
+   :param resId:
+   :param resourceType:
+   :param operation:
+

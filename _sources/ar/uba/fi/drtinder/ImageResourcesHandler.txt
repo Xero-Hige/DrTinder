@@ -48,6 +48,8 @@ ImageResourcesHandler
 
 .. java:type:: public final class ImageResourcesHandler
 
+   Resource Handler that manages requests and cache of image resources
+
 Fields
 ------
 RES_INTEREST_IMG
@@ -56,11 +58,15 @@ RES_INTEREST_IMG
 .. java:field:: public static final int RES_INTEREST_IMG
    :outertype: ImageResourcesHandler
 
+   TODO
+
 RES_USER_IMG
 ^^^^^^^^^^^^
 
 .. java:field:: public static final int RES_USER_IMG
    :outertype: ImageResourcesHandler
+
+   TODO
 
 Methods
 -------
@@ -70,11 +76,22 @@ clearCache
 .. java:method:: public static void clearCache(Context context)
    :outertype: ImageResourcesHandler
 
+   TODO
+
+   :param context:
+
 fillImageResource
 ^^^^^^^^^^^^^^^^^
 
 .. java:method:: static void fillImageResource(String imageId, int resourceType, ImageView imgView, Context context)
    :outertype: ImageResourcesHandler
+
+   TODO
+
+   :param imageId:
+   :param resourceType:
+   :param imgView:
+   :param context:
 
 freeCachedResource
 ^^^^^^^^^^^^^^^^^^
@@ -82,9 +99,21 @@ freeCachedResource
 .. java:method:: public static void freeCachedResource(String imageId, int resourceType, Context context)
    :outertype: ImageResourcesHandler
 
+   TODO
+
+   :param imageId:
+   :param resourceType:
+   :param context:
+
 prefetch
 ^^^^^^^^
 
 .. java:method:: static void prefetch(String imageId, int resourceType, Context context)
    :outertype: ImageResourcesHandler
+
+   Prefetch resources from server (if needed) in order to improve network resources use.
+
+   :param imageId:: Server id of the fetching resource
+   :param resourceType:: Type of the resource (One of listed const types)
+   :param context:: Context of the calling activity
 

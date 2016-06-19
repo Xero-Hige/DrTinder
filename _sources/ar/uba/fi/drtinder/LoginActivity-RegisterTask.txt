@@ -61,9 +61,9 @@ RegisterTask
 
    Creates a new Login task
 
-   :param email: User email
-   :param password: User password
-   :param context: Calling activity context
+   :param email:: User email
+   :param password:: User password
+   :param context:: Calling activity context
 
 Methods
 -------
@@ -72,9 +72,6 @@ doInBackground
 
 .. java:method:: @Override protected Boolean doInBackground(Void... params)
    :outertype: LoginActivity.RegisterTask
-
-   :param params: params
-   :return: Task successful
 
 onCancelled
 ^^^^^^^^^^^

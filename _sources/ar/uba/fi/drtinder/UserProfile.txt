@@ -28,6 +28,8 @@ UserProfile
 
 .. java:type:: public class UserProfile extends AppCompatActivity
 
+   TODO
+
 Fields
 ------
 PROFILE_ACTION_CREATE
@@ -36,11 +38,15 @@ PROFILE_ACTION_CREATE
 .. java:field:: public static final String PROFILE_ACTION_CREATE
    :outertype: UserProfile
 
+   TODO
+
 PROFILE_ACTION_UPDATE
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String PROFILE_ACTION_UPDATE
    :outertype: UserProfile
+
+   TODO
 
 PROFILE_EXTRA_ACTION
 ^^^^^^^^^^^^^^^^^^^^
@@ -48,17 +54,23 @@ PROFILE_EXTRA_ACTION
 .. java:field:: public static final String PROFILE_EXTRA_ACTION
    :outertype: UserProfile
 
+   TODO
+
 USER_EXTRA_USEREMAIL
 ^^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String USER_EXTRA_USEREMAIL
    :outertype: UserProfile
 
+   TODO
+
 USER_EXTRA_USERNAME
 ^^^^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String USER_EXTRA_USERNAME
    :outertype: UserProfile
+
+   TODO
 
 Methods
 -------
