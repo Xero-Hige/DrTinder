@@ -67,7 +67,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private CountDownLatch loginProcessLatch;
 
-
+    /**
+     * TODO
+     *
+     * @param instanceState
+     */
     @Override
     protected void onCreate(Bundle instanceState) {
         super.onCreate(instanceState);
@@ -103,9 +107,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * Executes a TaskExecutor with the user data from email and password fields
-     */
     private void executeWithLData(TaskExecutor executor) {
         if (mAuthTask != null) {
             return;
@@ -151,12 +152,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * TODO
-     *
-     * @param email
-     * @param password
-     */
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseLoginFinished = false;
         loginProcessLatch = new CountDownLatch(1);
@@ -182,25 +177,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * TODO
-     */
     private void attemptRegister() {
         executeWithLData(this::executeRegisterTask);
     }
 
-    /**
-     * TODO
-     */
     private void attemptLogin() {
         executeWithLData(this::executeLoginTask);
     }
 
-    /**
-     * TODO
-     * @param email
-     * @param password
-     */
     private void executeLoginTask(String email, String password) {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
@@ -209,11 +193,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mAuthTask.execute((Void) null);
     }
 
-    /**
-     * TODO
-     * @param email
-     * @param password
-     */
     private void executeRegisterTask(String email, String password) {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
@@ -222,27 +201,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mRegisterTask.execute((Void) null);
     }
 
-    /**
-     * TODO
-     * @param email
-     * @return
-     */
     private boolean isEmailValid(String email) {
         return UserInfoHandler.isValidEmail(email);
     }
 
-    /**
-     * TODO
-     * @param password
-     * @return
-     */
     private boolean isPasswordValid(String password) {
         return UserInfoHandler.isValidPassword(password);
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -276,42 +242,46 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * TODO
-     * @return
-     */
     private String getLocationString() {
         return LocationHandler.getLocationString(this);
     }
 
+    /**
+     * TODO
+     * @param index
+     * @param bundle
+     * @return
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int index, Bundle bundle) {
         return new CursorLoader(this);
     }
 
+    /**
+     * TODO
+     * @param cursorLoader
+     * @param cursor
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 
     }
 
+    /**
+     * TODO
+     * @param cursorLoader
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
     }
 
-    /**
-     *
-     * @param context
-     */
     private void startApp(Context context) {
         Intent menuIntent = new Intent(context, MainActivity.class);
         startActivity(menuIntent);
         finish();
     }
 
-    /**
-     * TODO
-     */
     private interface TaskExecutor {
         void execute(String email, String password);
     }
@@ -320,7 +290,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class RegisterTask extends AsyncTask<Void, Void, Boolean> {
+    private class RegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserEmail;
         private final String mUserPassword;
@@ -328,11 +298,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private String mAuthToken;
 
         /**
-         * Creates a new Login task
+         * Creates a new Register task
          *
-         * @param email:    User email
-         * @param password: User password
-         * @param context:  Calling activity context
+         * @param email    User email
+         * @param password  User password
+         * @param context  Calling activity context
          */
         RegisterTask(String email, String password, Context context) {
             mUserEmail = email;
@@ -381,10 +351,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * TODO
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserEmail;
         private final String mUserPassword;

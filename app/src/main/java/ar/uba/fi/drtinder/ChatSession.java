@@ -45,6 +45,11 @@ public class ChatSession extends AppCompatActivity {
     private String mFriendId;
     private String mFriendName;
 
+    /**
+     * TODO
+     *
+     * @param bundle
+     */
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -72,9 +77,6 @@ public class ChatSession extends AppCompatActivity {
         scrollDownFB.setOnClickListener(listener -> lastMessageAnimation());
     }
 
-    /**
-     * TODO
-     */
     private void addSendListener() {
         ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
         assert sendButton != null; //Debug assert
@@ -95,18 +97,12 @@ public class ChatSession extends AppCompatActivity {
                 });
     }
 
-    /**
-     * TODO
-     */
     private void hideKeyboard() {
         InputMethodManager inputMManager =
                 (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
-    /**
-     *
-     */
     private void loadOldMessages() {
         for (int i = 0; i < 24; i++) {
             addFriendResponse("Hola, como estas?");
@@ -118,30 +114,14 @@ public class ChatSession extends AppCompatActivity {
         lastMessageAnimation();
     }
 
-    /**
-     * Todo
-     *
-     * @param message
-     */
     private void addPersonalResponse(String message) {
         addResponse(R.layout.chat_session_you, "Tu", mYourId, message);
     }
 
-    /**
-     * TODO
-     * @param message
-     */
     private void addFriendResponse(String message) {
         addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
-    /**
-     * TODO
-     * @param layoutId
-     * @param username
-     * @param userId
-     * @param message
-     */
     private void addResponse(int layoutId, String username, String userId, String message) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout = inflater.inflate(layoutId, null);
@@ -158,9 +138,6 @@ public class ChatSession extends AppCompatActivity {
         mMessagesLayout.addView(layout);
     }
 
-    /**
-     * TODO
-     */
     private void lastMessageAnimation() { //FIXME: change to a better name
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         assert scrollview != null; //Debug assert

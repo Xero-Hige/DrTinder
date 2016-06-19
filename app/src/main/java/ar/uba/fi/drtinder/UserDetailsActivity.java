@@ -52,6 +52,11 @@ public class UserDetailsActivity extends AppCompatActivity {
      */
     public static final String EXTRA_USER_INTS = "inte";
 
+    /**
+     * TODO
+     *
+     * @param bundle
+     */
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);

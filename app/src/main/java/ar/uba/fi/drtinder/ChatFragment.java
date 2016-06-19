@@ -32,6 +32,14 @@ import android.widget.TextView;
  */
 public class ChatFragment extends Fragment {
 
+    /**
+     * TODO
+     *
+     * @param inflater
+     * @param container
+     * @param bundle
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {

@@ -34,21 +34,14 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public final class StringResourcesHandler {
 
-    static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
-    static final String MATCHES_URL = "https://demo2753541.mockable.io/matches/";
-
     static final int USER_CANDIDATES = 0;
     static final int USER_MATCHES = 1;
+    private static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
+    private static final String MATCHES_URL = "https://demo2753541.mockable.io/matches/";
 
     private StringResourcesHandler() {
     }
 
-    /**
-     * TODO
-     *
-     * @param type
-     * @return
-     */
     private static String getUrlByType(Integer type) {
         switch (type) {
             case USER_CANDIDATES:
@@ -63,19 +56,14 @@ public final class StringResourcesHandler {
     /**
      * TODO
      * @param resId
-     * @param resourceType
+     * @param requestType
      * @param operation
      */
-    static void executeQuery(String resId, int resourceType, CallbackOperation operation) {
-        FetchDataTask task = new FetchDataTask(resourceType, resId, operation);
+    public static void executeQuery(String resId, int requestType, CallbackOperation operation) {
+        FetchDataTask task = new FetchDataTask(requestType, resId, operation);
         task.execute();
     }
 
-    /**
-     * TODO
-     * @param queryUrl
-     * @return
-     */
     private static List<String[]> fetchData(String queryUrl) {
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
         RestTemplate restTemplate = new RestTemplate();

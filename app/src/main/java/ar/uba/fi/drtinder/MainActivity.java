@@ -33,7 +33,8 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 /**
- * Main app activity of the app Dr Tinder. Displays the 2 main fragments
+ * Main app activity of the app Dr Tinder.
+ * Displays the 2 main fragments: Selection and Chatlist
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity
         mUsername = UserInfoHandler.getUsername();
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -74,6 +78,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -86,6 +96,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * TODO
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -150,6 +165,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
