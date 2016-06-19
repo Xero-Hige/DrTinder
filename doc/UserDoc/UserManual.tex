@@ -1,0 +1,424 @@
+\documentclass[10pt,letterpaper,extrafontsizes]{memoir}
+\listfiles
+\usepackage{comment}
+\usepackage{url,hyperref}
+\usepackage[hang,small,labelfont=,textfont=]{caption}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{shorttoc}
+\usepackage{graphicx}
+\usepackage{makeidx}
+
+
+\newcommand{\MONTH}{%
+  \ifcase\the\month
+  \or Enero % 1
+  \or Febrero % 2
+  \or Marzo % 3
+  \or Abril % 4
+  \or Mayo % 5
+  \or Junio % 6
+  \or Julio % 7
+  \or Agosto % 8
+  \or Septiembre % 9
+  \or Octubre % 10
+  \or Noviembre % 11
+  \or Diciembre % 12
+  \fi}
+ 
+%%%% Use the built-in division styling
+\headstyles{memman}
+
+%%% ToC down to subsections
+\settocdepth{subsection}
+%%% Numbering down to subsections as well
+\setsecnumdepth{subsection}
+
+%%%% extra index for first lines
+\makeindex
+
+% add patch to fink, such that \AtEndFile still work
+\makeatletter
+\AtEndFile{fink.sty}{
+  \typeout{patching fink} 
+  \renewcommand{\InputIfFileExists}[2]{%
+    \IfFileExists{##1}%
+    {##2\@addtofilelist{##1}%
+      \m@matbeginf{##1}%
+      \fink@prepare{##1}%
+      %\@@input \@filef@und
+      \expandafter\fink@input%
+      \expandafter\fink@restore\expandafter{\finkpath}%
+     \m@matendf{##1}%
+     \killm@matf{##1}}%
+ }
+}
+\makeatother
+
+\makepagestyle{index}
+  \makeheadrule{index}{\textwidth}{\normalrulethickness}
+  \makeevenhead{index}{\rightmark}{}{\leftmark}
+  \makeoddhead{index}{\rightmark}{}{\leftmark}
+  \makeevenfoot{index}{\thepage}{}{}
+  \makeoddfoot{index}{}{}{\thepage}
+
+\makepagestyle{chapter}
+\makeoddfoot{chapter}{}{\thepage}{}
+\makeevenfoot{chapter}{}{\thepage}{}
+
+%% end preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%#% extend
+
+\usepackage[draft]{fixme}
+\fxsetup{
+  layout=marginnote
+}
+ 
+
+\usepackage[scaled=.92]{helvet}%. Sans serif - Helvetica
+\usepackage{color,calc}
+\newsavebox{\ChpNumBox}
+\definecolor{ChapBlue}{RGB}{153, 0, 153}
+\makeatletter
+\newcommand*{\thickhrulefill}{%
+\leavevmode\leaders\hrule height 1\p@ \hfill \kern \z@}
+\newcommand*\BuildChpNum[2]{%
+\begin{tabular}[t]{@{}c@{}}
+\makebox[0pt][c]{#1\strut} \\[.5ex]
+\colorbox{ChapBlue}{%
+\rule[-10em]{0pt}{0pt}%
+\rule{1ex}{0pt}\color{black}#2\strut
+\rule{1ex}{0pt}}%
+\end{tabular}}
+\makechapterstyle{BlueBox}{%
+\renewcommand{\chapnamefont}{\large\scshape}
+\renewcommand{\chapnumfont}{\Huge\bfseries}
+\renewcommand{\chaptitlefont}{\raggedright\Huge\bfseries}
+\setlength{\beforechapskip}{20pt}
+\setlength{\midchapskip}{26pt}
+\setlength{\afterchapskip}{40pt}
+\renewcommand{\printchaptername}{}
+\renewcommand{\chapternamenum}{}
+\renewcommand{\printchapternum}{%
+\sbox{\ChpNumBox}{%
+\BuildChpNum{\chapnamefont\@chapapp}%
+{\chapnumfont\thechapter}}}
+\renewcommand{\printchapternonum}{%
+\sbox{\ChpNumBox}{%
+\BuildChpNum{\chapnamefont\vphantom{\@chapapp}}%
+{\chapnumfont\hphantom{\thechapter}}}}
+\renewcommand{\afterchapternum}{}
+\renewcommand{\printchaptertitle}[1]{%
+\usebox{\ChpNumBox}\hfill
+\parbox[t]{\hsize-\wd\ChpNumBox-1em}{%
+\vspace{\midchapskip}%
+\thickhrulefill\par
+\chaptitlefont ##1\par}}%
+}
+
+\begin{document}
+\chapterstyle{demo3}
+\tightlists
+\midsloppy
+\raggedbottom
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter
+\pagestyle{empty}
+
+
+% half-title page
+\vspace*{\fill}
+\begin{adjustwidth}{1in}{1in}
+\begin{flushleft}
+\HUGE\sffamily
+\end{flushleft}
+\begin{center}
+\HUGE\sffamily  Dr. Tinder
+\end{center}
+\begin{flushright}
+\LARGE \ttfamily  \textit{Manual de usuario}\\
+\end{flushright}
+\end{adjustwidth}
+\vspace*{\fill}
+\cleardoublepage
+
+% title page
+\vspace*{\fill}
+\begin{center}
+\HUGE\textsf{Dr. Tinder}\par
+\end{center}
+\begin{center}
+\HUGE\textsf{Guia del usuario}\par
+\end{center}
+
+\begin{center}
+\Huge\textsf{ }\par
+\end{center}
+\begin{center}
+\LARGE\textsf{Gaston A. Martinez}\par
+\bigskip
+\normalsize\textsf{ \MONTH - \the \year }\par
+\normalsize\textsf{Correspondiente a la version 1.0.0.0}\par
+\medskip
+\end{center}
+\vspace*{\fill}
+\clearpage
+
+% copyright page
+\begingroup
+\footnotesize
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+%%\ttfamily
+\textcopyright{} \the \year - Gaston Alberto Martinez\\
+All rights reserved
+
+\begin{center}
+\begin{tabular}{ll}
+Primera edicion:                        & Junio 2016 \\
+Version de la aplicacion: & (1.0.0.0)
+\end{tabular}
+\end{center}
+
+Ultima modificacion \today
+
+
+\endgroup
+
+\clearpage
+\vspace*{\fill}
+
+% ToC, etc
+%%%\pagenumbering{roman}
+\pagestyle{headings}
+%%%%\pagestyle{Ruled}
+
+\tableofcontents
+\vspace*{\fill}
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+\chapter{Prefacio}
+
+    \textit{Tener que programar el tinder es una buena excusa para usarlo.}\\
+
+{\raggedleft{\scshape Gaston A. Martinez} \\ Buenos Aires, Argentina\\ Junio 2016\par}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapterstyle{BlueBox}
+\mainmatter
+
+\chapter{Informacion General} \label{chap:infogeneral}
+
+\section{System Overview}
+
+Explain in general terms the \index{system} and the purpose for which it is intended.  The description shall include: 
+
+Major functions performed by the \index{system}
+Describe the architecture of the system in \index{non-technical} terms, (e.g., client/server, Web-based, etc.)
+User access mode, (e.g., graphical user interface)
+Responsible organization
+System name or title
+System code
+System category:
+Major application:  performs clearly defined functions for which there is a readily identifiable security consideration and need
+General support system:  provides general ADP or \index{network} support for a variety of users and applications
+Operational status:
+Operational
+Under development
+Undergoing a major modification
+General description
+System environment or special conditions
+
+\section{Project References}
+
+Provide a list of the references that were used in preparation of this document in order of importance to the end user.
+\section{Authorized Use Permission}
+
+Provide a warning regarding unauthorized usage of the system and making unauthorized copies of data, software, reports, and documents, if applicable.  If waiver use or copy permissions need to be obtained, describe the process.
+\section{Points of Contact}
+
+\subsection{Information}
+
+Provide a list of the points of organizational contact (POCs) that may be needed by the document user for informational and troubleshooting purposes.  Include type of contact, contact name, department, telephone number, and e-mail address (if applicable).  Points of contact may include, but are not limited to, help desk POC, development/maintenance POC, and operations POC.
+\subsection{Coordination}
+
+Provide a list of organizations that require coordination between the project and its specific support function (e.g., installation coordination, security, etc.).  Include a schedule for coordination activities.
+1.4.3	Help Desk
+
+Provide help desk information including responsible personnel phone numbers for \index{emergency} \index{assistance}.
+\section{Organization of the Manual}
+
+Provide a list of the major sections of the User's Manual (1.0, 2.0, 3.0, etc.) and a brief description of what is contained in each section.
+\section{Acronyms and Abbreviations}
+
+Provide a list of the acronyms and abbreviations used in this document and the meaning of each.
+
+\chapter{SYSTEM SUMMARY}
+
+This section provides a general overview of the system written in non-technical terminology.  The summary should outline the uses of the system in supporting the activities of the user and staff.
+
+\section{System Configuration}
+
+Briefly describe and depict graphically the equipment, communications, and networks used by the system.  Include the type of computer input and output devices.
+\section{Data Flows}
+
+Briefly describe or depict graphically, the overall flow of data in the system.  Include a user-oriented description of the method used to store and maintain data.
+\section{User Access Levels}
+
+Describe the different users and/or user groups and the restrictions placed on system accessibility or use for each.
+\section{Contingencies and Alternate Modes of Operation}
+
+On a high level, explain the continuity of operations in the event of emergency, disaster, or accident.  Explain what the effect of degraded performance will have on the user.
+
+\chapter{GETTING STARTED}
+
+This section provides a general walkthrough of the system from initiation through exit.  The logical arrangement of the information shall enable the functional personnel to understand the sequence and flow of the system.  Use screen prints to depict examples of text under each heading.
+\section{Logging On}
+
+Describe the procedures necessary to access the system, including how to get a user ID and log on.  If applicable, identify job request forms or control statements and the input, frequency, reason, origin, and medium for each type of output.
+\section{System Menu}
+
+This section describes in general terms the system menu first encountered by the user, as well as the navigation paths to functions noted on the screen.  Each system function should be under a separate section header, 3.2.1 - 3.2.x.
+3.2.x	[System Function Name]
+
+Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function and pathway of the menu item.  Provide an average response time to use the function.
+\section{Changing User ID and Password}
+
+Describe how the user changes a user \index{ID}.  Describe the actions a user must take to change a password.
+\section{Exit System}
+
+Describe the actions necessary to properly exit the system. \index{online}
+
+
+\chapter{USING THE SYSTEM}
+
+This section provides a detailed description of the online system from initiation through exit, explaining in detail the characteristics of the required input and system-produced output.  THIS SECTION IS ONLY TO BE USED FOR ONLINE SYSTEMS.  IF YOU ARE DEVELOPING A BATCH SYSTEM, USE SECTION 5.0 AND OMIT THIS SECTION ENTIRELY.
+
+\section{USING the SYSTEM (ONline)}
+
+This section provides a detailed description of system functions.  Each function should be under a separate section header, 4.1 - 4.x, and should correspond sequentially to the system functions (menu items) listed in subsections 3.2.1 - 3.2.x.
+\section{[System Function Name]}
+
+Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function in detail and depict graphically.  Include screen captures and descriptive narrative.
+4.x.y	[System Sub-Function Name]
+
+This subsection provides a detailed description of system sub-functions.  Each sub-function should be under a separate section header, 4.1.1. - 4.x.y .  Where applicable, for each sub-function referenced within a section in 4.x, describe in detail and depict graphically the sub-function name(s) referenced.  Include screen captures and descriptive narrative.
+
+The numbering of the following two sections will depend on how many system functions there are from 4.1 through 4.x.  They are numbered here as 4.2 and 4.3 only for the sake of convenience.  For example, if \index{system} functions run from sections 4.1 through 4.17, then the following two sections would be numbered 4.18 and 4.19.
+\section{Special Instructions for Error Correction}
+
+Describe all recovery and error correction procedures, including error conditions that may be generated and corrective actions that may need to be taken.
+\section{Caveats and Exceptions}
+
+If there are special actions the user must take to insure that data is properly saved or that some other function executes properly, describe those actions here.  Include screen captures and descriptive narratives, if applicable.
+
+
+\chapter{USING THE SYSTEM (BATCH)}
+
+This section provides a detailed description of the batch system from initiation through exit, explaining in detail the characteristics of the required input and system-produced output.  THIS SECTION IS ONLY TO BE USED FOR BATCH SYSTEMS.  IF YOU ARE DEVELOPING AN \index{ONLINE} SYSTEM, USE SECTION 4.0 AND OMIT THIS SECTION ENTIRELY.
+
+\section{USING the SYSTEM (batch)}
+
+This section provides a detailed description of system functions.  Each function should be under a separate section header, 5.1 - 5.x, and should correspond sequentially to the system functions (menu items) listed in subsections 3.2.1 - 3.2.x.
+5.x	[System Function Name]
+
+Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function in detail and depict graphically.  Include screen captures and descriptive narrative.
+5.x.y	[System Sub-Function Name]
+
+This subsection provides a detailed description of system sub-functions.  Each sub-function should be under a separate section header, 5.1.1 - 5.x.y.  Where applicable, for each sub-function referenced within a section in 5.x, describe in detail and depict graphically the sub-function name(s) referenced.  Include screen captures and descriptive narrative.
+
+The numbering of the following three sections will depend on how many system functions there are from 5.1 through 5.x.  They are numbered here as 5.2, 5.3, and 5.4 only for the sake of convenience.  For example, if system functions run from sections 5.1 through 5.17, then the following three sections would be numbered 5.18, 5.19 and 5.20.
+\section{Special Instructions for Error Correction}
+
+Describe all recovery and error correction procedures, including error conditions that may be generated and corrective actions that may need to be taken.
+\section{Caveats and Exceptions}
+
+If there are special actions the \index{user} must take to insure that data is properly saved or that some other function executes properly, describe those actions here.  Include screen captures and descriptive narratives, if applicable.
+\section{Input Procedures and Expected Output}
+
+Prepare a detailed series of instructions (in non technical terms) describing the procedures the user will need to follow to use the system.  The following information should be included in these instructions:
+
+Detailed procedures to \index{initiate} system operation, including identification of job request forms or control statements and the input's frequency, reason, origin, and medium for each type of output
+Illustrations of input formats
+Descriptions of input preparation rules
+Descriptions of output procedures identifying output formats and specifying the output's purpose, frequency, options, media, and location
+Identification of all codes and abbreviations used in the system's output
+
+\chapter{QUERYING}
+
+This section describes the query and retrieval capabilities of the system.  The instructions necessary for recognition, preparation, and processing of a query applicable to a database shall be explained in detail. Use screen prints to depict examples of text under each heading.
+\section{Query Capabilities}
+
+Describe or illustrate the pre-programmed and ad hoc query capabilities provided by the system.  Include query name or code the user would invoke to execute the query.  Include query parameters if applicable.
+\section{Query Procedures}
+
+Develop detailed descriptions of the procedures necessary for file query including the parameters of the query and the sequenced control instructions to extract query requests from the database.
+
+\chapter{REPORTING}
+
+This section describes and depicts all standard reports that can be generated by the system or internal to the user.  Use \index{screen} prints as needed to depict examples of text under each heading.
+\section{Report Capabilities}
+
+Describe all reports available to the end \index{user}.  Include \index{report} format and the meaning of each field shown on the report.  If user is creating ad hoc reports with special formats, please describe here.  A separate subsection may be used for each report.
+\section{Report Procedures}
+
+Provide instructions for executing and printing the different reports available.  Include descriptions of output procedures identifying \index{output} formats and specifying the output's purpose, frequency, options,
+
+\backmatter
+
+\pagestyle{index}
+%\renewcommand{\chaptermark}[1]{}
+\renewcommand{\preindexhook}{%
+The first page number is usually, but not always, the primary reference to
+the indexed topic.\vskip\onelineskip}
+\indexintoc
+
+%%%\raggedright  does nasty things to index entries
+\printindex
+
+\onecolindex
+
+\pagestyle{empty}
+\null\vfil
+
+\begin{adjustwidth}{0in}{0in}
+\chapter{Licencia y Copyright}
+
+
+\addcontentsline{toc}{chapter}{Licencia y Copyright}
+
+{\noindent
+Copyright \copyright\ Gaston Alberto Martinez <gaston.martinez.90@gmail.com> \\
+}
+
+\begin{center}
+\noindent
+\includegraphics[height=1.5cm]{graficos/cc/cc}
+\hspace{0.5cm}
+\includegraphics[height=1.5cm]{graficos/cc/by}
+\hspace{0.5cm}
+\includegraphics[height=1.5cm]{graficos/cc/sa}
+\end{center}
+
+Esta obra se distribuye bajo la
+\href{http://creativecommons.org/licenses/by-sa/4.0/deed.es}{Licencia Creative
+Commons Atribución-CompartirIgual 4.0 Internacional}.
+
+Los íconos utilizados fueron diseñados por
+\href{http://www.freepik.com/}{Freepik}.
+
+Este manual fue creado en LaTeX  basado en el modelo de Leslie Lamport y utilizando el template de \texttt{memoir:} \href{http://texdoc.net/texmf-dist/doc/latex/memoir/memman.tex}{\texttt{memman}}. 
+
+\end{adjustwidth}
+
+\vfil
+
+\end{document}
