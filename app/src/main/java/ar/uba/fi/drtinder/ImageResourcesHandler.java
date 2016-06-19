@@ -82,9 +82,10 @@ public final class ImageResourcesHandler {
 
     /**
      * Prefetch resources from server (if needed) in order to improve network resources use.
-     * @param imageId Server id of the fetching resource
+     *
+     * @param imageId      Server id of the fetching resource
      * @param resourceType Type of the resource (One of listed const types)
-     * @param context Context of the calling activity
+     * @param context      Context of the calling activity
      */
     public static void prefetch(String imageId, int resourceType, Context context) {
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
@@ -99,6 +100,7 @@ public final class ImageResourcesHandler {
 
     /**
      * TODO
+     *
      * @param imageId
      * @param resourceType
      * @param imgView
@@ -141,6 +143,7 @@ public final class ImageResourcesHandler {
 
     /**
      * TODO
+     *
      * @param imageId
      * @param resourceType
      * @param context
@@ -167,6 +170,7 @@ public final class ImageResourcesHandler {
 
     /**
      * TODO
+     *
      * @param context
      */
     public static void clearCache(Context context) {
@@ -200,6 +204,7 @@ public final class ImageResourcesHandler {
 
         /**
          * TODO
+         *
          * @param resourceType
          * @param resId
          * @param imageView
@@ -262,6 +267,7 @@ public final class ImageResourcesHandler {
 
         /**
          * TODO
+         *
          * @param cacheKey
          * @param dataArray
          * @param context
@@ -293,6 +299,7 @@ public final class ImageResourcesHandler {
 
         /**
          * TODO
+         *
          * @param imageUrl
          * @return
          */

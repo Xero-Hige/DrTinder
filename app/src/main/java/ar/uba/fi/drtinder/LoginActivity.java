@@ -248,6 +248,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * TODO
+     *
      * @param index
      * @param bundle
      * @return
@@ -259,6 +260,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * TODO
+     *
      * @param cursorLoader
      * @param cursor
      */
@@ -269,6 +271,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * TODO
+     *
      * @param cursorLoader
      */
     @Override
@@ -301,7 +304,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          * Creates a new Register task
          *
          * @param email    User email
-         * @param password  User password
+         * @param password User password
          * @param context  Calling activity context
          */
         RegisterTask(String email, String password, Context context) {
