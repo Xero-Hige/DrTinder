@@ -51,7 +51,7 @@ help:
 
 .PHONY: javadoc
 javadoc:
-	javasphinx-apidoc -o ./source ../../app/src/main/java
+	javasphinx-apidoc -o ./source ../../app/src/main/java -f
 	@echo
 	@echo "Build finished. The javadoc pages are in /source."
 

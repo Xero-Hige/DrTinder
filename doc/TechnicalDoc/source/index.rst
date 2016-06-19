@@ -11,12 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-
+   ar/uba/fi/drtinder/package-index
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
