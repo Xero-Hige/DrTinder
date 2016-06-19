@@ -6,8 +6,7 @@ import java.security.InvalidParameterException;
 import java.util.Locale;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -21,23 +20,56 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
+/**
+ * Logger class for Dr Tinder project
+ */
 public final class DrTinderLogger {
 
+    /**
+     * Information level
+     */
     public static final int INFO = 1;
+    /**
+     * Warning level
+     */
     public static final int WARN = 2;
+    /**
+     * Error level
+     */
     public static final int ERRO = 4;
+    /**
+     * Debug level
+     */
     public static final int DEBG = 8;
+    /**
+     * Network related Information level
+     */
     public static final int NET_INFO = 16;
+    /**
+     * Network related Warning level
+     */
     public static final int NET_WARN = 32;
+    /**
+     * Network related Error level
+     */
     public static final int NET_ERRO = 64;
+    /**
+     * Network related Debug level
+     */
     public static final int NET_DEBG = 128;
-
 
     private static final String TAG = "Dr.Tinder";
 
     private DrTinderLogger() {
     }
 
+    /**
+     * TODO
+     *
+     * @param level
+     * @param message
+     */
     private static void privateLog(int level, String message) {
         switch (level) {
             case WARN:
@@ -61,6 +93,11 @@ public final class DrTinderLogger {
         }
     }
 
+    /**
+     * TODO
+     * @param level
+     * @return
+     */
     private static String getLabel(int level) {
         switch (level) {
             case WARN:
@@ -84,6 +121,11 @@ public final class DrTinderLogger {
         }
     }
 
+    /**
+     * Writes message to logfile
+     * @param level: Message level (One of listed const levels)
+     * @param message: Message to log
+     */
     public static void writeLog(int level, String message) {
         String printLabel = getLabel(level);
 

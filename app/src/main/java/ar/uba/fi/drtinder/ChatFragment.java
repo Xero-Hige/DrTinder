@@ -12,6 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
+ * @author Xero-Hige
+ * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+/**
  * Chat list fragment
  */
 public class ChatFragment extends Fragment {
@@ -31,13 +47,7 @@ public class ChatFragment extends Fragment {
                         String user = data.get(i)[2];
 
                         View layout = inflater.inflate(R.layout.chat_user_layout_left, container, false);
-                        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-                        nameTextView.setText(name);
-                        TextView ageTextView = (TextView) layout.findViewById(R.id.chat_user_age);
-                        ageTextView.setText(age);
-                        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
-                        ImageResourcesHandler.fillImageResource(user, ImageResourcesHandler.RES_USER_IMG,
-                                imageView, getContext());
+                        ImageView imageView = addUserChat(name, age, user, layout);
 
                         imageView.setOnClickListener(listener -> {
                             Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
@@ -51,5 +61,25 @@ public class ChatFragment extends Fragment {
 
 
         return view;
+    }
+
+    /**
+     * TODO
+     *
+     * @param name
+     * @param age
+     * @param username
+     * @param chatLayout
+     * @return
+     */
+    private ImageView addUserChat(String name, String age, String username, View chatLayout) {
+        TextView nameTextView = (TextView) chatLayout.findViewById(R.id.chat_user_name);
+        nameTextView.setText(name);
+        TextView ageTextView = (TextView) chatLayout.findViewById(R.id.chat_user_age);
+        ageTextView.setText(age);
+        ImageView imageView = (ImageView) chatLayout.findViewById(R.id.chat_user_img);
+        ImageResourcesHandler.fillImageResource(username, ImageResourcesHandler.RES_USER_IMG,
+                imageView, getContext());
+        return imageView;
     }
 }

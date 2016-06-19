@@ -4,8 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,9 +16,8 @@ import android.view.View;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
 /**
  * Snackbar class that could be used to output debug info
  */

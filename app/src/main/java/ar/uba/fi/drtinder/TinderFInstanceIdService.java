@@ -7,8 +7,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -22,14 +21,17 @@ import com.google.firebase.messaging.FirebaseMessaging;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
+/**
+ *
+ */
 public class TinderFInstanceIdService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
     private static final String FRIENDLY_ENGAGE_TOPIC = "friendly_engage";
 
     /**
-     * The Application's current Instance ID token is no longer valid
-     * and thus a new one must be requested.
+     * TODO
      */
     @Override
     public void onTokenRefresh() {

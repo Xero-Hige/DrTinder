@@ -10,8 +10,7 @@ import android.os.Bundle;
 import java.util.Locale;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -25,12 +24,25 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
+/**
+ * TODO
+ */
 public final class LocationHandler {
     private static String locationString = "";
 
+    /**
+     * TODO
+     */
     private LocationHandler() {
     }
 
+    /**
+     * TODO
+     *
+     * @param activity
+     * @return
+     */
     static String getLocationString(Activity activity) {
         LocationManager locationManager = (LocationManager)
                 activity.getSystemService(Context.LOCATION_SERVICE);
@@ -53,8 +65,10 @@ public final class LocationHandler {
             public void onProviderDisabled(String provider) {
             }
         };
-        activity.runOnUiThread(() -> locationManager
-                .requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener));
+
+        activity.runOnUiThread(() ->
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+                        locationListener));
         return locationString;
     }
 }

@@ -14,8 +14,7 @@ import java.util.List;
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
- * ImageResourcesHandler.java
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +43,12 @@ public final class StringResourcesHandler {
     private StringResourcesHandler() {
     }
 
+    /**
+     * TODO
+     *
+     * @param type
+     * @return
+     */
     private static String getUrlByType(Integer type) {
         switch (type) {
             case USER_CANDIDATES:
@@ -55,11 +60,22 @@ public final class StringResourcesHandler {
         }
     }
 
+    /**
+     * TODO
+     * @param resId
+     * @param resourceType
+     * @param operation
+     */
     static void executeQuery(String resId, int resourceType, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(resourceType, resId, operation);
         task.execute();
     }
 
+    /**
+     * TODO
+     * @param queryUrl
+     * @return
+     */
     private static List<String[]> fetchData(String queryUrl) {
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + queryUrl);
         RestTemplate restTemplate = new RestTemplate();
@@ -96,10 +112,16 @@ public final class StringResourcesHandler {
         }
     }
 
+    /**
+     * TODO
+     */
     public interface CallbackOperation {
         void execute(List<String[]> data);
     }
 
+    /**
+     * TODO
+     */
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
 
         private final CallbackOperation mCallbackOp;
