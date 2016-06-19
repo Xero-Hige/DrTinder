@@ -1,10 +1,13 @@
+#!/bin/sh
+
 # Set the base image to Ubuntu
-FROM ubuntu:14.04
+FROM resin/rpi-raspbian
 
 # Update the repository sources list
 RUN apt-get update
 
 # Install required packages
+RUN apt-get install -y apt-utils
 RUN apt-get install -y libgflags-dev
 RUN apt-get install -y libsnappy-dev
 RUN apt-get install -y libbz2-dev
