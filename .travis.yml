@@ -23,7 +23,3 @@ before_install:
 
 script:
   - docker run docker-server-test
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - bash execute.sh
