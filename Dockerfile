@@ -69,4 +69,4 @@ RUN cd DrTinder/source/Servidor ; cmake .
 RUN cd DrTinder/source/Servidor ; make
 
 # Run AppServer
-CMD DrTinder/source/Servidor/unit_test ; cd DrTinder ; curl -s https://codecov.io/bash ; sudo ./execute.sh
+CMD DrTinder/source/Servidor/unit_test ; cd DrTinder ; curl -s https://codecov.io/bash ; ./execute.sh

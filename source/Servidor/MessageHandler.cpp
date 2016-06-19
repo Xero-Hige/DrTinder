@@ -3,7 +3,8 @@
 
 using std::string;
 
-MessageHandler::MessageHandler(DatabaseManager *pDatabase, string mail, string pass) : usersDB(pDatabase){
+MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string pass) :
+		usersDB(pDatabase), username(name) {
 	handlers.push_back((Handler *)new userHandler());
 	handlers.push_back((Handler *) new usersHandler());
 	handlers.push_back((Handler *) new friendsHandler());
@@ -67,20 +68,26 @@ bool MessageHandler::authenticate(string username, string password) {
 	return usersDB->correctEntry(username, password);
 }
 
-void MessageHandler::createUser(std::string user_data) {
-	//usersDB->addEntry()
+void MessageHandler::createUser(struct mg_str* user_data) {
+	char name[20], pass[20];
+	mg_get_http_var(user_data, "name", name, sizeof(name));
+	mg_get_http_var(user_data, "pass", pass, sizeof(pass));
+	//TODO: agregar otros parametros
+	usersDB->addEntry(name, pass);
+	//TODO: enviar datos a shared
 }
 
-void MessageHandler::updateUser(std::string user_data) {
-	//TODO: cambiar datos en bd
+void MessageHandler::updateUser(struct mg_str* user_data) {
+	//TODO: cambiar datos en shared
 }
 
 void MessageHandler::deleteUser() {
-	//TODO: quitar de bd
+	usersDB->deleteEntry(username);
+	//TODO: quitar de shared
 }
 
-void MessageHandler::getInterest(string photo_64) {
-	//TODO: obtener foto interes, id?
+void MessageHandler::getInterest(std::string photo_64, std::string id_interest) {
+	//TODO: obtener foto interes del shared y guardarlo en photo_64
 }
 
 void MessageHandler::getChat(string chat_history) {
@@ -88,11 +95,11 @@ void MessageHandler::getChat(string chat_history) {
 }
 
 void MessageHandler::getPhoto(string photo_64) {
-
+	//TODO: obtener foto usuario del shared y guardarlo en photo_64
 }
 
 void MessageHandler::postPhoto(string photo_64) {
-
+	//TODO: enviar photo_64 al shared
 }
 
 bool MessageHandler::validateToken(std::string user_token) {
@@ -100,7 +107,7 @@ bool MessageHandler::validateToken(std::string user_token) {
 }
 
 void MessageHandler::getMatches(std::string id) {
-
+	//TODO: calcular matches
 }
 
 string MessageHandler::getToken() {
