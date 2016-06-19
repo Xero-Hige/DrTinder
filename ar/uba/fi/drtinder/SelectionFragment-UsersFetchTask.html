@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SelectionFragment.UsersFetchTask &mdash; documentación de DrTinder - 1.0.0</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de DrTinder - 1.0.0" href="../../../../index.html"/>
+        <link rel="up" title="ar.uba.fi.drtinder" href="package-index.html"/>
+        <link rel="next" title="Snackdebug" href="Snackdebug.html"/>
+        <link rel="prev" title="SelectionFragment.SwipeDeckAdapter" href="SelectionFragment-SwipeDeckAdapter.html"/> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> DrTinder
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="package-index.html">ar.uba.fi.drtinder</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ChatFragment.html">ChatFragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ChatSession.html">ChatSession</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DrTinderLogger.html">DrTinderLogger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ImageResourcesHandler.html">ImageResourcesHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LocationHandler.html">LocationHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LoginActivity.html">LoginActivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LoginActivity-RegisterTask.html">LoginActivity.RegisterTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LoginActivity-UserLoginTask.html">LoginActivity.UserLoginTask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MainActivity.html">MainActivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SelectionFragment.html">SelectionFragment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SelectionFragment-SwipeDeckAdapter.html">SelectionFragment.SwipeDeckAdapter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">SelectionFragment.UsersFetchTask</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#doinbackground">doInBackground</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#oncancelled">onCancelled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#onpostexecute">onPostExecute</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Snackdebug.html">Snackdebug</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StringResourcesHandler.html">StringResourcesHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TinderFMService.html">TinderFMService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserDetailsActivity.html">UserDetailsActivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserInfoHandler.html">UserInfoHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserProfile.html">UserProfile</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">DrTinder</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="package-index.html">ar.uba.fi.drtinder</a> &raquo;</li>
+      
+    <li>SelectionFragment.UsersFetchTask</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../../_sources/ar/uba/fi/drtinder/SelectionFragment-UsersFetchTask.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="selectionfragment-usersfetchtask">
+<h1>SelectionFragment.UsersFetchTask<a class="headerlink" href="#selectionfragment-usersfetchtask" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="type">
+<dt id="ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask">
+public class <code class="descname">UsersFetchTask</code> extends AsyncTask&lt;<a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Void.html" title="java.lang.Void">Void</a>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Void.html" title="java.lang.Void">Void</a>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html" title="java.lang.Boolean">Boolean</a>&gt;<a class="headerlink" href="#ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Represents an asynchronous login/registration task used to authenticate the user.</p>
+</dd></dl>
+
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="doinbackground">
+<h3>doInBackground<a class="headerlink" href="#doinbackground" title="Enlazar permanentemente con este título">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.doInBackground(Void)">
+protected <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html" title="java.lang.Boolean">Boolean</a> <code class="descname">doInBackground</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Void.html" title="java.lang.Void">Void</a>...<em> params</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.doInBackground(Void)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>params</strong> &#8211; params</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">Task successful</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="oncancelled">
+<h3>onCancelled<a class="headerlink" href="#oncancelled" title="Enlazar permanentemente con este título">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.onCancelled()">
+protected void <code class="descname">onCancelled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.onCancelled()" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="onpostexecute">
+<h3>onPostExecute<a class="headerlink" href="#onpostexecute" title="Enlazar permanentemente con este título">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.onPostExecute(Boolean)">
+protected void <code class="descname">onPostExecute</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Boolean.html" title="java.lang.Boolean">Boolean</a><em> success</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.SelectionFragment.UsersFetchTask.onPostExecute(Boolean)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Snackdebug.html" class="btn btn-neutral float-right" title="Snackdebug" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="SelectionFragment-SwipeDeckAdapter.html" class="btn btn-neutral" title="SelectionFragment.SwipeDeckAdapter" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Gaston Alberto Martinez.
+      Actualizado por última vez en Jun 19, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

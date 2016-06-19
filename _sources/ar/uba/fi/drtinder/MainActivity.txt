@@ -1,0 +1,76 @@
+.. java:import:: android.content Intent
+
+.. java:import:: android.graphics PorterDuff
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.support.design.widget NavigationView
+
+.. java:import:: android.support.v4.app Fragment
+
+.. java:import:: android.support.v4.app FragmentManager
+
+.. java:import:: android.support.v4.view GravityCompat
+
+.. java:import:: android.support.v4.widget DrawerLayout
+
+.. java:import:: android.support.v7.app ActionBarDrawerToggle
+
+.. java:import:: android.support.v7.app AppCompatActivity
+
+.. java:import:: android.support.v7.widget Toolbar
+
+.. java:import:: android.view Menu
+
+.. java:import:: android.view MenuItem
+
+.. java:import:: com.google.firebase.auth FirebaseAuth
+
+MainActivity
+============
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+
+   Main app activity of the app Dr Tinder. Displays the 2 main fragments
+
+Methods
+-------
+onBackPressed
+^^^^^^^^^^^^^
+
+.. java:method:: @Override public void onBackPressed()
+   :outertype: MainActivity
+
+onCreate
+^^^^^^^^
+
+.. java:method:: @Override protected void onCreate(Bundle bundle)
+   :outertype: MainActivity
+
+onCreateOptionsMenu
+^^^^^^^^^^^^^^^^^^^
+
+.. java:method:: @Override public boolean onCreateOptionsMenu(Menu menu)
+   :outertype: MainActivity
+
+onDestroy
+^^^^^^^^^
+
+.. java:method:: @Override public void onDestroy()
+   :outertype: MainActivity
+
+onNavigationItemSelected
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. java:method:: @SuppressWarnings @Override public boolean onNavigationItemSelected(MenuItem item)
+   :outertype: MainActivity
+
+onOptionsItemSelected
+^^^^^^^^^^^^^^^^^^^^^
+
+.. java:method:: @Override public boolean onOptionsItemSelected(MenuItem item)
+   :outertype: MainActivity
+

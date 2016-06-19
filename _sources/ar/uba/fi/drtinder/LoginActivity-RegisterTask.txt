@@ -1,0 +1,90 @@
+.. java:import:: android.animation Animator
+
+.. java:import:: android.animation AnimatorListenerAdapter
+
+.. java:import:: android.annotation TargetApi
+
+.. java:import:: android.app Activity
+
+.. java:import:: android.app LoaderManager.LoaderCallbacks
+
+.. java:import:: android.content Context
+
+.. java:import:: android.content CursorLoader
+
+.. java:import:: android.content Intent
+
+.. java:import:: android.content Loader
+
+.. java:import:: android.database Cursor
+
+.. java:import:: android.os AsyncTask
+
+.. java:import:: android.os Build
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.text TextUtils
+
+.. java:import:: android.view View
+
+.. java:import:: android.view.inputmethod EditorInfo
+
+.. java:import:: android.widget Button
+
+.. java:import:: android.widget EditText
+
+.. java:import:: android.widget TextView
+
+.. java:import:: com.google.firebase.auth FirebaseAuth
+
+.. java:import:: java.util.concurrent CountDownLatch
+
+LoginActivity.RegisterTask
+==========================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class RegisterTask extends AsyncTask<Void, Void, Boolean>
+   :outertype: LoginActivity
+
+   Represents an asynchronous login/registration task used to authenticate the user.
+
+Constructors
+------------
+RegisterTask
+^^^^^^^^^^^^
+
+.. java:constructor::  RegisterTask(String email, String password, Context context)
+   :outertype: LoginActivity.RegisterTask
+
+   Creates a new Login task
+
+   :param email: User email
+   :param password: User password
+   :param context: Calling activity context
+
+Methods
+-------
+doInBackground
+^^^^^^^^^^^^^^
+
+.. java:method:: @Override protected Boolean doInBackground(Void... params)
+   :outertype: LoginActivity.RegisterTask
+
+   :param params: params
+   :return: Task successful
+
+onCancelled
+^^^^^^^^^^^
+
+.. java:method:: @Override protected void onCancelled()
+   :outertype: LoginActivity.RegisterTask
+
+onPostExecute
+^^^^^^^^^^^^^
+
+.. java:method:: @Override protected void onPostExecute(Boolean success)
+   :outertype: LoginActivity.RegisterTask
+

@@ -1,0 +1,78 @@
+.. java:import:: android.content Intent
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.support.v7.app AppCompatActivity
+
+.. java:import:: android.support.v7.widget Toolbar
+
+.. java:import:: android.view LayoutInflater
+
+.. java:import:: android.view View
+
+.. java:import:: android.widget ImageView
+
+.. java:import:: android.widget LinearLayout
+
+.. java:import:: android.widget TextView
+
+UserDetailsActivity
+===================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class UserDetailsActivity extends AppCompatActivity
+
+   Activity used to display users details
+
+Fields
+------
+EXTRA_USER_AGE
+^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_AGE
+   :outertype: UserDetailsActivity
+
+   User age key in extra map
+
+EXTRA_USER_BIO
+^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_BIO
+   :outertype: UserDetailsActivity
+
+   User biography key in extra map
+
+EXTRA_USER_ID
+^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_ID
+   :outertype: UserDetailsActivity
+
+   User image key in extra map
+
+EXTRA_USER_INTS
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_INTS
+   :outertype: UserDetailsActivity
+
+   User interest key in extra map
+
+EXTRA_USER_NAME
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_NAME
+   :outertype: UserDetailsActivity
+
+   User name key in extra map
+
+Methods
+-------
+onCreate
+^^^^^^^^
+
+.. java:method:: @Override protected void onCreate(Bundle bundle)
+   :outertype: UserDetailsActivity
+

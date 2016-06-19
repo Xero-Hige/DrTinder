@@ -1,0 +1,35 @@
+.. java:import:: android.os AsyncTask
+
+.. java:import:: org.springframework.http.converter StringHttpMessageConverter
+
+.. java:import:: org.springframework.web.client HttpServerErrorException
+
+.. java:import:: org.springframework.web.client RestTemplate
+
+.. java:import:: java.io IOException
+
+.. java:import:: java.io StringReader
+
+.. java:import:: java.util ArrayList
+
+.. java:import:: java.util List
+
+.. java:import:: au.com.bytecode.opencsv CSVReader
+
+StringResourcesHandler.CallbackOperation
+========================================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public interface CallbackOperation
+   :outertype: StringResourcesHandler
+
+Methods
+-------
+execute
+^^^^^^^
+
+.. java:method::  void execute(List<String[]> data)
+   :outertype: StringResourcesHandler.CallbackOperation
+

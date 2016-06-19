@@ -1,0 +1,68 @@
+.. java:import:: com.google.firebase.auth FirebaseAuth
+
+.. java:import:: org.springframework.web.client RestTemplate
+
+.. java:import:: java.io StringWriter
+
+.. java:import:: au.com.bytecode.opencsv CSVWriter
+
+UserInfoHandler
+===============
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class UserInfoHandler
+
+   ${FILE}
+
+   Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+
+   This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see
+
+Fields
+------
+NULL_TOKEN
+^^^^^^^^^^
+
+.. java:field:: public static final String NULL_TOKEN
+   :outertype: UserInfoHandler
+
+Methods
+-------
+getLoginToken
+^^^^^^^^^^^^^
+
+.. java:method:: static String getLoginToken(String username, String password, String location)
+   :outertype: UserInfoHandler
+
+getUserEmail
+^^^^^^^^^^^^
+
+.. java:method:: public static String getUserEmail()
+   :outertype: UserInfoHandler
+
+getUsername
+^^^^^^^^^^^
+
+.. java:method:: public static String getUsername()
+   :outertype: UserInfoHandler
+
+isLoggedIn
+^^^^^^^^^^
+
+.. java:method:: public static boolean isLoggedIn()
+   :outertype: UserInfoHandler
+
+isValidEmail
+^^^^^^^^^^^^
+
+.. java:method:: public static boolean isValidEmail(String email)
+   :outertype: UserInfoHandler
+
+isValidPassword
+^^^^^^^^^^^^^^^
+
+.. java:method:: public static boolean isValidPassword(String pass)
+   :outertype: UserInfoHandler
+

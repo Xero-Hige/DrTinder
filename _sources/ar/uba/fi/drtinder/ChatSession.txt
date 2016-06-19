@@ -1,0 +1,50 @@
+.. java:import:: android.content Intent
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.support.design.widget AppBarLayout
+
+.. java:import:: android.support.design.widget FloatingActionButton
+
+.. java:import:: android.support.v4.widget NestedScrollView
+
+.. java:import:: android.support.v7.app AppCompatActivity
+
+.. java:import:: android.support.v7.widget Toolbar
+
+.. java:import:: android.view LayoutInflater
+
+.. java:import:: android.view View
+
+.. java:import:: android.view.inputmethod InputMethodManager
+
+.. java:import:: android.widget EditText
+
+.. java:import:: android.widget ImageButton
+
+.. java:import:: android.widget ImageView
+
+.. java:import:: android.widget LinearLayout
+
+.. java:import:: android.widget TextView
+
+.. java:import:: com.github.siyamed.shapeimageview BubbleImageView
+
+ChatSession
+===========
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class ChatSession extends AppCompatActivity
+
+   Chat session activity. Represents a chat session between 2 users.
+
+Methods
+-------
+onCreate
+^^^^^^^^
+
+.. java:method:: @Override protected void onCreate(Bundle bundle)
+   :outertype: ChatSession
+

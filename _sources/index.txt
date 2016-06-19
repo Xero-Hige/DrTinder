@@ -1,0 +1,21 @@
+.. DrTinder documentation master file, created by
+   sphinx-quickstart on Sun Jun 19 13:52:23 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to DrTinder's documentation!
+====================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   ar/uba/fi/drtinder/package-index
+   
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`
+

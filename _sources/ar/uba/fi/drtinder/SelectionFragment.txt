@@ -1,0 +1,80 @@
+.. java:import:: android.animation Animator
+
+.. java:import:: android.animation AnimatorListenerAdapter
+
+.. java:import:: android.annotation TargetApi
+
+.. java:import:: android.content Context
+
+.. java:import:: android.content Intent
+
+.. java:import:: android.content.res ColorStateList
+
+.. java:import:: android.os AsyncTask
+
+.. java:import:: android.os Build
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.support.annotation Nullable
+
+.. java:import:: android.support.design.widget FloatingActionButton
+
+.. java:import:: android.support.v4.app Fragment
+
+.. java:import:: android.view LayoutInflater
+
+.. java:import:: android.view View
+
+.. java:import:: android.view ViewGroup
+
+.. java:import:: android.widget BaseAdapter
+
+.. java:import:: android.widget ImageView
+
+.. java:import:: android.widget TextView
+
+.. java:import:: com.daprlabs.cardstack SwipeDeck
+
+.. java:import:: java.util Collections
+
+.. java:import:: java.util HashMap
+
+.. java:import:: java.util LinkedList
+
+.. java:import:: java.util Map
+
+.. java:import:: java.util Queue
+
+.. java:import:: java.util Random
+
+SelectionFragment
+=================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class SelectionFragment extends Fragment
+
+   Swipe selection fragment. Where you can choose if you like someone o not.
+
+Methods
+-------
+onCreateView
+^^^^^^^^^^^^
+
+.. java:method:: @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
+   :outertype: SelectionFragment
+
+onStart
+^^^^^^^
+
+.. java:method:: @Override public void onStart()
+   :outertype: SelectionFragment
+
+onStop
+^^^^^^
+
+.. java:method:: @Override public void onStop()
+   :outertype: SelectionFragment
+

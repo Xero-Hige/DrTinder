@@ -1,0 +1,60 @@
+.. java:import:: android.os AsyncTask
+
+.. java:import:: org.springframework.http.converter StringHttpMessageConverter
+
+.. java:import:: org.springframework.web.client HttpServerErrorException
+
+.. java:import:: org.springframework.web.client RestTemplate
+
+.. java:import:: java.io IOException
+
+.. java:import:: java.io StringReader
+
+.. java:import:: java.util ArrayList
+
+.. java:import:: java.util List
+
+.. java:import:: au.com.bytecode.opencsv CSVReader
+
+StringResourcesHandler
+======================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class StringResourcesHandler
+
+Fields
+------
+CANDIDATES_URL
+^^^^^^^^^^^^^^
+
+.. java:field:: static final String CANDIDATES_URL
+   :outertype: StringResourcesHandler
+
+MATCHES_URL
+^^^^^^^^^^^
+
+.. java:field:: static final String MATCHES_URL
+   :outertype: StringResourcesHandler
+
+USER_CANDIDATES
+^^^^^^^^^^^^^^^
+
+.. java:field:: static final int USER_CANDIDATES
+   :outertype: StringResourcesHandler
+
+USER_MATCHES
+^^^^^^^^^^^^
+
+.. java:field:: static final int USER_MATCHES
+   :outertype: StringResourcesHandler
+
+Methods
+-------
+executeQuery
+^^^^^^^^^^^^
+
+.. java:method:: static void executeQuery(String resId, int resourceType, CallbackOperation operation)
+   :outertype: StringResourcesHandler
+

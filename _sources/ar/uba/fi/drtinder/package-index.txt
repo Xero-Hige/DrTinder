@@ -1,0 +1,29 @@
+ar.uba.fi.drtinder
+==================
+
+.. java:package:: ar.uba.fi.drtinder
+
+.. toctree::
+   :maxdepth: 1
+
+   ChatFragment
+   ChatSession
+   DrTinderLogger
+   ImageResourcesHandler
+   LocationHandler
+   LoginActivity
+   LoginActivity-RegisterTask
+   LoginActivity-UserLoginTask
+   MainActivity
+   SelectionFragment
+   SelectionFragment-SwipeDeckAdapter
+   SelectionFragment-UsersFetchTask
+   Snackdebug
+   StringResourcesHandler
+   StringResourcesHandler-CallbackOperation
+   TinderFInstanceIdService
+   TinderFMService
+   UserDetailsActivity
+   UserInfoHandler
+   UserProfile
+

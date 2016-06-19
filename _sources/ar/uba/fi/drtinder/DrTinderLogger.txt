@@ -1,0 +1,78 @@
+.. java:import:: android.util Log
+
+.. java:import:: java.security InvalidParameterException
+
+.. java:import:: java.util Locale
+
+DrTinderLogger
+==============
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class DrTinderLogger
+
+   ${FILE}
+
+   Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+
+   This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see
+
+Fields
+------
+DEBG
+^^^^
+
+.. java:field:: public static final int DEBG
+   :outertype: DrTinderLogger
+
+ERRO
+^^^^
+
+.. java:field:: public static final int ERRO
+   :outertype: DrTinderLogger
+
+INFO
+^^^^
+
+.. java:field:: public static final int INFO
+   :outertype: DrTinderLogger
+
+NET_DEBG
+^^^^^^^^
+
+.. java:field:: public static final int NET_DEBG
+   :outertype: DrTinderLogger
+
+NET_ERRO
+^^^^^^^^
+
+.. java:field:: public static final int NET_ERRO
+   :outertype: DrTinderLogger
+
+NET_INFO
+^^^^^^^^
+
+.. java:field:: public static final int NET_INFO
+   :outertype: DrTinderLogger
+
+NET_WARN
+^^^^^^^^
+
+.. java:field:: public static final int NET_WARN
+   :outertype: DrTinderLogger
+
+WARN
+^^^^
+
+.. java:field:: public static final int WARN
+   :outertype: DrTinderLogger
+
+Methods
+-------
+writeLog
+^^^^^^^^
+
+.. java:method:: public static void writeLog(int level, String message)
+   :outertype: DrTinderLogger
+

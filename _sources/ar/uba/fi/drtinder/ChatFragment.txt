@@ -1,0 +1,38 @@
+.. java:import:: android.content Intent
+
+.. java:import:: android.os Bundle
+
+.. java:import:: android.support.annotation Nullable
+
+.. java:import:: android.support.v4.app Fragment
+
+.. java:import:: android.view LayoutInflater
+
+.. java:import:: android.view View
+
+.. java:import:: android.view ViewGroup
+
+.. java:import:: android.widget ImageView
+
+.. java:import:: android.widget LinearLayout
+
+.. java:import:: android.widget TextView
+
+ChatFragment
+============
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class ChatFragment extends Fragment
+
+   Chat list fragment
+
+Methods
+-------
+onCreateView
+^^^^^^^^^^^^
+
+.. java:method:: @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
+   :outertype: ChatFragment
+

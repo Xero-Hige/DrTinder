@@ -1,0 +1,64 @@
+.. java:import:: android.support.design.widget Snackbar
+
+.. java:import:: android.view View
+
+Snackdebug
+==========
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class Snackdebug
+
+   Snackbar class that could be used to output debug info
+
+Methods
+-------
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout)
+   :outertype: Snackdebug
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, String buttonString)
+   :outertype: Snackdebug
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param buttonString: String to use as snackbar "ok" button
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, int displayTime)
+   :outertype: Snackdebug
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param displayTime: Time that should be the snackbar visible (Snackbar.LENGTH_*)
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, String buttonString, int displayTime)
+   :outertype: Snackdebug
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param buttonString: String to use as snackbar "ok" button
+   :param displayTime: Time that should be the snackbar visible (Snackbar.LENGTH_*)
+
