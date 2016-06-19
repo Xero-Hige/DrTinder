@@ -1,10 +1,12 @@
 # Instalar docker:
 # https://docs.docker.com/engine/installation/linux/ubuntulinux/
 
+# NOTA IMPORTANTE: 
+# 	EL DOCKERFILE EN /DrTinder NO LEVANTA EL SERVIDOR! Ese Dockerfile es solamente para que travis compile el servidor y corra los tests. 
+#	Para levantar el servidor se debe utilizar el Dockerfile en /DrTinder/docker-server-run/
 
-# Pararse en DrTinder (donde se encuentra el Dockerfile):
-cd DrTinder
-
+# Pararse en DrTinder/docker-server-run:
+cd DrTinder/docker-server-run
 
 # Compilar imagen de docker:
 docker build --no-cache -t docker-server .
