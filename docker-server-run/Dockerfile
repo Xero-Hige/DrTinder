@@ -38,7 +38,7 @@ RUN apt-get install -y libssl-dev
 
 
 # Clone repository and checkout AppServer
-RUN git clone https://github.com/Xero-Hige/DrTinder/
+RUN git clone https://github.com/Xero-Hige/DrTinder.git
 RUN pwd
 RUN ls -la
 RUN cd DrTinder ; git checkout origin/AppServer
