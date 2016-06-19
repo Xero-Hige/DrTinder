@@ -40,7 +40,7 @@ ADD_DEFINITIONS(-std=c++11)
 ADD_EXECUTABLE (server ${Servidor_SRCS})
 ADD_EXECUTABLE (unit_test ${TEST_SRCS})
 
-target_compile_options(unit_test PRIVATE --coverage)
+target_compile_options(unit_test PRIVATE -coverage)
 
 ADD_DEFINITIONS(-DMG_ENABLE_THREADS)
 
