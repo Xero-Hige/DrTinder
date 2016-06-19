@@ -17,6 +17,9 @@
 #include "Handlers/chatHandler.h"
 #include "Handlers/friendsHandler.h"
 #include "Handlers/interestHandler.h"
+#include "Tokenizer.h"
+#include "Parsers/CsvParser.h"
+
 
 /* Handler for incomming requests. */
 class MessageHandler {
@@ -33,33 +36,33 @@ class MessageHandler {
 
 		bool authenticate(std::string username, std::string password);
 
-		void createUser(struct mg_str* user_data);
+		void createUser(std::string user_data);
 
 		bool getUsers(std::string& resultMsg);
 
-		void updateUser(struct mg_str* user_data);
+		void updateUser(std::string user_data);
 
 		void deleteUser();
 
 		void getMatches(std::string id);
 
-	void getInterest(std::string photo_64, std::string id_interest);
+		void getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-	void getChat(std::string chat_history);
+		void getChat(std::string& chat_history);
 
-	void getPhoto(std::string photo_64);
+		void getPhoto(std::string& photo_64);
 
-	void postPhoto(std::string photo_64);
+		void postPhoto(std::string photo_64);
 
-	std::string getToken();
+		std::string getToken();
 
-protected:
+	protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
-	/* Returns first substring of message until SEPARATOR. */
+		/* Returns first substring of message until SEPARATOR. */
 		std::string divideMessage(std::string& message);
 
-	bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
+		bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
 		bool postAceptado(int id_origen, int id_rechazado, std::string& resultMsg);
 		/*TODO: pensar formato de la data traida*/
 

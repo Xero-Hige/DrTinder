@@ -28,7 +28,12 @@ class SharedServerClient {
         bool deleteUser(std::string user_id, std::string *response);
         bool changeUserPhoto(std::string user_id, std::string photo);
         bool changeUser(std::string user_id, std::string user_data);
-    protected:
+
+    void getUserPhoto(std::string user_id, std::string &photo_64);
+
+    void getInterestPhoto(std::string interest_id, std::string &photo_64);
+
+protected:
         bool valid(RestClient::Response *r);
         bool setBody(std::string * body, RestClient::Response *r);
         std::string formUrl(std::string sub_url[], size_t sub_urls_size);
