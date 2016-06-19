@@ -17,6 +17,22 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
+ * @author Xero-Hige
+ * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+/**
  * Main app activity of the app Dr Tinder. Displays the 2 main fragments
  */
 public class MainActivity extends AppCompatActivity
@@ -129,6 +145,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null; //DEBUG Assert
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

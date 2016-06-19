@@ -9,8 +9,7 @@ import java.io.StringWriter;
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -25,15 +24,29 @@ import au.com.bytecode.opencsv.CSVWriter;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-//TODO: Name
+/**
+ * TODO
+ */
 public final class UserInfoHandler {
 
+    /**
+     * TODO
+     */
     public static final String NULL_TOKEN = "";
+
     private static final String LOGIN_URL = "";
 
     private UserInfoHandler() {
     }
 
+    /**
+     * TODO
+     *
+     * @param username
+     * @param password
+     * @param location
+     * @return
+     */
     static String getLoginToken(String username, String password, String location) {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -53,18 +66,36 @@ public final class UserInfoHandler {
         return NULL_TOKEN;
     }
 
+    /**
+     * TODO
+     * @param pass
+     * @return
+     */
     public static boolean isValidPassword(String pass) {
         return pass.length() >= 6;
     }
 
+    /**
+     * TODO
+     * @param email
+     * @return
+     */
     public static boolean isValidEmail(String email) {
         return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
     }
 
+    /**
+     * TODO
+     * @return
+     */
     public static boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
+    /**
+     * TODO
+     * @return
+     */
     public static String getUserEmail() {
         if (!isLoggedIn()) {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
@@ -73,6 +104,10 @@ public final class UserInfoHandler {
         return FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
+    /**
+     * TODO
+     * @return
+     */
     public static String getUsername() {
         if (!isLoggedIn()) {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");

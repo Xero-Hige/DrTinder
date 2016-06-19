@@ -19,6 +19,22 @@ import android.widget.TextView;
 import com.github.siyamed.shapeimageview.BubbleImageView;
 
 /**
+ * @author Xero-Hige
+ * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+/**
  * Chat session activity. Represents a chat session between 2 users.
  */
 public class ChatSession extends AppCompatActivity {
@@ -56,6 +72,9 @@ public class ChatSession extends AppCompatActivity {
         scrollDownFB.setOnClickListener(listener -> lastMessageAnimation());
     }
 
+    /**
+     * TODO
+     */
     private void addSendListener() {
         ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
         assert sendButton != null; //Debug assert
@@ -76,11 +95,18 @@ public class ChatSession extends AppCompatActivity {
                 });
     }
 
+    /**
+     * TODO
+     */
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        InputMethodManager inputMManager =
+                (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
+    /**
+     *
+     */
     private void loadOldMessages() {
         for (int i = 0; i < 24; i++) {
             addFriendResponse("Hola, como estas?");
@@ -92,14 +118,30 @@ public class ChatSession extends AppCompatActivity {
         lastMessageAnimation();
     }
 
+    /**
+     * Todo
+     *
+     * @param message
+     */
     private void addPersonalResponse(String message) {
         addResponse(R.layout.chat_session_you, "Tu", mYourId, message);
     }
 
+    /**
+     * TODO
+     * @param message
+     */
     private void addFriendResponse(String message) {
         addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
+    /**
+     * TODO
+     * @param layoutId
+     * @param username
+     * @param userId
+     * @param message
+     */
     private void addResponse(int layoutId, String username, String userId, String message) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout = inflater.inflate(layoutId, null);
@@ -116,7 +158,9 @@ public class ChatSession extends AppCompatActivity {
         mMessagesLayout.addView(layout);
     }
 
-
+    /**
+     * TODO
+     */
     private void lastMessageAnimation() { //FIXME: change to a better name
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         assert scrollview != null; //Debug assert

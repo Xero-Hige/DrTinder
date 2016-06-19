@@ -6,8 +6,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -21,10 +20,17 @@ import com.google.firebase.messaging.RemoteMessage;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
+
+/**
+ * TODO
+ */
 public class TinderFMService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFMService";
 
+    /**
+     * @param remoteMessage
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Handle data payload of FCM messages.

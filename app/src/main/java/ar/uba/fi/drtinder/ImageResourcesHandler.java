@@ -26,8 +26,7 @@ import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * ImageResourcesHandler.java
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -39,24 +38,41 @@ import java.util.concurrent.CountDownLatch;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
 /**
- *
+ * Resource Handler that manages requests and cache of image resources
  */
 public final class ImageResourcesHandler {
 
+    /**
+     * TODO
+     */
     public static final int RES_USER_IMG = 0;
+    /**
+     * TODO
+     */
     public static final int RES_INTEREST_IMG = 1;
+
+
     private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static final String INTER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, CountDownLatch> fetchingMap = new HashMap<>();
 
+    /**
+     * TODO
+     */
     private ImageResourcesHandler() {
     }
 
+    /**
+     * TODO
+     *
+     * @param type
+     * @return
+     */
     private static String getUrlByType(Integer type) {
         switch (type) {
             case RES_USER_IMG:
@@ -68,10 +84,22 @@ public final class ImageResourcesHandler {
         }
     }
 
+    /**
+     * TODO
+     * @param resourceType
+     * @param resId
+     * @return
+     */
     private static int getCacheKey(int resourceType, String resId) {
         return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId).hashCode();
     }
 
+    /**
+     * Prefetch resources from server (if needed) in order to improve network resources use.
+     * @param imageId: Server id of the fetching resource
+     * @param resourceType: Type of the resource (One of listed const types)
+     * @param context: Context of the calling activity
+     */
     static void prefetch(String imageId, int resourceType, Context context) {
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Prefetching: " + imageId);
         Integer cacheKey = getCacheKey(resourceType, imageId);
@@ -83,6 +111,13 @@ public final class ImageResourcesHandler {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    /**
+     * TODO
+     * @param imageId
+     * @param resourceType
+     * @param imgView
+     * @param context
+     */
     static void fillImageResource(String imageId, int resourceType, ImageView imgView,
                                   Context context) {
         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Filling resource with: " + imageId);
@@ -90,11 +125,20 @@ public final class ImageResourcesHandler {
         task.execute();
     }
 
-
+    /**
+     * TODO
+     * @param byteImage
+     * @return
+     */
     private static Bitmap convertToBitmap(byte[] byteImage) {
         return BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
     }
 
+    /**
+     * TODO
+     * @param cacheKey
+     * @return
+     */
     private static Bitmap recoverCachedImg(Integer cacheKey) {
         String path = cacheMap.get(cacheKey);
         try {
@@ -108,10 +152,18 @@ public final class ImageResourcesHandler {
         }
     }
 
+    /**
+     * TODO
+     * @param cacheKey
+     */
     private static void addToFetching(Integer cacheKey) {
         fetchingMap.put(cacheKey, new CountDownLatch(1));
     }
 
+    /**
+     * TODO
+     * @param cacheKey
+     */
     private static void removeFromFetching(Integer cacheKey) {
         if (!fetchingMap.containsKey(cacheKey)) {
             return;
@@ -119,6 +171,12 @@ public final class ImageResourcesHandler {
         fetchingMap.get(cacheKey).countDown();
     }
 
+    /**
+     * TODO
+     * @param imageId
+     * @param resourceType
+     * @param context
+     */
     public static void freeCachedResource(String imageId, int resourceType, Context context) {
         int cacheKey = getCacheKey(resourceType, imageId);
         if (!cacheMap.containsKey(cacheKey) || fetchingMap.containsKey(cacheKey)) {
@@ -139,6 +197,10 @@ public final class ImageResourcesHandler {
         }
     }
 
+    /**
+     * TODO
+     * @param context
+     */
     public static void clearCache(Context context) {
         boolean operationSuccess = true;
         for (int cacheKey : cacheMap.keySet()) {
@@ -160,6 +222,9 @@ public final class ImageResourcesHandler {
         fetchingMap.clear();
     }
 
+    /**
+     * TODO
+     */
     private static class FetchImageTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mImageUrl;
@@ -168,6 +233,13 @@ public final class ImageResourcesHandler {
         private final Context mContext;
         private Bitmap mImageBitmap;
 
+        /**
+         * TODO
+         * @param resourceType
+         * @param resId
+         * @param imageView
+         * @param context
+         */
         FetchImageTask(int resourceType, String resId, ImageView imageView, Context context) { //FIXME Names
             String url = getUrlByType(resourceType);
             this.mImageUrl = url + resId;
@@ -223,6 +295,12 @@ public final class ImageResourcesHandler {
 
         }
 
+        /**
+         * TODO
+         * @param cacheKey
+         * @param dataArray
+         * @param context
+         */
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
             if (context == null) {
                 DrTinderLogger.writeLog(DrTinderLogger.WARN, "Context is null @cacheImgFile");
@@ -248,6 +326,11 @@ public final class ImageResourcesHandler {
             cacheMap.put(cacheKey, cachePath);
         }
 
+        /**
+         * TODO
+         * @param imageUrl
+         * @return
+         */
         private Bitmap getImage(String imageUrl) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
             RestTemplate restTemplate = new RestTemplate();

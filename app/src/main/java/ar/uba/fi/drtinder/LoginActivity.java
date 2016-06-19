@@ -25,6 +25,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * @author Xero-Hige
+ * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+/**
  * Basic login screen based on Android Studio login Activity template
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
@@ -135,6 +151,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param email
+     * @param password
+     */
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseLoginFinished = false;
         loginProcessLatch = new CountDownLatch(1);
@@ -160,14 +182,25 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * TODO
+     */
     private void attemptRegister() {
         executeWithLData(this::executeRegisterTask);
     }
 
+    /**
+     * TODO
+     */
     private void attemptLogin() {
         executeWithLData(this::executeLoginTask);
     }
 
+    /**
+     * TODO
+     * @param email
+     * @param password
+     */
     private void executeLoginTask(String email, String password) {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
@@ -176,6 +209,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mAuthTask.execute((Void) null);
     }
 
+    /**
+     * TODO
+     * @param email
+     * @param password
+     */
     private void executeRegisterTask(String email, String password) {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
@@ -184,10 +222,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mRegisterTask.execute((Void) null);
     }
 
+    /**
+     * TODO
+     * @param email
+     * @return
+     */
     private boolean isEmailValid(String email) {
         return UserInfoHandler.isValidEmail(email);
     }
 
+    /**
+     * TODO
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         return UserInfoHandler.isValidPassword(password);
     }
@@ -228,6 +276,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * TODO
+     * @return
+     */
     private String getLocationString() {
         return LocationHandler.getLocationString(this);
     }
@@ -247,12 +299,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
+    /**
+     *
+     * @param context
+     */
     private void startApp(Context context) {
         Intent menuIntent = new Intent(context, MainActivity.class);
         startActivity(menuIntent);
         finish();
     }
 
+    /**
+     * TODO
+     */
     private interface TaskExecutor {
         void execute(String email, String password);
     }
@@ -271,9 +330,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         /**
          * Creates a new Login task
          *
-         * @param email    User email
-         * @param password User password
-         * @param context  Calling activity context
+         * @param email:    User email
+         * @param password: User password
+         * @param context:  Calling activity context
          */
         RegisterTask(String email, String password, Context context) {
             mUserEmail = email;
@@ -282,10 +341,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthToken = UserInfoHandler.NULL_TOKEN;
         }
 
-        /**
-         * @param params params
-         * @return Task successful
-         */
         @Override
         protected Boolean doInBackground(Void... params) {
             //Todo: Change
@@ -326,6 +381,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * TODO
+     */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserEmail;
