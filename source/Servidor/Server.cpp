@@ -84,8 +84,7 @@ void Server::listenUsersRequest(struct http_message* http_msg, struct mg_connect
 	if (is_equal(&http_msg->method, &s_post_method)) {
 		char user_data[1000];
 		mg_get_http_var(&http_msg->body, "User", user_data, sizeof(user_data));
-		struct mg_str mg_user_data = MG_MK_STR(user_data);
-		msgHandler->createUser(&mg_user_data);
+		msgHandler->createUser(std::string(user_data));
 		return;
 	}
 
@@ -141,7 +140,7 @@ void Server::listenInterestRequest(struct http_message* http_msg, struct mg_conn
 	mg_get_http_var(&http_msg->body, "id_interes", id_interest, sizeof(id_interest));
 
 	std::string interest_photo;
-	msgHandler->getInterest(interest_photo, std::string(id_interest));
+	msgHandler->getInterestPhoto(interest_photo, std::string(id_interest));
 	sendHttpReply(connection, interest_photo, "image");
 }
 

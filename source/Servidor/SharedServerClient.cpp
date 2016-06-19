@@ -101,3 +101,15 @@ bool SharedServerClient::postUsersInterests(string* interest) {
     RestClient::Response r = conn->post(url.c_str(), interest->c_str());
     return this->valid(&r);
 }
+
+void SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
+    //TODO: guardar foto en photo_64
+}
+
+void SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
+    //TODO: guardar foto en photo_64
+}
+
+
+
+

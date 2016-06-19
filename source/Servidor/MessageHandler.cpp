@@ -1,15 +1,16 @@
 #include "MessageHandler.h"
-#include "Tokenizer.h"
+
 
 using std::string;
 
 MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string pass) :
-		usersDB(pDatabase), username(name) {
+		usersDB(pDatabase), username(name), token(NULL) {
 	handlers.push_back((Handler *)new userHandler());
 	handlers.push_back((Handler *) new usersHandler());
 	handlers.push_back((Handler *) new friendsHandler());
 	handlers.push_back((Handler *) new interestHandler());
 	handlers.push_back((Handler *) new chatHandler());
+	usersDB->addEntry(username, pass);
 }
 
 MessageHandler::~MessageHandler() {
@@ -68,38 +69,42 @@ bool MessageHandler::authenticate(string username, string password) {
 	return usersDB->correctEntry(username, password);
 }
 
-void MessageHandler::createUser(struct mg_str* user_data) {
-	char name[20], pass[20];
-	mg_get_http_var(user_data, "name", name, sizeof(name));
-	mg_get_http_var(user_data, "pass", pass, sizeof(pass));
-	//TODO: agregar otros parametros
-	usersDB->addEntry(name, pass);
+void MessageHandler::createUser(string user_data) {
+	CsvParser csvParser;
+	User new_user;
+	csvParser.makeUser(user_data, new_user);
 	//TODO: enviar datos a shared
+	//ssClient.postUsers();
 }
 
-void MessageHandler::updateUser(struct mg_str* user_data) {
+void MessageHandler::updateUser(string user_data) {
+	CsvParser csvParser;
+	User new_user;
+	csvParser.makeUser(user_data, new_user);
 	//TODO: cambiar datos en shared
+	//ssClient.changeUser(username, );
 }
 
 void MessageHandler::deleteUser() {
 	usersDB->deleteEntry(username);
 	//TODO: quitar de shared
+	//ssClient.deleteUser(username, );
 }
 
-void MessageHandler::getInterest(std::string photo_64, std::string id_interest) {
-	//TODO: obtener foto interes del shared y guardarlo en photo_64
+void MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_interest) {
+	ssClient.getInterestPhoto(id_interest, photo_64);
 }
 
-void MessageHandler::getChat(string chat_history) {
+void MessageHandler::getChat(string& chat_history) {
 	//TODO: get chat
 }
 
-void MessageHandler::getPhoto(string photo_64) {
-	//TODO: obtener foto usuario del shared y guardarlo en photo_64
+void MessageHandler::getPhoto(string& photo_64) {
+	ssClient.getUserPhoto(username, photo_64);
 }
 
 void MessageHandler::postPhoto(string photo_64) {
-	//TODO: enviar photo_64 al shared
+	ssClient.changeUserPhoto(username, photo_64);
 }
 
 bool MessageHandler::validateToken(std::string user_token) {
@@ -113,25 +118,3 @@ void MessageHandler::getMatches(std::string id) {
 string MessageHandler::getToken() {
 	return token;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
