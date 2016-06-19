@@ -32,6 +32,9 @@ RUN apt-get install -y python
 RUN apt-get install -y openssl
 RUN apt-get install -y libssl-dev
 
+# Install curl
+RUN apt-get install -y curl
+
 
 
 # Clone repository and checkout AppServer
@@ -66,4 +69,4 @@ RUN cd DrTinder/source/Servidor ; cmake .
 RUN cd DrTinder/source/Servidor ; make
 
 # Run AppServer
-CMD DrTinder/source/Servidor/unit_test ; cd DrTinder ; curl -s https://codecov.io/bash ; ./execute.sh
+CMD DrTinder/source/Servidor/unit_test ; cd DrTinder ; curl -s https://codecov.io/bash ; chmod +x execute.sh; ./execute.sh
