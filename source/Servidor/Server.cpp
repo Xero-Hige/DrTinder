@@ -82,8 +82,10 @@ void Server::listenUsersRequest(struct http_message* http_msg, struct mg_connect
 	MessageHandler* msgHandler = (MessageHandler *) connection->user_data;
 
 	if (is_equal(&http_msg->method, &s_post_method)) {
-		std::string user_data(http_msg->body.p, http_msg->body.len);
-		msgHandler->createUser(user_data);
+		char user_data[1000];
+		mg_get_http_var(&http_msg->body, "User", user_data, sizeof(user_data));
+		struct mg_str mg_user_data = MG_MK_STR(user_data);
+		msgHandler->createUser(&mg_user_data);
 		return;
 	}
 
@@ -96,8 +98,10 @@ void Server::listenUsersRequest(struct http_message* http_msg, struct mg_connect
 		msgHandler->getUsers(users_data);
 		sendHttpReply(connection, users_data, "text");
 	} else if (is_equal(&http_msg->method, &s_put_method)) {
-		std::string user_data(http_msg->body.p, http_msg->body.len);
-		msgHandler->updateUser(user_data);
+		char user_data[1000];
+		mg_get_http_var(&http_msg->body, "User", user_data, sizeof(user_data));
+		struct mg_str mg_user_data = MG_MK_STR(user_data);
+		msgHandler->updateUser(&mg_user_data);
 	} else if (is_equal(&http_msg->method, &s_delete_method)) {
 		msgHandler->deleteUser();
 	} else {
@@ -132,9 +136,12 @@ void Server::listenInterestRequest(struct http_message* http_msg, struct mg_conn
 	if (! is_equal(&http_msg->method, &s_get_method)) {
 		sendHttpLine(connection, BAD_REQUEST);
 	}
-	std::string interest_photo;
 	MessageHandler* msgHandler = (MessageHandler *) connection->user_data;
-	msgHandler->getInterest(interest_photo);
+	char id_interest[20];
+	mg_get_http_var(&http_msg->body, "id_interes", id_interest, sizeof(id_interest));
+
+	std::string interest_photo;
+	msgHandler->getInterest(interest_photo, std::string(id_interest));
 	sendHttpReply(connection, interest_photo, "image");
 }
 

@@ -33,17 +33,17 @@ class MessageHandler {
 
 		bool authenticate(std::string username, std::string password);
 
-		void createUser(std::string user_data);
+		void createUser(struct mg_str* user_data);
 
 		bool getUsers(std::string& resultMsg);
 
-		void updateUser(std::string user_data);
+		void updateUser(struct mg_str* user_data);
 
 		void deleteUser();
 
 		void getMatches(std::string id);
 
-	void getInterest(std::string photo_64);
+	void getInterest(std::string photo_64, std::string id_interest);
 
 	void getChat(std::string chat_history);
 
@@ -73,8 +73,7 @@ protected:
 		SharedServerClient ssClient;
 		std::vector<Handler *> handlers;
 		std::string token;
-
-
+		std::string username;
 };
 
 #endif // PARSER_H
