@@ -63,7 +63,7 @@ RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; sudo m
 RUN cd DrTinder ; chmod +x execute.sh
 
 # Add exe permissions for coverage
-RUN cd DrTinder ; chmod +x coverage.sh
+RUN cd DrTinder/source/Servidor ; chmod +x coverage.sh
 
 # Run cmake on AppServer
 RUN cd DrTinder/source/Servidor ; cmake .
@@ -72,4 +72,4 @@ RUN cd DrTinder/source/Servidor ; cmake .
 RUN cd DrTinder/source/Servidor ; make
 
 # Run Tests and upload codecov
-CMD ./coverage.sh ; DrTinder/source/Servidor/unit_test ; cd coverage/ ; curl -s https://codecov.io/bash ;
+CMD DrTinder/source/Servidor/unit_test ; DrTinder/source/Servidor/coverage.sh ; cd DrTinder/source/Servidor/coverage/ ; curl -s https://codecov.io/bash ;
