@@ -60,7 +60,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
-    private View mActivityView;
 
     private FirebaseAuth mFirebaseAuth;
     private boolean mFirebaseLogedIn;
@@ -106,8 +105,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (UserInfoHandler.isLoggedIn()) {
             startApp(this);
         }
-
-        mActivityView = getWindow().getDecorView().getRootView();
     }
 
     private void executeWithLData(TaskExecutor executor) {

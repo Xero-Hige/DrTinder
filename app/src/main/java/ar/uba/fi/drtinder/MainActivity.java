@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * TODO
      */
-    public static String EXTRA_TOKEN = "token";
+    public static final String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
     private String mUsername;
 
