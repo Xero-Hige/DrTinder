@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.ImageView;
@@ -55,9 +56,8 @@ public final class ImageResourcesHandler {
      */
     public static final int RES_INTEREST_IMG = 1;
 
-
-    private static final String USER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
-    private static final String INTER_IMAGE_URL = "http://demo2753541.mockable.io/users/image/";
+    private static final String USER_IMAGE_URL = "http://190.55.231.26/users/photo";
+    private static final String INTER_IMAGE_URL = "http://190.55.231.26/interest";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, CountDownLatch> fetchingMap = new HashMap<>();
 
@@ -226,7 +226,7 @@ public final class ImageResourcesHandler {
                 return true;
             }
             addToFetching(mCacheKey);
-            mImageBitmap = getImage(mImageUrl);
+            mImageBitmap = getImage();
             removeFromFetching(mCacheKey);
             return mImageBitmap != null;
         }
@@ -262,7 +262,10 @@ public final class ImageResourcesHandler {
 
         private void setImageUrl(int resourceType, String resId, String token) {
             String url = getUrlByType(resourceType);
-            this.mImageUrl = String.format(Locale.ENGLISH, "%s/%s?token=\"%s\"", url, resId, token);
+            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
+            uriBuilder.appendQueryParameter("token", token);
+            uriBuilder.appendQueryParameter("res_id", resId);
+            this.mImageUrl = uriBuilder.build().toString();
         }
 
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
@@ -290,13 +293,13 @@ public final class ImageResourcesHandler {
             cacheMap.put(cacheKey, cachePath);
         }
 
-        private Bitmap getImage(String imageUrl) {
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + imageUrl);
+        private Bitmap getImage() {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + mImageUrl);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             String result;
             try {
-                result = restTemplate.getForObject(imageUrl, String.class, "Android");
+                result = restTemplate.getForObject(mImageUrl, String.class, "Android");
             } catch (HttpClientErrorException e) {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
                 return null;
@@ -304,7 +307,7 @@ public final class ImageResourcesHandler {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
                 return null;
             }
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + imageUrl);
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
             byte[] imageString = Base64.decode(result, Base64.DEFAULT);
             cacheImgFile(mCacheKey, imageString, mContext);
             return convertToBitmap(imageString);
