@@ -8,7 +8,7 @@ RUN apt-get update
 
 # Install required packages
 RUN apt-get install -y apt-utils
-RUN apt-get install -y git ca-certificates curl libgflags-dev libsnappy-dev libbz2-dev zlib1g-dev libcurl4-openssl-dev autoconf libtool make g++ cmake python openssl libssl-dev ssh openssh-client
+RUN apt-get install -y git ca-certificates automeke curl libgflags-dev libsnappy-dev libbz2-dev zlib1g-dev libcurl4-openssl-dev autoconf libtool make g++ cmake python openssl libssl-dev ssh openssh-client
 
 # Clone repository and checkout AppServer
 RUN git clone https://github.com/Xero-Hige/DrTinder.git
