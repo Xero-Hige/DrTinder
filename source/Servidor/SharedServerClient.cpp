@@ -76,7 +76,9 @@ bool SharedServerClient::changeUser(string user_id, string user_data) {
 bool SharedServerClient::changeUserPhoto(string user_id, string photo) {
     string sub_urls[] = {SHARED_SERVER_USERS_SUB_URL, user_id, SHARED_SERVER_PHOTO_SUB_URL};
     string url = formUrl(sub_urls, 3);
-    RestClient::Response r = conn->put(url.c_str(), photo.c_str());
+    JsonParser parser;
+    string formated_data = parser.photoToJson(&photo);
+    RestClient::Response r = conn->put(url.c_str(), formated_data.c_str());
     return this->valid(&r);
 }
 
@@ -102,11 +104,18 @@ bool SharedServerClient::postUsersInterests(string* interest) {
     return this->valid(&r);
 }
 
-void SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
-    //TODO: guardar foto en photo_64
+bool SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
+	string data;
+	if (this->getUser(user_id,&data)){
+		JsonParser parser;
+		parser.parsing(data);
+		photo_64 = parser.getValue(USER_KEY)[PHOTO_KEY].asString();
+		return true;
+	}
+	return false;
 }
 
-void SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
+bool SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
     //TODO: guardar foto en photo_64
 }
 

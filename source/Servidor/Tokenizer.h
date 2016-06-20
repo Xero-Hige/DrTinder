@@ -17,6 +17,7 @@
 #include <vector>
 #include "../libs/mongoose/mongoose.h"
 #include "DatabaseManager.h"
+#include "../libs/loger/easylogging++.h"
 
 #define EXPIRATION_TIME 5
 #define TS_YEAR 0
@@ -27,6 +28,7 @@
 #define TS_SEC 5
 #define TS_COUNT 6
 #define TOKENIZER_PREFIX "token_"
+
 class Tokenizer {
 public:
 	Tokenizer(DatabaseManager *data);

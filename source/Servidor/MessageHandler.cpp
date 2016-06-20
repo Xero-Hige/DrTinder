@@ -4,8 +4,13 @@
 using std::string;
 
 MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string pass) :
-		usersDB(pDatabase), username(name), token(NULL) {
-	usersDB->addEntry(username, pass);
+	usersDB(pDatabase), username(name), token(NULL) {
+
+	//si ya existe no sobreescribe
+	string found;
+	if (! usersDB->getEntry(USER_DB + username,found)){
+		usersDB->addEntry(USER_DB + username, pass);
+	}
 }
 
 MessageHandler::~MessageHandler() {
@@ -34,7 +39,7 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 }
 
 bool MessageHandler::authenticate(string username, string password) {
-	return usersDB->correctEntry(username, password);
+	return usersDB->correctEntry(USER_DB + username, password);
 }
 
 void MessageHandler::createUser(string user_data) {
@@ -43,14 +48,22 @@ void MessageHandler::createUser(string user_data) {
 	User new_user;
 	string user_created;
 	csvParser.makeUser(user_data, new_user);
+
 	Json::Value jsonUser = jsonParser.userToJson(&new_user);
-	string parsed_user = jsonParser.getAsString(jsonUser);
+	Json::Value data_to_post;
+	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
+	data_to_post[USER_KEY] = jsonUser;
+
+	string parsed_user = jsonParser.getAsString(data_to_post);
 	bool posted = ssClient.postUsers(user_created, &parsed_user);
-	//ad metadata
-	//TODO: enviar datos a shared
+
 	if (posted){
-		//agregar user pass a DB;
+		string id, mail;
+		jsonParser.parsing(user_created);
+		id = jsonParser.getValue(USER_KEY)[ID_KEY].asString();
+		usersDB->addEntry(USER_ID_DB + username, id);
 		//Mandar ok
+		//guardar pass en DB
 	}else{
 		//no se pudo crear -> user_created -> ue
 	}
@@ -65,9 +78,15 @@ void MessageHandler::updateUser(string user_data) {
 }
 
 void MessageHandler::deleteUser() {
-	usersDB->deleteEntry(username);
+	string id, reply;
+	usersDB->getEntry(USER_ID_DB + username, id);
+
 	//TODO: quitar de shared
-	//ssClient.deleteUser(username, );
+	if ( ssClient.deleteUser(id, &reply )){
+		usersDB->deleteEntry(USER_DB + username);
+		usersDB->deleteEntry(USER_ID_DB + username);
+		//TODO: delete all info
+	}
 }
 
 void MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_interest) {

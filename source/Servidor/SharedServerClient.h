@@ -8,6 +8,7 @@
 #include "api_constants_shared.h"
 #include "../libs/restclient-cpp/include/restclient-cpp/connection.h"
 #include "../libs/restclient-cpp/include/restclient-cpp/restclient.h"
+#include "Parsers/JsonParser.h"
 
 
 /*
@@ -29,9 +30,9 @@ class SharedServerClient {
         bool changeUserPhoto(std::string user_id, std::string photo);
         bool changeUser(std::string user_id, std::string user_data);
 
-    void getUserPhoto(std::string user_id, std::string &photo_64);
+    bool getUserPhoto(std::string user_id, std::string &photo_64);
 
-    void getInterestPhoto(std::string interest_id, std::string &photo_64);
+    bool getInterestPhoto(std::string interest_id, std::string &photo_64);
 
 protected:
         bool valid(RestClient::Response *r);
