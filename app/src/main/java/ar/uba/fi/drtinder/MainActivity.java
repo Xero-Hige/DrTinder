@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
         mUsername = UserInfoHandler.getUsername();
+        Utility.hideKeyboard(this);
     }
 
     /**

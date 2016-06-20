@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +38,11 @@ import com.github.siyamed.shapeimageview.BubbleImageView;
  */
 public class ChatSession extends AppCompatActivity {
 
+    public static final String EXTRA_FRIEND_NAME = "friendname";
+    public static final String EXTRA_FRIEND_ID = "friendid";
+    public static final String EXTRA_USER_NAME = "username";
+    public static final String EXTRA_USER_ID = "userid";
+
     private LinearLayout mMessagesLayout;
 
     private String mYourId;
@@ -58,9 +62,9 @@ public class ChatSession extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        mFriendName = intent.getStringExtra("User");
-        mFriendId = intent.getStringExtra("ID");
-        mYourId = "barrios"; //TODO: remove from here
+        mFriendName = intent.getStringExtra(EXTRA_FRIEND_NAME);
+        mFriendId = intent.getStringExtra(EXTRA_FRIEND_ID);
+        mYourId = intent.getStringExtra(EXTRA_USER_ID);
 
         this.setTitle(mFriendName);
 
@@ -92,15 +96,9 @@ public class ChatSession extends AppCompatActivity {
                     }
                     addPersonalResponse(message);
                     msgView.setText("");
-                    hideKeyboard();
+                    Utility.hideKeyboard(this);
                     scrollToLast();
                 });
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputMManager =
-                (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        inputMManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     private void loadOldMessages() {
