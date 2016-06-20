@@ -18,6 +18,7 @@ package ar.uba.fi.drtinder;
  */
 
 import android.app.Activity;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -36,7 +37,11 @@ public class Utility {
     public static void hideKeyboard(Activity context) {
         InputMethodManager inputMManager =
                 (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
+        View currentFocus = context.getCurrentFocus();
+        if (currentFocus == null) {
+            return;
+        }
+        inputMManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
     }
 
 }

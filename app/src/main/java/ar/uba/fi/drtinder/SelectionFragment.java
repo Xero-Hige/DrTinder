@@ -3,6 +3,7 @@ package ar.uba.fi.drtinder;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -90,6 +91,7 @@ public class SelectionFragment extends Fragment {
 
         fillCardStack();
 
+        Utility.hideKeyboard((Activity) getContext());
         return mFragmentView;
     }
 
