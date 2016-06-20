@@ -1,5 +1,6 @@
 package ar.uba.fi.drtinder;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -40,8 +41,8 @@ public final class StringResourcesHandler {
     public static final String INTEREST_DIVIDER = "\\|\\|";
     public static final String INTEREST_DATA_DIVIDER = "::";
 
-    private static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
-    private static final String MATCHES_URL = "https://demo2753541.mockable.io/matches/";
+    private static final String CANDIDATES_URL = "http://190.55.231.26/users";
+    private static final String MATCHES_URL = "http://190.55.231.26/chats";
 
     private StringResourcesHandler() {
     }
@@ -64,8 +65,8 @@ public final class StringResourcesHandler {
      * @param requestType
      * @param operation
      */
-    public static void executeQuery(String resId, int requestType, CallbackOperation operation) {
-        FetchDataTask task = new FetchDataTask(requestType, resId, operation);
+    public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
+        FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
         task.execute();
     }
 
@@ -118,18 +119,18 @@ public final class StringResourcesHandler {
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
 
         private final CallbackOperation mCallbackOp;
-        private final String mUrl;
+        private String mResourceUrl;
         private List<String[]> mData;
 
-        FetchDataTask(int resourceType, String resourceId, CallbackOperation callbackOperation) {
-            mUrl = getUrlByType(resourceType) + resourceId;
+        FetchDataTask(int resourceType, String resourceId, String token, CallbackOperation callbackOperation) {
+            setImageUrl(resourceType, resourceId, token);
             this.mCallbackOp = callbackOperation;
             this.mData = null;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            mData = fetchData(mUrl);
+            mData = fetchData(mResourceUrl);
             return mData != null;
         }
 
@@ -140,6 +141,16 @@ public final class StringResourcesHandler {
                 return;
             }
             mCallbackOp.execute(mData);
+        }
+
+        private void setImageUrl(int resourceType, String resId, String token) {
+            String url = getUrlByType(resourceType);
+            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
+            uriBuilder.appendQueryParameter("token", token);
+            if (!resId.equals("")) {
+                uriBuilder.appendQueryParameter("res_id", resId);
+            }
+            this.mResourceUrl = uriBuilder.build().toString();
         }
 
     }
