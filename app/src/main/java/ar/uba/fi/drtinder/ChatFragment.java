@@ -47,9 +47,11 @@ public class ChatFragment extends Fragment {
                              @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
 
+        mToken = getActivity().getIntent().getExtras().getString(MainActivity.EXTRA_TOKEN);
+
         LinearLayout bar = (LinearLayout) view.findViewById(R.id.chat_item);
 
-        StringResourcesHandler.executeQuery("christianGray", StringResourcesHandler.USER_MATCHES,
+        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_MATCHES, mToken,
                 data -> {
                     for (int i = 0; i < data.size(); i++) {
                         String name = data.get(i)[0];
@@ -60,6 +62,7 @@ public class ChatFragment extends Fragment {
                         ImageView imageView = addUserChat(name, age, user, layout);
 
                         imageView.setOnClickListener(listener -> {
+                            assert container != null;//DEBUG Assert
                             Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
                             menuIntent.putExtra("User", name);
                             menuIntent.putExtra("ID", user);

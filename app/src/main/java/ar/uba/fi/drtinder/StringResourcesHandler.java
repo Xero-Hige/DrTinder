@@ -60,14 +60,25 @@ public final class StringResourcesHandler {
 
     /**
      * TODO
-     *
      * @param resId
      * @param requestType
+     * @param token
      * @param operation
      */
     public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
         task.execute();
+    }
+
+    /**
+     * TODO
+     *
+     * @param requestType
+     * @param token
+     * @param operation
+     */
+    public static void executeQuery(int requestType, String token, CallbackOperation operation) {
+        executeQuery("", requestType, token, operation);
     }
 
     private static List<String[]> fetchData(String queryUrl) {

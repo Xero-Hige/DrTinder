@@ -39,8 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * TODO
+     */
+    public static String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
-
     private String mUsername;
 
     @Override
