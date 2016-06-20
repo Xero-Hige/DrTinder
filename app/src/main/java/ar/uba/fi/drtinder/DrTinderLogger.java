@@ -64,12 +64,6 @@ public final class DrTinderLogger {
     private DrTinderLogger() {
     }
 
-    /**
-     * TODO
-     *
-     * @param level
-     * @param message
-     */
     private static void privateLog(int level, String message) {
         switch (level) {
             case WARN:
@@ -93,11 +87,6 @@ public final class DrTinderLogger {
         }
     }
 
-    /**
-     * TODO
-     * @param level
-     * @return
-     */
     private static String getLabel(int level) {
         switch (level) {
             case WARN:
@@ -123,8 +112,9 @@ public final class DrTinderLogger {
 
     /**
      * Writes message to logfile
-     * @param level: Message level (One of listed const levels)
-     * @param message: Message to log
+     *
+     * @param level   Message level (One of listed const levels)
+     * @param message Message to log
      */
     public static void writeLog(int level, String message) {
         String printLabel = getLabel(level);

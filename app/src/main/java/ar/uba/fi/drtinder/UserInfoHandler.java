@@ -68,6 +68,7 @@ public final class UserInfoHandler {
 
     /**
      * TODO
+     *
      * @param pass
      * @return
      */
@@ -77,6 +78,7 @@ public final class UserInfoHandler {
 
     /**
      * TODO
+     *
      * @param email
      * @return
      */
@@ -86,6 +88,7 @@ public final class UserInfoHandler {
 
     /**
      * TODO
+     *
      * @return
      */
     public static boolean isLoggedIn() {
@@ -94,6 +97,7 @@ public final class UserInfoHandler {
 
     /**
      * TODO
+     *
      * @return
      */
     public static String getUserEmail() {
@@ -106,6 +110,7 @@ public final class UserInfoHandler {
 
     /**
      * TODO
+     *
      * @return
      */
     public static String getUsername() {

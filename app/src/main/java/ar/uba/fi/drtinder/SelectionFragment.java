@@ -66,6 +66,14 @@ public class SelectionFragment extends Fragment {
     private Map<Integer, Map<Integer, String>> mUsersData;
     private View mFragmentView;
 
+    /**
+     * TODO
+     *
+     * @param inflater
+     * @param container
+     * @param bundle
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle bundle) {
@@ -94,13 +102,13 @@ public class SelectionFragment extends Fragment {
     private void setButtons(View view) {
         FloatingActionButton floatingActionButton
                 = (FloatingActionButton) view.findViewById(R.id.nope_button);
-        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1));
+        floatingActionButton.setRippleColor(getResources().getColor(R.color.colorAccentT));
         floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardLeft(90));
 
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.like_button);
-        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1)); //FIXME
-        floatingActionButton.setRippleColor(-3355444); //FIXME
+        floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1));
+        floatingActionButton.setRippleColor(getResources().getColor(R.color.colorAccentT));
         floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
     }
 
@@ -149,7 +157,7 @@ public class SelectionFragment extends Fragment {
     }
 
     /**
-     * TODO: Check this, not working
+     * TODO: Check this, not working properly
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -243,11 +251,17 @@ public class SelectionFragment extends Fragment {
         mUsersQueue.add(userMap);
     }
 
+    /**
+     * Dummy onStart
+     */
     @Override
     public void onStart() {
         super.onStart();
     }
 
+    /**
+     * Dummy onStop
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -257,7 +271,7 @@ public class SelectionFragment extends Fragment {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UsersFetchTask extends AsyncTask<Void, Void, Boolean> {
+    private class UsersFetchTask extends AsyncTask<Void, Void, Boolean> {
 
         /**
          * @param params params
@@ -281,7 +295,7 @@ public class SelectionFragment extends Fragment {
     /**
      * Adapter for swipe deck
      */
-    public class SwipeDeckAdapter extends BaseAdapter {
+    private class SwipeDeckAdapter extends BaseAdapter {
 
         private Context mContext;
 
