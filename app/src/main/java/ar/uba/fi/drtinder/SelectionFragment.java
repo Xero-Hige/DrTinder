@@ -240,7 +240,7 @@ public class SelectionFragment extends Fragment {
                         setCardsAdapter(mFragmentView);
                         showProgress(false);
                     } else {
-                        Snackdebug.showMessage("There is no more candidates. Try later", getView());
+                        Utility.showMessage("There is no more candidates. Try later", getView());
                     }
                 });
     }
