@@ -29,3 +29,7 @@ for file in $(ls -1); do
 		rm $file
 	fi
 done
+
+cd ..
+
+bash <(curl -s https://codecov.io/bash) -p coverage/
