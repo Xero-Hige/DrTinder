@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        assert navigationView != null; //DEBUG Assert
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null; //DEBUG Assert
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
