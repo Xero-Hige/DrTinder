@@ -2,11 +2,16 @@ package ar.uba.fi.drtinder;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.StringWriter;
-
-import au.com.bytecode.opencsv.CSVWriter;
+import java.util.Locale;
 
 /**
  * @author Xero-Hige
@@ -32,7 +37,8 @@ public final class UserInfoHandler {
     /**
      * TODO
      */
-    public static final String NULL_TOKEN = "";
+    public static final String FAILED_TOKEN = "-";
+    public static final String ERROR_TOKEN = "";
 
     private static final String LOGIN_URL = "";
 
@@ -50,20 +56,37 @@ public final class UserInfoHandler {
     static String getLoginToken(String username, String password, String location) {
 
         RestTemplate restTemplate = new RestTemplate();
-
         String url = LOGIN_URL + username;
 
-        String params[] = {username, password, location};
-        StringWriter stringWriter = new StringWriter();
-        CSVWriter writer = new CSVWriter(stringWriter);
-        writer.writeNext(params);
+        HttpAuthentication authHeader = new HttpBasicAuthentication(username, password);
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setAuthorization(authHeader);
 
-        String response = " "; //restTemplate.postForObject(stringWriter.toString(), url, String.class);
+        String body = String.format(Locale.ENGLISH, "localization=\"%s\"", location);
 
-        if (!response.equals("")) { //TODO Check
-            return response;
+        HttpEntity<?> requestEntity = new HttpEntity<>(body, requestHeaders);
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        int statusCode = response.getStatusCode().value();
+
+        if (statusCode != 200) {
+            if (statusCode == 401) {
+                return FAILED_TOKEN;
+            }
+            String errorMessage = "Failed login post: "
+                    + response.getStatusCode().value()
+                    + " " + response.getStatusCode().getReasonPhrase();
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
         }
-        return NULL_TOKEN;
+
+        restTemplate = new RestTemplate();
+
+        response = restTemplate.getForEntity(url, String.class);
+
+        return response.getBody();
     }
 
     /**
