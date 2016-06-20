@@ -125,9 +125,11 @@ public final class ImageResourcesHandler {
             byte[] byteImage = ByteStreams.toByteArray(input);
             return convertToBitmap(byteImage);
         } catch (FileNotFoundException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.WARN, "Cached image not found");
             return null;
         } catch (IOException ignored) {
-            return null; //TODO: Check
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Error opening cache image file");
+            return null;
         }
     }
 
@@ -280,14 +282,16 @@ public final class ImageResourcesHandler {
             try {
                 file = new FileOutputStream(cachePath);
             } catch (FileNotFoundException e) {
-                return; //TODO: Check
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Cannot generate image cache (THIS SHOULD NOT HAPPEN)");
+                return;
             }
 
             try {
                 file.write(dataArray);
                 file.close();
             } catch (IOException e) {
-                return; //TODO: Check
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Cannot generate image cache (IOError)");
+                return;
             }
 
             cacheMap.put(cacheKey, cachePath);
