@@ -34,8 +34,12 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public final class StringResourcesHandler {
 
-    static final int USER_CANDIDATES = 0;
-    static final int USER_MATCHES = 1;
+    public static final int USER_CANDIDATES = 0;
+    public static final int USER_MATCHES = 1;
+
+    public static final String INTEREST_DIVIDER = "\\|\\|";
+    public static final String INTEREST_DATA_DIVIDER = "::";
+
     private static final String CANDIDATES_URL = "https://demo2753541.mockable.io/candidates/";
     private static final String MATCHES_URL = "https://demo2753541.mockable.io/matches/";
 

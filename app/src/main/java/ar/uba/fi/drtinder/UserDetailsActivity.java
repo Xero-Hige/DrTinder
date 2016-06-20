@@ -83,9 +83,9 @@ public class UserDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String interestExtra = intent.getStringExtra(EXTRA_USER_INTS);
-        String[] interests = interestExtra.split("\\|\\|");
+        String[] interests = interestExtra.split(StringResourcesHandler.INTEREST_DIVIDER);
         for (String interestString : interests) {
-            String[] interest = interestString.split("::");
+            String[] interest = interestString.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
             String category = interest[0];
             String name = interest[1];
 
