@@ -6,13 +6,13 @@
 #include <iostream>
 #include "api_constants_client.h"
 #include "SharedServerClient.h"
-#include "Parser.h"
 #include "api_server_constants.h"
 #include <stdexcept>
 #include <vector>
 #include "Tokenizer.h"
 #include "Parsers/CsvParser.h"
 #include "Parsers/JsonParser.h"
+#include "../libs/loger/easylogging++.h"
 
 
 /* Handler for incomming requests. */
@@ -28,23 +28,23 @@ class MessageHandler {
 
 		bool authenticate(std::string username, std::string password);
 
-		void createUser(std::string user_data);
+		bool createUser(std::string user_data);
 
 		bool getUsers(std::string& resultMsg);
 
-		void updateUser(std::string user_data);
+		bool updateUser(std::string user_data);
 
-		void deleteUser();
+		bool deleteUser();
 
 		void getMatches(std::string id);
 
-		void getInterestPhoto(std::string& photo_64, std::string id_interest);
+		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-		void getChat(std::string& chat_history);
+		bool getChat(std::string& chat_history);
 
-		void getPhoto(std::string& photo_64);
+		bool getPhoto(std::string& photo_64);
 
-		void postPhoto(std::string photo_64);
+		bool postPhoto(std::string photo_64);
 
 		std::string getToken();
 
@@ -62,7 +62,7 @@ class MessageHandler {
 		bool postSignUp(std::string data, std::string& resultMsg);
 		/*TODO: POST chat /chat*/
 		/*TODO: PUT /users */
-
+		std::string getId();
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;

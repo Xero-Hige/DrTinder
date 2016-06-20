@@ -21,7 +21,6 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     Server.cpp
     DatabaseManager.cpp
     MessageHandler.cpp
-    Parser.cpp
     SharedServerClient.cpp
 	 ../libs/jsoncpp/dist/jsoncpp.cpp
 	 User.cpp

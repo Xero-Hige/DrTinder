@@ -27,7 +27,12 @@ string MessageHandler::divideMessage(string& message) {
 	message.erase(0, pos + 1);
 	return subMsg;
 }
-
+string MessageHandler::getId(){
+	string id;
+	if (usersDB->getEntry(USER_ID_DB + username, id))
+		return id;
+	return "";
+}
 void MessageHandler::setUsersDB(DatabaseManager * usersDB) {
 	this->usersDB = usersDB;
 }
@@ -43,7 +48,7 @@ bool MessageHandler::authenticate(string username, string password) {
 	return usersDB->correctEntry(USER_DB + username, password);
 }
 
-void MessageHandler::createUser(string user_data) {
+bool MessageHandler::createUser(string user_data) {
 	CsvParser csvParser;
 	JsonParser jsonParser;
 	User new_user;
@@ -56,26 +61,32 @@ void MessageHandler::createUser(string user_data) {
 	data_to_post[USER_KEY] = jsonUser;
 
 	string parsed_user = jsonParser.getAsString(data_to_post);
+	LOG(INFO) << "Creating user " + parsed_user;
 	bool posted = ssClient.postUsers(user_created, &parsed_user);
 
 	if (posted){
 		string id, mail;
 		jsonParser.parsing(user_created);
+
 		id = jsonParser.getValue(USER_KEY)[ID_KEY].asString();
 		usersDB->addEntry(USER_ID_DB + username, id);
-		//Mandar ok
-		//guardar pass en DB
+
+		LOG(INFO) << "User signup  New Id: " + id;
+		return true;
+		//TODO guardar pass en DB
 	}else{
-		//no se pudo crear el user, error
+		LOG(WARNING) << "User not created";
+		return false;
 	}
 }
 
-void MessageHandler::updateUser(string user_data) {
+bool MessageHandler::updateUser(string user_data) {
 	CsvParser csvParser;
 	JsonParser jsonParser;
 	User new_user;
-	string id;
-
+	string id = this->getId();
+	//feo
+	user_data += ",\""+ id +"\"";
 	csvParser.makeUser(user_data, new_user);
 
 	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
@@ -83,36 +94,38 @@ void MessageHandler::updateUser(string user_data) {
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
 
-	usersDB->getEntry(USER_ID_DB + username, id);
-	ssClient.changeUser(id, jsonParser.getAsString(data_to_post).c_str());
+	LOG(INFO) << "Updating info of " + id ;
+
+	return ssClient.changeUser(id, jsonParser.getAsString(data_to_post).c_str());
 }
 
-void MessageHandler::deleteUser() {
-	string id, reply;
-	usersDB->getEntry(USER_ID_DB + username, id);
+bool MessageHandler::deleteUser() {
+	string id = this->getId(), reply;
 
-	//TODO: quitar de shared
 	if ( ssClient.deleteUser(id, &reply )){
 		usersDB->deleteEntry(USER_DB + username);
 		usersDB->deleteEntry(USER_ID_DB + username);
 		//TODO: delete all info
+		return true;
 	}
+	return false;
 }
 
-void MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_interest) {
-	ssClient.getInterestPhoto(id_interest, photo_64);
+bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_interest) {
+	return ssClient.getInterestPhoto(id_interest, photo_64);
 }
 
-void MessageHandler::getChat(string& chat_history) {
+bool MessageHandler::getChat(string& chat_history) {
 	//TODO: get chat
 }
 
-void MessageHandler::getPhoto(string& photo_64) {
-	ssClient.getUserPhoto(username, photo_64);
+bool MessageHandler::getPhoto(string& photo_64) {
+	return ssClient.getUserPhoto(username, photo_64);
 }
 
-void MessageHandler::postPhoto(string photo_64) {
-	ssClient.changeUserPhoto(username, photo_64);
+bool MessageHandler::postPhoto(string photo_64) {
+	LOG(INFO) << "Updating photo of " + this->getId();
+	return ssClient.changeUserPhoto(this->getId(), photo_64);
 }
 
 bool MessageHandler::validateToken(std::string user_token) {
