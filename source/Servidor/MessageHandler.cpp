@@ -39,10 +39,21 @@ bool MessageHandler::authenticate(string username, string password) {
 
 void MessageHandler::createUser(string user_data) {
 	CsvParser csvParser;
+	JsonParser jsonParser;
 	User new_user;
+	string user_created;
 	csvParser.makeUser(user_data, new_user);
+	Json::Value jsonUser = jsonParser.userToJson(&new_user);
+	string parsed_user = jsonParser.getAsString(jsonUser);
+	bool posted = ssClient.postUsers(user_created, &parsed_user);
+	//ad metadata
 	//TODO: enviar datos a shared
-	//ssClient.postUsers();
+	if (posted){
+		//agregar user pass a DB;
+		//Mandar ok
+	}else{
+		//no se pudo crear -> user_created -> ue
+	}
 }
 
 void MessageHandler::updateUser(string user_data) {

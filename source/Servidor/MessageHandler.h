@@ -12,6 +12,7 @@
 #include <vector>
 #include "Tokenizer.h"
 #include "Parsers/CsvParser.h"
+#include "Parsers/JsonParser.h"
 
 
 /* Handler for incomming requests. */

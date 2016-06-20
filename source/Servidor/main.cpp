@@ -3,6 +3,9 @@
 #include <mutex>
 #include "Server.h"
 #include "DatabaseManager.h"
+#include "../libs/loger/easylogging++.h"
+INITIALIZE_EASYLOGGINGPP
+#define ELPP_THREAD_SAFE
 
 #define QUIT_LINE "quit"
 
