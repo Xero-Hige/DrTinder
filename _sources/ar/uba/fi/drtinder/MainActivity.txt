@@ -34,7 +34,7 @@ MainActivity
 
 .. java:type:: public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 
-   Main app activity of the app Dr Tinder. Displays the 2 main fragments
+   Main app activity of the app Dr Tinder. Displays the 2 main fragments: Selection and Chatlist
 
 Methods
 -------
@@ -43,6 +43,8 @@ onBackPressed
 
 .. java:method:: @Override public void onBackPressed()
    :outertype: MainActivity
+
+   TODO
 
 onCreate
 ^^^^^^^^
@@ -56,11 +58,17 @@ onCreateOptionsMenu
 .. java:method:: @Override public boolean onCreateOptionsMenu(Menu menu)
    :outertype: MainActivity
 
+   TODO
+
+   :param menu:
+
 onDestroy
 ^^^^^^^^^
 
 .. java:method:: @Override public void onDestroy()
    :outertype: MainActivity
+
+   TODO
 
 onNavigationItemSelected
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -73,4 +81,8 @@ onOptionsItemSelected
 
 .. java:method:: @Override public boolean onOptionsItemSelected(MenuItem item)
    :outertype: MainActivity
+
+   TODO
+
+   :param item:
 

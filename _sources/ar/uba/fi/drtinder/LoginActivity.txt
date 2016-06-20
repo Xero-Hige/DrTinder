@@ -58,11 +58,20 @@ onCreate
 .. java:method:: @Override protected void onCreate(Bundle instanceState)
    :outertype: LoginActivity
 
+   TODO
+
+   :param instanceState:
+
 onCreateLoader
 ^^^^^^^^^^^^^^
 
 .. java:method:: @Override public Loader<Cursor> onCreateLoader(int index, Bundle bundle)
    :outertype: LoginActivity
+
+   TODO
+
+   :param index:
+   :param bundle:
 
 onLoadFinished
 ^^^^^^^^^^^^^^
@@ -70,9 +79,18 @@ onLoadFinished
 .. java:method:: @Override public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor)
    :outertype: LoginActivity
 
+   TODO
+
+   :param cursorLoader:
+   :param cursor:
+
 onLoaderReset
 ^^^^^^^^^^^^^
 
 .. java:method:: @Override public void onLoaderReset(Loader<Cursor> cursorLoader)
    :outertype: LoginActivity
+
+   TODO
+
+   :param cursorLoader:
 

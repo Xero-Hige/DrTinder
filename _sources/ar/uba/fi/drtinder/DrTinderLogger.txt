@@ -90,6 +90,6 @@ writeLog
 
    Writes message to logfile
 
-   :param level:: Message level (One of listed const levels)
-   :param message:: Message to log
+   :param level: Message level (One of listed const levels)
+   :param message: Message to log
 

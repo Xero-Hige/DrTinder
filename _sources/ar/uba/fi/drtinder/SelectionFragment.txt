@@ -66,15 +66,25 @@ onCreateView
 .. java:method:: @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
    :outertype: SelectionFragment
 
+   TODO
+
+   :param inflater:
+   :param container:
+   :param bundle:
+
 onStart
 ^^^^^^^
 
 .. java:method:: @Override public void onStart()
    :outertype: SelectionFragment
 
+   Dummy onStart
+
 onStop
 ^^^^^^
 
 .. java:method:: @Override public void onStop()
    :outertype: SelectionFragment
+
+   Dummy onStop
 

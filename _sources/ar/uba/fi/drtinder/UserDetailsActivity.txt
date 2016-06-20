@@ -76,3 +76,7 @@ onCreate
 .. java:method:: @Override protected void onCreate(Bundle bundle)
    :outertype: UserDetailsActivity
 
+   TODO
+
+   :param bundle:
+

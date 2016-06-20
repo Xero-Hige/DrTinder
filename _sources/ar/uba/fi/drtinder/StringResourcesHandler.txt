@@ -26,18 +26,6 @@ StringResourcesHandler
 
 Fields
 ------
-CANDIDATES_URL
-^^^^^^^^^^^^^^
-
-.. java:field:: static final String CANDIDATES_URL
-   :outertype: StringResourcesHandler
-
-MATCHES_URL
-^^^^^^^^^^^
-
-.. java:field:: static final String MATCHES_URL
-   :outertype: StringResourcesHandler
-
 USER_CANDIDATES
 ^^^^^^^^^^^^^^^
 
@@ -55,12 +43,12 @@ Methods
 executeQuery
 ^^^^^^^^^^^^
 
-.. java:method:: static void executeQuery(String resId, int resourceType, CallbackOperation operation)
+.. java:method:: public static void executeQuery(String resId, int requestType, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
    TODO
 
    :param resId:
-   :param resourceType:
+   :param requestType:
    :param operation:
 

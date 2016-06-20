@@ -36,3 +36,9 @@ onCreateView
 .. java:method:: @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
    :outertype: ChatFragment
 
+   TODO
+
+   :param inflater:
+   :param container:
+   :param bundle:
+

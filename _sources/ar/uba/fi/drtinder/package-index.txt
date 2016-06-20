@@ -12,12 +12,8 @@ ar.uba.fi.drtinder
    ImageResourcesHandler
    LocationHandler
    LoginActivity
-   LoginActivity-RegisterTask
-   LoginActivity-UserLoginTask
    MainActivity
    SelectionFragment
-   SelectionFragment-SwipeDeckAdapter
-   SelectionFragment-UsersFetchTask
    Snackdebug
    StringResourcesHandler
    StringResourcesHandler-CallbackOperation

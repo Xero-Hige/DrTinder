@@ -48,3 +48,7 @@ onCreate
 .. java:method:: @Override protected void onCreate(Bundle bundle)
    :outertype: ChatSession
 
+   TODO
+
+   :param bundle:
+

@@ -90,17 +90,11 @@
 <li class="toctree-l2"><a class="reference internal" href="ImageResourcesHandler.html">ImageResourcesHandler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LocationHandler.html">LocationHandler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LoginActivity.html">LoginActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LoginActivity-RegisterTask.html">LoginActivity.RegisterTask</a></li>
-<li class="toctree-l2"><a class="reference internal" href="LoginActivity-UserLoginTask.html">LoginActivity.UserLoginTask</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MainActivity.html">MainActivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SelectionFragment.html">SelectionFragment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SelectionFragment-SwipeDeckAdapter.html">SelectionFragment.SwipeDeckAdapter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SelectionFragment-UsersFetchTask.html">SelectionFragment.UsersFetchTask</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Snackdebug.html">Snackdebug</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">StringResourcesHandler</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fields">Fields</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#candidates-url">CANDIDATES_URL</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#matches-url">MATCHES_URL</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#user-candidates">USER_CANDIDATES</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#user-matches">USER_MATCHES</a></li>
 </ul>
@@ -174,22 +168,6 @@ public final class <code class="descname">StringResourcesHandler</code><a class=
 
 <div class="section" id="fields">
 <h2>Fields<a class="headerlink" href="#fields" title="Enlazar permanentemente con este título">¶</a></h2>
-<div class="section" id="candidates-url">
-<h3>CANDIDATES_URL<a class="headerlink" href="#candidates-url" title="Enlazar permanentemente con este título">¶</a></h3>
-<dl class="field">
-<dt id="ar.uba.fi.drtinder.StringResourcesHandler.CANDIDATES_URL">
-static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">CANDIDATES_URL</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.CANDIDATES_URL" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
-
-</div>
-<div class="section" id="matches-url">
-<h3>MATCHES_URL<a class="headerlink" href="#matches-url" title="Enlazar permanentemente con este título">¶</a></h3>
-<dl class="field">
-<dt id="ar.uba.fi.drtinder.StringResourcesHandler.MATCHES_URL">
-static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">MATCHES_URL</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.MATCHES_URL" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
-
-</div>
 <div class="section" id="user-candidates">
 <h3>USER_CANDIDATES<a class="headerlink" href="#user-candidates" title="Enlazar permanentemente con este título">¶</a></h3>
 <dl class="field">
@@ -213,7 +191,7 @@ static final int <code class="descname">USER_MATCHES</code><a class="headerlink"
 <h3>executeQuery<a class="headerlink" href="#executequery" title="Enlazar permanentemente con este título">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(String, int, CallbackOperation)">
-static void <code class="descname">executeQuery</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> resId</em>, int<em> resourceType</em>, <a class="reference internal" href="StringResourcesHandler-CallbackOperation.html#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation" title="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation">CallbackOperation</a><em> operation</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(String, int, CallbackOperation)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static void <code class="descname">executeQuery</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> resId</em>, int<em> requestType</em>, <a class="reference internal" href="StringResourcesHandler-CallbackOperation.html#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation" title="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation">CallbackOperation</a><em> operation</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(String, int, CallbackOperation)" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>TODO</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -221,7 +199,7 @@ static void <code class="descname">executeQuery</code><span class="sig-paren">(<
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
 <li><strong>resId</strong> &#8211; </li>
-<li><strong>resourceType</strong> &#8211; </li>
+<li><strong>requestType</strong> &#8211; </li>
 <li><strong>operation</strong> &#8211; </li>
 </ul>
 </td>
