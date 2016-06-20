@@ -72,4 +72,4 @@ RUN cd DrTinder/source/Servidor ; cmake .
 RUN cd DrTinder/source/Servidor ; make
 
 # Run Tests and upload codecov
-CMD DrTinder/source/Servidor/unit_test ; DrTinder/source/Servidor/coverage.sh ; cd DrTinder/source/Servidor/coverage/ ; curl -s https://codecov.io/bash ;
+CMD DrTinder/source/Servidor/unit_test ; cd DrTinder/source/Servidor/; ./coverage.sh; cd coverage/ ; curl -s https://codecov.io/bash ;
