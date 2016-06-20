@@ -62,7 +62,9 @@ public final class UserInfoHandler {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpAuthentication authHeader = new HttpBasicAuthentication(email, password);
+        String user = getUsernameFrom(email);
+
+        HttpAuthentication authHeader = new HttpBasicAuthentication(user, password);
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAuthorization(authHeader);
 
@@ -96,7 +98,7 @@ public final class UserInfoHandler {
 
         restTemplate = new RestTemplate();
 
-        String tokenUrl = TOKEN_URL + "/" + email;
+        String tokenUrl = TOKEN_URL + "/" + user;
         response = restTemplate.getForEntity(tokenUrl, String.class);
 
         return response.getBody();
