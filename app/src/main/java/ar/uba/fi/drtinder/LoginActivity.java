@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -61,6 +60,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
+    private View mActivityView;
 
     private FirebaseAuth mFirebaseAuth;
     private boolean mFirebaseLogedIn;
@@ -106,6 +106,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (UserInfoHandler.isLoggedIn()) {
             startApp(this);
         }
+
+        mActivityView = getWindow().getDecorView().getRootView();
     }
 
     private void executeWithLData(TaskExecutor executor) {
@@ -407,9 +409,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.requestFocus();
                 return;
             }
-
-            //TODO: Check
-            Snackbar.make(mEmailTextView, "Error de conexion con el servidor", Snackbar.LENGTH_LONG).show();
+            mEmailTextView.setError("Error de conexion con el servidor");
+            mEmailTextView.requestFocus();
         }
 
         @Override
