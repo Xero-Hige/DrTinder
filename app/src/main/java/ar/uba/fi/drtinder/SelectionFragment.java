@@ -82,6 +82,8 @@ public class SelectionFragment extends Fragment {
                              @Nullable Bundle bundle) {
         mFragmentView = inflater.inflate(R.layout.activity_selection, container, false);
 
+        mToken = getActivity().getIntent().getExtras().getString(MainActivity.EXTRA_TOKEN);
+
         mCardStack = (SwipeDeck) mFragmentView.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
@@ -211,7 +213,7 @@ public class SelectionFragment extends Fragment {
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
-        StringResourcesHandler.executeQuery("christianGray", StringResourcesHandler.USER_CANDIDATES,
+        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_CANDIDATES, mToken,
                 data -> {
                     int excluded = 0;
                     int index = 0;
