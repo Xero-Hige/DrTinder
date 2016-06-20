@@ -10,3 +10,6 @@
 [submodule "source/libs/restclient-cpp"]
 	path = source/libs/restclient-cpp
 	url = https://github.com/mrtazz/restclient-cpp.git
+[submodule "source/libs/lcov"]
+	path = source/libs/lcov
+	url = https://github.com/linux-test-project/lcov.git

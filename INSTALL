@@ -38,6 +38,10 @@ Pararse en la carpeta DrTinder/source/libs/restclient-cpp
 ./configure
 sudo make install
 
+Instalar lcov:
+Para ver el html de los tests hay que instalar lcov(submodule)
+Pararse en DrTinder/source/libs/lcov
+sudo make install]
 
 Para agregar jsoncpp, en la carpeta DrTinder/source/libs/jsoncpp ejecutar:
 
