@@ -58,6 +58,8 @@ public class SelectionFragment extends Fragment {
 
     private static final int USER_FIELDS = 5;
 
+    private String mToken;
+
     //TODO: Remove
     private SwipeDeck mCardStack;
 
@@ -224,7 +226,7 @@ public class SelectionFragment extends Fragment {
                             continue;
                         }
                         ImageResourcesHandler.prefetch(userData[USER_ID],
-                                ImageResourcesHandler.RES_USER_IMG, getContext());
+                                ImageResourcesHandler.RES_USER_IMG, mToken, getContext());
                         addUserCard(index - excluded, userData);
                     }
 
@@ -361,7 +363,7 @@ public class SelectionFragment extends Fragment {
             String userId = mUsersData.get(position).get(USER_ID);
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                    imageView, mContext);
+                    mToken, imageView, mContext);
         }
 
     }

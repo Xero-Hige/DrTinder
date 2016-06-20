@@ -32,6 +32,8 @@ import android.widget.TextView;
  */
 public class ChatFragment extends Fragment {
 
+    private String mToken;
+
     /**
      * TODO
      *
@@ -87,7 +89,7 @@ public class ChatFragment extends Fragment {
         ageTextView.setText(age);
         ImageView imageView = (ImageView) chatLayout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(username, ImageResourcesHandler.RES_USER_IMG,
-                imageView, getContext());
+                mToken, imageView, getContext());
         return imageView;
     }
 }

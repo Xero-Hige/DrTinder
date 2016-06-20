@@ -48,6 +48,7 @@ public class ChatSession extends AppCompatActivity {
     private String mYourId;
     private String mFriendId;
     private String mFriendName;
+    private String mToken;
 
     /**
      * TODO
@@ -74,7 +75,8 @@ public class ChatSession extends AppCompatActivity {
         addSendListener();
 
         ImageView img = (ImageView) findViewById(R.id.backdrop);
-        ImageResourcesHandler.fillImageResource(mFriendId, ImageResourcesHandler.RES_USER_IMG, img, this);
+        ImageResourcesHandler.fillImageResource(mFriendId, ImageResourcesHandler.RES_USER_IMG,
+                mToken, img, this);
 
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
         assert scrollDownFB != null; //Debug assert
@@ -125,7 +127,8 @@ public class ChatSession extends AppCompatActivity {
         View layout = inflater.inflate(layoutId, null);
 
         BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, imageView, this);
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                mToken, imageView, this);
 
         TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
         nameTextView.setText(username + ":");

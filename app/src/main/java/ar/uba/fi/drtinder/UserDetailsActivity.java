@@ -52,6 +52,8 @@ public class UserDetailsActivity extends AppCompatActivity {
      */
     public static final String EXTRA_USER_INTS = "inte";
 
+    private String mToken;
+
     /**
      * TODO
      *
@@ -95,7 +97,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
             ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
-                    imageView, this); //FIXME: Cambiar a campo combinado
+                    mToken, imageView, this); //FIXME: Cambiar a campo combinado
             assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }
@@ -121,7 +123,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, mToken,
                 imageView, getBaseContext());
     }
 }
