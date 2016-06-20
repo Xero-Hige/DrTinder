@@ -46,7 +46,7 @@ TEST(SharedServer,GetInterests){
 	bool correct = ss.getUsersInterests(&data);
 	ASSERT_TRUE(correct);
 }
-/*
+
 TEST(SharedServer,CreateUserAndDeleteIt){
 	JsonParser parser;
 	string user =
@@ -81,7 +81,7 @@ TEST(SharedServer,CreateUserAndDeleteIt){
 
 	ASSERT_TRUE(deleted);
 
-}*/
+}
 
 TEST(SharedServer,CreateUserModifyItModifyPhotoAndDeleteIt){
 	JsonParser parser;

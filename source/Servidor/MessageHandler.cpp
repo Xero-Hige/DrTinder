@@ -4,8 +4,9 @@
 using std::string;
 
 MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string pass) :
-	usersDB(pDatabase), username(name), token(NULL) {
-
+	usersDB(pDatabase) {
+	username = name;
+	this->tokenizer = new Tokenizer(usersDB);
 	//si ya existe no sobreescribe
 	string found;
 	if (! usersDB->getEntry(USER_DB + username,found)){
@@ -14,7 +15,7 @@ MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string p
 }
 
 MessageHandler::~MessageHandler() {
-
+	delete tokenizer;
 }
 
 string MessageHandler::divideMessage(string& message) {
@@ -65,16 +66,25 @@ void MessageHandler::createUser(string user_data) {
 		//Mandar ok
 		//guardar pass en DB
 	}else{
-		//no se pudo crear -> user_created -> ue
+		//no se pudo crear el user, error
 	}
 }
 
 void MessageHandler::updateUser(string user_data) {
 	CsvParser csvParser;
+	JsonParser jsonParser;
 	User new_user;
+	string id;
+
 	csvParser.makeUser(user_data, new_user);
-	//TODO: cambiar datos en shared
-	//ssClient.changeUser(username, );
+
+	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
+	Json::Value data_to_post;
+	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
+	data_to_post[USER_KEY] = jsonUser;
+
+	usersDB->getEntry(USER_ID_DB + username, id);
+	ssClient.changeUser(id, jsonParser.getAsString(data_to_post).c_str());
 }
 
 void MessageHandler::deleteUser() {
@@ -106,7 +116,7 @@ void MessageHandler::postPhoto(string photo_64) {
 }
 
 bool MessageHandler::validateToken(std::string user_token) {
-	return (token.compare(user_token) == 0);
+	return ! this->tokenizer->hasExpired(user_token);
 }
 
 void MessageHandler::getMatches(std::string id) {
@@ -114,5 +124,7 @@ void MessageHandler::getMatches(std::string id) {
 }
 
 string MessageHandler::getToken() {
-	return token;
+	string password, token;
+	this->usersDB->getEntry(USER_DB + username, password);
+	return this->tokenizer->newToken(username, password);
 }

@@ -66,7 +66,7 @@ class MessageHandler {
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;
-		std::string token;
+		Tokenizer* tokenizer;
 		std::string username;
 };
 

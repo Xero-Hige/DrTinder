@@ -8,6 +8,7 @@
 #include "parserTest.h"
 #include "sharedServerTest.h"
 #include "tokenizerTest.h"
+#include "messageHandlerTest.h"
 #include "gtest/gtest.h"
 #include "../../libs/loger/easylogging++.h"
 INITIALIZE_EASYLOGGINGPP
