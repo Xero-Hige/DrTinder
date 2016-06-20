@@ -4,6 +4,8 @@
 
 .. java:import:: android.annotation TargetApi
 
+.. java:import:: android.app Activity
+
 .. java:import:: android.content Context
 
 .. java:import:: android.content Intent

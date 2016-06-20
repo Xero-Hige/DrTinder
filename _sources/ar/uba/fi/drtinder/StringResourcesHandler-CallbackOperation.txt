@@ -1,3 +1,5 @@
+.. java:import:: android.net Uri
+
 .. java:import:: android.os AsyncTask
 
 .. java:import:: org.springframework.http.converter StringHttpMessageConverter

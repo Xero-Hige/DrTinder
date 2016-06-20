@@ -2,6 +2,8 @@
 
 .. java:import:: android.content Context
 
+.. java:import:: android.content.pm PackageManager
+
 .. java:import:: android.location Location
 
 .. java:import:: android.location LocationListener
@@ -9,6 +11,8 @@
 .. java:import:: android.location LocationManager
 
 .. java:import:: android.os Bundle
+
+.. java:import:: android.support.v4.app ActivityCompat
 
 .. java:import:: java.util Locale
 
@@ -22,12 +26,30 @@ LocationHandler
 
    TODO
 
+Fields
+------
+LOCATION_FAILED
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String LOCATION_FAILED
+   :outertype: LocationHandler
+
+   TODO
+
+PERMISSION_MISSING
+^^^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String PERMISSION_MISSING
+   :outertype: LocationHandler
+
+   TODO
+
 Methods
 -------
 getLocationString
 ^^^^^^^^^^^^^^^^^
 
-.. java:method:: static String getLocationString(Activity activity)
+.. java:method:: public static String getLocationString(Activity activity)
    :outertype: LocationHandler
 
    TODO

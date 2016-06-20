@@ -1,0 +1,28 @@
+.. java:import:: android.app Activity
+
+.. java:import:: android.view View
+
+.. java:import:: android.view.inputmethod InputMethodManager
+
+Utility
+=======
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class Utility
+
+   TODO
+
+Methods
+-------
+hideKeyboard
+^^^^^^^^^^^^
+
+.. java:method:: public static void hideKeyboard(Activity context)
+   :outertype: Utility
+
+   TODO
+
+   :param context:
+

@@ -16,8 +16,6 @@
 
 .. java:import:: android.view View
 
-.. java:import:: android.view.inputmethod InputMethodManager
-
 .. java:import:: android.widget EditText
 
 .. java:import:: android.widget ImageButton
@@ -39,6 +37,32 @@ ChatSession
 .. java:type:: public class ChatSession extends AppCompatActivity
 
    Chat session activity. Represents a chat session between 2 users.
+
+Fields
+------
+EXTRA_FRIEND_ID
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_FRIEND_ID
+   :outertype: ChatSession
+
+EXTRA_FRIEND_NAME
+^^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_FRIEND_NAME
+   :outertype: ChatSession
+
+EXTRA_USER_ID
+^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_ID
+   :outertype: ChatSession
+
+EXTRA_USER_NAME
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_NAME
+   :outertype: ChatSession
 
 Methods
 -------

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>UserDetailsActivity &mdash; documentación de DrTinder - 1.0.0</title>
+  <title>UserDetailsActivity &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="documentación de DrTinder - 1.0.0" href="../../../../index.html"/>
+    <link rel="top" title="DrTinder 1.0.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="ar.uba.fi.drtinder" href="package-index.html"/>
         <link rel="next" title="UserInfoHandler" href="UserInfoHandler.html"/>
         <link rel="prev" title="TinderFMService" href="TinderFMService.html"/> 
@@ -114,6 +114,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="UserInfoHandler.html">UserInfoHandler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="UserProfile.html">UserProfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utility.html">Utility</a></li>
 </ul>
 </li>
 </ul>
@@ -163,74 +164,74 @@
            <div itemprop="articleBody">
             
   <div class="section" id="userdetailsactivity">
-<h1>UserDetailsActivity<a class="headerlink" href="#userdetailsactivity" title="Enlazar permanentemente con este título">¶</a></h1>
+<h1>UserDetailsActivity<a class="headerlink" href="#userdetailsactivity" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity">
-public class <code class="descname">UserDetailsActivity</code> extends AppCompatActivity<a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public class <code class="descname">UserDetailsActivity</code> extends AppCompatActivity<a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Activity used to display users details</p>
 </dd></dl>
 
 <div class="section" id="fields">
-<h2>Fields<a class="headerlink" href="#fields" title="Enlazar permanentemente con este título">¶</a></h2>
+<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="extra-user-age">
-<h3>EXTRA_USER_AGE<a class="headerlink" href="#extra-user-age" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>EXTRA_USER_AGE<a class="headerlink" href="#extra-user-age" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_AGE">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_AGE</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_AGE" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_AGE</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_AGE" title="Permalink to this definition">¶</a></dt>
 <dd><p>User age key in extra map</p>
 </dd></dl>
 
 </div>
 <div class="section" id="extra-user-bio">
-<h3>EXTRA_USER_BIO<a class="headerlink" href="#extra-user-bio" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>EXTRA_USER_BIO<a class="headerlink" href="#extra-user-bio" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_BIO">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_BIO</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_BIO" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_BIO</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_BIO" title="Permalink to this definition">¶</a></dt>
 <dd><p>User biography key in extra map</p>
 </dd></dl>
 
 </div>
 <div class="section" id="extra-user-id">
-<h3>EXTRA_USER_ID<a class="headerlink" href="#extra-user-id" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>EXTRA_USER_ID<a class="headerlink" href="#extra-user-id" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_ID">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_ID</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_ID" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_ID</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_ID" title="Permalink to this definition">¶</a></dt>
 <dd><p>User image key in extra map</p>
 </dd></dl>
 
 </div>
 <div class="section" id="extra-user-ints">
-<h3>EXTRA_USER_INTS<a class="headerlink" href="#extra-user-ints" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>EXTRA_USER_INTS<a class="headerlink" href="#extra-user-ints" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_INTS">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_INTS</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_INTS" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_INTS</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_INTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>User interest key in extra map</p>
 </dd></dl>
 
 </div>
 <div class="section" id="extra-user-name">
-<h3>EXTRA_USER_NAME<a class="headerlink" href="#extra-user-name" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>EXTRA_USER_NAME<a class="headerlink" href="#extra-user-name" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_NAME">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_NAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_NAME" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_NAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.EXTRA_USER_NAME" title="Permalink to this definition">¶</a></dt>
 <dd><p>User name key in extra map</p>
 </dd></dl>
 
 </div>
 </div>
 <div class="section" id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Enlazar permanentemente con este título">¶</a></h2>
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="oncreate">
-<h3>onCreate<a class="headerlink" href="#oncreate" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>onCreate<a class="headerlink" href="#oncreate" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserDetailsActivity.onCreate(Bundle)">
-protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.onCreate(Bundle)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserDetailsActivity.onCreate(Bundle)" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>bundle</strong> &#8211; </li>
 </ul>
 </td>
@@ -263,7 +264,7 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Actualizado por última vez en Jun 19, 2016.
+      Last updated on Jun 20, 2016.
 
     </p>
   </div>
@@ -294,7 +295,6 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
       <script type="text/javascript" src="../../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="../../../../_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>UserInfoHandler &mdash; documentación de DrTinder - 1.0.0</title>
+  <title>UserInfoHandler &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="documentación de DrTinder - 1.0.0" href="../../../../index.html"/>
+    <link rel="top" title="DrTinder 1.0.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="ar.uba.fi.drtinder" href="package-index.html"/>
         <link rel="next" title="UserProfile" href="UserProfile.html"/>
         <link rel="prev" title="UserDetailsActivity" href="UserDetailsActivity.html"/> 
@@ -100,7 +100,8 @@
 <li class="toctree-l2"><a class="reference internal" href="UserDetailsActivity.html">UserDetailsActivity</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="">UserInfoHandler</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fields">Fields</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#null-token">NULL_TOKEN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#error-token">ERROR_TOKEN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#failed-token">FAILED_TOKEN</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
@@ -115,6 +116,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="UserProfile.html">UserProfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Utility.html">Utility</a></li>
 </ul>
 </li>
 </ul>
@@ -164,39 +166,47 @@
            <div itemprop="articleBody">
             
   <div class="section" id="userinfohandler">
-<h1>UserInfoHandler<a class="headerlink" href="#userinfohandler" title="Enlazar permanentemente con este título">¶</a></h1>
+<h1>UserInfoHandler<a class="headerlink" href="#userinfohandler" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler">
-public final class <code class="descname">UserInfoHandler</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public final class <code class="descname">UserInfoHandler</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 <div class="section" id="fields">
-<h2>Fields<a class="headerlink" href="#fields" title="Enlazar permanentemente con este título">¶</a></h2>
-<div class="section" id="null-token">
-<h3>NULL_TOKEN<a class="headerlink" href="#null-token" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error-token">
+<h3>ERROR_TOKEN<a class="headerlink" href="#error-token" title="Permalink to this headline">¶</a></h3>
 <dl class="field">
-<dt id="ar.uba.fi.drtinder.UserInfoHandler.NULL_TOKEN">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">NULL_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.NULL_TOKEN" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="ar.uba.fi.drtinder.UserInfoHandler.ERROR_TOKEN">
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">ERROR_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.ERROR_TOKEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="failed-token">
+<h3>FAILED_TOKEN<a class="headerlink" href="#failed-token" title="Permalink to this headline">¶</a></h3>
+<dl class="field">
+<dt id="ar.uba.fi.drtinder.UserInfoHandler.FAILED_TOKEN">
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">FAILED_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.FAILED_TOKEN" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 </div>
 </div>
 <div class="section" id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Enlazar permanentemente con este título">¶</a></h2>
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="getlogintoken">
-<h3>getLoginToken<a class="headerlink" href="#getlogintoken" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>getLoginToken<a class="headerlink" href="#getlogintoken" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.getLoginToken(String, String, String)">
-static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getLoginToken</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> username</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> password</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> location</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getLoginToken(String, String, String)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getLoginToken</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> email</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> password</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> location</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getLoginToken(String, String, String)" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
-<li><strong>username</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>email</strong> &#8211; </li>
 <li><strong>password</strong> &#8211; </li>
 <li><strong>location</strong> &#8211; </li>
 </ul>
@@ -208,43 +218,43 @@ static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/
 
 </div>
 <div class="section" id="getuseremail">
-<h3>getUserEmail<a class="headerlink" href="#getuseremail" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>getUserEmail<a class="headerlink" href="#getuseremail" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.getUserEmail()">
-public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getUserEmail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getUserEmail()" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getUserEmail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getUserEmail()" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 </div>
 <div class="section" id="getusername">
-<h3>getUsername<a class="headerlink" href="#getusername" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>getUsername<a class="headerlink" href="#getusername" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.getUsername()">
-public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getUsername</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getUsername()" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getUsername</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.getUsername()" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 </div>
 <div class="section" id="isloggedin">
-<h3>isLoggedIn<a class="headerlink" href="#isloggedin" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>isLoggedIn<a class="headerlink" href="#isloggedin" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.isLoggedIn()">
-public static boolean <code class="descname">isLoggedIn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isLoggedIn()" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static boolean <code class="descname">isLoggedIn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isLoggedIn()" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 </dd></dl>
 
 </div>
 <div class="section" id="isvalidemail">
-<h3>isValidEmail<a class="headerlink" href="#isvalidemail" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>isValidEmail<a class="headerlink" href="#isvalidemail" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.isValidEmail(String)">
-public static boolean <code class="descname">isValidEmail</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> email</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isValidEmail(String)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static boolean <code class="descname">isValidEmail</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> email</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isValidEmail(String)" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>email</strong> &#8211; </li>
 </ul>
 </td>
@@ -255,16 +265,16 @@ public static boolean <code class="descname">isValidEmail</code><span class="sig
 
 </div>
 <div class="section" id="isvalidpassword">
-<h3>isValidPassword<a class="headerlink" href="#isvalidpassword" title="Enlazar permanentemente con este título">¶</a></h3>
+<h3>isValidPassword<a class="headerlink" href="#isvalidpassword" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserInfoHandler.isValidPassword(String)">
-public static boolean <code class="descname">isValidPassword</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> pass</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isValidPassword(String)" title="Enlazar permanentemente con esta definición">¶</a></dt>
+public static boolean <code class="descname">isValidPassword</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> pass</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserInfoHandler.isValidPassword(String)" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>pass</strong> &#8211; </li>
 </ul>
 </td>
@@ -297,7 +307,7 @@ public static boolean <code class="descname">isValidPassword</code><span class="
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Actualizado por última vez en Jun 19, 2016.
+      Last updated on Jun 20, 2016.
 
     </p>
   </div>
@@ -328,7 +338,6 @@ public static boolean <code class="descname">isValidPassword</code><span class="
       <script type="text/javascript" src="../../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="../../../../_static/translations.js"></script>
       <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   

@@ -1,3 +1,5 @@
+.. java:import:: android.net Uri
+
 .. java:import:: android.os AsyncTask
 
 .. java:import:: org.springframework.http.converter StringHttpMessageConverter
@@ -26,16 +28,28 @@ StringResourcesHandler
 
 Fields
 ------
+INTEREST_DATA_DIVIDER
+^^^^^^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String INTEREST_DATA_DIVIDER
+   :outertype: StringResourcesHandler
+
+INTEREST_DIVIDER
+^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String INTEREST_DIVIDER
+   :outertype: StringResourcesHandler
+
 USER_CANDIDATES
 ^^^^^^^^^^^^^^^
 
-.. java:field:: static final int USER_CANDIDATES
+.. java:field:: public static final int USER_CANDIDATES
    :outertype: StringResourcesHandler
 
 USER_MATCHES
 ^^^^^^^^^^^^
 
-.. java:field:: static final int USER_MATCHES
+.. java:field:: public static final int USER_MATCHES
    :outertype: StringResourcesHandler
 
 Methods
@@ -43,12 +57,25 @@ Methods
 executeQuery
 ^^^^^^^^^^^^
 
-.. java:method:: public static void executeQuery(String resId, int requestType, CallbackOperation operation)
+.. java:method:: public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
    TODO
 
    :param resId:
    :param requestType:
+   :param token:
+   :param operation:
+
+executeQuery
+^^^^^^^^^^^^
+
+.. java:method:: public static void executeQuery(int requestType, String token, CallbackOperation operation)
+   :outertype: StringResourcesHandler
+
+   TODO
+
+   :param requestType:
+   :param token:
    :param operation:
 

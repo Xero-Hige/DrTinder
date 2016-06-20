@@ -36,6 +36,16 @@ MainActivity
 
    Main app activity of the app Dr Tinder. Displays the 2 main fragments: Selection and Chatlist
 
+Fields
+------
+EXTRA_TOKEN
+^^^^^^^^^^^
+
+.. java:field:: public static String EXTRA_TOKEN
+   :outertype: MainActivity
+
+   TODO
+
 Methods
 -------
 onBackPressed

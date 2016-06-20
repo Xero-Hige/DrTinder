@@ -1,10 +1,26 @@
 .. java:import:: com.google.firebase.auth FirebaseAuth
 
+.. java:import:: com.google.firebase.auth FirebaseUser
+
+.. java:import:: org.springframework.http HttpAuthentication
+
+.. java:import:: org.springframework.http HttpBasicAuthentication
+
+.. java:import:: org.springframework.http HttpEntity
+
+.. java:import:: org.springframework.http HttpHeaders
+
+.. java:import:: org.springframework.http HttpMethod
+
+.. java:import:: org.springframework.http ResponseEntity
+
+.. java:import:: org.springframework.http.converter StringHttpMessageConverter
+
+.. java:import:: org.springframework.web.client ResourceAccessException
+
 .. java:import:: org.springframework.web.client RestTemplate
 
-.. java:import:: java.io StringWriter
-
-.. java:import:: au.com.bytecode.opencsv CSVWriter
+.. java:import:: java.util Locale
 
 UserInfoHandler
 ===============
@@ -18,10 +34,16 @@ UserInfoHandler
 
 Fields
 ------
-NULL_TOKEN
-^^^^^^^^^^
+ERROR_TOKEN
+^^^^^^^^^^^
 
-.. java:field:: public static final String NULL_TOKEN
+.. java:field:: public static final String ERROR_TOKEN
+   :outertype: UserInfoHandler
+
+FAILED_TOKEN
+^^^^^^^^^^^^
+
+.. java:field:: public static final String FAILED_TOKEN
    :outertype: UserInfoHandler
 
    TODO
@@ -31,12 +53,12 @@ Methods
 getLoginToken
 ^^^^^^^^^^^^^
 
-.. java:method:: static String getLoginToken(String username, String password, String location)
+.. java:method:: static String getLoginToken(String email, String password, String location)
    :outertype: UserInfoHandler
 
    TODO
 
-   :param username:
+   :param email:
    :param password:
    :param location:
 

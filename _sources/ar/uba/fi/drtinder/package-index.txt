@@ -22,4 +22,5 @@ ar.uba.fi.drtinder
    UserDetailsActivity
    UserInfoHandler
    UserProfile
+   Utility
 
