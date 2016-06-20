@@ -2,10 +2,12 @@ package ar.uba.fi.drtinder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import java.util.Locale;
 
@@ -29,7 +31,19 @@ import java.util.Locale;
  * TODO
  */
 public final class LocationHandler {
-    private static String locationString = "";
+
+    /**
+     * TODO
+     */
+    public static final String PERMISSION_MISSING = "NOPERM";
+
+    /**
+     * TODO
+     */
+    public static final String LOCATION_FAILED = "";
+
+
+    private static String locationString = LOCATION_FAILED;
 
     /**
      * TODO
@@ -43,7 +57,7 @@ public final class LocationHandler {
      * @param activity
      * @return
      */
-    static String getLocationString(Activity activity) {
+    public static String getLocationString(Activity activity) {
         LocationManager locationManager = (LocationManager)
                 activity.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
@@ -65,6 +79,18 @@ public final class LocationHandler {
             public void onProviderDisabled(String provider) {
             }
         };
+
+        if (ActivityCompat.checkSelfPermission(activity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            DrTinderLogger.writeLog(DrTinderLogger.WARN, "App needs location permission");
+
+            return PERMISSION_MISSING;
+        }
 
         activity.runOnUiThread(() ->
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,

@@ -60,6 +60,7 @@ public class UserProfile extends AppCompatActivity {
     private ImageView mProfilePic;
     private String mActivityAction;
     private String mUsername;
+    private String mToken;
 
     private String mEmail;
     private TextView mPasswordView;
@@ -85,7 +86,7 @@ public class UserProfile extends AppCompatActivity {
 
         if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             ImageResourcesHandler.fillImageResource(activityIntent.getStringExtra(USER_EXTRA_USERNAME),
-                    ImageResourcesHandler.RES_USER_IMG, mProfilePic, this);
+                    ImageResourcesHandler.RES_USER_IMG, activityIntent.getStringExtra("token"), mProfilePic, this); //FIXME
         }
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {

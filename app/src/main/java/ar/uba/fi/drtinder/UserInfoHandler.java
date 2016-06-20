@@ -1,12 +1,20 @@
 package ar.uba.fi.drtinder;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.StringWriter;
+import java.util.Locale;
 
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * @author Xero-Hige
@@ -32,9 +40,12 @@ public final class UserInfoHandler {
     /**
      * TODO
      */
-    public static final String NULL_TOKEN = "";
+    public static final String FAILED_TOKEN = "-";
+    public static final String ERROR_TOKEN = "";
 
-    private static final String LOGIN_URL = "";
+    private static final String LOGIN_URL = "http://190.55.231.26/user";
+    private static final String TOKEN_URL = "http://190.55.231.26/user/token";
+
 
     private UserInfoHandler() {
     }
@@ -42,28 +53,55 @@ public final class UserInfoHandler {
     /**
      * TODO
      *
-     * @param username
+     * @param email
      * @param password
      * @param location
      * @return
      */
-    static String getLoginToken(String username, String password, String location) {
+    static String getLoginToken(String email, String password, String location) {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String url = LOGIN_URL + username;
+        String user = getUsernameFrom(email);
 
-        String params[] = {username, password, location};
-        StringWriter stringWriter = new StringWriter();
-        CSVWriter writer = new CSVWriter(stringWriter);
-        writer.writeNext(params);
+        HttpAuthentication authHeader = new HttpBasicAuthentication(user, password);
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setAuthorization(authHeader);
 
-        String response = " "; //restTemplate.postForObject(stringWriter.toString(), url, String.class);
+        String body = String.format(Locale.ENGLISH, "localization=\"%s\"", location);
 
-        if (!response.equals("")) { //TODO Check
-            return response;
+        HttpEntity<?> requestEntity = new HttpEntity<>(body, requestHeaders);
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+
+        ResponseEntity<String> response;
+
+        try {
+            response = restTemplate.exchange(LOGIN_URL, HttpMethod.POST,
+                    requestEntity, String.class);
+        } catch (ResourceAccessException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
+            return ERROR_TOKEN;
         }
-        return NULL_TOKEN;
+
+        int statusCode = response.getStatusCode().value();
+
+        if (statusCode != 200) {
+            if (statusCode == 401) {
+                return FAILED_TOKEN;
+            }
+            String errorMessage = "Failed login post: "
+                    + response.getStatusCode().value()
+                    + " " + response.getStatusCode().getReasonPhrase();
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
+        }
+
+        restTemplate = new RestTemplate();
+
+        String tokenUrl = TOKEN_URL + "/" + user;
+        response = restTemplate.getForEntity(tokenUrl, String.class);
+
+        return response.getBody();
     }
 
     /**
@@ -105,7 +143,10 @@ public final class UserInfoHandler {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
             return "";
         }
-        return FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert currentUser != null; //DEBUG Assert
+        return currentUser.getEmail();
     }
 
     /**
@@ -118,8 +159,17 @@ public final class UserInfoHandler {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
             return "";
         }
-        String base = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        String[] fields = base.split("@");
+
+        return getUsernameFrom(getUserEmail());
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    private static String getUsernameFrom(String email) {
+        String[] fields = email.split("@");
         return fields[0] + fields[1].replace(".", "");
     }
 }

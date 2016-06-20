@@ -52,6 +52,8 @@ public class UserDetailsActivity extends AppCompatActivity {
      */
     public static final String EXTRA_USER_INTS = "inte";
 
+    private String mToken;
+
     /**
      * TODO
      *
@@ -83,9 +85,9 @@ public class UserDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String interestExtra = intent.getStringExtra(EXTRA_USER_INTS);
-        String[] interests = interestExtra.split("\\|\\|");
+        String[] interests = interestExtra.split(StringResourcesHandler.INTEREST_DIVIDER);
         for (String interestString : interests) {
-            String[] interest = interestString.split("::");
+            String[] interest = interestString.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
             String category = interest[0];
             String name = interest[1];
 
@@ -95,7 +97,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
             ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
-                    imageView, this); //FIXME: Cambiar a campo combinado
+                    mToken, imageView, this); //FIXME: Cambiar a campo combinado
             assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }
@@ -121,7 +123,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, mToken,
                 imageView, getBaseContext());
     }
 }

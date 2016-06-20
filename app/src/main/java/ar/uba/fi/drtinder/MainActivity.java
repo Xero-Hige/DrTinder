@@ -39,8 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * TODO
+     */
+    public static String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
-
     private String mUsername;
 
     @Override
@@ -59,10 +62,12 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        assert navigationView != null; //DEBUG Assert
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
         mUsername = UserInfoHandler.getUsername();
+        Utility.hideKeyboard(this);
     }
 
     /**
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null; //DEBUG Assert
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

@@ -3,6 +3,7 @@ package ar.uba.fi.drtinder;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -57,6 +58,8 @@ public class SelectionFragment extends Fragment {
 
     private static final int USER_FIELDS = 5;
 
+    private String mToken;
+
     //TODO: Remove
     private SwipeDeck mCardStack;
 
@@ -79,6 +82,8 @@ public class SelectionFragment extends Fragment {
                              @Nullable Bundle bundle) {
         mFragmentView = inflater.inflate(R.layout.activity_selection, container, false);
 
+        mToken = getActivity().getIntent().getExtras().getString(MainActivity.EXTRA_TOKEN);
+
         mCardStack = (SwipeDeck) mFragmentView.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
@@ -90,6 +95,7 @@ public class SelectionFragment extends Fragment {
 
         fillCardStack();
 
+        Utility.hideKeyboard((Activity) getContext());
         return mFragmentView;
     }
 
@@ -207,7 +213,7 @@ public class SelectionFragment extends Fragment {
         mUsersQueue = new LinkedList<>();
         mUsersData = new HashMap<>();
 
-        StringResourcesHandler.executeQuery("christianGray", StringResourcesHandler.USER_CANDIDATES,
+        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_CANDIDATES, mToken,
                 data -> {
                     int excluded = 0;
                     int index = 0;
@@ -222,7 +228,7 @@ public class SelectionFragment extends Fragment {
                             continue;
                         }
                         ImageResourcesHandler.prefetch(userData[USER_ID],
-                                ImageResourcesHandler.RES_USER_IMG, getContext());
+                                ImageResourcesHandler.RES_USER_IMG, mToken, getContext());
                         addUserCard(index - excluded, userData);
                     }
 
@@ -359,7 +365,7 @@ public class SelectionFragment extends Fragment {
             String userId = mUsersData.get(position).get(USER_ID);
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                    imageView, mContext);
+                    mToken, imageView, mContext);
         }
 
     }

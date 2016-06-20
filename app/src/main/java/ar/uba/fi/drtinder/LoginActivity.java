@@ -60,6 +60,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
+    private View mActivityView;
 
     private FirebaseAuth mFirebaseAuth;
     private boolean mFirebaseLogedIn;
@@ -105,6 +106,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (UserInfoHandler.isLoggedIn()) {
             startApp(this);
         }
+
+        mActivityView = getWindow().getDecorView().getRootView();
     }
 
     private void executeWithLData(TaskExecutor executor) {
@@ -311,7 +314,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mUserEmail = email;
             mUserPassword = password;
             mTaskContext = context;
-            mAuthToken = UserInfoHandler.NULL_TOKEN;
+            mAuthToken = UserInfoHandler.ERROR_TOKEN;
         }
 
         @Override
@@ -359,6 +362,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mUserEmail;
         private final String mUserPassword;
         private final Context mTaskContext;
+        private String mAuthToken;
 
         /**
          * Creates a new Login task
@@ -379,14 +383,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
+            mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
-            if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
+            if (mAuthToken.equals(UserInfoHandler.ERROR_TOKEN)) {
+                return false;
+            }
+            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
                 return false;
             }
             firebaseAuthenticate(mUserEmail, mUserPassword);
-
-
             return mFirebaseLogedIn;
         }
 
@@ -397,10 +402,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 startApp(this.mTaskContext);
-            } else {
-                mPasswordTextView.setError(getString(R.string.error_incorrect_password));
-                mPasswordTextView.requestFocus();
+                return;
             }
+            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
+                mEmailTextView.setError(getString(R.string.error_failed_login));
+                mEmailTextView.requestFocus();
+                return;
+            }
+            mEmailTextView.setError("Error de conexion con el servidor");
+            mEmailTextView.requestFocus();
         }
 
         @Override
