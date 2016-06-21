@@ -7,26 +7,19 @@ MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string p
 	usersDB(pDatabase) {
 	username = name;
 	this->tokenizer = new Tokenizer(usersDB);
-	//si ya existe no sobreescribe
+
+	//si ya existe no sobreescribe, problemas con el signup???
 	string found;
 	if (! usersDB->getEntry(USER_DB + username,found)){
 		usersDB->addEntry(USER_DB + username, pass);
 	}
+
 }
 
 MessageHandler::~MessageHandler() {
 	delete tokenizer;
 }
 
-string MessageHandler::divideMessage(string& message) {
-	size_t pos = message.find(SEPARATOR);
-	if (pos == std::string::npos) {
-		pos = message.size();
-	}
-	string subMsg = message.substr(0, pos);
-	message.erase(0, pos + 1);
-	return subMsg;
-}
 string MessageHandler::getId(){
 	string id;
 	if (usersDB->getEntry(USER_ID_DB + username, id))
@@ -45,6 +38,7 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 }
 
 bool MessageHandler::authenticate(string username, string password) {
+	LOGG(DEBUG) << "Authenticating " + username;
 	return usersDB->correctEntry(USER_DB + username, password);
 }
 
@@ -61,7 +55,7 @@ bool MessageHandler::createUser(string user_data) {
 	data_to_post[USER_KEY] = jsonUser;
 
 	string parsed_user = jsonParser.getAsString(data_to_post);
-	LOG(INFO) << "Creating user " + parsed_user;
+	LOGG(DEBUG) << "Creating user " + parsed_user;
 	bool posted = ssClient.postUsers(user_created, &parsed_user);
 
 	if (posted){
@@ -71,11 +65,11 @@ bool MessageHandler::createUser(string user_data) {
 		id = jsonParser.getValue(USER_KEY)[ID_KEY].asString();
 		usersDB->addEntry(USER_ID_DB + username, id);
 
-		LOG(INFO) << "User signup  New Id: " + id;
+		LOGG(DEBUG) << "User signup  New Id: " + id;
 		return true;
 		//TODO guardar pass en DB
 	}else{
-		LOG(WARNING) << "User not created";
+		LOGG(DEBUG) << "User not created";
 		return false;
 	}
 }
@@ -85,6 +79,7 @@ bool MessageHandler::updateUser(string user_data) {
 	JsonParser jsonParser;
 	User new_user;
 	string id = this->getId();
+
 	//feo
 	user_data += ",\""+ id +"\"";
 	csvParser.makeUser(user_data, new_user);
@@ -94,7 +89,7 @@ bool MessageHandler::updateUser(string user_data) {
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
 
-	LOG(INFO) << "Updating info of " + id ;
+	LOGG(DEBUG) << "Updating info of " + id ;
 
 	return ssClient.changeUser(id, jsonParser.getAsString(data_to_post).c_str());
 }
@@ -106,6 +101,7 @@ bool MessageHandler::deleteUser() {
 		usersDB->deleteEntry(USER_DB + username);
 		usersDB->deleteEntry(USER_ID_DB + username);
 		//TODO: delete all info
+		LOGG(DEBUG) << "User Deleted " + username;
 		return true;
 	}
 	return false;
@@ -120,11 +116,11 @@ bool MessageHandler::getChat(string& chat_history) {
 }
 
 bool MessageHandler::getPhoto(string& photo_64) {
-	return ssClient.getUserPhoto(username, photo_64);
+	return ssClient.getUserPhoto(this->getId(), photo_64);
 }
 
 bool MessageHandler::postPhoto(string photo_64) {
-	LOG(INFO) << "Updating photo of " + this->getId();
+	LOGG(INFO) << "Updating photo of " + this->getId();
 	return ssClient.changeUserPhoto(this->getId(), photo_64);
 }
 
@@ -138,6 +134,7 @@ void MessageHandler::getMatches(std::string id) {
 
 string MessageHandler::getToken() {
 	string password, token;
+	LOGG(INFO) << "Generating new token for " + username;
 	this->usersDB->getEntry(USER_DB + username, password);
 	return this->tokenizer->newToken(username, password);
 }

@@ -34,9 +34,11 @@ bool SharedServerClient::valid(RestClient::Response *r ){
 
 bool SharedServerClient::setBody(string * body, RestClient::Response *r){
 	*body = r->body;
+	LOGG(DEBUG) << "SS response " << r->code;
 	if (this->valid(r)){
 		return true;
 	}
+	LOGG(DEBUG) << "SS body " + r->body;
 	return false;
 
 

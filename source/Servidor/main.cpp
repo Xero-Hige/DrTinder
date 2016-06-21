@@ -33,6 +33,7 @@ int main() {
 	server.setUsersDB(usersDB);
 
 	bool quit = false;
+	LOGG(INFO) << "Opening server";
 	std::mutex quit_mutex;
 	std::thread quit_control_thread(hasToQuit, std::ref(quit), std::ref(quit_mutex));
 
@@ -46,5 +47,6 @@ int main() {
 
 	quit_control_thread.join();
 	RestClient::disable();
+	LOGG(INFO) << "Closing server";
     return 0;
 }

@@ -68,7 +68,7 @@ MessageHandler* Server::acceptConnection(struct http_message* http_msg, struct m
 		connection->flags |= MG_F_SEND_AND_CLOSE;
 		return NULL;
 	}
-
+	LOGG(INFO) << "Nueva conexion exitosa";
 	connection->user_data = msgHandler;
 	return msgHandler;
 }
@@ -90,6 +90,7 @@ void Server::listenUsersRequest(struct http_message* http_msg, struct mg_connect
 
 	if (! validateToken(msgHandler, http_msg)) {
 		sendHttpLine(connection, AUTHENTICATION_ERROR);
+		LOGG(INFO) << "Token expired";
 	}
 
 	if (is_equal(&http_msg->method, &s_get_method)) {

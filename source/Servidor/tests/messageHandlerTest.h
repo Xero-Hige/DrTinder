@@ -65,7 +65,7 @@ TEST(MsgHandler,CreateAndDeleteUser){
 	ASSERT_TRUE(handler.deleteUser());
 }
 
-TEST(MsgHandler,CreateUpdatePutPhotoAndDeleteUser){
+TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	CsvParser parse;
 	vector<string> user_data;
 	string mail = "asdas@aasdasda.com";
@@ -91,11 +91,13 @@ TEST(MsgHandler,CreateUpdatePutPhotoAndDeleteUser){
 
 	DB* db;
 	DatabaseManager dbManager(db);
-	string user = mail, password = "pepe";
+	string user = mail, password = "pepe", photo;
 	MessageHandler handler(&dbManager, user, password);
 
 	ASSERT_TRUE(handler.createUser(complete));
 	ASSERT_TRUE(handler.postPhoto("pepe"));
+	ASSERT_TRUE(handler.getPhoto(photo));
+	ASSERT_TRUE(photo.compare("pepe") == 0);
 	ASSERT_TRUE(handler.updateUser(complete));
 	ASSERT_TRUE(handler.deleteUser());
 }

@@ -14,12 +14,12 @@
 INITIALIZE_EASYLOGGINGPP
 
 int main(int argc, char **argv) {
-  LOG(INFO) << "Corro test";
+  LOGG(DEBUG) << "Corro test";
   ::testing::InitGoogleTest(&argc, argv);
   RestClient::init();
   int result = RUN_ALL_TESTS();
   RestClient::disable();
-  LOG(INFO) << "End test";
+  LOGG(DEBUG) << "End test";
   return result;
 }
 

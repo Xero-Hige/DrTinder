@@ -6336,7 +6336,7 @@ public:
 #undef ELPP_TRACE
 #define ELPP_TRACE CLOG(TRACE, ELPP_CURR_FILE_LOGGER_ID)
 // Normal logs
-#define LOG(LEVEL) CLOG(LEVEL, ELPP_CURR_FILE_LOGGER_ID)
+#define LOGG(LEVEL) CLOG(LEVEL, ELPP_CURR_FILE_LOGGER_ID)
 #define VLOG(vlevel) CVLOG(vlevel, ELPP_CURR_FILE_LOGGER_ID)
 // Conditional logs
 #define LOG_IF(condition, LEVEL) CLOG_IF(condition, LEVEL, ELPP_CURR_FILE_LOGGER_ID)
