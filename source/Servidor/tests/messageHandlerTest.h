@@ -19,7 +19,7 @@ TEST(MsgHandler,CreateTokenAndItsValid){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = "aaa@aaa.com", password = "pepe";
-	MessageHandler handler(&dbManager, user, password);
+	MessageHandler handler(&dbManager, user);
 	string token = handler.getToken();
 	ASSERT_TRUE(handler.validateToken(token));
 
@@ -29,7 +29,7 @@ TEST(MsgHandler,CanAuthenticateUser){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = "aaa@aaaa.com", password = "pepe";
-	MessageHandler handler(&dbManager, user, password);
+	MessageHandler handler(&dbManager, user);
 	ASSERT_TRUE(handler.authenticate(user,password));
 }
 
@@ -58,9 +58,9 @@ TEST(MsgHandler,CreateAndDeleteUser){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = mail, password = "pepe";
-	MessageHandler handler(&dbManager, user, password);
+	MessageHandler handler(&dbManager, user);
 
-	ASSERT_TRUE(handler.createUser(complete));
+	ASSERT_TRUE(handler.createUser(complete, password));
 
 	ASSERT_TRUE(handler.deleteUser());
 }
@@ -92,11 +92,11 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = mail, password = "pepe", photo;
-	MessageHandler handler(&dbManager, user, password);
+	MessageHandler handler(&dbManager, user);
 
-	ASSERT_TRUE(handler.createUser(complete));
+	ASSERT_TRUE(handler.createUser(complete, password));
 	ASSERT_TRUE(handler.postPhoto("pepe"));
-	ASSERT_TRUE(handler.getPhoto(photo));
+	ASSERT_TRUE(handler.getPhoto(user, photo));
 	ASSERT_TRUE(photo.compare("pepe") == 0);
 	ASSERT_TRUE(handler.updateUser(complete));
 	ASSERT_TRUE(handler.deleteUser());
@@ -106,7 +106,7 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = "bbb@bbb.com", password = "pepe", photo;
-	MessageHandler handler(&dbManager, user, password);
+	MessageHandler handler(&dbManager, user);
 
 	ASSERT_TRUE(handler.getInterestPhoto(photo,"sport"));
 	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
