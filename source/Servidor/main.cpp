@@ -3,6 +3,7 @@
 #include <mutex>
 #include "Server.h"
 #include "DatabaseManager.h"
+#include "../libs/restclient-cpp/include/restclient-cpp/restclient.h"
 #include "../libs/loger/easylogging++.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
@@ -22,6 +23,7 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 
 /* Set up server and listen to incomming connections. */
 int main() {
+	RestClient::init();
 	Server server;
 
 	rocksdb::DB* usersDB;
@@ -43,6 +45,6 @@ int main() {
 	quit_mutex.unlock();
 
 	quit_control_thread.join();
-
+	RestClient::disable();
     return 0;
 }
