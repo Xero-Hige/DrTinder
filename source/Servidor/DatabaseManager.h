@@ -4,6 +4,15 @@
 #include <string>
 #include "../libs/rocksdb/include/rocksdb/db.h"
 #include <iostream>
+#include "../libs/loger/easylogging++.h"
+
+#define ALL_USRS "all_users_"
+#define USER_DB "user_"
+#define USER_ID_DB "user_id_"
+#define CHAT_DB "chat_"
+#define AVAILABLE_MATCHES_DB "av_match_"
+#define PAST_MATCHES_DB "past_match_"
+#define INT_PHOTO_DB "int_phot_"
 
 /* Database for users and passwords. */
 class DatabaseManager {

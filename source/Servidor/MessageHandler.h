@@ -6,12 +6,13 @@
 #include <iostream>
 #include "api_constants_client.h"
 #include "SharedServerClient.h"
-#include "Parser.h"
 #include "api_server_constants.h"
 #include <stdexcept>
 #include <vector>
 #include "Tokenizer.h"
 #include "Parsers/CsvParser.h"
+#include "Parsers/JsonParser.h"
+#include "../libs/loger/easylogging++.h"
 
 class ExistentUserException : public exception {
 };
@@ -20,7 +21,7 @@ class ExistentUserException : public exception {
 class MessageHandler {
 	public:
 		/* Create new handler with pDatabase as usersDB. */
-		MessageHandler(DatabaseManager *pDatabase, std::string mail);
+		MessageHandler(DatabaseManager *pDatabase, string name);
 		/* Destroy handler. */
 		~MessageHandler();
 		/* Set initialized usersDB. */
@@ -29,23 +30,23 @@ class MessageHandler {
 
 		bool authenticate(std::string username, std::string password);
 
-		void createUser(std::string user_data, std::string pass);
+		bool createUser(std::string user_data, std::string pass);
 
 		bool getUsers(std::string& resultMsg);
 
-		void updateUser(std::string user_data);
+		bool updateUser(std::string user_data);
 
-		void deleteUser();
+		bool deleteUser();
 
 		void getMatches(std::string id);
 
-		void getInterestPhoto(std::string& photo_64, std::string id_interest);
+		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-		void getChat(std::string username, std::string& chat_history);
+		bool getChat(std::string username, std::string& chat_history);
 
-		void getPhoto(string username, string &photo_64);
+		bool getPhoto(string username, string &photo_64);
 
-		void postPhoto(std::string photo_64);
+		bool postPhoto(std::string photo_64);
 
 		std::string getToken();
 
@@ -69,11 +70,11 @@ protected:
 		bool postSignUp(std::string data, std::string& resultMsg);
 		/*TODO: POST chat /chat*/
 		/*TODO: PUT /users */
-
+		std::string getId();
 	private:
 		DatabaseManager * usersDB;
 		SharedServerClient ssClient;
-		std::string token;
+		Tokenizer* tokenizer;
 		std::string username;
 };
 

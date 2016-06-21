@@ -49,7 +49,6 @@ public:
 	Json::Value interestsToJson(Interests *interest);
 	Json::Value interstToJson(std::string category, std::string value);
 	std::string photoToJson(std::string *photo);
-
 	Json::Value getValue(std::string key);
 	virtual ~JsonParser();
 

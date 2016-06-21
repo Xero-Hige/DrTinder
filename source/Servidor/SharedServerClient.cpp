@@ -34,9 +34,11 @@ bool SharedServerClient::valid(RestClient::Response *r ){
 
 bool SharedServerClient::setBody(string * body, RestClient::Response *r){
 	*body = r->body;
+	LOGG(DEBUG) << "SS response " << r->code;
 	if (this->valid(r)){
 		return true;
 	}
+	LOGG(DEBUG) << "SS body " + r->body;
 	return false;
 
 
@@ -76,7 +78,9 @@ bool SharedServerClient::changeUser(string user_id, string user_data) {
 bool SharedServerClient::changeUserPhoto(string user_id, string photo) {
     string sub_urls[] = {SHARED_SERVER_USERS_SUB_URL, user_id, SHARED_SERVER_PHOTO_SUB_URL};
     string url = formUrl(sub_urls, 3);
-    RestClient::Response r = conn->put(url.c_str(), photo.c_str());
+    JsonParser parser;
+    string formated_data = parser.photoToJson(&photo);
+    RestClient::Response r = conn->put(url.c_str(), formated_data.c_str());
     return this->valid(&r);
 }
 
@@ -102,12 +106,22 @@ bool SharedServerClient::postUsersInterests(string* interest) {
     return this->valid(&r);
 }
 
-void SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
-    //TODO: guardar foto en photo_64
+bool SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
+	string data;
+	if (this->getUser(user_id,&data)){
+		JsonParser parser;
+		parser.parsing(data);
+		photo_64 = parser.getValue(USER_KEY)[PHOTO_KEY].asString();
+		return true;
+	}
+	return false;
 }
 
-void SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
-    //TODO: guardar foto en photo_64
+bool SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
+	string sub_urls[] = { SHARED_SERVER_INTERESTS_SUB_URL,interest_id,SHARED_SERVER_PHOTO_SUB_URL};
+	string url = formUrl(sub_urls, 3);
+	RestClient::Response r = conn->get(url.c_str());
+	return setBody(&photo_64,&r);
 }
 
 void SharedServerClient::postLocalization(string latitude, string longitude) {

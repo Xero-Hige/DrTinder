@@ -35,6 +35,12 @@ TEST(SharedServer,GetUsersNotExistant){
 	ASSERT_FALSE(correct);
 }
 
+TEST(SharedServer,GetPhotoUser){
+	string data;
+	bool correct = ss.getUserPhoto("1",data);
+	ASSERT_TRUE(correct);
+}
+
 TEST(SharedServer,GetInterests){
 	string data;
 	bool correct = ss.getUsersInterests(&data);
@@ -99,7 +105,7 @@ TEST(SharedServer,CreateUserModifyItModifyPhotoAndDeleteIt){
 	   "\"metadata\": {"
        "\"version\": \"0.1\"  }}";
 
-	string photo = "{\"photo\":\"comida\"}";
+	string photo = "comida";
 	string response;
 
 	bool correct = ss.postUsers(response,&user);

@@ -9,3 +9,4 @@ source/.project
 source/Servidor/cmake_install.cmake
 source/Servidor/unit_test
 source/Servidor/coverage
+source/Servidor/logs/

@@ -24,7 +24,6 @@ void Server::run() {
 	mg_mgr_poll(&manager_, DEFAULT_MILISECS_POLL);
 }
 
-
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* ev_data) {
 	struct http_message *http_msg = (struct http_message *) ev_data;
 	RequestHandler requestHandler(http_msg, act_connection);

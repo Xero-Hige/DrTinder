@@ -30,6 +30,7 @@ bool RequestHandler::validateToken() {
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
         sendHttpLine(INVALID_TOKEN);
+        LOGG(INFO) << "Token expired";
         return false;
     }
     return true;
@@ -56,6 +57,7 @@ bool RequestHandler::parseAuthorization(char* user, char* pass) {
         delete msgHandler;
         return false;
     }
+    LOGG(INFO) << "Nueva conexion exitosa";
     return true;
 }
 

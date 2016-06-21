@@ -23,7 +23,6 @@ vector<string> CsvParser::parseLine(string *line){
     {
     	getline( ss, cell, ',' );
     	cell = cell.substr(1, cell.length() );
-
     	while (*cell.rbegin() != '"' && ss.good() ){
     		string other_parts;
     		getline( ss, other_parts, ',' );
@@ -100,9 +99,9 @@ void CsvParser::makeUser(string user_str, User &user){
 		//hay que asegurarse q ID_IDX sea el ultimo, medio pelo
 		int id = stoi(parsed[ID_IDX]);
 		user.setId(id);
+		user.setPhoto(parsed[PHOTO_IDX]);
 	}
 
-	user.setPhoto(parsed[PHOTO_IDX]);
 }
 
 string CsvParser::userToCsv(User *user){

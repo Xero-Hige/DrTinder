@@ -8,7 +8,7 @@
 #include "../libs/rocksdb/include/rocksdb/db.h"
 #include "RequestHandler.h"
 #include "ServerUtils.h"
-
+#include "../libs/loger/easylogging++.h"
 
 #define DEFAULT_PORT_NUMBER 8000
 
