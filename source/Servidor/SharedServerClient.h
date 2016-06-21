@@ -33,6 +33,8 @@ class SharedServerClient {
 
     void getInterestPhoto(std::string interest_id, std::string &photo_64);
 
+    void postLocalization(std::string latitude, std::string longitude);
+
 protected:
         bool valid(RestClient::Response *r);
         bool setBody(std::string * body, RestClient::Response *r);

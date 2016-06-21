@@ -3,9 +3,8 @@
 
 using std::string;
 
-MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name, string pass) :
+MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name) :
 		usersDB(pDatabase), username(name), token(NULL) {
-	usersDB->addEntry(username, pass);
 }
 
 MessageHandler::~MessageHandler() {
@@ -37,7 +36,10 @@ bool MessageHandler::authenticate(string username, string password) {
 	return usersDB->correctEntry(username, password);
 }
 
-void MessageHandler::createUser(string user_data) {
+void MessageHandler::createUser(string user_data, std::string pass) {
+	if (! usersDB->addEntry(username, pass)) {
+		throw ExistentUserException();
+	}
 	CsvParser csvParser;
 	User new_user;
 	csvParser.makeUser(user_data, new_user);
@@ -63,11 +65,11 @@ void MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 	ssClient.getInterestPhoto(id_interest, photo_64);
 }
 
-void MessageHandler::getChat(string& chat_history) {
+void MessageHandler::getChat(string username, string& chat_history) {
 	//TODO: get chat
 }
 
-void MessageHandler::getPhoto(string& photo_64) {
+void MessageHandler::getPhoto(string username, string& photo_64) {
 	ssClient.getUserPhoto(username, photo_64);
 }
 
@@ -86,3 +88,25 @@ void MessageHandler::getMatches(std::string id) {
 string MessageHandler::getToken() {
 	return token;
 }
+
+void MessageHandler::addLocalization(string localization) {
+	int i = localization.find(SEPARATOR);
+	string latitude = localization.substr(0, i);
+	string longitude = localization.substr(i+1, localization.length());
+	//TODO: enviar localizacion al shared
+	ssClient.postLocalization(latitude, longitude);
+}
+
+void MessageHandler::getUser(string username, string &user_data) {
+	ssClient.getUser(username, &user_data);
+}
+
+void MessageHandler::receiveChatMessage(string message) {
+	//TODO: procesar mensage
+}
+
+
+
+
+
+

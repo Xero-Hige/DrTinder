@@ -13,12 +13,14 @@
 #include "Tokenizer.h"
 #include "Parsers/CsvParser.h"
 
+class ExistentUserException : public exception {
+};
 
 /* Handler for incomming requests. */
 class MessageHandler {
 	public:
 		/* Create new handler with pDatabase as usersDB. */
-		MessageHandler(DatabaseManager *pDatabase, std::string mail, std::string pass);
+		MessageHandler(DatabaseManager *pDatabase, std::string mail);
 		/* Destroy handler. */
 		~MessageHandler();
 		/* Set initialized usersDB. */
@@ -27,7 +29,7 @@ class MessageHandler {
 
 		bool authenticate(std::string username, std::string password);
 
-		void createUser(std::string user_data);
+		void createUser(std::string user_data, std::string pass);
 
 		bool getUsers(std::string& resultMsg);
 
@@ -39,15 +41,21 @@ class MessageHandler {
 
 		void getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-		void getChat(std::string& chat_history);
+		void getChat(std::string username, std::string& chat_history);
 
-		void getPhoto(std::string& photo_64);
+		void getPhoto(string username, string &photo_64);
 
 		void postPhoto(std::string photo_64);
 
 		std::string getToken();
 
-	protected:
+		void addLocalization(std::string localization);
+
+		void getUser(std::string username, std::string &user_data);
+
+	void receiveChatMessage(std::string message);
+
+protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
 		/* Returns first substring of message until SEPARATOR. */

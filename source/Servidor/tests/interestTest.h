@@ -8,7 +8,7 @@
 #ifndef INTERESTTEST_H_
 #define INTERESTTEST_H_
 #include "../Interests.h"
-#include "gtest/gtest.h"
+#include "../../libs/googletest/googletest/include/gtest/gtest.h"
 
 TEST(Interests,AddCategoryVaueOk){
 	Interests interest;
