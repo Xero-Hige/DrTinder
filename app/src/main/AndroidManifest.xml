@@ -48,7 +48,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".TinderFMService"
+            android:name=".MessagesService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

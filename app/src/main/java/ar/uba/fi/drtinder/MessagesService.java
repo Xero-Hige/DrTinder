@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * TODO
  */
-public class TinderFMService extends FirebaseMessagingService {
+public class MessagesService extends FirebaseMessagingService {
 
     /**
      * TODO
@@ -86,9 +86,9 @@ public class TinderFMService extends FirebaseMessagingService {
      * TODO
      */
     public class LocalBinder extends Binder {
-        TinderFMService getService() {
+        MessagesService getService() {
             // Return this instance of TrackingService so clients can call public methods
-            return TinderFMService.this;
+            return MessagesService.this;
         }
     }
 }

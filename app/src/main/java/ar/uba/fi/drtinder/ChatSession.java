@@ -58,7 +58,7 @@ public class ChatSession extends AppCompatActivity {
 
     private ChatSession mDis = this;
     private ServiceConnection mServiceConnection = new ServiceConnection() {
-        TinderFMService mService;
+        MessagesService mService;
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -67,7 +67,7 @@ public class ChatSession extends AppCompatActivity {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            TinderFMService.LocalBinder binder = (TinderFMService.LocalBinder) service;
+            MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
             mService = binder.getService();
             mService.session = mDis;
         }
@@ -109,7 +109,7 @@ public class ChatSession extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, TinderFMService.class);
+        Intent intent = new Intent(this, MessagesService.class);
         startService(intent);
         bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
