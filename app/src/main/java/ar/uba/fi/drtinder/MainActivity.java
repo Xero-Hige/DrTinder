@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
-        mUsername = UserInfoHandler.getUsername();
+        mUsername = UserHandler.getUsername();
         Utility.hideKeyboard(this);
     }
 
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_logout) {
-            UserInfoHandler.logout();
+            UserHandler.logout();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

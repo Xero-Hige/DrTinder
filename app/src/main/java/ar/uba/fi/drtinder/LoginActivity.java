@@ -102,7 +102,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        if (UserInfoHandler.isLoggedIn()) {
+        if (UserHandler.isLoggedIn()) {
             startApp(this);
         }
     }
@@ -202,11 +202,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isEmailValid(String email) {
-        return UserInfoHandler.isValidEmail(email);
+        return UserHandler.isValidEmail(email);
     }
 
     private boolean isPasswordValid(String password) {
-        return UserInfoHandler.isValidPassword(password);
+        return UserHandler.isValidPassword(password);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -311,7 +311,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mUserEmail = email;
             mUserPassword = password;
             mTaskContext = context;
-            mAuthToken = UserInfoHandler.ERROR_TOKEN;
+            mAuthToken = UserHandler.ERROR_TOKEN;
         }
 
         @Override
@@ -322,7 +322,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             //    return false;
             //}
             //firebaseAuthenticate(mUserEmail, mUserPassword);
-            return UserInfoHandler.isValidPassword(this.mUserEmail);
+            return UserHandler.isValidPassword(this.mUserEmail);
         }
 
         @Override
@@ -338,7 +338,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             } else {
                 if (mUserEmail.equals("")) {
                     mEmailTextView.setError("Email needed");
-                } else if (UserInfoHandler.isValidEmail(mUserEmail)) {
+                } else if (UserHandler.isValidEmail(mUserEmail)) {
                     mEmailTextView.setError("Invalid email");
                 } else {
                     mEmailTextView.setError("Already in use");
@@ -380,12 +380,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
+            mAuthToken = UserHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
-            if (mAuthToken.equals(UserInfoHandler.ERROR_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
-            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 return false;
             }
             firebaseAuthenticate(mUserEmail, mUserPassword);
@@ -401,7 +401,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startApp(this.mTaskContext);
                 return;
             }
-            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 return;

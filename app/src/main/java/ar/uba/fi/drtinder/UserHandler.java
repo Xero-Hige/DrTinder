@@ -37,7 +37,7 @@ import java.util.Locale;
 /**
  * TODO
  */
-public final class UserInfoHandler {
+public final class UserHandler {
 
     /**
      * TODO
@@ -50,7 +50,7 @@ public final class UserInfoHandler {
     private static final String TOKEN_URL = "http://190.55.231.26/user/token";
 
 
-    private UserInfoHandler() {
+    private UserHandler() {
     }
 
     /**
