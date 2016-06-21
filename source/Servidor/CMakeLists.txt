@@ -19,6 +19,8 @@ SET(TEST_LIBS ${SERVER_LIBS} gtest gcov)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     Server.cpp
+	 ServerUtils.cpp
+	 RequestHandler.cpp
     DatabaseManager.cpp
     MessageHandler.cpp
     SharedServerClient.cpp
