@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -129,6 +131,15 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
+
+                FirebaseMessaging.getInstance().send(
+                        new RemoteMessage.Builder(UserHandler.getUserEmail())
+                                .setMessageId(" ")
+                                .addData("user", UserHandler.getUsername())
+                                .addData("candidate", data.get(USER_ID))
+                                .addData("liked", "no")
+                                .build());
+
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
@@ -140,6 +151,15 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
+
+                FirebaseMessaging.getInstance().send(
+                        new RemoteMessage.Builder(UserHandler.getUserEmail())
+                                .setMessageId(" ")
+                                .addData("user", UserHandler.getUsername())
+                                .addData("candidate", data.get(USER_ID))
+                                .addData("liked", "yes")
+                                .build());
+
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(USER_NAME));
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
