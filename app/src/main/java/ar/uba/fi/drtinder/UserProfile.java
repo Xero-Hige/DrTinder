@@ -102,6 +102,15 @@ public class UserProfile extends AppCompatActivity {
 
         addSubmitButton();
 
+        Button deleteProfile = (Button) findViewById(R.id.deleteButton);
+        assert deleteProfile != null; //DEBUG Assert
+        deleteProfile.setOnClickListener(view -> {
+            UserInfoHandler.deleteProfile(mToken);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
         mPasswordView = (TextView) findViewById(R.id.password);
         assert mPasswordView != null;//DEBUG Assert
 

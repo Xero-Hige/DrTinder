@@ -1,5 +1,7 @@
 package ar.uba.fi.drtinder;
 
+import android.net.Uri;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -44,6 +46,7 @@ public final class UserInfoHandler {
     public static final String ERROR_TOKEN = "";
 
     private static final String LOGIN_URL = "http://190.55.231.26/user";
+    private static final String DELETE_URL = "http://190.55.231.26/users";
     private static final String TOKEN_URL = "http://190.55.231.26/user/token";
 
 
@@ -171,5 +174,19 @@ public final class UserInfoHandler {
     private static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
         return fields[0] + fields[1].replace(".", "");
+    }
+
+    public static void logout() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    public static void deleteProfile(String token) {
+        Uri.Builder uriBuilder = Uri.parse(DELETE_URL).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String deleteUrl = uriBuilder.build().toString();
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(deleteUrl);
+        FirebaseAuth.getInstance().signOut();
     }
 }

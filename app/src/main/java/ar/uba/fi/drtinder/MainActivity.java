@@ -14,8 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 /**
  * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_logout) {
-            FirebaseAuth.getInstance().signOut();
+            UserInfoHandler.logout();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
