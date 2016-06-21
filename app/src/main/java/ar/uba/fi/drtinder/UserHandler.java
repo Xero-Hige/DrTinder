@@ -15,7 +15,11 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.StringWriter;
 import java.util.Locale;
+import java.util.Map;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 
 /**
@@ -43,12 +47,21 @@ public final class UserHandler {
      * TODO
      */
     public static final String FAILED_TOKEN = "-";
+    /**
+     *
+     */
     public static final String ERROR_TOKEN = "";
+
+
+    public static final String SIGNUP_USEREXIST = "E";
+    public static final String SIGNUP_FAILED = "F";
+    public static final String SIGNUP_SUCCESS = "S";
+
 
     private static final String LOGIN_URL = "http://190.55.231.26/user";
     private static final String DELETE_URL = "http://190.55.231.26/users";
     private static final String TOKEN_URL = "http://190.55.231.26/user/token";
-
+    private static final String SIGNUP_URL = "http://190.55.231.26/users";
 
     private UserHandler() {
     }
@@ -176,10 +189,18 @@ public final class UserHandler {
         return fields[0] + fields[1].replace(".", "");
     }
 
+    /**
+     * TODO
+     */
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }
 
+    /**
+     * TODO
+     *
+     * @param token
+     */
     public static void deleteProfile(String token) {
         Uri.Builder uriBuilder = Uri.parse(DELETE_URL).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
@@ -188,5 +209,60 @@ public final class UserHandler {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(deleteUrl);
         FirebaseAuth.getInstance().signOut();
+    }
+
+    /**
+     * @param userdata
+     * @return
+     */
+    public static String signUp(String email, String password, Map<String, String> userdata) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String user = getUsernameFrom(email);
+
+        HttpAuthentication authHeader = new HttpBasicAuthentication(user, password);
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setAuthorization(authHeader);
+
+        String name = userdata.get("name");
+        String age = userdata.get("age");
+        String sex = userdata.get("sex");
+        String lookingFor = userdata.get("lookingFor");
+        String interest = userdata.get("interest");
+
+        StringWriter sWriter = new StringWriter();
+        CSVWriter writer = new CSVWriter(sWriter, ',');
+        String[] line = {name, age, user, email, sex, lookingFor, interest};
+        writer.writeNext(line);
+        String body = sWriter.toString();
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(body, requestHeaders);
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+
+        ResponseEntity<String> response;
+
+        try {
+            response = restTemplate.exchange(SIGNUP_URL, HttpMethod.POST,
+                    requestEntity, String.class);
+        } catch (ResourceAccessException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
+            return SIGNUP_FAILED;
+        }
+
+        int statusCode = response.getStatusCode().value();
+
+        if (statusCode != 201) {
+            if (statusCode == 401) {
+                return SIGNUP_USEREXIST;
+            }
+            String errorMessage = "Failed login post: "
+                    + response.getStatusCode().value()
+                    + " " + response.getStatusCode().getReasonPhrase();
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
+            return SIGNUP_FAILED;
+        }
+
+        return SIGNUP_SUCCESS;
     }
 }
