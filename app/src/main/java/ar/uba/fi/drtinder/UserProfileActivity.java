@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +47,11 @@ public class UserProfileActivity extends AppCompatActivity {
     /**
      * TODO
      */
+    public static final String USER_EXTRA_TOKEN = "token";
+
+    /**
+     * TODO
+     */
     public static final String PROFILE_EXTRA_ACTION = "action";
     /**
      * TODO
@@ -65,6 +72,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private String mEmail;
     private TextView mPasswordView;
 
+    private RadioButton sexMale;
+    private RadioButton sexFemale;
+    private CheckBox searchingMale;
+    private CheckBox searchingFemale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +89,18 @@ public class UserProfileActivity extends AppCompatActivity {
         assert toolbar != null;//DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
+        mToken = activityIntent.getStringExtra(USER_EXTRA_TOKEN);
+        mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
         assert mActivityAction != null; //DEBUG Assert
 
         toolbar.setTitle(mActivityAction);
 
-        mProfilePic = (ImageView) findViewById(R.id.userAvatar);
+        mProfilePic = (ImageView) findViewById(R.id.profUserAvatar);
         assert mProfilePic != null; //DEBUG Assert
 
         if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
-            ImageResourcesHandler.fillImageResource(activityIntent.getStringExtra(USER_EXTRA_USERNAME),
-                    ImageResourcesHandler.RES_USER_IMG, activityIntent.getStringExtra("token"), mProfilePic, this); //FIXME
+            ImageResourcesHandler.fillImageResource(mUsername,
+                    ImageResourcesHandler.RES_USER_IMG, mToken, mProfilePic, this);
         }
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
@@ -101,9 +115,51 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         addSubmitButton();
+        addDeleteButton();
+        addFields();
 
+        mPasswordView = (TextView) findViewById(R.id.profPassword);
+        assert mPasswordView != null;//DEBUG Assert
+        mPasswordView.setEnabled(mActivityAction.equals(PROFILE_ACTION_CREATE));
+
+        if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
+            return;
+        }
+        StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken, data -> {
+            String username = data.get(0)[0];
+            String age = data.get(0)[1];
+            String sex = data.get(0)[2];
+            String lookingFor = data.get(0)[3];
+            String interest = data.get(0)[4];
+
+            TextView UsernameView = (TextView) findViewById(R.id.profUsername);
+            assert UsernameView != null;//DEBUG Assert
+            UsernameView.setText(username);
+
+            sexMale.setChecked(sex.equals("Male"));
+            sexFemale.setChecked(sex.equals("Female"));
+            searchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
+            searchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
+
+        });
+    }
+
+    private void addFields() {
+        sexMale = (RadioButton) findViewById(R.id.sexMaleRadio);
+        sexFemale = (RadioButton) findViewById(R.id.sexFemaleRadio);
+        searchingMale = (CheckBox) findViewById(R.id.lookingMale);
+        searchingFemale = (CheckBox) findViewById(R.id.lookingFemale);
+
+        assert sexMale != null; //DEBUG Assert
+        assert sexFemale != null; //DEBUG Assert
+        assert searchingMale != null; //DEBUG Assert
+        assert searchingFemale != null; //DEBUG Assert
+    }
+
+    private void addDeleteButton() {
         Button deleteProfile = (Button) findViewById(R.id.deleteButton);
         assert deleteProfile != null; //DEBUG Assert
+        deleteProfile.setEnabled(mActivityAction.equals(PROFILE_ACTION_UPDATE));
         deleteProfile.setOnClickListener(view -> {
             UserHandler.deleteProfile(mToken);
             Intent intent = new Intent(this, LoginActivity.class);
@@ -111,10 +167,9 @@ public class UserProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        mPasswordView = (TextView) findViewById(R.id.password);
-        assert mPasswordView != null;//DEBUG Assert
-
-        mPasswordView.setEnabled(mActivityAction.equals(PROFILE_ACTION_CREATE));
+        View deleteDiv = findViewById(R.id.deleteUserDivider);
+        assert deleteDiv != null;
+        deleteDiv.setEnabled(mActivityAction.equals(PROFILE_ACTION_UPDATE));
     }
 
     private void addSubmitButton() {

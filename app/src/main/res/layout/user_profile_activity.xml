@@ -52,7 +52,7 @@
             tools:showIn="@layout/user_profile_activity">
 
             <ImageView
-                android:id="@+id/userAvatar"
+                android:id="@+id/profUserAvatar"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_alignParentTop="true"
@@ -62,28 +62,28 @@
                 android:src="@drawable/not_found" />
 
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/profUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/userAvatar"
+                android:layout_below="@+id/profUserAvatar"
                 android:layout_centerHorizontal="true"
                 android:ems="10"
                 android:hint="Name"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/profPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/username"
-                android:layout_alignStart="@+id/username"
-                android:layout_below="@+id/username"
+                android:layout_alignEnd="@+id/profUsername"
+                android:layout_alignStart="@+id/profUsername"
+                android:layout_below="@+id/profUsername"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword" />
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/lookingFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/textView3"
@@ -92,18 +92,18 @@
                 android:text="Mujeres" />
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/lookingMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/checkBox2"
-                android:layout_below="@+id/checkBox2"
+                android:layout_alignStart="@+id/lookingFemale"
+                android:layout_below="@+id/lookingFemale"
                 android:checked="false"
                 android:text="Hombres" />
 
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"
+                android:layout_height="100dp"
                 android:layout_alignEnd="@+id/textView4"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView4" />
@@ -112,8 +112,8 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/password"
-                android:layout_below="@+id/password"
+                android:layout_alignStart="@+id/profPassword"
+                android:layout_below="@+id/profPassword"
                 android:text="Sexo"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -121,8 +121,8 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/userAvatar"
-                android:layout_below="@+id/password"
+                android:layout_alignEnd="@+id/profUserAvatar"
+                android:layout_below="@+id/profPassword"
                 android:text="Buscando"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/checkBox3"
+                android:layout_below="@+id/lookingMale"
                 android:text="Intereses"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -140,7 +140,7 @@
                 android:id="@+id/interestCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/sexMaleRadio"
+                android:layout_alignEnd="@+id/textView2"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/horizontalScrollView"
                 android:hint="Category" />
@@ -149,7 +149,7 @@
                 android:id="@+id/interestId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/checkBox3"
+                android:layout_alignEnd="@+id/lookingMale"
                 android:layout_below="@+id/horizontalScrollView"
                 android:layout_toEndOf="@+id/interestCategory"
                 android:hint="Interest" />
@@ -162,7 +162,7 @@
                 android:layout_alignBottom="@+id/interestId"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/horizontalScrollView"
-                android:layout_toEndOf="@+id/checkBox3"
+                android:layout_toEndOf="@+id/lookingMale"
                 android:text="+" />
 
             <Button
@@ -181,10 +181,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/deleteProfile"
+                android:layout_below="@+id/deleteUserDivider"
                 android:text="Delete Profile" />
 
             <RadioGroup
+                android:id="@+id/radiogroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView2"
