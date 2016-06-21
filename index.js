@@ -6,6 +6,7 @@ var validateInterest = require('./code/validator.js').validateInterest;
 var validateInterests = require('./code/validator.js').validateInterests;
 var validateUser = require('./code/validator.js').validateUser;
 var validateUsers = require('./code/validator.js').validateUsers;
+var interestPhoto = require('./code/interestPhotos/getInterestPhoto.js');
 
 //funciones a usar en API y la pagina
 var _APIdir = './code/ApiMethods/';
@@ -68,5 +69,6 @@ router.route('/interests').get(getInterestsAPI).post(postInteresAPI);
 router.route('/users/:id/photo').put(putFotoAPI).get(getPhoto);
 //mio propio
 router.route('/last').get(lastUser);
+router.route('/interests/:category/photo').get(interestPhoto);
 
 app.use(express.static(__dirname + '/public'), router);
