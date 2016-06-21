@@ -13,7 +13,7 @@
 	 "body-parser": "^1.5.1",
 	 "node-base64-image":"0.1.2",
 	 "jsonschema":"1.1.0",
-	 "fs":"^0.5.8"
+	 "fs":"^0.0.2"
   },  
   "devDependencies": {
     "grunt": "~0.4.5",
