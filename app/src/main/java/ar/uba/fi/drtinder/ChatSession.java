@@ -1,7 +1,11 @@
 package ar.uba.fi.drtinder;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -50,6 +54,23 @@ public class ChatSession extends AppCompatActivity {
     private String mFriendName;
     private String mToken;
 
+    private ChatSession mDis = this;
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        TinderFMService mService;
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService.session = null;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            TinderFMService.LocalBinder binder = (TinderFMService.LocalBinder) service;
+            mService = binder.getService();
+            mService.session = mDis;
+        }
+    };
+
     /**
      * TODO
      *
@@ -83,6 +104,14 @@ public class ChatSession extends AppCompatActivity {
         scrollDownFB.setOnClickListener(listener -> scrollToLast());
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, TinderFMService.class);
+        startService(intent);
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
     private void addSendListener() {
         ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
         assert sendButton != null; //Debug assert
@@ -112,6 +141,19 @@ public class ChatSession extends AppCompatActivity {
         addPersonalResponse("Bueno. Si pinta sadomasoquismo, avisame.");
 
         scrollToLast();
+    }
+
+    public void addResponse(String message, String userId) {
+        if (userId.equals(mFriendId)) {
+            addFriendResponse(message);
+            return;
+        }
+        if (userId.equals(mYourId)) {
+            addPersonalResponse(message);
+            return;
+        }
+        DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
+                + userId + " - " + message);
     }
 
     private void addPersonalResponse(String message) {
@@ -146,5 +188,10 @@ public class ChatSession extends AppCompatActivity {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

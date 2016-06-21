@@ -1,9 +1,11 @@
 package ar.uba.fi.drtinder;
 
-import android.util.Log;
+import android.os.Binder;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Map;
 
 /**
  * @author Xero-Hige
@@ -26,7 +28,10 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 public class TinderFMService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFMService";
+    /**
+     * TODO
+     */
+    public ChatSession session;
 
     /**
      * TODO
@@ -35,9 +40,23 @@ public class TinderFMService extends FirebaseMessagingService {
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // Handle data payload of FCM messages.
-        Log.d(TAG, "FCM Message Id: " + remoteMessage.getMessageId());
-        Log.d(TAG, "FCM Notification Message: " + remoteMessage.getNotification());
-        Log.d(TAG, "FCM Data Message: " + remoteMessage.getData());
+        if (session == null) {
+            return;
+        }
+
+        Map<String, String> data = remoteMessage.getData();
+        String message = data.get("message");
+        String senderId = data.get("senderId");
+        session.addResponse(message, senderId);
+    }
+
+    /**
+     * TODO
+     */
+    public class LocalBinder extends Binder {
+        TinderFMService getService() {
+            // Return this instance of TrackingService so clients can call public methods
+            return TinderFMService.this;
+        }
     }
 }
