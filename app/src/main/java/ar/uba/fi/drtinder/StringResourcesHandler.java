@@ -37,12 +37,16 @@ public final class StringResourcesHandler {
 
     public static final int USER_CANDIDATES = 0;
     public static final int USER_MATCHES = 1;
+    public static final int USER_CHAT = 2;
+
 
     public static final String INTEREST_DIVIDER = "\\|\\|";
     public static final String INTEREST_DATA_DIVIDER = "::";
 
-    private static final String CANDIDATES_URL = "http://190.55.231.26/users";
-    private static final String MATCHES_URL = "http://190.55.231.26/chats";
+    private static final String SERVER_URL = "http://190.55.231.26/";
+    private static final String CANDIDATES_URL = SERVER_URL + "users";
+    private static final String MATCHES_URL = SERVER_URL + "chats";
+    private static final String CHATMSG_URL = SERVER_URL + "chats";
 
     private StringResourcesHandler() {
     }
@@ -53,6 +57,8 @@ public final class StringResourcesHandler {
                 return CANDIDATES_URL;
             case USER_MATCHES:
                 return MATCHES_URL;
+            case USER_CHAT:
+                return CHATMSG_URL;
             default:
                 return "";
         }

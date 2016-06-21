@@ -45,9 +45,12 @@ import com.google.firebase.messaging.RemoteMessage;
 public class ChatSession extends AppCompatActivity {
 
     public static final String EXTRA_FRIEND_NAME = "friendname";
+    public static final String EXTRA_USER_TOKEN = "token";
     public static final String EXTRA_FRIEND_ID = "friendid";
     public static final String EXTRA_USER_NAME = "username";
     public static final String EXTRA_USER_ID = "userid";
+
+    private static final int DATA_FIELDS = 2;
 
     private LinearLayout mMessagesLayout;
 
@@ -89,6 +92,7 @@ public class ChatSession extends AppCompatActivity {
         mFriendName = intent.getStringExtra(EXTRA_FRIEND_NAME);
         mFriendId = intent.getStringExtra(EXTRA_FRIEND_ID);
         mYourId = intent.getStringExtra(EXTRA_USER_ID);
+        mToken = intent.getStringExtra(EXTRA_USER_TOKEN);
 
         this.setTitle(mFriendName);
 
@@ -144,14 +148,32 @@ public class ChatSession extends AppCompatActivity {
     }
 
     private void loadOldMessages() {
-        for (int i = 0; i < 24; i++) {
-            addFriendResponse("Hola, como estas?");
-        }
-        addPersonalResponse("Veo que estas desesperada");
-        addFriendResponse("no, te parece nomas.");
-        addPersonalResponse("Bueno. Si pinta sadomasoquismo, avisame.");
+        StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.USER_CHAT, mToken, data -> {
+            for (int index = 0; index < data.size(); index++) {
+                String[] messageData = data.get(index);
+                if (messageData.length != DATA_FIELDS) {
+                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Message length mismatch");
+                    continue;
+                }
 
-        scrollToLast();
+                String senderId = messageData[0];
+                String messageText = messageData[1];
+
+                if (senderId.equals(mYourId)) {
+                    addPersonalResponse(messageText);
+                    continue;
+                }
+
+                if (senderId.equals(mFriendId)) {
+                    addFriendResponse(messageText);
+                    continue;
+                }
+
+                DrTinderLogger.writeLog(DrTinderLogger.ERRO,
+                        "Received unknown sender id " + senderId);
+            }
+            scrollToLast();
+        });
     }
 
     public void addResponse(String message, String userId) {
