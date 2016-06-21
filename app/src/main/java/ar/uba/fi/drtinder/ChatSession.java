@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.BubbleImageView;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 /**
  * @author Xero-Hige
@@ -125,7 +127,16 @@ public class ChatSession extends AppCompatActivity {
                     if (message.isEmpty()) {
                         return;
                     }
-                    addPersonalResponse(message);
+                    //addPersonalResponse(message);
+
+                    FirebaseMessaging.getInstance().send(
+                            new RemoteMessage.Builder(UserHandler.getUserEmail())
+                                    .setMessageId(" ")
+                                    .addData("sender", mYourId)
+                                    .addData("receiver", mFriendId)
+                                    .addData("message", message)
+                                    .build());
+
                     msgView.setText("");
                     Utility.hideKeyboard(this);
                     scrollToLast();
