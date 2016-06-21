@@ -25,15 +25,15 @@ TEST(MsgHandler,CreateTokenAndItsValid){
 
 }
 
-TEST(MsgHandler,CanAuthenticateUser){
+TEST(MsgHandler,CantAuthenticateUserNotCreated){
 	DB* db;
 	DatabaseManager dbManager(db);
 	string user = "aaa@aaaa.com", password = "pepe";
 	MessageHandler handler(&dbManager, user);
-	ASSERT_TRUE(handler.authenticate(user,password));
+	ASSERT_FALSE(handler.authenticate(user,password));
 }
 
-TEST(MsgHandler,CreateAndDeleteUser){
+TEST(MsgHandler,CreateAuthenticateAndDeleteUser){
 	CsvParser parse;
 	vector<string> user_data;
 	string mail = "aaaaa@aaa.com";
@@ -61,7 +61,7 @@ TEST(MsgHandler,CreateAndDeleteUser){
 	MessageHandler handler(&dbManager, user);
 
 	ASSERT_TRUE(handler.createUser(complete, password));
-
+	ASSERT_TRUE(handler.authenticate(mail,password));
 	ASSERT_TRUE(handler.deleteUser());
 }
 

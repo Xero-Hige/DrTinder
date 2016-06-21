@@ -37,7 +37,7 @@ bool MessageHandler::authenticate(string username, string password) {
 }
 
 bool MessageHandler::createUser(string user_data, std::string pass) {
-	if (! usersDB->addEntry(username, pass)) {
+	if (! usersDB->addEntry(USER_DB + username, pass)) {
 		throw ExistentUserException();
 	}
 
