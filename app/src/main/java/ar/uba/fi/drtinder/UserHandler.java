@@ -57,11 +57,13 @@ public final class UserHandler {
     public static final String SIGNUP_FAILED = "F";
     public static final String SIGNUP_SUCCESS = "S";
 
+    private static final String SERVER_URL = "http://190.55.231.26/";
 
-    private static final String LOGIN_URL = "http://190.55.231.26/user";
-    private static final String DELETE_URL = "http://190.55.231.26/users";
-    private static final String TOKEN_URL = "http://190.55.231.26/user/token";
-    private static final String SIGNUP_URL = "http://190.55.231.26/users";
+    private static final String LOGIN_URL = SERVER_URL + "user";
+    private static final String DELETE_URL = SERVER_URL + "users";
+    private static final String TOKEN_URL = SERVER_URL + "user/token";
+    private static final String SIGNUP_URL = SERVER_URL + "users";
+    private static final String UPDATE_URL = SERVER_URL + "users";
 
     private UserHandler() {
     }
@@ -264,5 +266,32 @@ public final class UserHandler {
         }
 
         return SIGNUP_SUCCESS;
+    }
+
+    /**
+     * @param userdata
+     * @return
+     */
+    public static void updateInfo(String token, Map<String, String> userdata) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String name = userdata.get("name");
+        String age = userdata.get("age");
+        String sex = userdata.get("sex");
+        String lookingFor = userdata.get("lookingFor");
+        String interest = userdata.get("interest");
+
+        StringWriter sWriter = new StringWriter();
+        CSVWriter writer = new CSVWriter(sWriter, ',');
+        String[] line = {name, age, sex, lookingFor, interest};
+        writer.writeNext(line);
+        String body = sWriter.toString();
+
+        Uri.Builder uriBuilder = Uri.parse(UPDATE_URL).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String updateUrl = uriBuilder.build().toString();
+
+        restTemplate.put(updateUrl, body);
     }
 }
