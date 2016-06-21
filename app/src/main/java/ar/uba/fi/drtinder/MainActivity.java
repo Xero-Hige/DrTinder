@@ -153,9 +153,9 @@ public class MainActivity extends AppCompatActivity
         int itemId = item.getItemId();
 
         if (itemId == R.id.nav_profile) {
-            Intent intent = new Intent(this, UserProfile.class);
-            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, mUsername);
-            intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            intent.putExtra(UserProfileActivity.USER_EXTRA_USERNAME, mUsername);
+            intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_logout) {
             UserHandler.logout();

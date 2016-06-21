@@ -331,9 +331,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(this.mTaskContext, UserProfile.class);
-                intent.putExtra(UserProfile.USER_EXTRA_USEREMAIL, this.mUserEmail);
-                intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_CREATE);
+                Intent intent = new Intent(this.mTaskContext, UserProfileActivity.class);
+                intent.putExtra(UserProfileActivity.USER_EXTRA_USEREMAIL, this.mUserEmail);
+                intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_CREATE);
                 startActivity(intent);
             } else {
                 if (mUserEmail.equals("")) {

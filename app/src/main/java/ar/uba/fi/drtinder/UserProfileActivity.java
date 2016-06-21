@@ -32,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * TODO
  */
-public class UserProfile extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * TODO
