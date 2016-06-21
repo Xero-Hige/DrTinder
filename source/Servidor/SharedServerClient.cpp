@@ -118,7 +118,10 @@ bool SharedServerClient::getUserPhoto(string user_id, string &photo_64) {
 }
 
 bool SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) {
-    //TODO: guardar foto en photo_64
+	string sub_urls[] = { SHARED_SERVER_INTERESTS_SUB_URL,interest_id,SHARED_SERVER_PHOTO_SUB_URL};
+	string url = formUrl(sub_urls, 3);
+	RestClient::Response r = conn->get(url.c_str());
+	return setBody(&photo_64,&r);
 }
 
 

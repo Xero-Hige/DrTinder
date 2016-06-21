@@ -102,4 +102,14 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	ASSERT_TRUE(handler.deleteUser());
 }
 
+TEST(MsgHandler, GetInterestPhotoExistant){
+	DB* db;
+	DatabaseManager dbManager(db);
+	string user = "bbb@bbb.com", password = "pepe", photo;
+	MessageHandler handler(&dbManager, user, password);
+
+	ASSERT_TRUE(handler.getInterestPhoto(photo,"sport"));
+	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
+}
+
 #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */
