@@ -87,6 +87,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private CheckBox searchingMale;
     private CheckBox searchingFemale;
     private TextView mUserName;
+    private TextView mAge;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,12 +164,14 @@ public class UserProfileActivity extends AppCompatActivity {
         searchingMale = (CheckBox) findViewById(R.id.lookingMale);
         searchingFemale = (CheckBox) findViewById(R.id.lookingFemale);
         mUserName = (TextView) findViewById(R.id.profUsername);
+        mAge = (TextView) findViewById(R.id.profAge);
 
         assert sexMale != null; //DEBUG Assert
         assert sexFemale != null; //DEBUG Assert
         assert searchingMale != null; //DEBUG Assert
         assert searchingFemale != null; //DEBUG Assert
         assert mUserName != null; //DEBUG Assert
+        assert mAge != null; //DEBUG Assert
     }
 
     private void addDeleteButton() {
@@ -243,7 +247,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private HashMap<String, String> getUserdataMap() {
         HashMap<String, String> userdata = new HashMap<>();
         userdata.put("name", mUserName.getText().toString());
-        userdata.put("age", "21");//TODO
+        userdata.put("age", mAge.getText().toString());
         userdata.put("sex", sexMale.isChecked() ? "Male" : "Female");
 
         if (searchingMale.isChecked() && !searchingFemale.isChecked()) {
