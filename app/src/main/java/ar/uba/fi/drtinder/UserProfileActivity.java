@@ -212,18 +212,6 @@ public class UserProfileActivity extends AppCompatActivity {
         submit.setOnClickListener(clickListener);
     }
 
-    private boolean validateFields() {
-        String name = mUserName.getText().toString();
-        String sAge = mAge.getText().toString();
-
-        if (sAge.equals("") || name.equals("")) {
-            return false;
-        }
-
-        int age = Integer.valueOf(sAge);
-        return age >= 18;
-    }
-
     private void updateUser() {
         if (!validateFields()) {
             ViewGroup viewGroup = Utility.getViewgroup(this);
@@ -269,6 +257,18 @@ public class UserProfileActivity extends AppCompatActivity {
                     Utility.showMessage("Listo", viewGroup);
                     finish();
                 });
+    }
+
+    private boolean validateFields() {
+        String name = mUserName.getText().toString();
+        String sAge = mAge.getText().toString();
+
+        if (sAge.equals("") || name.equals("")) {
+            return false;
+        }
+
+        int age = Integer.valueOf(sAge);
+        return age >= 18;
     }
 
     @NonNull

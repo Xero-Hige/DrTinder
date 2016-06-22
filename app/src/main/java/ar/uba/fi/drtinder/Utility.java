@@ -63,6 +63,24 @@ public final class Utility {
      * @param message           Message to show
      * @param coordinatorLayout layout coordinator where snackbar should be displayed
      * @param buttonString      String to use as snackbar "ok" button
+     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
+     */
+    public static void showMessage(String message, View coordinatorLayout,
+                                   String buttonString, int displayTime) {
+        android.support.design.widget.Snackbar snackbar = android.support.design.widget.Snackbar
+                .make(coordinatorLayout, message, displayTime);
+        snackbar.setAction(buttonString, view -> {
+            snackbar.dismiss();
+        });
+        snackbar.show();
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param buttonString      String to use as snackbar "ok" button
      */
     public static void showMessage(String message, View coordinatorLayout, String buttonString) {
         showMessage(message, coordinatorLayout, buttonString, android.support.design.widget.Snackbar.LENGTH_LONG);
@@ -81,26 +99,8 @@ public final class Utility {
     }
 
     /**
-     * Show a message in a snackbar
-     *
-     * @param message           Message to show
-     * @param coordinatorLayout layout coordinator where snackbar should be displayed
-     * @param buttonString      String to use as snackbar "ok" button
-     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
-     */
-    public static void showMessage(String message, View coordinatorLayout,
-                                   String buttonString, int displayTime) {
-        android.support.design.widget.Snackbar snackbar = android.support.design.widget.Snackbar
-                .make(coordinatorLayout, message, displayTime);
-        snackbar.setAction(buttonString, view -> {
-            snackbar.dismiss();
-        });
-        snackbar.show();
-    }
-
-
-    /**
      * Gets the viewgroup corresponding to an activity
+     *
      * @param activity Activity from where are you
      * @return Activity viewgroup
      */

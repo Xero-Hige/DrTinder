@@ -64,6 +64,19 @@ public final class DrTinderLogger {
     private DrTinderLogger() {
     }
 
+    /**
+     * Writes message to logfile
+     *
+     * @param level   Message level (One of listed const levels)
+     * @param message Message to log
+     */
+    public static void writeLog(int level, String message) {
+        String printLabel = getLabel(level);
+
+        String output = String.format(Locale.ENGLISH, "<%s> %s", printLabel, message);
+        privateLog(level, output);
+    }
+
     private static void privateLog(int level, String message) {
         switch (level) {
             case WARN:
@@ -108,18 +121,5 @@ public final class DrTinderLogger {
             default:
                 throw new InvalidParameterException("Not a valid level");
         }
-    }
-
-    /**
-     * Writes message to logfile
-     *
-     * @param level   Message level (One of listed const levels)
-     * @param message Message to log
-     */
-    public static void writeLog(int level, String message) {
-        String printLabel = getLabel(level);
-
-        String output = String.format(Locale.ENGLISH, "<%s> %s", printLabel, message);
-        privateLog(level, output);
     }
 }

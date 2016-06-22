@@ -68,6 +68,20 @@ public class MainActivity extends AppCompatActivity
         Utility.hideKeyboard(this);
     }
 
+    private void changeFragment(Fragment selectionFragment) {
+        FragmentManager frag = getSupportFragmentManager();
+        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+    }
+
+    /**
+     * TODO
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImageResourcesHandler.clearCache(this);
+    }
+
     /**
      * TODO
      */
@@ -131,11 +145,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void changeFragment(Fragment selectionFragment) {
-        FragmentManager frag = getSupportFragmentManager();
-        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
-    }
-
     private void changeItemColor(MenuItem item) {
         mActualFragItem.setEnabled(true);
         PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
@@ -168,14 +177,5 @@ public class MainActivity extends AppCompatActivity
         assert drawer != null; //DEBUG Assert
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * TODO
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ImageResourcesHandler.clearCache(this);
     }
 }

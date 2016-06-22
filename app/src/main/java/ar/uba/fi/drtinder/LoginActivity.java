@@ -194,22 +194,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mAuthTask.execute((Void) null);
     }
 
-    private void executeRegisterTask(String email, String password) {
-        // Show a progress spinner, and kick off a background task to
-        // perform the user login attempt.
-        showProgress(true);
-        mRegisterTask = new RegisterTask(email, password, this);
-        mRegisterTask.execute((Void) null);
-    }
-
-    private boolean isEmailValid(String email) {
-        return UserHandler.isValidEmail(email);
-    }
-
-    private boolean isPasswordValid(String password) {
-        return UserHandler.isValidPassword(password);
-    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -241,6 +225,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    private void executeRegisterTask(String email, String password) {
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        showProgress(true);
+        mRegisterTask = new RegisterTask(email, password, this);
+        mRegisterTask.execute((Void) null);
+    }
+
+    private boolean isEmailValid(String email) {
+        return UserHandler.isValidEmail(email);
+    }
+
+    private boolean isPasswordValid(String password) {
+        return UserHandler.isValidPassword(password);
     }
 
     private String getLocationString() {

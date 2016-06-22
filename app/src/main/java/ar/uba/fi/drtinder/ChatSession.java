@@ -79,15 +79,15 @@ public class ChatSession extends AppCompatActivity {
         MessagesService mService;
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService.mSession = null;
-        }
-
-        @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
             mService = binder.getService();
             mService.mSession = mDis;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService.mSession = null;
         }
     };
 
@@ -123,14 +123,6 @@ public class ChatSession extends AppCompatActivity {
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
         assert scrollDownFB != null; //Debug assert
         scrollDownFB.setOnClickListener(listener -> scrollToLast());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, MessagesService.class);
-        startService(intent);
-        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void addSendListener() {
@@ -191,31 +183,8 @@ public class ChatSession extends AppCompatActivity {
         });
     }
 
-    /**
-     * TODO
-     *
-     * @param message
-     * @param userId
-     */
-    public void addResponse(String message, String userId) {
-        if (userId.equals(mFriendId)) {
-            addFriendResponse(message);
-            return;
-        }
-        if (userId.equals(mYourId)) {
-            addPersonalResponse(message);
-            return;
-        }
-        DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
-                + userId + " - " + message);
-    }
-
     private void addPersonalResponse(String message) {
         addResponse(R.layout.chat_session_you, "Tu", mYourId, message);
-    }
-
-    private void addFriendResponse(String message) {
-        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
     private void addResponse(int layoutId, String username, String userId, String message) {
@@ -235,6 +204,10 @@ public class ChatSession extends AppCompatActivity {
         mMessagesLayout.addView(layout);
     }
 
+    private void addFriendResponse(String message) {
+        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
+    }
+
     private void scrollToLast() {
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         assert scrollview != null; //Debug assert
@@ -247,5 +220,32 @@ public class ChatSession extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, MessagesService.class);
+        startService(intent);
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * TODO
+     *
+     * @param message
+     * @param userId
+     */
+    public void addResponse(String message, String userId) {
+        if (userId.equals(mFriendId)) {
+            addFriendResponse(message);
+            return;
+        }
+        if (userId.equals(mYourId)) {
+            addPersonalResponse(message);
+            return;
+        }
+        DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
+                + userId + " - " + message);
     }
 }
