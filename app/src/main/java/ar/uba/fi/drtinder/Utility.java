@@ -19,12 +19,15 @@ package ar.uba.fi.drtinder;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 /**
  * TODO
  */
-public class Utility {
+public final class Utility {
+
+    private static final String DEFAULT_BUTTON = "DONE";
 
     private Utility() {
     }
@@ -35,13 +38,75 @@ public class Utility {
      * @param context
      */
     public static void hideKeyboard(Activity context) {
-        InputMethodManager inputMManager =
-                (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMManager
+                = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View currentFocus = context.getCurrentFocus();
         if (currentFocus == null) {
             return;
         }
         inputMManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     */
+    public static void showMessage(String message, View coordinatorLayout) {
+        showMessage(message, coordinatorLayout, DEFAULT_BUTTON, android.support.design.widget.Snackbar.LENGTH_LONG);
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param buttonString      String to use as snackbar "ok" button
+     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
+     */
+    public static void showMessage(String message, View coordinatorLayout,
+                                   String buttonString, int displayTime) {
+        android.support.design.widget.Snackbar snackbar = android.support.design.widget.Snackbar
+                .make(coordinatorLayout, message, displayTime);
+        snackbar.setAction(buttonString, view -> {
+            snackbar.dismiss();
+        });
+        snackbar.show();
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param buttonString      String to use as snackbar "ok" button
+     */
+    public static void showMessage(String message, View coordinatorLayout, String buttonString) {
+        showMessage(message, coordinatorLayout, buttonString, android.support.design.widget.Snackbar.LENGTH_LONG);
+
+    }
+
+    /**
+     * Show a message in a snackbar
+     *
+     * @param message           Message to show
+     * @param coordinatorLayout layout coordinator where snackbar should be displayed
+     * @param displayTime       Time that should be the snackbar visible (Snackbar.LENGTH_*)
+     */
+    public static void showMessage(String message, View coordinatorLayout, int displayTime) {
+        showMessage(message, coordinatorLayout, DEFAULT_BUTTON, displayTime);
+    }
+
+    /**
+     * Gets the viewgroup corresponding to an activity
+     *
+     * @param activity Activity from where are you
+     * @return Activity viewgroup
+     */
+    public static ViewGroup getViewgroup(Activity activity) {
+        return (ViewGroup) ((ViewGroup) activity
+                .findViewById(android.R.id.content)).getChildAt(0);
     }
 
 }

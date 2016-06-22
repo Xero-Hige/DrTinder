@@ -14,8 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 /**
  * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * TODO
      */
-    public static String EXTRA_TOKEN = "token";
+    public static final String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
     private String mUsername;
 
@@ -66,8 +64,22 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         Fragment selectionFragment = new SelectionFragment();
         changeFragment(selectionFragment);
-        mUsername = UserInfoHandler.getUsername();
+        mUsername = UserHandler.getUsername();
         Utility.hideKeyboard(this);
+    }
+
+    private void changeFragment(Fragment selectionFragment) {
+        FragmentManager frag = getSupportFragmentManager();
+        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+    }
+
+    /**
+     * TODO
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ImageResourcesHandler.clearCache(this);
     }
 
     /**
@@ -133,11 +145,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void changeFragment(Fragment selectionFragment) {
-        FragmentManager frag = getSupportFragmentManager();
-        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
-    }
-
     private void changeItemColor(MenuItem item) {
         mActualFragItem.setEnabled(true);
         PorterDuff.Mode mMode = PorterDuff.Mode.MULTIPLY;
@@ -155,12 +162,12 @@ public class MainActivity extends AppCompatActivity
         int itemId = item.getItemId();
 
         if (itemId == R.id.nav_profile) {
-            Intent intent = new Intent(this, UserProfile.class);
-            intent.putExtra(UserProfile.USER_EXTRA_USERNAME, mUsername);
-            intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_UPDATE);
+            Intent intent = new Intent(this, UserProfileActivity.class);
+            intent.putExtra(UserProfileActivity.USER_EXTRA_USERNAME, mUsername);
+            intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_UPDATE);
             startActivity(intent);
         } else if (itemId == R.id.nav_logout) {
-            FirebaseAuth.getInstance().signOut();
+            UserHandler.logout();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -170,14 +177,5 @@ public class MainActivity extends AppCompatActivity
         assert drawer != null; //DEBUG Assert
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * TODO
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ImageResourcesHandler.clearCache(this);
     }
 }

@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,13 +61,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
-    private View mActivityView;
 
     private FirebaseAuth mFirebaseAuth;
     private boolean mFirebaseLogedIn;
     private boolean mFirebaseLoginFinished;
 
-    private CountDownLatch loginProcessLatch;
+    private CountDownLatch mLoginLatch;
 
     /**
      * TODO
@@ -79,7 +79,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
 
         mFirebaseLoginFinished = true;
-        loginProcessLatch = new CountDownLatch(0);
+        mLoginLatch = new CountDownLatch(0);
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -103,11 +103,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        if (UserInfoHandler.isLoggedIn()) {
+        if (UserHandler.isLoggedIn()) {
             startApp(this);
         }
-
-        mActivityView = getWindow().getDecorView().getRootView();
     }
 
     private void executeWithLData(TaskExecutor executor) {
@@ -157,7 +155,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseLoginFinished = false;
-        loginProcessLatch = new CountDownLatch(1);
+        mLoginLatch = new CountDownLatch(1);
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
@@ -168,12 +166,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     }
                     mFirebaseLogedIn = task.isSuccessful();
                     mFirebaseLoginFinished = true;
-                    loginProcessLatch.countDown();
+                    mLoginLatch.countDown();
                 });
 
         if (!mFirebaseLoginFinished) {
             try {
-                loginProcessLatch.await();
+                mLoginLatch.await();
             } catch (InterruptedException e) {
                 DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
             }
@@ -194,22 +192,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         showProgress(true);
         mAuthTask = new UserLoginTask(email, password, this);
         mAuthTask.execute((Void) null);
-    }
-
-    private void executeRegisterTask(String email, String password) {
-        // Show a progress spinner, and kick off a background task to
-        // perform the user login attempt.
-        showProgress(true);
-        mRegisterTask = new RegisterTask(email, password, this);
-        mRegisterTask.execute((Void) null);
-    }
-
-    private boolean isEmailValid(String email) {
-        return UserInfoHandler.isValidEmail(email);
-    }
-
-    private boolean isPasswordValid(String password) {
-        return UserInfoHandler.isValidPassword(password);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -243,6 +225,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    private void executeRegisterTask(String email, String password) {
+        // Show a progress spinner, and kick off a background task to
+        // perform the user login attempt.
+        showProgress(true);
+        mRegisterTask = new RegisterTask(email, password, this);
+        mRegisterTask.execute((Void) null);
+    }
+
+    private boolean isEmailValid(String email) {
+        return UserHandler.isValidEmail(email);
+    }
+
+    private boolean isPasswordValid(String password) {
+        return UserHandler.isValidPassword(password);
     }
 
     private String getLocationString() {
@@ -300,21 +298,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mUserEmail;
         private final String mUserPassword;
-        private final Context mTaskContext;
-        private String mAuthToken;
+        private final Activity mActivity;
 
         /**
-         * Creates a new Register task
+         * Creates a new register task
          *
-         * @param email    User email
-         * @param password User password
-         * @param context  Calling activity context
+         * @param email
+         * @param password
+         * @param activity
          */
-        RegisterTask(String email, String password, Context context) {
+        RegisterTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            mTaskContext = context;
-            mAuthToken = UserInfoHandler.ERROR_TOKEN;
+            mActivity = activity;
         }
 
         @Override
@@ -325,7 +321,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             //    return false;
             //}
             //firebaseAuthenticate(mUserEmail, mUserPassword);
-            return UserInfoHandler.isValidPassword(this.mUserEmail);
+            return UserHandler.isValidPassword(this.mUserEmail);
         }
 
         @Override
@@ -334,14 +330,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(this.mTaskContext, UserProfile.class);
-                intent.putExtra(UserProfile.USER_EXTRA_USEREMAIL, this.mUserEmail);
-                intent.putExtra(UserProfile.PROFILE_EXTRA_ACTION, UserProfile.PROFILE_ACTION_CREATE);
+                Intent intent = new Intent(this.mActivity, UserProfileActivity.class);
+                intent.putExtra(UserProfileActivity.USER_EXTRA_USEREMAIL, this.mUserEmail);
+                intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_CREATE);
                 startActivity(intent);
             } else {
                 if (mUserEmail.equals("")) {
                     mEmailTextView.setError("Email needed");
-                } else if (UserInfoHandler.isValidEmail(mUserEmail)) {
+                } else if (UserHandler.isValidEmail(mUserEmail)) {
                     mEmailTextView.setError("Invalid email");
                 } else {
                     mEmailTextView.setError("Already in use");
@@ -361,20 +357,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mUserEmail;
         private final String mUserPassword;
-        private final Context mTaskContext;
+        private final Activity mActivity;
         private String mAuthToken;
 
         /**
-         * Creates a new Login task
+         * Creates a new login task
          *
-         * @param email    User email
-         * @param password User password
-         * @param context  Calling activity context
+         * @param email
+         * @param password
+         * @param activity
          */
-        UserLoginTask(String email, String password, Context context) {
+        UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            this.mTaskContext = context;
+            this.mActivity = activity;
         }
 
         /**
@@ -383,12 +379,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,
+            mAuthToken = UserHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
-            if (mAuthToken.equals(UserInfoHandler.ERROR_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
-            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 return false;
             }
             firebaseAuthenticate(mUserEmail, mUserPassword);
@@ -401,16 +397,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                startApp(this.mTaskContext);
+                startApp(this.mActivity);
                 return;
             }
-            if (mAuthToken.equals(UserInfoHandler.FAILED_TOKEN)) {
+            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 return;
             }
-            mEmailTextView.setError("Error de conexion con el servidor");
-            mEmailTextView.requestFocus();
+
+            ViewGroup viewgroup = Utility.getViewgroup(mActivity);
+            Utility.showMessage("Error de conexion con el servidor", viewgroup, "OK");
         }
 
         @Override
