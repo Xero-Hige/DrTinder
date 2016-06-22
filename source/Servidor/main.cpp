@@ -40,6 +40,7 @@ int main() {
 	rocksdb::DB* likesDB;
 	xmppServer.setChatDB(chatDB);
 	xmppServer.setLikesDB(likesDB);
+	server.setChatDB(chatDB);
 
 	bool quit = false;
 	LOGG(INFO) << "Opening server";

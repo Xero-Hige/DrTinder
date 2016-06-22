@@ -36,7 +36,7 @@ XMPPMessageHandler::XMPPMessageType XMPPMessageHandler::getType() {
 }
 
 void XMPPMessageHandler::saveMessage(rocksdb::DB *chatDB, boost::optional<boost::posix_time::ptime> timestamp) {
-
+    //TODO: recordar el orden de los usuarios
 }
 
 void XMPPMessageHandler::saveLike(rocksdb::DB *likesDB) {
