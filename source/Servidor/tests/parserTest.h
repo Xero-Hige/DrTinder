@@ -75,12 +75,77 @@ TEST(CsvParser, ParseUserMakeItAgainIsEqual){
 	user.setLocation(1.25,-1.4536);
 	user.addInterest("sport","tennis");
 	user.addInterest("sport","rugby");
-	parsed = parser.userToCsv(&user);
+	parsed = parser.userToCsvFull(&user);
 
 	parser.makeUser(parsed,user2);
-	parsed2 = parser.userToCsv(&user2);
+	parsed2 = parser.userToCsvFull(&user2);
 
 	ASSERT_TRUE(parsed.compare(parsed2) == 0);
+}
+
+TEST(CsvParser, MakeCsvUserForClientWithOutID){
+	CsvParser parser;
+	User user;
+	string parsed;
+	user.setAge(25);
+	user.setCommonData("aaa@aaa.com","pepe","juan","man");
+	user.setDescription("Hago lo que quiero lolollololo");
+	user.setId(12);
+	user.setPhoto("base64");
+	user.setLocation(1.25,-1.4536);
+	user.addInterest("sport","tennis");
+	user.addInterest("sport","rugby");
+	parsed = parser.userToCsvForClient(&user,false);
+	vector<string> elements = parser.parseLine(&parsed);
+	ASSERT_TRUE(elements.size() == USER_DATA_FOR_CLIENT_COUNT);
+}
+
+TEST(CsvParser, MakeCsvUserForClientWithIDThenRemoveID){
+	CsvParser parser;
+	User user;
+	string parsed;
+	user.setAge(25);
+	user.setCommonData("aaa@aaa.com","pepe","juan","man");
+	user.setDescription("Hago lo que quiero lolollololo");
+	user.setId(12);
+	user.setPhoto("base64");
+	user.setLocation(1.25,-1.4536);
+	user.addInterest("sport","tennis");
+	user.addInterest("sport","rugby");
+	parsed = parser.userToCsvForClient(&user, true);
+	vector<string> elements = parser.parseLine(&parsed);
+	ASSERT_TRUE(elements.size() == USER_DATA_FOR_CLIENT_COUNT + 1);
+	parser.removeId(parsed);
+	elements = parser.parseLine(&parsed);
+	ASSERT_TRUE(elements.size() == USER_DATA_FOR_CLIENT_COUNT);
+
+}
+
+TEST(CsvParser, CsvSignupUser){
+	CsvParser parser;
+	User user;
+	string parsed, base;
+	base = "\"name\",\"10\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	parser.makeSignupUser(base,user);
+	parsed = parser.userToCsvFull(&user);
+	ASSERT_TRUE(user.getMail().compare("aaa@aaa.com") == 0);
+	ASSERT_TRUE(user.getAlias().compare("Pepe") == 0);
+}
+
+TEST(CsvParser, CsvModifyUserFromBase){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	fromClient =
+			"\"name\",\"10\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+			"\"-0.153\",\"1.56345\"";
+	parser.makePutUser(fromClient,base,user);
+	parsed = parser.userToCsvFull(&user);
+	ASSERT_TRUE(user.getAge() == 10);
+	ASSERT_TRUE(user.getX() == -0.153f );
+	ASSERT_TRUE(user.getDescription().compare("lookingFor") == 0 );
+	ASSERT_TRUE(user.getName().compare("name") == 0);
 }
 
 TEST(JsonParser, ParseJsonPhoto){
@@ -109,5 +174,4 @@ TEST(JsonParser, ParseUserReMakeItStaysTheSame){
 	parsed2 = json.userToJson(&user2);
 	ASSERT_TRUE( parsed == parsed2 );
 }
-
 #endif /* SERVIDOR_TESTS_PARSERTEST_H_ */
