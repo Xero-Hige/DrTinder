@@ -60,8 +60,6 @@ public class SelectionFragment extends Fragment {
 
     private static final int USER_FIELDS = 5;
 
-    private String mToken;
-
     //TODO: Remove
     private SwipeDeck mCardStack;
 
@@ -84,8 +82,6 @@ public class SelectionFragment extends Fragment {
                              @Nullable Bundle bundle) {
         mFragmentView = inflater.inflate(R.layout.activity_selection, container, false);
 
-        mToken = getActivity().getIntent().getExtras().getString(MainActivity.EXTRA_TOKEN);
-
         mCardStack = (SwipeDeck) mFragmentView.findViewById(R.id.swipe_deck);
         mCardStack.setHardwareAccelerationEnabled(true);
 
@@ -107,6 +103,42 @@ public class SelectionFragment extends Fragment {
         mAuthTask.execute((Void) null);
     }
 
+    /**
+     * TODO: Check this, not working properly
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
+            mCardStack.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
     private void setButtons(View view) {
         FloatingActionButton floatingActionButton
                 = (FloatingActionButton) view.findViewById(R.id.nope_button);
@@ -118,6 +150,71 @@ public class SelectionFragment extends Fragment {
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(-1));
         floatingActionButton.setRippleColor(getResources().getColor(R.color.colorAccentT));
         floatingActionButton.setOnClickListener(newView -> mCardStack.swipeTopCardRight(90));
+    }
+
+    /**
+     * Dummy onStart
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    /**
+     * Dummy onStop
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    private void showActualUserData() {
+        Intent detailsIntent = new Intent(getContext(), UserDetailsActivity.class);
+        Map<Integer, String> data = mUsersQueue.peek();
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_NAME, data.get(USER_NAME));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_AGE, data.get(USER_AGE));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_ID, data.get(USER_ID));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_BIO, data.get(USER_BIO));
+        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_INTS, data.get(USER_INTS));
+        startActivity(detailsIntent);
+    }
+
+    private void requestUsersData() {
+        mUsersQueue = new LinkedList<>();
+        mUsersData = new HashMap<>();
+
+        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_CANDIDATES,
+                UserHandler.getToken(),
+                data -> {
+                    int excluded = 0;
+                    int index = 0;
+
+                    long seed = System.nanoTime();
+                    Collections.shuffle(data, new Random(seed));
+
+                    for (; index < data.size(); index++) {
+                        String[] userData = data.get(index);
+                        if (userData.length != USER_FIELDS) {
+                            excluded++;
+                            continue;
+                        }
+                        ImageResourcesHandler.prefetch(userData[USER_ID],
+                                ImageResourcesHandler.RES_USER_IMG, UserHandler.getToken(),
+                                getContext());
+                        addUserCard(index - excluded, userData);
+                    }
+
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    if (index - excluded > 0) {
+                        setCardsAdapter(mFragmentView);
+                        showProgress(false);
+                    } else {
+                        Utility.showMessage("There is no more candidates. Try later", getView());
+                    }
+                });
     }
 
     private void setCardsAdapter(View view) {
@@ -182,89 +279,6 @@ public class SelectionFragment extends Fragment {
         });
     }
 
-    /**
-     * TODO: Check this, not working properly
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-            mCardStack.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    private void showActualUserData() {
-        Intent detailsIntent = new Intent(getContext(), UserDetailsActivity.class);
-        Map<Integer, String> data = mUsersQueue.peek();
-        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_NAME, data.get(USER_NAME));
-        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_AGE, data.get(USER_AGE));
-        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_ID, data.get(USER_ID));
-        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_BIO, data.get(USER_BIO));
-        detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_INTS, data.get(USER_INTS));
-        startActivity(detailsIntent);
-    }
-
-    private void requestUsersData() {
-        mUsersQueue = new LinkedList<>();
-        mUsersData = new HashMap<>();
-
-        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_CANDIDATES, mToken,
-                data -> {
-                    int excluded = 0;
-                    int index = 0;
-
-                    long seed = System.nanoTime();
-                    Collections.shuffle(data, new Random(seed));
-
-                    for (; index < data.size(); index++) {
-                        String[] userData = data.get(index);
-                        if (userData.length != USER_FIELDS) {
-                            excluded++;
-                            continue;
-                        }
-                        ImageResourcesHandler.prefetch(userData[USER_ID],
-                                ImageResourcesHandler.RES_USER_IMG, mToken, getContext());
-                        addUserCard(index - excluded, userData);
-                    }
-
-                    if (!isAdded()) {
-                        return;
-                    }
-
-                    if (index - excluded > 0) {
-                        setCardsAdapter(mFragmentView);
-                        showProgress(false);
-                    } else {
-                        Utility.showMessage("There is no more candidates. Try later", getView());
-                    }
-                });
-    }
-
     private void addUserCard(int index, String[] userData) {
         Map<Integer, String> userMap = new HashMap<>();
         userMap.put(USER_NAME, userData[USER_NAME]);
@@ -275,22 +289,6 @@ public class SelectionFragment extends Fragment {
 
         mUsersData.put(index, userMap);
         mUsersQueue.add(userMap);
-    }
-
-    /**
-     * Dummy onStart
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    /**
-     * Dummy onStop
-     */
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     /**
@@ -385,7 +383,7 @@ public class SelectionFragment extends Fragment {
             String userId = mUsersData.get(position).get(USER_ID);
             ImageView imageView = (ImageView) context.findViewById(R.id.card_picture);
             ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                    mToken, imageView, mContext);
+                    UserHandler.getToken(), imageView, mContext);
         }
 
     }

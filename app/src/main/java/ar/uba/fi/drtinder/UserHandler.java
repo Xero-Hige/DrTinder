@@ -69,6 +69,8 @@ public final class UserHandler {
     private static final String UPDATE_URL = SERVER_URL + "users";
     private static final String AVATAR_URL = SERVER_URL + "users/photo";
 
+    private static String mToken = ERROR_TOKEN;
+
     private UserHandler() {
     }
 
@@ -103,13 +105,15 @@ public final class UserHandler {
                     requestEntity, String.class);
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
-            return ERROR_TOKEN;
+            mToken = ERROR_TOKEN;
+            return mToken;
         }
 
         int statusCode = response.getStatusCode().value();
 
         if (statusCode != 200) {
             if (statusCode == 401) {
+                mToken = FAILED_TOKEN;
                 return FAILED_TOKEN;
             }
             String errorMessage = "Failed login post: "
@@ -123,7 +127,18 @@ public final class UserHandler {
         String tokenUrl = TOKEN_URL + "/" + user;
         response = restTemplate.getForEntity(tokenUrl, String.class);
 
-        return response.getBody();
+        mToken = response.getBody();
+        return mToken;
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    private static String getUsernameFrom(String email) {
+        String[] fields = email.split("@");
+        return fields[0] + fields[1].replace(".", "");
     }
 
     /**
@@ -151,6 +166,20 @@ public final class UserHandler {
      *
      * @return
      */
+    public static String getUsername() {
+        if (!isLoggedIn()) {
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
+            return "";
+        }
+
+        return getUsernameFrom(getUserEmail());
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
     public static boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
@@ -169,30 +198,6 @@ public final class UserHandler {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         assert currentUser != null; //DEBUG Assert
         return currentUser.getEmail();
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    public static String getUsername() {
-        if (!isLoggedIn()) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
-            return "";
-        }
-
-        return getUsernameFrom(getUserEmail());
-    }
-
-    /**
-     * TODO
-     *
-     * @return
-     */
-    private static String getUsernameFrom(String email) {
-        String[] fields = email.split("@");
-        return fields[0] + fields[1].replace(".", "");
     }
 
     /**
@@ -318,5 +323,12 @@ public final class UserHandler {
         String updateUrl = uriBuilder.build().toString();
 
         restTemplate.postForEntity(updateUrl, body, String.class);
+    }
+
+    /**
+     * @return
+     */
+    public static String getToken() {
+        return mToken;
     }
 }
