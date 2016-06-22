@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../Parsers/CsvParser.h"
 #include "../Parsers/JsonParser.h"
+#include "../Parsers/UserParser.h"
 #include "gtest/gtest.h"
 
 TEST(CsvParser,ParseLine){
@@ -173,5 +174,28 @@ TEST(JsonParser, ParseUserReMakeItStaysTheSame){
 	json.makeUser(parsed, user2);
 	parsed2 = json.userToJson(&user2);
 	ASSERT_TRUE( parsed == parsed2 );
+}
+
+TEST(UserParser, TransformUsersToListThenToCsvSameAmountOfUsers){
+	UserParser usParser;
+	JsonParser json;
+	string users =
+			"{\"users\":[{\"user\":{\"id\":1,"
+					"\"alias\":\"JeRo\",\"name\":\"Pedro\",\"email\":\"copito@gmail.com\","
+					"\"sex\":\"man\",\"age\":21,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/1/photo\","
+					"\"location\":{\"latitude\":-9.87,\"longitude\":1.234},\"interests\":[{\"category\":\"music\","
+					"\"value\":\"rock\"},{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sport\",\"value\":\"tennis\"}]}},{\"user\":{\"id\":3,\"alias\":\"Leona\",\"name\":\"Diana\",\"email\":\"kdian@yahoo.com\",\"sex\":\"woman\",\"age\":null,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/3/photo\",\"location\":{\"latitude\":0,\"longitude\":0},\"interests\":[{\"category\":\"outdoors\",\"value\":\"running\"},{\"category\":\"music/band\",\"value\":\"radiohead\"},{\"category\":\"sex\",\"value\":\"man\"}]}},{\"user\":{\"id\":12,\"alias\":\"Junana\",\"name\":\"Juana\",\"email\":\"asd@usuasdario.com\",\"sex\":\"woman\",\"age\":23,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/12/photo\",\"location\":{\"latitude\":-121.45356,\"longitude\":46.51119},\"interests\":[{\"category\":\"music/band\",\"value\":\"radiohead\"},{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"outdoors\",\"value\":\"running\"}]}},{\"user\":{\"id\":14,\"alias\":\"Alex\",\"name\":\"Alejando\",\"email\":\"elale@gmail.com\",\"sex\":\"man\",\"age\":26,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/14/photo\",\"location\":{\"latitude\":-3.23,\"longitude\":3.1416},\"interests\":[{\"category\":\"music\",\"value\":\"rock\"},{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sport\",\"value\":\"tennis\"}]}},{\"user\":{\"id\":15,\"alias\":\"Aru\",\"name\":\"Ariel\",\"email\":\"sirenita@gmail.com\",\"sex\":\"woman\",\"age\":31,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/15/photo\",\"location\":{\"latitude\":-3.23,\"longitude\":3.1416},\"interests\":[{\"category\":\"music\",\"value\":\"rock\"},{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sport\",\"value\":\"tennis\"}]}},{\"user\":{\"id\":16,\"alias\":\"ASD\",\"name\":\"Aladin\",\"email\":\"aaa@aaa.com\",\"sex\":\"man\",\"age\":25,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/16/photo\",\"location\":{\"latitude\":1.53,\"longitude\":-1.23},\"interests\":[{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sex\",\"value\":\"woman\"}]}},{\"user\":{\"id\":17,\"alias\":\"Juje\",\"name\":\"Juana\",\"email\":\"bbb@bbb.com\",\"sex\":\"woman\",\"age\":25,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/17/photo\",\"location\":{\"latitude\":1.33,\"longitude\":-1.6535896},\"interests\":[{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sex\",\"value\":\"man\"}]}},{\"user\":{\"id\":18,\"alias\":\"Lucho\",\"name\":\"Lucio\",\"email\":\"lllll@lllll.com\",\"sex\":\"man\",\"age\":28,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/18/photo\",\"location\":{\"latitude\":1.3946486,\"longitude\":-0.123546886},\"interests\":[{\"category\":\"music/band\",\"value\":\"radiohead\"},{\"category\":\"sex\",\"value\":\"woman\"},{\"category\":\"outdoors\",\"value\":\"walking\"}]}},{\"user\":{\"id\":19,\"alias\":\"Pato\",\"name\":\"Donald\",\"email\":\"tttrumpp@usa.com\",\"sex\":\"man\",\"age\":50,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/19/photo\",\"location\":{\"latitude\":0,\"longitude\":-1},\"interests\":[{\"category\":\"sex\",\"value\":\"woman\"},{\"category\":\"outdoors\",\"value\":\"running\"},{\"category\":\"sport\",\"value\":\"rugby\"}]}},{\"user\":{\"id\":21,\"alias\":\"Kalista\",\"name\":\"Karina\",\"email\":\"escudo@gmail.com\",\"sex\":\"woman\",\"age\":24,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/21/photo\",\"location\":{\"latitude\":-3.23,\"longitude\":1.1416},\"interests\":[{\"category\":\"music\",\"value\":\"rock\"},{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"sport\",\"value\":\"tennis\"}]}},{\"user\":{\"id\":22,\"alias\":\"Pirulo\",\"name\":\"Patricio\",\"email\":\"pato@live.com.ar\",\"sex\":\"man\",\"age\":24,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/22/photo\",\"location\":{\"latitude\":-1.54,\"longitude\":1.23},\"interests\":[{\"category\":\"music/band\",\"value\":\"fun\"},{\"category\":\"sex\",\"value\":\"man\"},{\"category\":\"outdoors\",\"value\":\"running\"},{\"category\":\"outdoors\",\"value\":\"walking\"},{\"category\":\"sport\",\"value\":\"rugby\"}]}},{\"user\":{\"id\":25,\"alias\":\"Pirulo\",\"name\":\"Raul\",\"email\":\"aaa1@aaa.com\",\"sex\":\"man\",\"age\":25,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/25/photo\",\"location\":{\"latitude\":1.53,\"longitude\":-1.23},\"interests\":[{\"category\":\"music/band\",\"value\":\"pearl jam\"},{\"category\":\"music/band\",\"value\":\"fun\"},{\"category\":\"sex\",\"value\":\"man\"},{\"category\":\"outdoors\",\"value\":\"running\"}]}},{\"user\":{\"id\":31,\"alias\":\"asd\",\"name\":\"asd\",\"email\":\"asd@asd.com\",\"sex\":\"man\",\"age\":28,\"photo_profile\":\"http://dr-tinder.herokuapp.com/users/31/photo\",\"location\":{\"latitude\":1.563,\"longitude\":-1.3685},\"interests\":[{\"category\":\"music/band\",\"value\":\"pearl jam\"}]}}],\"metadata\":{\"version\":\"0.2\",\"count\":13}}";
+
+	json.parsing(users);
+	unsigned int count = json.getValue(META_KEY)[COUNT_KEY].asInt();
+	list<User *> list = usParser.JsonToList(users);
+	ASSERT_TRUE(list.size() == count);
+
+	string csv_users = usParser.ListToCsv(list);
+	unsigned int size = std::count(csv_users.begin(), csv_users.end(), '\n');
+	ASSERT_TRUE(size == count);
+
+	//delete from data
+	while(!list.empty()) delete list.front(), list.pop_front();
 }
 #endif /* SERVIDOR_TESTS_PARSERTEST_H_ */
