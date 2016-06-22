@@ -65,7 +65,7 @@ public class ChatFragment extends Fragment {
                         ImageView imageView = addUserChat(name, age, user, layout);
 
                         imageView.setOnClickListener(listener -> {
-                            assert container != null;//DEBUG Assert
+                            assert container != null; //DEBUG Assert
                             Intent menuIntent = new Intent(container.getContext(),
                                     ChatSession.class);
                             menuIntent.putExtra("User", name);

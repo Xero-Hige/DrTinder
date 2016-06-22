@@ -299,7 +299,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mUserEmail;
         private final String mUserPassword;
         private final Activity mActivity;
-        private String mAuthToken;
 
         /**
          * Creates a new register task
@@ -312,7 +311,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mUserEmail = email;
             mUserPassword = password;
             mActivity = activity;
-            mAuthToken = UserHandler.ERROR_TOKEN;
         }
 
         @Override

@@ -35,10 +35,7 @@ import java.util.Map;
  */
 public class MessagesService extends FirebaseMessagingService {
 
-    /**
-     * TODO
-     */
-    public ChatSession mSession;
+    private ChatSession mSession;
 
     /**
      * TODO
@@ -80,6 +77,10 @@ public class MessagesService extends FirebaseMessagingService {
                 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    public void setSession(ChatSession mSession) {
+        this.mSession = mSession;
     }
 
     /**

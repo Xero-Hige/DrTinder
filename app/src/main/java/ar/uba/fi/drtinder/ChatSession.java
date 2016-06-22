@@ -76,18 +76,18 @@ public class ChatSession extends AppCompatActivity {
 
     private ChatSession mDis = this;
     private ServiceConnection mServiceConnection = new ServiceConnection() {
-        MessagesService mService;
+        private MessagesService mService;
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
             mService = binder.getService();
-            mService.mSession = mDis;
+            mService.setSession(mDis);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mService.mSession = null;
+            mService.setSession(null);
         }
     };
 

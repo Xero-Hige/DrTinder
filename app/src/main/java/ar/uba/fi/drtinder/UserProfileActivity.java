@@ -77,7 +77,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private String mToken;
 
     private String mEmail;
-    private Bitmap image = null;
+    private Bitmap mProfileImage = null;
 
     /**
      * View
@@ -223,8 +223,8 @@ public class UserProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if (image != null) {
-            UserHandler.uploadProfilePicture(image, mToken);
+        if (mProfileImage != null) {
+            UserHandler.uploadProfilePicture(mProfileImage, mToken);
         }
         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
         finish();
@@ -252,10 +252,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
 
-                    if (image == null) {
-                        image = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
+                    if (mProfileImage == null) {
+                        mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
                     }
-                    UserHandler.uploadProfilePicture(image, mToken);
+                    UserHandler.uploadProfilePicture(mProfileImage, mToken);
                     HashMap<String, String> userdata = getUserdataMap();
                     UserHandler.signUp(mEmail, password, userdata);
                     Utility.showMessage("Listo", viewGroup);
@@ -299,7 +299,7 @@ public class UserProfileActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Uri imageUri = data.getData();
             try {
-                image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                mProfileImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             } catch (IOException e) {
                 DrTinderLogger.writeLog(DrTinderLogger.ERRO, "The impossible happen. Image IOError");
                 return; //No image to display (cant upload)
