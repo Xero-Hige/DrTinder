@@ -141,16 +141,14 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 TEST(MsgHandler,GetMatchesForUser){
 	vector<string> user_data;
 	string mail = "marcelo@prueba.com";
-	user_data.resize(USER_DATA_COUNT);
-	user_data[SEX_FULL_IDX] = "man";
-	user_data[NAME_FULL_IDX] = "Marcelo";
-	user_data[MAIL_FULL_IDX] = mail;
-	user_data[ALIAS_FULL_IDX] = "Marce";
-	user_data[AGE_FULL_IDX] = "21";
-	user_data[INT_FULL_IDX] = "sport::tennis";
-	user_data[DSC_FULL_IDX] = "Quiero ser un maestro pokemon";
-	user_data[LOCX_FULL_IDX] = "-3.20";
-	user_data[LOCY_FULL_IDX] = "3.15";
+	user_data.resize(USER_DATA_FOR_CLIENT_COUNT);
+	user_data[SEX_IDX] = "man";
+	user_data[NAME_IDX] = "Marcelo";
+	user_data[MAIL_IDX] = mail;
+	user_data[ALIAS_IDX] = "Marce";
+	user_data[AGE_IDX] = "21";
+	user_data[INT_IDX] = "sport::tennis";
+	user_data[DSC_IDX] = "Quiero ser un maestro pokemon";
 
 	string complete = "\"";
 	for (unsigned int i =0; i < user_data.size(); i++){
@@ -172,6 +170,8 @@ TEST(MsgHandler,GetMatchesForUser){
 	LOGG(INFO) << "IMPRIMIENTDO USERS" << "\n";
 	LOGG(INFO) << users << "\n";
 	ASSERT_TRUE(result);
+	//elimino para evitar creacion de user en tests consecutivos
+	ASSERT_TRUE(handler.deleteUser());
 }
 
 #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */

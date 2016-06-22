@@ -148,7 +148,20 @@ TEST(CsvParser, CsvModifyUserFromBase){
 	ASSERT_TRUE(user.getDescription().compare("lookingFor") == 0 );
 	ASSERT_TRUE(user.getName().compare("name") == 0);
 }
-
+TEST(CsvParser, MakeFromCsvWithouIdHasEveryData){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+				"\"-0.153\",\"1.56345\"";
+	parser.makeUser(base, user);
+	ASSERT_TRUE(user.getName().compare("Pepe") == 0);
+	ASSERT_TRUE(user.getAge() == 15);
+	ASSERT_TRUE(user.getX() == -0.153f);
+	ASSERT_TRUE(user.getY() == 1.56345f);
+	ASSERT_TRUE(user.getAlias().compare("Pepe") == 0);
+	ASSERT_TRUE(user.getMail().compare("aaa@aaa.com") == 0);
+}
 TEST(JsonParser, ParseJsonPhoto){
 	JsonParser json;
 	string photo = "asdasdasdasd";
