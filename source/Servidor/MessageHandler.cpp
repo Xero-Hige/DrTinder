@@ -41,7 +41,9 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 	//TODO REVISAR SI ESTA ES LA FORMA CORRECTA DE OBTENER EL USUARIO LOGEADO EN LA APP.
 	string currentUserData;
-	bool gotUser = getUser(username, currentUserData);
+
+	bool gotUser = usersDB->getEntry(USER_CSV_DB + username, currentUserData);
+	cout << currentUserData << "\n User Taken from DB\n";
 	User currentUser;
 	csvParser.makeUser(currentUserData, currentUser);
 
@@ -53,14 +55,15 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 	while(!users.empty()){
 		delete users.front();
+		users.front() = NULL;
 		users.pop_front();
 	}
 
 	while(!filtered_users.empty()){
-		delete filtered_users.front();
+		//Ya los eliminste en el anterior
 		filtered_users.pop_front();
 	}
-
+	cout << "Filtered deleted\n";
 	return true;
 }
 

@@ -91,8 +91,8 @@ void CsvParser::makeUser(string user_str, User &user){
 
 	user.setCommonData(mail,alias,name,sex);
 
-	float x =stof(parsed[LOCX_FULL_IDX]);
-	float y =stof(parsed[LOCY_FULL_IDX]);
+	float x =stof(parsed[LOCX_FULL_IDX - 1 + desf]);
+	float y =stof(parsed[LOCY_FULL_IDX - 1 + desf]);
 
 	user.setLocation(x,y);
 
