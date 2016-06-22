@@ -138,4 +138,17 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
 }
 
+TEST(MsgHandler,GetMatchesForUser){
+	DB* db;
+	DatabaseManager dbManager(db);
+	string user = "aaa@aaa.com", password = "pepe";
+	MessageHandler handler(&dbManager, user);
+	string token = handler.getToken();
+	string users;
+	bool result = handler.getUsers(users);
+	LOGG(INFO) << "IMPRIMIENTDO USERS" << "\n";
+	LOGG(INFO) << users << "\n";
+	ASSERT_TRUE(result);
+}
+
 #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */
