@@ -139,21 +139,21 @@ public class UserProfileActivity extends AppCompatActivity {
         StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
                 data -> {
                     String username = data.get(0)[0];
-            String age = data.get(0)[1];
-            String sex = data.get(0)[2];
-            String lookingFor = data.get(0)[3];
-            String interest = data.get(0)[4];
+                    String age = data.get(0)[1];
+                    String sex = data.get(0)[2];
+                    String lookingFor = data.get(0)[3];
+                    String interest = data.get(0)[4];
 
-            TextView UsernameView = (TextView) findViewById(R.id.profUsername);
-            assert UsernameView != null;//DEBUG Assert
-            UsernameView.setText(username);
+                    TextView UsernameView = (TextView) findViewById(R.id.profUsername);
+                    assert UsernameView != null;//DEBUG Assert
+                    UsernameView.setText(username);
 
-            sexMale.setChecked(sex.equals("Male"));
-            sexFemale.setChecked(sex.equals("Female"));
-            searchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
-            searchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
+                    sexMale.setChecked(sex.equals("Male"));
+                    sexFemale.setChecked(sex.equals("Female"));
+                    searchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
+                    searchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
 
-        });
+                });
     }
 
     private void addFields() {
