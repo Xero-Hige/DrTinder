@@ -51,8 +51,10 @@ public class ChatFragment extends Fragment {
                 UserHandler.getToken(),
                 data -> {
                     if (data == null) {
-                        Utility.showMessage("Error de conexion con el servidor", getView());
+                        Utility.showMessage("Error de conexion con el servidor", getView(), "Ok");
+                        return;
                     }
+
                     for (int i = 0; i < data.size(); i++) {
                         String name = data.get(i)[0];
                         String age = data.get(i)[1];

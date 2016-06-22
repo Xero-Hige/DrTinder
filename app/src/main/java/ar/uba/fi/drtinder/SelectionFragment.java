@@ -186,6 +186,11 @@ public class SelectionFragment extends Fragment {
         StringResourcesHandler.executeQuery(StringResourcesHandler.USER_CANDIDATES,
                 UserHandler.getToken(),
                 data -> {
+                    if (data == null) {
+                        Utility.showMessage("Error de conexion con el servidor", getView(), "Ok");
+                        return;
+                    }
+
                     int excluded = 0;
                     int index = 0;
 

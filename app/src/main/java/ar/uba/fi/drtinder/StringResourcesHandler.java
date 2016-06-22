@@ -173,7 +173,6 @@ public final class StringResourcesHandler {
         protected void onPostExecute(final Boolean success) {
             if (!success) {
                 DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to get data from server");
-                return;
             }
             mCallbackOp.execute(mData);
         }

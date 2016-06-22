@@ -140,6 +140,10 @@ public class UserProfileActivity extends AppCompatActivity {
         }
         StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
                 data -> {
+                    if (data == null) {
+                        Utility.showMessage("Error de conexion con el servidor", Utility.getViewgroup(this), "Ok");
+                        return;
+                    }
                     String username = data.get(0)[0];
                     String age = data.get(0)[1];
                     String sex = data.get(0)[2];
