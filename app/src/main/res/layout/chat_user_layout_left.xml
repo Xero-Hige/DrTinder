@@ -12,18 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        <com.pkmmte.view.CircularImageView
             android:id="@+id/chat_user_img"
-            android:layout_width="115dp"
+            android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_alignParentStart="true"
             android:layout_gravity="center_horizontal"
             android:elevation="10dp"
+            android:scaleType="centerCrop"
             app:border="true"
-            app:shadow="true"
-            app:siBorderColor="@color/accent"
-            app:siBorderWidth="1dp"
-            app:siShape="@drawable/cat_bubble" />
+            app:border_color="@color/accent"
+            app:border_width="2dp"
+            app:shadow="true" />
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
