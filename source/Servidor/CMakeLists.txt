@@ -30,6 +30,7 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 Tokenizer.cpp
 	 Parsers/CsvParser.cpp
 	 Parsers/JsonParser.cpp
+	Parsers/UserParser.cpp
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp RequestHandler.h ServerUtils.cpp ServerUtils.h)
 

@@ -43,8 +43,10 @@ public:
 	bool parsing(std::string json_object);
 	std::string getAsString(Json::Value value);
 	void makeInterests(Json::Value json_interests, Interests &interests);
-	void makeUser(Json::Value json_user, User &user);
-
+	void makeUser(Json::Value json, User &user);
+	Json::Value getRoot(){
+		return root;
+	};
 	Json::Value userToJson(User *user, bool id=false);
 	Json::Value interestsToJson(Interests *interest);
 	Json::Value interstToJson(std::string category, std::string value);
