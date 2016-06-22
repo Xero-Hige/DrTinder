@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -70,6 +71,17 @@ public final class StringResourcesHandler {
     /**
      * TODO
      *
+     * @param requestType
+     * @param token
+     * @param operation
+     */
+    public static void executeQuery(int requestType, String token, CallbackOperation operation) {
+        executeQuery("", requestType, token, operation);
+    }
+
+    /**
+     * TODO
+     *
      * @param resId
      * @param requestType
      * @param token
@@ -78,17 +90,6 @@ public final class StringResourcesHandler {
     public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
         task.execute();
-    }
-
-    /**
-     * TODO
-     *
-     * @param requestType
-     * @param token
-     * @param operation
-     */
-    public static void executeQuery(int requestType, String token, CallbackOperation operation) {
-        executeQuery("", requestType, token, operation);
     }
 
     private static List<String[]> fetchData(String queryUrl) {
@@ -102,6 +103,9 @@ public final class StringResourcesHandler {
             result = restTemplate.getForObject(queryUrl, String.class, "Android");
         } catch (HttpServerErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+            return null;
+        } catch (ResourceAccessException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Failed to connect: " + e.getMessage());
             return null;
         }
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
@@ -149,6 +153,16 @@ public final class StringResourcesHandler {
             this.mData = null;
         }
 
+        private void setImageUrl(int resourceType, String resId, String token) {
+            String url = getUrlByType(resourceType);
+            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
+            uriBuilder.appendQueryParameter("token", token);
+            if (!resId.equals("")) {
+                uriBuilder.appendQueryParameter("res_id", resId);
+            }
+            this.mResourceUrl = uriBuilder.build().toString();
+        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             mData = fetchData(mResourceUrl);
@@ -162,16 +176,6 @@ public final class StringResourcesHandler {
                 return;
             }
             mCallbackOp.execute(mData);
-        }
-
-        private void setImageUrl(int resourceType, String resId, String token) {
-            String url = getUrlByType(resourceType);
-            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
-            uriBuilder.appendQueryParameter("token", token);
-            if (!resId.equals("")) {
-                uriBuilder.appendQueryParameter("res_id", resId);
-            }
-            this.mResourceUrl = uriBuilder.build().toString();
         }
 
     }
