@@ -1,5 +1,11 @@
 #include "MessageHandler.h"
 
+#include <cstdbool>
+#include <list>
+
+#include "../libs/jsoncpp/dist/json/json.h"
+#include "User.h"
+
 
 using std::string;
 
@@ -25,8 +31,18 @@ void MessageHandler::setUsersDB(DatabaseManager * usersDB) {
 }
 
 bool MessageHandler::getUsers(std::string& resultMsg) {
-	ssClient.getUsers(&resultMsg);
+	string usersJson;
+	ssClient.getUsers(&usersJson);
+	CsvParser csvParser;
+	JsonParser jsonParser;
 
+//	TODO
+//	list<User*> users = jsonParser.getUserList(userJson);
+	list<User*> user;
+
+
+
+	resultMsg = usersJson;
 	//	TODO: servicio para filtrar usuarios
 	return true;
 }
@@ -53,7 +69,7 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 	data_to_post[USER_KEY] = jsonUser;
 
 	string parsed_user = jsonParser.getAsString(data_to_post);
-	LOGG(DEBUG) << "Creating user " + parsed_user;
+	LOGG(INFO) << "Creating user " + parsed_user;
 	bool posted = ssClient.postUsers(user_created, &parsed_user);
 
 	if (posted){
@@ -86,7 +102,7 @@ bool MessageHandler::updateUser(string user_data) {
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
 
-	LOGG(DEBUG) << "Updating info of " + id ;
+	LOGG(INFO) << "Updating info of " + id ;
 
 	return ssClient.changeUser(id, jsonParser.getAsString(data_to_post).c_str());
 }
@@ -98,7 +114,7 @@ bool MessageHandler::deleteUser() {
 		usersDB->deleteEntry(USER_DB + username);
 		usersDB->deleteEntry(USER_ID_DB + username);
 		//TODO: delete all info
-		LOGG(DEBUG) << "User Deleted " + username;
+		LOGG(INFO) << "User Deleted " + username;
 		return true;
 	}
 	return false;
@@ -128,6 +144,7 @@ bool MessageHandler::validateToken(std::string user_token) {
 }
 
 void MessageHandler::getMatches(std::string id) {
+	LOGG(INFO) << "Devolviendo usuarios matcheados.";
 	//TODO: calcular matches
 }
 
