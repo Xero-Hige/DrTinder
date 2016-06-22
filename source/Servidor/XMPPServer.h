@@ -10,6 +10,8 @@
 #include <Swiften/Elements/Message.h>
 #include <Swiften/Component/Component.h>
 #include <Swiften/Component/ComponentXMLTracer.h>
+#include "api_server_constants.h"
+#include "XMPPMessageHandler.h"
 
 class XMPPServer {
 public:
@@ -27,7 +29,7 @@ private:
     Swift::Component* component;
     Swift::ComponentXMLTracer* tracer;
 
-    void sendACK(Swift::Message::ref message);
+    void resendMessage(XMPPMessageHandler& msgHandler);
 };
 
 

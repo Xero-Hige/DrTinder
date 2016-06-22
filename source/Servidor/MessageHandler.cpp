@@ -241,11 +241,6 @@ bool MessageHandler::getUser(string username, string &user_data) {
 
 }
 
-void MessageHandler::receiveChatMessage(string message) {
-	//TODO: procesar mensage
-}
-
-
 
 
 

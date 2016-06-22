@@ -55,8 +55,6 @@ class MessageHandler {
 
 		bool getUser(std::string username, std::string &user_data);
 
-	void receiveChatMessage(std::string message);
-
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */

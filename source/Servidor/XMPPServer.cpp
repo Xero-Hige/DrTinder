@@ -1,9 +1,9 @@
 #include "XMPPServer.h"
-#include "api_server_constants.h"
-#include "XMPPMessageHandler.h"
+
 
 using namespace Swift;
 using namespace boost;
+using XMPPMessageHandler;
 
 XMPPServer::XMPPServer(NetworkFactories* networkFactories) :
         jid(FIREBASE_SERVER_SEND_URL) {
@@ -39,9 +39,30 @@ void XMPPServer::handleMessageReceived(Message::ref message) {
     boost::optional<boost::posix_time::ptime> timestamp = message->getTimestamp();
 
     std::string body = message->getBody().get();
-    XMPPMessageHandler msgHandler;
-    msgHandler.parseMessage(body);
-//    message->setTo(message->getFrom());
-//    message->setFrom(jid);
-//    component->sendMessage(message);
+    XMPPMessageHandler msgHandler(body);
+
+    XMPPMessageHandler::XMPPMessageType type = msgHandler.getType();
+    switch (type) {
+        case XMPPMessageHandler::Chat :
+            resendMessage(msgHandler);
+            msgHandler.saveMessage(timestamp);
+            break;
+        case XMPPMessageHandler::Like :
+            msgHandler.saveLike();
+            break;
+        case XMPPMessageHandler::Dislike :
+            msgHandler.saveDislike();
+    }
+
 }
+
+void XMPPServer::resendMessage(XMPPMessageHandler& msgHandler) {
+    Message receiver_message;
+
+    receiver_message.setTo(msgHandler.getReceiver());
+    receiver_message.setBody(msgHandler.formResendMessage());
+
+    component->sendMessage(&receiver_message);
+}
+
+

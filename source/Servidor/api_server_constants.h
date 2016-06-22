@@ -26,6 +26,17 @@
 #define FIREBASE_SERVER_PORT 5236
 #define FIREBASE_SERVER_KEY "AIzaSyB_kX1_V5cHcD3zbWusTNNm3Q_vXkgPXJw"
 
+#define LIKE_USER "user"
+#define LIKE_CANDIDATE "candidate"
+#define LIKE_TOKEN "liked"
+#define LIKED_TOKEN "yes"
+#define DISLIKED_TOKEN "no"
+
+#define CHAT_MESSAGE_TOKEN "message"
+#define CHAT_SENT_FROM_TOKEN "senderID"
+#define CHAT_RECEIVER_TOKEN "receiver"
+#define CHAT_SENDER_TOKEN "sender"
+
 #define GET_S "GET"
 #define POST_S "POST"
 #define DELETE_S "DELETE"
