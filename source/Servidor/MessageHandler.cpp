@@ -5,7 +5,7 @@
 
 #include "../libs/jsoncpp/dist/json/json.h"
 #include "User.h"
-
+#include "./matches/UserMatcher.h"
 
 using std::string;
 
@@ -35,15 +35,32 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	ssClient.getUsers(&usersJson);
 	CsvParser csvParser;
 	JsonParser jsonParser;
+	UserParser userParser;
 
-//	TODO
-//	list<User*> users = jsonParser.getUserList(userJson);
-	list<User*> user;
+	list<User*> users = userParser.JsonToList(usersJson);
 
+	//TODO REVISAR SI ESTA ES LA FORMA CORRECTA DE OBTENER EL USUARIO LOGEADO EN LA APP.
+	string currentUserData;
+	bool gotUser = getUser(username, currentUserData);
+	User currentUser;
+	csvParser.makeUser(currentUserData, currentUser);
 
+	UserMatcher matcher;
 
-	resultMsg = usersJson;
-	//	TODO: servicio para filtrar usuarios
+	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users);
+
+	resultMsg = userParser.ListToCsv(filtered_users);
+
+	while(!users.empty()){
+		delete users.front();
+		users.pop_front();
+	}
+
+	while(!filtered_users.empty()){
+		delete filtered_users.front();
+		filtered_users.pop_front();
+	}
+
 	return true;
 }
 

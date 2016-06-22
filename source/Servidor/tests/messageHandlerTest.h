@@ -139,11 +139,34 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 }
 
 TEST(MsgHandler,GetMatchesForUser){
+	vector<string> user_data;
+	string mail = "marcelo@prueba.com";
+	user_data.resize(USER_DATA_COUNT);
+	user_data[SEX_FULL_IDX] = "man";
+	user_data[NAME_FULL_IDX] = "Marcelo";
+	user_data[MAIL_FULL_IDX] = mail;
+	user_data[ALIAS_FULL_IDX] = "Marce";
+	user_data[AGE_FULL_IDX] = "21";
+	user_data[INT_FULL_IDX] = "sport::tennis";
+	user_data[DSC_FULL_IDX] = "Quiero ser un maestro pokemon";
+	user_data[LOCX_FULL_IDX] = "-3.20";
+	user_data[LOCY_FULL_IDX] = "3.15";
+
+	string complete = "\"";
+	for (unsigned int i =0; i < user_data.size(); i++){
+		complete += user_data[i] + "\",\"";
+	}
+	if (complete.size() > 2){
+		complete = complete.substr(0, complete.size() - 2);
+	}
+
 	DB* db;
 	DatabaseManager dbManager(db);
-	string user = "aaa@aaa.com", password = "pepe";
+	string user = mail, password = "pepe";
 	MessageHandler handler(&dbManager, user);
-	string token = handler.getToken();
+
+	handler.createUser(complete, password);
+
 	string users;
 	bool result = handler.getUsers(users);
 	LOGG(INFO) << "IMPRIMIENTDO USERS" << "\n";

@@ -28,6 +28,7 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 User.cpp
 	 Interests.cpp
 	 Tokenizer.cpp
+	 matches/UserMatcher.cpp
 	 Parsers/CsvParser.cpp
 	 Parsers/JsonParser.cpp
 	Parsers/UserParser.cpp
