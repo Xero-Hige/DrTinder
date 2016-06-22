@@ -19,6 +19,7 @@ package ar.uba.fi.drtinder;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -95,6 +96,16 @@ public class Utility {
             snackbar.dismiss();
         });
         snackbar.show();
+    }
+
+
+    /**
+     * @param activity
+     * @return
+     */
+    public static ViewGroup getViewgroup(Activity activity) {
+        return (ViewGroup) ((ViewGroup) activity
+                .findViewById(android.R.id.content)).getChildAt(0);
     }
 
 }
