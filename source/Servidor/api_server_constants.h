@@ -22,7 +22,8 @@
 
 
 
-#define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com:5236"
+#define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"
+#define FIREBASE_SERVER_PORT 5236
 #define FIREBASE_SERVER_KEY "AIzaSyB_kX1_V5cHcD3zbWusTNNm3Q_vXkgPXJw"
 
 #define GET_S "GET"

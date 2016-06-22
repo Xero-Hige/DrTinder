@@ -10,11 +10,12 @@ INCLUDE_DIRECTORIES(Parsers)
 INCLUDE_DIRECTORIES(../libs/jsoncpp/dist/json)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/)
 INCLUDE_DIRECTORIES(../libs/rocksdb/include/rocksdb/utilities/)
+INCLUDE_DIRECTORIES(../libs/swift/Swiften)
 INCLUDE_DIRECTORIES(../libs/googletest)
 
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS rt pthread rocksdb z bz2 snappy curl restclient-cpp)
+SET(SERVER_LIBS rt pthread rocksdb z bz2 snappy curl restclient-cpp Swiften)
 SET(TEST_LIBS ${SERVER_LIBS} gtest gcov)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
@@ -29,7 +30,7 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 Parsers/CsvParser.cpp
 	 Parsers/JsonParser.cpp
 )
-SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp RequestHandler.h ServerUtils.cpp ServerUtils.h ../XMPPServer.cpp ../XMPPServer.h)
+SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp RequestHandler.h ServerUtils.cpp ServerUtils.h XMPPServer.cpp XMPPServer.h XMPPMessageHandler.cpp XMPPMessageHandler.h)
 
 SET (TEST_SRCS tests/main.cpp ${COMMON_SRCS})
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function ")

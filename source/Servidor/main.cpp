@@ -1,10 +1,10 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-#include "Server.h"
-#include "DatabaseManager.h"
-#include "../libs/restclient-cpp/include/restclient-cpp/restclient.h"
+
 #include "../libs/loger/easylogging++.h"
+#include "XMPPServer.h"
+#include "Server.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
 
@@ -32,6 +32,11 @@ int main() {
 
 	server.setUsersDB(usersDB);
 
+	Swift::SimpleEventLoop eventLoop;
+	Swift::BoostNetworkFactories networkFactories(&eventLoop);
+	XMPPServer bot(&networkFactories);
+
+
 	bool quit = false;
 	LOGG(INFO) << "Opening server";
 	std::mutex quit_mutex;
@@ -41,6 +46,7 @@ int main() {
 	while (! quit) {
 		quit_mutex.unlock();
 		server.run();
+		eventLoop.run();
 		quit_mutex.lock();
 	}
 	quit_mutex.unlock();
