@@ -12,7 +12,9 @@
 #define CHAT_DB "chat_"
 #define AVAILABLE_MATCHES_DB "av_match_"
 #define PAST_MATCHES_DB "past_match_"
-#define INT_PHOTO_DB "int_phot_"
+#define USER_CSV_DB "csv_for_"
+#define USER_PHOTO_DB "user_photo_"
+#define USER_LOOKING_DB "user_looking_"
 
 /* Database for users and passwords. */
 class DatabaseManager {

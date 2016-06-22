@@ -4,6 +4,7 @@
  *  Created on: Jun 3, 2016
  *      Author: tobias
  */
+#include "userMatcherTest.h"
 #include "interestTest.h"
 #include "parserTest.h"
 #include "sharedServerTest.h"

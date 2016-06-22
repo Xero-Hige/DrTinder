@@ -20,6 +20,8 @@ SET(TEST_LIBS ${SERVER_LIBS} gtest gcov)
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     Server.cpp
+	 ServerUtils.cpp
+	 RequestHandler.cpp
     DatabaseManager.cpp
     MessageHandler.cpp
     SharedServerClient.cpp
@@ -27,8 +29,10 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 User.cpp
 	 Interests.cpp
 	 Tokenizer.cpp
+	 matches/UserMatcher.cpp
 	 Parsers/CsvParser.cpp
 	 Parsers/JsonParser.cpp
+	Parsers/UserParser.cpp
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp RequestHandler.h ServerUtils.cpp ServerUtils.h XMPPServer.cpp XMPPServer.h XMPPMessageHandler.cpp XMPPMessageHandler.h)
 
