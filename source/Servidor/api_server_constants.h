@@ -1,6 +1,8 @@
 #ifndef SOURCE_API_CONSTANTS_SERVER
 #define SOURCE_API_CONSTANTS_SERVER
 
+#define DB_SEPARATOR ","
+
 #define CHAT_URI "chats"
 #define USER_URI "user"
 #define USER_ID_URI "user/token/id"

@@ -34,8 +34,12 @@ int main() {
 
 	Swift::SimpleEventLoop eventLoop;
 	Swift::BoostNetworkFactories networkFactories(&eventLoop);
-	XMPPServer bot(&networkFactories);
+	XMPPServer xmppServer(&networkFactories);
 
+	rocksdb::DB* chatDB;
+	rocksdb::DB* likesDB;
+	xmppServer.setChatDB(chatDB);
+	xmppServer.setLikesDB(likesDB);
 
 	bool quit = false;
 	LOGG(INFO) << "Opening server";

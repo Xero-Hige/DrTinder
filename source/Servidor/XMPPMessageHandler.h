@@ -4,6 +4,8 @@
 
 #include <string>
 #include <Swiften/Elements/Message.h>
+#include <db.h>
+#include "../../libs/jsoncpp/dist/json/json.h"
 
 class XMPPMessageHandler {
 
@@ -16,11 +18,11 @@ public:
 
     XMPPMessageType getType();
 
-    void saveMessage(boost::optional<boost::posix_time::ptime> timestamp);
+    void saveMessage(rocksdb::DB *chatDB, boost::optional<boost::posix_time::ptime> timestamp);
 
-    void saveLike();
+    void saveLike(rocksdb::DB *likesDB);
 
-    void saveDislike();
+    void saveDislike(rocksdb::DB *dislikesDB);
 
     std::string getReceiver();
 

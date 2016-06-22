@@ -150,6 +150,7 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 
 bool MessageHandler::getChat(std::string username, string& chat_history) {
 	//TODO: get chat
+	return false;
 }
 
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {

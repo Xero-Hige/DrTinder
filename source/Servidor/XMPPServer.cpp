@@ -1,9 +1,9 @@
+#include <db.h>
 #include "XMPPServer.h"
 
 
 using namespace Swift;
 using namespace boost;
-using XMPPMessageHandler;
 
 XMPPServer::XMPPServer(NetworkFactories* networkFactories) :
         jid(FIREBASE_SERVER_SEND_URL) {
@@ -45,24 +45,38 @@ void XMPPServer::handleMessageReceived(Message::ref message) {
     switch (type) {
         case XMPPMessageHandler::Chat :
             resendMessage(msgHandler);
-            msgHandler.saveMessage(timestamp);
+            msgHandler.saveMessage(chatDB, timestamp);
             break;
         case XMPPMessageHandler::Like :
-            msgHandler.saveLike();
+            msgHandler.saveLike(likesDB);
             break;
         case XMPPMessageHandler::Dislike :
-            msgHandler.saveDislike();
+            msgHandler.saveDislike(likesDB);
     }
 
 }
 
 void XMPPServer::resendMessage(XMPPMessageHandler& msgHandler) {
-    Message receiver_message;
+    Message::ref receiver_message;
 
-    receiver_message.setTo(msgHandler.getReceiver());
-    receiver_message.setBody(msgHandler.formResendMessage());
+    receiver_message->setTo(msgHandler.getReceiver());
+    receiver_message->setBody(msgHandler.formResendMessage());
 
-    component->sendMessage(&receiver_message);
+    component->sendMessage(receiver_message);
 }
+
+void XMPPServer::setChatDB(rocksdb::DB *db) {
+    chatDB = db;
+}
+
+void XMPPServer::setLikesDB(rocksdb::DB *db) {
+    likesDB = db;
+}
+
+
+
+
+
+
 
 

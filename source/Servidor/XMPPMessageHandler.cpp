@@ -2,8 +2,11 @@
 #include <Swiften/Elements/Message.h>
 #include <json.h>
 #include <JsonParser.h>
+#include <db.h>
+#include <list>
 #include "XMPPMessageHandler.h"
 #include "api_server_constants.h"
+#include "DatabaseManager.h"
 
 
 XMPPMessageHandler::XMPPMessageHandler(std::string message) {
@@ -21,26 +24,29 @@ XMPPMessageHandler::XMPPMessageType XMPPMessageHandler::parseMessage(std::string
         //Todo:error
     }
     Json::Value like = root[LIKE_TOKEN];
-    type_ = (like == NULL) ? Chat : Like;
+    type_ = (like.isNull()) ? Chat : Like;
     type_ = (like.asString() == LIKED_TOKEN) ? Like : Dislike;
 
     (type_ == Chat) ? parseChat(root) : parseLike(root);
-}
-
-XMPPMessageType XMPPMessageHandler::getType() {
     return type_;
 }
 
-void XMPPMessageHandler::saveMessage(boost::optional<boost::posix_time::ptime> timestamp) {
+XMPPMessageHandler::XMPPMessageType XMPPMessageHandler::getType() {
+    return type_;
+}
+
+void XMPPMessageHandler::saveMessage(rocksdb::DB *chatDB, boost::optional<boost::posix_time::ptime> timestamp) {
 
 }
 
-void XMPPMessageHandler::saveLike() {
-
+void XMPPMessageHandler::saveLike(rocksdb::DB *likesDB) {
+    DatabaseManager databaseManager(likesDB);
+    databaseManager.addEntry(sender+ DB_SEPARATOR + receiver, LIKED_TOKEN);
 }
 
-void XMPPMessageHandler::saveDislike() {
-
+void XMPPMessageHandler::saveDislike(rocksdb::DB *dislikesDB) {
+    DatabaseManager databaseManager(dislikesDB);
+    databaseManager.addEntry(sender+ DB_SEPARATOR + receiver, DISLIKED_TOKEN);
 }
 
 std::string XMPPMessageHandler::getReceiver() {

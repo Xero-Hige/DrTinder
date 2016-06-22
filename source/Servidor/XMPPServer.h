@@ -12,11 +12,18 @@
 #include <Swiften/Component/ComponentXMLTracer.h>
 #include "api_server_constants.h"
 #include "XMPPMessageHandler.h"
+#include "../libs/rocksdb/include/rocksdb/db.h"
 
 class XMPPServer {
 public:
     XMPPServer(Swift::NetworkFactories* networkFactories);
     ~XMPPServer();
+
+    void setChatDB(rocksdb::DB *db);
+
+    void setLikesDB(rocksdb::DB *db);
+
+    void setDislikesDB(rocksdb::DB *db);
 
 private:
     void handlePresenceReceived(Swift::Presence::ref presence);
@@ -30,6 +37,9 @@ private:
     Swift::ComponentXMLTracer* tracer;
 
     void resendMessage(XMPPMessageHandler& msgHandler);
+
+    rocksdb::DB *likesDB;
+    rocksdb::DB *chatDB;
 };
 
 
