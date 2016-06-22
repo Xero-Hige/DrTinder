@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,6 +67,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private boolean mFirebaseLoginFinished;
 
     private CountDownLatch loginProcessLatch;
+
+    private Activity dis = this;
 
     /**
      * TODO
@@ -297,20 +300,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mUserEmail;
         private final String mUserPassword;
-        private final Context mTaskContext;
+        private final Activity mActivity;
         private String mAuthToken;
 
         /**
-         * Creates a new Register task
+         * Creates a new register task
          *
-         * @param email    User email
-         * @param password User password
-         * @param context  Calling activity context
+         * @param email
+         * @param password
+         * @param activity
          */
-        RegisterTask(String email, String password, Context context) {
+        RegisterTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            mTaskContext = context;
+            mActivity = activity;
             mAuthToken = UserHandler.ERROR_TOKEN;
         }
 
@@ -331,7 +334,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(this.mTaskContext, UserProfileActivity.class);
+                Intent intent = new Intent(this.mActivity, UserProfileActivity.class);
                 intent.putExtra(UserProfileActivity.USER_EXTRA_USEREMAIL, this.mUserEmail);
                 intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_CREATE);
                 startActivity(intent);
@@ -358,20 +361,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mUserEmail;
         private final String mUserPassword;
-        private final Context mTaskContext;
+        private final Activity activity;
         private String mAuthToken;
 
         /**
-         * Creates a new Login task
+         * Creates a new login task
          *
-         * @param email    User email
-         * @param password User password
-         * @param context  Calling activity context
+         * @param email
+         * @param password
+         * @param activity
          */
-        UserLoginTask(String email, String password, Context context) {
+        UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            this.mTaskContext = context;
+            this.activity = activity;
         }
 
         /**
@@ -398,7 +401,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                startApp(this.mTaskContext);
+                startApp(this.activity);
                 return;
             }
             if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
@@ -406,8 +409,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.requestFocus();
                 return;
             }
-            mEmailTextView.setError("Error de conexion con el servidor");
-            mEmailTextView.requestFocus();
+
+            ViewGroup viewgroup = Utility.getViewgroup(activity);
+            Utility.showMessage("Error de conexion con el servidor", viewgroup, "OK");
         }
 
         @Override
