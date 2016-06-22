@@ -38,7 +38,7 @@ public class MessagesService extends FirebaseMessagingService {
     /**
      * TODO
      */
-    public ChatSession session;
+    public ChatSession mSession;
 
     /**
      * TODO
@@ -53,11 +53,11 @@ public class MessagesService extends FirebaseMessagingService {
 
         sendNotification(message);
 
-        if (session == null) {
+        if (mSession == null) {
             return;
         }
 
-        session.addResponse(message, senderId);
+        mSession.addResponse(message, senderId);
     }
 
     private void sendNotification(String message) {
@@ -76,8 +76,8 @@ public class MessagesService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager
+                = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }

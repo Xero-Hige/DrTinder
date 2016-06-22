@@ -44,10 +44,25 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 public class ChatSession extends AppCompatActivity {
 
+    /**
+     * TODO
+     */
     public static final String EXTRA_FRIEND_NAME = "friendname";
+    /**
+     * TODO
+     */
     public static final String EXTRA_USER_TOKEN = "token";
+    /**
+     * TODO
+     */
     public static final String EXTRA_FRIEND_ID = "friendid";
+    /**
+     * TODO
+     */
     public static final String EXTRA_USER_NAME = "username";
+    /**
+     * TODO
+     */
     public static final String EXTRA_USER_ID = "userid";
 
     private static final int DATA_FIELDS = 2;
@@ -65,14 +80,14 @@ public class ChatSession extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mService.session = null;
+            mService.mSession = null;
         }
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
             mService = binder.getService();
-            mService.session = mDis;
+            mService.mSession = mDis;
         }
     };
 
@@ -176,6 +191,12 @@ public class ChatSession extends AppCompatActivity {
         });
     }
 
+    /**
+     * TODO
+     *
+     * @param message
+     * @param userId
+     */
     public void addResponse(String message, String userId) {
         if (userId.equals(mFriendId)) {
             addFriendResponse(message);

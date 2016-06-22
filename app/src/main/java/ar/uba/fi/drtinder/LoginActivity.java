@@ -66,9 +66,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private boolean mFirebaseLogedIn;
     private boolean mFirebaseLoginFinished;
 
-    private CountDownLatch loginProcessLatch;
-
-    private Activity dis = this;
+    private CountDownLatch mLoginLatch;
 
     /**
      * TODO
@@ -81,7 +79,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
 
         mFirebaseLoginFinished = true;
-        loginProcessLatch = new CountDownLatch(0);
+        mLoginLatch = new CountDownLatch(0);
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -157,7 +155,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private void firebaseAuthenticate(String email, String password) {
         mFirebaseLoginFinished = false;
-        loginProcessLatch = new CountDownLatch(1);
+        mLoginLatch = new CountDownLatch(1);
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
@@ -168,12 +166,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     }
                     mFirebaseLogedIn = task.isSuccessful();
                     mFirebaseLoginFinished = true;
-                    loginProcessLatch.countDown();
+                    mLoginLatch.countDown();
                 });
 
         if (!mFirebaseLoginFinished) {
             try {
-                loginProcessLatch.await();
+                mLoginLatch.await();
             } catch (InterruptedException e) {
                 DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
             }
@@ -361,7 +359,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         private final String mUserEmail;
         private final String mUserPassword;
-        private final Activity activity;
+        private final Activity mActivity;
         private String mAuthToken;
 
         /**
@@ -374,7 +372,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            this.activity = activity;
+            this.mActivity = activity;
         }
 
         /**
@@ -401,7 +399,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                startApp(this.activity);
+                startApp(this.mActivity);
                 return;
             }
             if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
@@ -410,7 +408,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 return;
             }
 
-            ViewGroup viewgroup = Utility.getViewgroup(activity);
+            ViewGroup viewgroup = Utility.getViewgroup(mActivity);
             Utility.showMessage("Error de conexion con el servidor", viewgroup, "OK");
         }
 

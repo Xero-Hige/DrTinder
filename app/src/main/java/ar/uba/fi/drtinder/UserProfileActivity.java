@@ -83,10 +83,10 @@ public class UserProfileActivity extends AppCompatActivity {
      * View
      */
     private TextView mPasswordView;
-    private RadioButton sexMale;
-    private RadioButton sexFemale;
-    private CheckBox searchingMale;
-    private CheckBox searchingFemale;
+    private RadioButton mSexMale;
+    private RadioButton mSexFemale;
+    private CheckBox mSearchingMale;
+    private CheckBox mSearchingFemale;
     private TextView mUserName;
     private TextView mAge;
 
@@ -100,7 +100,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
 
-        assert toolbar != null;//DEBUG Assert
+        assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
         mToken = activityIntent.getStringExtra(USER_EXTRA_TOKEN);
@@ -119,7 +119,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             mEmail = activityIntent.getStringExtra(USER_EXTRA_USEREMAIL);
-            assert mEmail != null;//DEBUG Assert
+            assert mEmail != null; //DEBUG Assert
         }
 
         mProfilePic.setOnClickListener(v -> {
@@ -133,7 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
         addFields();
 
         mPasswordView = (TextView) findViewById(R.id.profPassword);
-        assert mPasswordView != null;//DEBUG Assert
+        assert mPasswordView != null; //DEBUG Assert
         mPasswordView.setVisibility(mActivityAction.equals(PROFILE_ACTION_CREATE) ? View.VISIBLE : View.GONE);
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
@@ -146,31 +146,31 @@ public class UserProfileActivity extends AppCompatActivity {
                     String lookingFor = data.get(0)[3];
                     String interest = data.get(0)[4];
 
-                    TextView UsernameView = (TextView) findViewById(R.id.profUsername);
-                    assert UsernameView != null;//DEBUG Assert
-                    UsernameView.setText(username);
+                    TextView usernameView = (TextView) findViewById(R.id.profUsername);
+                    assert usernameView != null; //DEBUG Assert
+                    usernameView.setText(username);
 
                     mAge.setText(age);
-                    sexMale.setChecked(sex.equals("Male"));
-                    sexFemale.setChecked(sex.equals("Female"));
-                    searchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
-                    searchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
+                    mSexMale.setChecked(sex.equals("Male"));
+                    mSexFemale.setChecked(sex.equals("Female"));
+                    mSearchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
+                    mSearchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
 
                 });
     }
 
     private void addFields() {
-        sexMale = (RadioButton) findViewById(R.id.sexMaleRadio);
-        sexFemale = (RadioButton) findViewById(R.id.sexFemaleRadio);
-        searchingMale = (CheckBox) findViewById(R.id.lookingMale);
-        searchingFemale = (CheckBox) findViewById(R.id.lookingFemale);
+        mSexMale = (RadioButton) findViewById(R.id.sexMaleRadio);
+        mSexFemale = (RadioButton) findViewById(R.id.sexFemaleRadio);
+        mSearchingMale = (CheckBox) findViewById(R.id.lookingMale);
+        mSearchingFemale = (CheckBox) findViewById(R.id.lookingFemale);
         mUserName = (TextView) findViewById(R.id.profUsername);
         mAge = (TextView) findViewById(R.id.profAge);
 
-        assert sexMale != null; //DEBUG Assert
-        assert sexFemale != null; //DEBUG Assert
-        assert searchingMale != null; //DEBUG Assert
-        assert searchingFemale != null; //DEBUG Assert
+        assert mSexMale != null; //DEBUG Assert
+        assert mSexFemale != null; //DEBUG Assert
+        assert mSearchingMale != null; //DEBUG Assert
+        assert mSearchingFemale != null; //DEBUG Assert
         assert mUserName != null; //DEBUG Assert
         assert mAge != null; //DEBUG Assert
     }
@@ -276,11 +276,11 @@ public class UserProfileActivity extends AppCompatActivity {
         HashMap<String, String> userdata = new HashMap<>();
         userdata.put("name", mUserName.getText().toString());
         userdata.put("age", mAge.getText().toString());
-        userdata.put("sex", sexMale.isChecked() ? "Male" : "Female");
+        userdata.put("sex", mSexMale.isChecked() ? "Male" : "Female");
 
-        if (searchingMale.isChecked() && !searchingFemale.isChecked()) {
+        if (mSearchingMale.isChecked() && !mSearchingFemale.isChecked()) {
             userdata.put("lookingFor", "Male");
-        } else if (searchingFemale.isChecked() && !searchingMale.isChecked()) {
+        } else if (mSearchingFemale.isChecked() && !mSearchingMale.isChecked()) {
             userdata.put("lookingFor", "Female");
         } else {
             userdata.put("lookingFor", "Both");

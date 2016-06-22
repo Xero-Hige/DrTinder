@@ -25,7 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 /**
  * TODO
  */
-public class Utility {
+public final class Utility {
 
     private static final String DEFAULT_BUTTON = "DONE";
 
@@ -38,8 +38,8 @@ public class Utility {
      * @param context
      */
     public static void hideKeyboard(Activity context) {
-        InputMethodManager inputMManager =
-                (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMManager
+                = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View currentFocus = context.getCurrentFocus();
         if (currentFocus == null) {
             return;
@@ -100,8 +100,9 @@ public class Utility {
 
 
     /**
-     * @param activity
-     * @return
+     * Gets the viewgroup corresponding to an activity
+     * @param activity Activity from where are you
+     * @return Activity viewgroup
      */
     public static ViewGroup getViewgroup(Activity activity) {
         return (ViewGroup) ((ViewGroup) activity
