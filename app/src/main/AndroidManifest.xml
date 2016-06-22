@@ -46,7 +46,8 @@
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_data"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
 
         <service
             android:name=".MessagesService"
