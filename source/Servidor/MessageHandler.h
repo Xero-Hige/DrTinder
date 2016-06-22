@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <vector>
 #include "Tokenizer.h"
+#include "Parsers/UserParser.h"
 #include "Parsers/CsvParser.h"
 #include "Parsers/JsonParser.h"
 #include "../libs/loger/easylogging++.h"
@@ -50,9 +51,9 @@ class MessageHandler {
 
 		std::string getToken();
 
-		void addLocalization(std::string localization);
+		bool addLocalization(std::string localization);
 
-		void getUser(std::string username, std::string &user_data);
+		bool getUser(std::string username, std::string &user_data);
 
 	void receiveChatMessage(std::string message);
 
