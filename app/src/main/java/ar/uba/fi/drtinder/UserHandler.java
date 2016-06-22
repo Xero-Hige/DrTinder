@@ -1,6 +1,8 @@
 package ar.uba.fi.drtinder;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Base64;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -15,6 +17,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
@@ -64,6 +67,7 @@ public final class UserHandler {
     private static final String TOKEN_URL = SERVER_URL + "user/token";
     private static final String SIGNUP_URL = SERVER_URL + "users";
     private static final String UPDATE_URL = SERVER_URL + "users";
+    private static final String AVATAR_URL = SERVER_URL + "users/photo";
 
     private UserHandler() {
     }
@@ -293,5 +297,26 @@ public final class UserHandler {
         String updateUrl = uriBuilder.build().toString();
 
         restTemplate.put(updateUrl, body);
+    }
+
+    /**
+     * TODO
+     *
+     * @param profilePicture
+     * @param token
+     */
+    public static void uploadProfilePicture(Bitmap profilePicture, String token) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        profilePicture.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String body = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        Uri.Builder uriBuilder = Uri.parse(AVATAR_URL).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String updateUrl = uriBuilder.build().toString();
+
+        restTemplate.postForEntity(updateUrl, body, String.class);
     }
 }
