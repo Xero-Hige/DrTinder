@@ -35,196 +35,191 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view">
 
-        </ScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/view"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".UserProfileActivity"
-            tools:showIn="@layout/user_profile_activity">
-
-            <ImageView
-                android:id="@+id/profUserAvatar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:elevation="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/not_found" />
-
-            <EditText
-                android:id="@+id/profUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/profUserAvatar"
-                android:layout_centerHorizontal="true"
-                android:ems="10"
-                android:hint="Name"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/profPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/profUsername"
-                android:layout_alignStart="@+id/profUsername"
-                android:layout_below="@+id/profUsername"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-            <CheckBox
-                android:id="@+id/lookingFemale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/textView3"
-                android:layout_below="@+id/textView3"
-                android:checked="false"
-                android:text="Mujeres" />
-
-            <CheckBox
-                android:id="@+id/lookingMale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/lookingFemale"
-                android:layout_below="@+id/lookingFemale"
-                android:checked="false"
-                android:text="Hombres" />
-
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_alignEnd="@+id/textView4"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/textView4" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/profPassword"
-                android:layout_below="@+id/profPassword"
-                android:text="Sexo"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/profUserAvatar"
-                android:layout_below="@+id/profPassword"
-                android:text="Buscando"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/textView4"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/lookingMale"
-                android:text="Intereses"
-                android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_below="@+id/view"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context=".UserProfileActivity"
+                tools:showIn="@layout/user_profile_activity">
 
-            <EditText
-                android:id="@+id/interestCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/textView2"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/horizontalScrollView"
-                android:hint="Category" />
+                <ImageView
+                    android:id="@+id/profUserAvatar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:elevation="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/not_found" />
 
-            <EditText
-                android:id="@+id/interestId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/lookingMale"
-                android:layout_below="@+id/horizontalScrollView"
-                android:layout_toEndOf="@+id/interestCategory"
-                android:hint="Interest" />
+                <EditText
+                    android:id="@+id/profUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profUserAvatar"
+                    android:layout_centerHorizontal="true"
+                    android:ems="10"
+                    android:hint="Name"
+                    android:inputType="textPersonName" />
 
-            <Button
-                android:id="@+id/addInterest"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/interestId"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/horizontalScrollView"
-                android:layout_toEndOf="@+id/lookingMale"
-                android:text="+" />
+                <EditText
+                    android:id="@+id/profPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/profUsername"
+                    android:layout_alignStart="@+id/profUsername"
+                    android:layout_below="@+id/profUsername"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
 
-            <Button
-                android:id="@+id/submmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/addInterest"
-                android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/interestCategory"
-                android:text="Update profile" />
+                <CheckBox
+                    android:id="@+id/lookingFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/textView3"
+                    android:layout_below="@+id/textView3"
+                    android:checked="false"
+                    android:text="Mujeres" />
 
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/deleteUserDivider"
-                android:text="Delete Profile" />
+                <CheckBox
+                    android:id="@+id/lookingMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/lookingFemale"
+                    android:layout_below="@+id/lookingFemale"
+                    android:checked="false"
+                    android:text="Hombres" />
 
-            <RadioGroup
-                android:id="@+id/radiogroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView2"
-                android:layout_below="@+id/textView2">
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_alignEnd="@+id/textView4"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView4" />
 
-                <RadioButton
-                    android:id="@+id/sexMaleRadio"
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/profPassword"
+                    android:layout_below="@+id/profPassword"
+                    android:text="Sexo"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/profUserAvatar"
+                    android:layout_below="@+id/profPassword"
+                    android:text="Buscando"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/lookingMale"
+                    android:text="Intereses"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/interestCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/textView2"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/horizontalScrollView"
+                    android:hint="Category" />
+
+                <EditText
+                    android:id="@+id/interestId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/lookingMale"
+                    android:layout_below="@+id/horizontalScrollView"
+                    android:layout_toEndOf="@+id/interestCategory"
+                    android:hint="Interest" />
+
+                <Button
+                    android:id="@+id/addInterest"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@+id/interestId"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/horizontalScrollView"
+                    android:layout_toEndOf="@+id/lookingMale"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/submmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/addInterest"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/interestCategory"
+                    android:text="Update profile" />
+
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/deleteUserDivider"
+                    android:text="Delete Profile" />
+
+                <RadioGroup
+                    android:id="@+id/radiogroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/textView2"
                     android:layout_below="@+id/textView2"
-                    android:checked="true"
-                    android:clickable="false"
-                    android:hint="Hombre"
-                    android:text="Hombre" />
+                    android:measureWithLargestChild="true">
 
-                <RadioButton
-                    android:id="@+id/sexFemaleRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/sexMaleRadio"
-                    android:layout_below="@+id/sexMaleRadio"
-                    android:checked="false"
-                    android:text="Mujer" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/sexMaleRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Hombre" />
 
-            <TextView
-                android:id="@+id/deleteUserDivider"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_below="@+id/submmit"
-                android:layout_centerHorizontal="true"
-                android:text="Danger"
-                android:textAlignment="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/accent" />
+                    <RadioButton
+                        android:id="@+id/sexFemaleRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Mujer" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/deleteUserDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_below="@+id/submmit"
+                    android:layout_centerHorizontal="true"
+                    android:text="Danger"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/accent" />
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
 
     </RelativeLayout>
 
