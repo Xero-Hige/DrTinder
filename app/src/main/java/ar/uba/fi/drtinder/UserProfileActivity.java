@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -133,8 +134,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mPasswordView = (TextView) findViewById(R.id.profPassword);
         assert mPasswordView != null;//DEBUG Assert
-        mPasswordView.setEnabled(mActivityAction.equals(PROFILE_ACTION_CREATE));
-
+        mPasswordView.setVisibility(mActivityAction.equals(PROFILE_ACTION_CREATE) ? View.VISIBLE : View.GONE);
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
         }
@@ -150,6 +150,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     assert UsernameView != null;//DEBUG Assert
                     UsernameView.setText(username);
 
+                    mAge.setText(age);
                     sexMale.setChecked(sex.equals("Male"));
                     sexFemale.setChecked(sex.equals("Female"));
                     searchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
@@ -177,7 +178,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void addDeleteButton() {
         Button deleteProfile = (Button) findViewById(R.id.deleteButton);
         assert deleteProfile != null; //DEBUG Assert
-        deleteProfile.setEnabled(mActivityAction.equals(PROFILE_ACTION_UPDATE));
+        deleteProfile.setVisibility(mActivityAction.equals(PROFILE_ACTION_UPDATE) ? View.VISIBLE : View.GONE);
         deleteProfile.setOnClickListener(view -> {
             UserHandler.deleteProfile(mToken);
             Intent intent = new Intent(this, LoginActivity.class);
@@ -187,7 +188,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         View deleteDiv = findViewById(R.id.deleteUserDivider);
         assert deleteDiv != null;
-        deleteDiv.setEnabled(mActivityAction.equals(PROFILE_ACTION_UPDATE));
+        deleteDiv.setVisibility(mActivityAction.equals(PROFILE_ACTION_UPDATE) ? View.VISIBLE : View.GONE);
     }
 
     private void addSubmitButton() {
@@ -211,7 +212,25 @@ public class UserProfileActivity extends AppCompatActivity {
         submit.setOnClickListener(clickListener);
     }
 
+    private boolean validateFields() {
+        String name = mUserName.getText().toString();
+        String sAge = mAge.getText().toString();
+
+        if (sAge.equals("") || name.equals("")) {
+            return false;
+        }
+
+        int age = Integer.valueOf(sAge);
+        return age >= 18;
+    }
+
     private void updateUser() {
+        if (!validateFields()) {
+            ViewGroup viewGroup = Utility.getViewgroup(this);
+            Utility.showMessage("Datos incorrectos en campos obligatorios", viewGroup);
+            return;
+        }
+
         if (image != null) {
             UserHandler.uploadProfilePicture(image, mToken);
         }
@@ -220,6 +239,14 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void createUser() {
+        ViewGroup viewGroup = Utility.getViewgroup(this);
+
+        if (!validateFields()) {
+            Utility.showMessage("Datos incorrectos en campos obligatorios", viewGroup);
+            return;
+        }
+
+        Utility.showMessage("Creando usuario", viewGroup);
         String password = mPasswordView.getText().toString();
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(mEmail, password)
@@ -227,7 +254,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (!task.isSuccessful()) {
                         DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user at FB: "
                                 + mEmail + " " + password);
-                        finish();
+                        Utility.showMessage("Fallo al crear el usuario. Reintente mas tarde", viewGroup);
                         return;
                     }
 
@@ -239,6 +266,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     UserHandler.uploadProfilePicture(image, mToken);
                     HashMap<String, String> userdata = getUserdataMap();
                     UserHandler.signUp(mEmail, password, userdata);
+                    Utility.showMessage("Listo", viewGroup);
                     finish();
                 });
     }
@@ -273,7 +301,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 return; //No image to display (cant upload)
             }
             mProfilePic.setImageURI(imageUri);
-
         }
     }
 }
