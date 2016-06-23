@@ -107,6 +107,7 @@ void CsvParser::makeUser(string user_str, User &user){
 
 }
 void CsvParser::makeSignupUser(string user_str,User &user){
+	//TODO check data is correct
 	vector<string> parsed = this->parseLine(&user_str);
 	Interests interests;
 

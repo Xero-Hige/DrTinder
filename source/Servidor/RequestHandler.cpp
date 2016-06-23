@@ -31,7 +31,11 @@ void RequestHandler::sendHttpReply(std::string reply, std::string content_type) 
 bool RequestHandler::validateToken() {
 	LOGG(DEBUG) << "Validating Token for connection";
     char buffer[MAX_LEN_TOKEN_BUFFER];
-    mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
+    int parsed = mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
+	if (parsed <= 0 ) {
+		rejectConnection(BAD_REQUEST);
+		return false;
+	}
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
     	rejectConnection(INVALID_TOKEN);
@@ -89,7 +93,11 @@ void RequestHandler::listenUserRequest() {
             return;
         }
         char localization[500];
-        mg_get_http_var(&http_msg->body, USER_LOCATION_TOKEN, localization, sizeof(localization));
+        int parsed = mg_get_http_var(&http_msg->body, USER_LOCATION_TOKEN, localization, sizeof(localization));
+        if (parsed <= 0 ){
+        	rejectConnection(BAD_REQUEST);
+        	return;
+        }
         msgHandler->addLocalization(std::string(localization));
         return;
     }
@@ -100,7 +108,11 @@ void RequestHandler::listenUserRequest() {
     if (is_equal(&http_msg->method, GET_S)) {
     	LOGG(DEBUG) << GET_S;
         char username[BUFFER_SMALL_SIZE];
-        mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
+        int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
+		if (parsed <= 0 ) {
+			rejectConnection(BAD_REQUEST);
+			return;
+		}
         std::string user_data;
         msgHandler->getUser(std::string(username), user_data);
         sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
@@ -119,7 +131,11 @@ void RequestHandler::listenUsersRequest() {
         if (! parseAuthorization(user, pass)) {
             return;
         }
-        mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
+        int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
+		if (parsed <= 0 ) {
+			rejectConnection(BAD_REQUEST);
+			return;
+		}
         try {
             msgHandler->createUser(std::string(user_data), std::string(pass));
             sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
@@ -142,7 +158,11 @@ void RequestHandler::listenUsersRequest() {
     } else if (is_equal(&http_msg->method, PUT_S)) {
     	LOGG(DEBUG) << PUT_S;
         char user_data[1000];
-        mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
+        int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
+		if (parsed <= 0 ) {
+			rejectConnection(BAD_REQUEST);
+			return;
+		}
         bool updated = msgHandler->updateUser(string(user_data));
         int status = (updated) ? STATUS_OK: BAD_REQUEST;
         rejectConnection(status);
@@ -185,8 +205,11 @@ void RequestHandler::listenInterestRequest() {
 
     LOGG(DEBUG) << GET_S;
     char id_interest[BUFFER_SMALL_SIZE];
-    mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));
-
+    int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));
+	if (parsed <= 0 ) {
+		rejectConnection(BAD_REQUEST);
+		return;
+	}
     std::string interest_photo;
     msgHandler->getInterestPhoto(interest_photo, std::string(id_interest));
     sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_IMAGE);
@@ -220,8 +243,11 @@ void RequestHandler::listenPhotoRequest() {
     if (is_equal(&http_msg->method, GET_S)) {
     	LOGG(DEBUG) << GET_S;
         char username[BUFFER_SMALL_SIZE];
-        mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
-
+        int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
+		if (parsed <= 0 ) {
+			rejectConnection(BAD_REQUEST);
+			return;
+		}
         std::string photo_64;
         msgHandler->getPhoto(std::string(username), photo_64);
         sendHttpReply(photo_64, CONTENT_TYPE_HEADER_IMAGE);
