@@ -2,12 +2,11 @@
 #include "DatabaseManager.h"
 
 #define DB_NAME "users"
-
+#define DB_CHAT "chats"
 using namespace rocksdb;
 using std::string;
 
 DatabaseManager::DatabaseManager(DB *database) : db(database), iter(NULL){
-
 }
 
 DatabaseManager::~DatabaseManager() {

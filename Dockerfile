@@ -12,6 +12,7 @@ RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y libcurl4-openssl-dev
 RUN apt-get install -y autoconf
 RUN apt-get install -y libtool
+RUN apt-get install -y libboost-all-dev
 
 # Install git
 RUN apt-get install -y git

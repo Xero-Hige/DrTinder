@@ -3,13 +3,15 @@
 
 #define DB_SEPARATOR ","
 
-#define CHAT_URI "chats"
-#define USER_URI "user"
-#define USER_ID_URI "user/token/id"
-#define USERS_URI "users"
-#define USERS_PHOTO_URI "users/photo"
-#define INTEREST_URI "interest"
-#define FRIENDS_URI "friends"
+#define CHAT_URI "/chats"
+#define USER_URI "/user"
+#define USER_ID_URI "/user/token/id"
+#define USERS_URI "/users"
+#define USERS_PHOTO_URI "/users/photo"
+#define INTEREST_URI "/interest"
+#define FRIENDS_URI "/friends"
+
+
 
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"
@@ -21,8 +23,6 @@
 #define USER_LOCATION_TOKEN "localization"
 #define CONTENT_TYPE_HEADER_CSV "text/csv"
 #define CONTENT_TYPE_HEADER_IMAGE "image"
-
-
 
 #define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"
 #define FIREBASE_SERVER_PORT 5236

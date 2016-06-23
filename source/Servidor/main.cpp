@@ -23,6 +23,9 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 void setUpDatabase(rocksdb::DB* db, std::string db_name) {
 	rocksdb::Options options;
 	options.create_if_missing = true;
+
+	LOGG(INFO) << "Opening " << db_name;
+
 	rocksdb::Status status = rocksdb::DB::Open(options, db_name, &db);
 	if (! status.ok()) {
 		LOGG(FATAL) << "Could not open database";
