@@ -1,10 +1,10 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
-#include "Server.h"
-#include "DatabaseManager.h"
-#include "../libs/restclient-cpp/include/restclient-cpp/restclient.h"
+
 #include "../libs/loger/easylogging++.h"
+#include "XMPPServer.h"
+#include "Server.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
 
@@ -20,6 +20,16 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result = true;
 	result_mutex.unlock();
 }
+void setUpDatabase(rocksdb::DB* db, std::string db_name) {
+	rocksdb::Options options;
+	options.create_if_missing = true;
+	rocksdb::Status status = rocksdb::DB::Open(options, db_name, &db);
+	if (! status.ok()) {
+		LOGG(FATAL) << "Could not open database";
+	}else{
+		LOGG(INFO) << "Conexion exitosa a la base de datos";
+	}
+}
 
 /* Set up server and listen to incomming connections. */
 int main() {
@@ -27,10 +37,24 @@ int main() {
 	Server server;
 
 	rocksdb::DB* usersDB;
+	setUpDatabase(usersDB, "usersDB");
 	DatabaseManager usersDBM(usersDB);
 	usersDBM.addEntry("deb", "123");
 
 	server.setUsersDB(usersDB);
+
+	Swift::SimpleEventLoop eventLoop;
+	Swift::BoostNetworkFactories networkFactories(&eventLoop);
+	XMPPServer xmppServer(&networkFactories);
+
+	rocksdb::DB* chatDB;
+	setUpDatabase(chatDB, "chatDB");
+	rocksdb::DB* likesDB;
+	setUpDatabase(likesDB, "likesDB");
+
+	xmppServer.setChatDB(chatDB);
+	xmppServer.setLikesDB(likesDB);
+	server.setChatDB(chatDB);
 
 	bool quit = false;
 	LOGG(INFO) << "Opening server";
@@ -41,6 +65,7 @@ int main() {
 	while (! quit) {
 		quit_mutex.unlock();
 		server.run();
+		eventLoop.run();
 		quit_mutex.lock();
 	}
 	quit_mutex.unlock();

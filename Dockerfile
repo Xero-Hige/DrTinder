@@ -59,6 +59,9 @@ RUN cd DrTinder/source/libs/googletest ; cmake . ; sudo make install
 # Install cpprest
 RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; sudo make install
 
+# Install swiften
+RUN cd DrTinder/source/libs/swift ; sudo ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
+
 # Add exe permissions for google style check
 RUN cd DrTinder ; chmod +x execute.sh
 

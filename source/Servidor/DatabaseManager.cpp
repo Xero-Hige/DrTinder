@@ -6,14 +6,7 @@ using namespace rocksdb;
 using std::string;
 
 DatabaseManager::DatabaseManager(DB *database) : db(database){
-	Options options;
-	options.create_if_missing = true;
-	Status status = DB::Open(options, DB_NAME, &db);
-	if (! status.ok()) {
-		LOGG(FATAL) << "Could not open database";
-	}else{
-		LOGG(INFO) << "Conexion exitosa a la base de datos";
-	}
+
 }
 
 DatabaseManager::~DatabaseManager() {
@@ -31,7 +24,7 @@ bool DatabaseManager::correctEntry(string key, string value) {
 	return true;
 }
 
-bool DatabaseManager::addEntry(string key, string value) {
+bool DatabaseManager::addEntry(std::string key, std::string value) {
 	return db->Put(WriteOptions(), key, value).ok();
 }
 
@@ -48,3 +41,16 @@ bool DatabaseManager::getEntry(string key, string &found){
 	found = aux;
 	return true;
 }
+
+
+void DatabaseManager::replaceEntry(std::string key, std::string value) {
+	string aux;
+	if (getEntry(key, aux)) {
+		deleteEntry(key);
+	}
+	addEntry(key, value);
+}
+
+
+
+

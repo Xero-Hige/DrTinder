@@ -3,7 +3,7 @@
 #define DEFAULT_MILISECS_POLL 3000
 
 
-Server::Server() : usersDB(NULL) {
+Server::Server() : databases(new server_databases_t()) {
     std::string port;
 	intToString(DEFAULT_PORT_NUMBER, port);
 	
@@ -11,6 +11,7 @@ Server::Server() : usersDB(NULL) {
     connection_ = mg_bind(&manager_, port.c_str(), handleEvent);
     mg_set_protocol_http_websocket(connection_);
     mg_enable_multithreading(connection_);
+	connection_->user_data = databases;
 }
 
 Server::~Server() {
@@ -18,7 +19,7 @@ Server::~Server() {
 }
 
 void Server::run() {
-	if (! usersDB) {
+	if (! databases->usersDB) {
 		//TODO: error
 	}
 	mg_mgr_poll(&manager_, DEFAULT_MILISECS_POLL);
@@ -49,6 +50,11 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 }
 
 void Server::setUsersDB(rocksdb::DB *database) {
-	this->usersDB = database;
-	connection_->user_data = database;
+	databases->usersDB = database;
 }
+
+void Server::setChatDB(rocksdb::DB *db) {
+	databases->chatDB = db;
+}
+
+
