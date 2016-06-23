@@ -82,8 +82,11 @@ bool MessageHandler::authenticate(string username, string password) {
 }
 
 bool MessageHandler::createUser(string user_data, std::string pass) {
-	if (! usersDB->addEntry(USER_DB + username, pass)) {
+	string aux_pass;
+	if ( usersDB->getEntry(USER_DB + username, aux_pass)) {
 		throw ExistentUserException();
+	}else{
+		usersDB->addEntry(USER_DB + username, pass);
 	}
 
 	CsvParser csvParser;

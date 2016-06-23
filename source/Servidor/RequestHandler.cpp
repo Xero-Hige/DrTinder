@@ -90,8 +90,8 @@ void RequestHandler::listenUserRequest() {
             delete msgHandler;
             return;
         }
-        msgHandler->setUser( user );
-        LOGG(INFO) << "Nueva conexion exitosa";
+        msgHandler->setUser(user);
+        LOGG(DEBUG) << "Logged in: " << user;
         char localization[500];
         int parsed = mg_get_http_var(&http_msg->body, USER_LOCATION_TOKEN, localization, sizeof(localization));
 
@@ -146,6 +146,7 @@ void RequestHandler::listenUsersRequest() {
 			return;
 		}
         try {
+        	msgHandler->setUser( user );
             bool created = msgHandler->createUser(std::string(user_data), std::string(pass));
             if (! created){
             	LOGG(DEBUG) << "Cannot create user "  << user;
@@ -157,6 +158,7 @@ void RequestHandler::listenUsersRequest() {
 
         } catch (ExistentUserException existentUserException) {
             rejectConnection(UNAUTHORIZED);
+            LOGG(DEBUG) << "Already existed";
             delete msgHandler;
         }
         return;

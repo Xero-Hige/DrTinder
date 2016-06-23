@@ -27,6 +27,7 @@ string SharedServerClient::formUrl(string sub_urls[], size_t sub_urls_size) {
 
 bool SharedServerClient::valid(RestClient::Response *r ){
 	if (r->code >= 400 || r->code < 0){
+		LOGG(DEBUG) << "SS body not ok request:\n " << r->body << "\n";
 		return false;
 	}
 	return true;
@@ -38,7 +39,6 @@ bool SharedServerClient::setBody(string * body, RestClient::Response *r){
 	if (this->valid(r)){
 		return true;
 	}
-	LOGG(DEBUG) << "SS body " + r->body;
 	return false;
 
 
