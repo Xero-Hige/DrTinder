@@ -91,10 +91,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#extra-friend-name">EXTRA_FRIEND_NAME</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#extra-user-id">EXTRA_USER_ID</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#extra-user-name">EXTRA_USER_NAME</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extra-user-token">EXTRA_USER_TOKEN</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#addresponse">addResponse</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#oncreate">onCreate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#onstart">onStart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#onstop">onStop</a></li>
 </ul>
 </li>
 </ul>
@@ -104,15 +108,15 @@
 <li class="toctree-l2"><a class="reference internal" href="LocationHandler.html">LocationHandler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="LoginActivity.html">LoginActivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MainActivity.html">MainActivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MessagesService.html">MessagesService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MessagesService-LocalBinder.html">MessagesService.LocalBinder</a></li>
 <li class="toctree-l2"><a class="reference internal" href="SelectionFragment.html">SelectionFragment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Snackdebug.html">Snackdebug</a></li>
 <li class="toctree-l2"><a class="reference internal" href="StringResourcesHandler.html">StringResourcesHandler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TinderFMService.html">TinderFMService</a></li>
 <li class="toctree-l2"><a class="reference internal" href="UserDetailsActivity.html">UserDetailsActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UserInfoHandler.html">UserInfoHandler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UserProfile.html">UserProfile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserHandler.html">UserHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UserProfileActivity.html">UserProfileActivity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Utility.html">Utility</a></li>
 </ul>
 </li>
@@ -177,7 +181,8 @@ public class <code class="descname">ChatSession</code> extends AppCompatActivity
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_ID">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_FRIEND_ID</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_ID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO</p>
+</dd></dl>
 
 </div>
 <div class="section" id="extra-friend-name">
@@ -185,7 +190,8 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_NAME">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_FRIEND_NAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_NAME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO</p>
+</dd></dl>
 
 </div>
 <div class="section" id="extra-user-id">
@@ -193,7 +199,8 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_USER_ID">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_ID</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_USER_ID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO</p>
+</dd></dl>
 
 </div>
 <div class="section" id="extra-user-name">
@@ -201,12 +208,43 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_USER_NAME">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_NAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_USER_NAME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>TODO</p>
+</dd></dl>
+
+</div>
+<div class="section" id="extra-user-token">
+<h3>EXTRA_USER_TOKEN<a class="headerlink" href="#extra-user-token" title="Permalink to this headline">¶</a></h3>
+<dl class="field">
+<dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_USER_TOKEN">
+public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_USER_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_USER_TOKEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+</dd></dl>
 
 </div>
 </div>
 <div class="section" id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="addresponse">
+<h3>addResponse<a class="headerlink" href="#addresponse" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.ChatSession.addResponse(String, String)">
+public void <code class="descname">addResponse</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> message</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> userId</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.addResponse(String, String)" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>message</strong> &#8211; </li>
+<li><strong>userId</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="oncreate">
 <h3>onCreate<a class="headerlink" href="#oncreate" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
@@ -225,6 +263,22 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
 </tbody>
 </table>
 </dd></dl>
+
+</div>
+<div class="section" id="onstart">
+<h3>onStart<a class="headerlink" href="#onstart" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.ChatSession.onStart()">
+protected void <code class="descname">onStart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.onStart()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="onstop">
+<h3>onStop<a class="headerlink" href="#onstop" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.ChatSession.onStop()">
+public void <code class="descname">onStop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.onStop()" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 </div>
@@ -250,7 +304,7 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 20, 2016.
+      Last updated on Jun 23, 2016.
 
     </p>
   </div>

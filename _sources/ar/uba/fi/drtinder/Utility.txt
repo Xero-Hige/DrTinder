@@ -2,6 +2,8 @@
 
 .. java:import:: android.view View
 
+.. java:import:: android.view ViewGroup
+
 .. java:import:: android.view.inputmethod InputMethodManager
 
 Utility
@@ -10,12 +12,23 @@ Utility
 .. java:package:: ar.uba.fi.drtinder
    :noindex:
 
-.. java:type:: public class Utility
+.. java:type:: public final class Utility
 
    TODO
 
 Methods
 -------
+getViewgroup
+^^^^^^^^^^^^
+
+.. java:method:: public static ViewGroup getViewgroup(Activity activity)
+   :outertype: Utility
+
+   Gets the viewgroup corresponding to an activity
+
+   :param activity: Activity from where are you
+   :return: Activity viewgroup
+
 hideKeyboard
 ^^^^^^^^^^^^
 
@@ -25,4 +38,52 @@ hideKeyboard
    TODO
 
    :param context:
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout)
+   :outertype: Utility
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, String buttonString, int displayTime)
+   :outertype: Utility
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param buttonString: String to use as snackbar "ok" button
+   :param displayTime: Time that should be the snackbar visible (Snackbar.LENGTH_*)
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, String buttonString)
+   :outertype: Utility
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param buttonString: String to use as snackbar "ok" button
+
+showMessage
+^^^^^^^^^^^
+
+.. java:method:: public static void showMessage(String message, View coordinatorLayout, int displayTime)
+   :outertype: Utility
+
+   Show a message in a snackbar
+
+   :param message: Message to show
+   :param coordinatorLayout: layout coordinator where snackbar should be displayed
+   :param displayTime: Time that should be the snackbar visible (Snackbar.LENGTH_*)
 

@@ -13,14 +13,14 @@ ar.uba.fi.drtinder
    LocationHandler
    LoginActivity
    MainActivity
+   MessagesService
+   MessagesService-LocalBinder
    SelectionFragment
-   Snackdebug
    StringResourcesHandler
    StringResourcesHandler-CallbackOperation
    TinderFInstanceIdService
-   TinderFMService
    UserDetailsActivity
-   UserInfoHandler
-   UserProfile
+   UserHandler
+   UserProfileActivity
    Utility
 

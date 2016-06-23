@@ -6,6 +6,8 @@
 
 .. java:import:: org.springframework.web.client HttpServerErrorException
 
+.. java:import:: org.springframework.web.client ResourceAccessException
+
 .. java:import:: org.springframework.web.client RestTemplate
 
 .. java:import:: java.io IOException
@@ -46,6 +48,18 @@ USER_CANDIDATES
 .. java:field:: public static final int USER_CANDIDATES
    :outertype: StringResourcesHandler
 
+USER_CHAT
+^^^^^^^^^
+
+.. java:field:: public static final int USER_CHAT
+   :outertype: StringResourcesHandler
+
+USER_INFO
+^^^^^^^^^
+
+.. java:field:: public static final int USER_INFO
+   :outertype: StringResourcesHandler
+
 USER_MATCHES
 ^^^^^^^^^^^^
 
@@ -57,12 +71,11 @@ Methods
 executeQuery
 ^^^^^^^^^^^^
 
-.. java:method:: public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation)
+.. java:method:: public static void executeQuery(int requestType, String token, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
    TODO
 
-   :param resId:
    :param requestType:
    :param token:
    :param operation:
@@ -70,11 +83,12 @@ executeQuery
 executeQuery
 ^^^^^^^^^^^^
 
-.. java:method:: public static void executeQuery(int requestType, String token, CallbackOperation operation)
+.. java:method:: public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
    TODO
 
+   :param resId:
    :param requestType:
    :param token:
    :param operation:

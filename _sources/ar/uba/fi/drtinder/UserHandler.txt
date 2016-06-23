@@ -1,0 +1,191 @@
+.. java:import:: android.graphics Bitmap
+
+.. java:import:: android.net Uri
+
+.. java:import:: android.util Base64
+
+.. java:import:: com.google.firebase.auth FirebaseAuth
+
+.. java:import:: com.google.firebase.auth FirebaseUser
+
+.. java:import:: org.springframework.http HttpAuthentication
+
+.. java:import:: org.springframework.http HttpBasicAuthentication
+
+.. java:import:: org.springframework.http HttpEntity
+
+.. java:import:: org.springframework.http HttpHeaders
+
+.. java:import:: org.springframework.http HttpMethod
+
+.. java:import:: org.springframework.http ResponseEntity
+
+.. java:import:: org.springframework.http.converter StringHttpMessageConverter
+
+.. java:import:: org.springframework.web.client ResourceAccessException
+
+.. java:import:: org.springframework.web.client RestTemplate
+
+.. java:import:: java.io ByteArrayOutputStream
+
+.. java:import:: java.io StringWriter
+
+.. java:import:: java.util Locale
+
+.. java:import:: java.util Map
+
+.. java:import:: au.com.bytecode.opencsv CSVWriter
+
+UserHandler
+===========
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class UserHandler
+
+   TODO
+
+Fields
+------
+ERROR_TOKEN
+^^^^^^^^^^^
+
+.. java:field:: public static final String ERROR_TOKEN
+   :outertype: UserHandler
+
+FAILED_TOKEN
+^^^^^^^^^^^^
+
+.. java:field:: public static final String FAILED_TOKEN
+   :outertype: UserHandler
+
+   TODO
+
+SIGNUP_FAILED
+^^^^^^^^^^^^^
+
+.. java:field:: public static final String SIGNUP_FAILED
+   :outertype: UserHandler
+
+SIGNUP_SUCCESS
+^^^^^^^^^^^^^^
+
+.. java:field:: public static final String SIGNUP_SUCCESS
+   :outertype: UserHandler
+
+SIGNUP_USEREXIST
+^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String SIGNUP_USEREXIST
+   :outertype: UserHandler
+
+Methods
+-------
+deleteProfile
+^^^^^^^^^^^^^
+
+.. java:method:: public static void deleteProfile(String token)
+   :outertype: UserHandler
+
+   TODO
+
+   :param token:
+
+getLoginToken
+^^^^^^^^^^^^^
+
+.. java:method:: static String getLoginToken(String email, String password, String location)
+   :outertype: UserHandler
+
+   TODO
+
+   :param email:
+   :param password:
+   :param location:
+
+getToken
+^^^^^^^^
+
+.. java:method:: public static String getToken()
+   :outertype: UserHandler
+
+getUserEmail
+^^^^^^^^^^^^
+
+.. java:method:: public static String getUserEmail()
+   :outertype: UserHandler
+
+   TODO
+
+getUsername
+^^^^^^^^^^^
+
+.. java:method:: public static String getUsername()
+   :outertype: UserHandler
+
+   TODO
+
+isLoggedIn
+^^^^^^^^^^
+
+.. java:method:: public static boolean isLoggedIn()
+   :outertype: UserHandler
+
+   TODO
+
+isValidEmail
+^^^^^^^^^^^^
+
+.. java:method:: public static boolean isValidEmail(String email)
+   :outertype: UserHandler
+
+   TODO
+
+   :param email:
+
+isValidPassword
+^^^^^^^^^^^^^^^
+
+.. java:method:: public static boolean isValidPassword(String pass)
+   :outertype: UserHandler
+
+   TODO
+
+   :param pass:
+
+logout
+^^^^^^
+
+.. java:method:: public static void logout()
+   :outertype: UserHandler
+
+   TODO
+
+signUp
+^^^^^^
+
+.. java:method:: public static String signUp(String email, String password, Map<String, String> userdata)
+   :outertype: UserHandler
+
+   :param userdata:
+
+updateInfo
+^^^^^^^^^^
+
+.. java:method:: public static void updateInfo(String token, Map<String, String> userdata)
+   :outertype: UserHandler
+
+   :param userdata:
+
+uploadProfilePicture
+^^^^^^^^^^^^^^^^^^^^
+
+.. java:method:: public static void uploadProfilePicture(Bitmap profilePicture, String token)
+   :outertype: UserHandler
+
+   TODO
+
+   :param profilePicture:
+   :param token:
+

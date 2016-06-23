@@ -1,0 +1,41 @@
+.. java:import:: android.app NotificationManager
+
+.. java:import:: android.app PendingIntent
+
+.. java:import:: android.content Context
+
+.. java:import:: android.content Intent
+
+.. java:import:: android.media RingtoneManager
+
+.. java:import:: android.net Uri
+
+.. java:import:: android.os Binder
+
+.. java:import:: android.support.v4.app NotificationCompat
+
+.. java:import:: com.google.firebase.messaging FirebaseMessagingService
+
+.. java:import:: com.google.firebase.messaging RemoteMessage
+
+.. java:import:: java.util Map
+
+MessagesService.LocalBinder
+===========================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public class LocalBinder extends Binder
+   :outertype: MessagesService
+
+   TODO
+
+Methods
+-------
+getService
+^^^^^^^^^^
+
+.. java:method::  MessagesService getService()
+   :outertype: MessagesService.LocalBinder
+

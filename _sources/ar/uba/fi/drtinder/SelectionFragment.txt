@@ -38,6 +38,10 @@
 
 .. java:import:: com.daprlabs.cardstack SwipeDeck
 
+.. java:import:: com.google.firebase.messaging FirebaseMessaging
+
+.. java:import:: com.google.firebase.messaging RemoteMessage
+
 .. java:import:: java.util Collections
 
 .. java:import:: java.util HashMap

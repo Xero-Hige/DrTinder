@@ -28,6 +28,8 @@
 
 .. java:import:: android.view View
 
+.. java:import:: android.view ViewGroup
+
 .. java:import:: android.view.inputmethod EditorInfo
 
 .. java:import:: android.widget Button

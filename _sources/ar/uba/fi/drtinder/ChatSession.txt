@@ -1,6 +1,14 @@
+.. java:import:: android.content ComponentName
+
+.. java:import:: android.content Context
+
 .. java:import:: android.content Intent
 
+.. java:import:: android.content ServiceConnection
+
 .. java:import:: android.os Bundle
+
+.. java:import:: android.os IBinder
 
 .. java:import:: android.support.design.widget AppBarLayout
 
@@ -28,6 +36,10 @@
 
 .. java:import:: com.github.siyamed.shapeimageview BubbleImageView
 
+.. java:import:: com.google.firebase.messaging FirebaseMessaging
+
+.. java:import:: com.google.firebase.messaging RemoteMessage
+
 ChatSession
 ===========
 
@@ -46,11 +58,15 @@ EXTRA_FRIEND_ID
 .. java:field:: public static final String EXTRA_FRIEND_ID
    :outertype: ChatSession
 
+   TODO
+
 EXTRA_FRIEND_NAME
 ^^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String EXTRA_FRIEND_NAME
    :outertype: ChatSession
+
+   TODO
 
 EXTRA_USER_ID
 ^^^^^^^^^^^^^
@@ -58,14 +74,37 @@ EXTRA_USER_ID
 .. java:field:: public static final String EXTRA_USER_ID
    :outertype: ChatSession
 
+   TODO
+
 EXTRA_USER_NAME
 ^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String EXTRA_USER_NAME
    :outertype: ChatSession
 
+   TODO
+
+EXTRA_USER_TOKEN
+^^^^^^^^^^^^^^^^
+
+.. java:field:: public static final String EXTRA_USER_TOKEN
+   :outertype: ChatSession
+
+   TODO
+
 Methods
 -------
+addResponse
+^^^^^^^^^^^
+
+.. java:method:: public void addResponse(String message, String userId)
+   :outertype: ChatSession
+
+   TODO
+
+   :param message:
+   :param userId:
+
 onCreate
 ^^^^^^^^
 
@@ -75,4 +114,16 @@ onCreate
    TODO
 
    :param bundle:
+
+onStart
+^^^^^^^
+
+.. java:method:: @Override protected void onStart()
+   :outertype: ChatSession
+
+onStop
+^^^^^^
+
+.. java:method:: @Override public void onStop()
+   :outertype: ChatSession
 

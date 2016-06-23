@@ -24,8 +24,6 @@
 
 .. java:import:: android.view MenuItem
 
-.. java:import:: com.google.firebase.auth FirebaseAuth
-
 MainActivity
 ============
 
@@ -41,7 +39,7 @@ Fields
 EXTRA_TOKEN
 ^^^^^^^^^^^
 
-.. java:field:: public static String EXTRA_TOKEN
+.. java:field:: public static final String EXTRA_TOKEN
    :outertype: MainActivity
 
    TODO
