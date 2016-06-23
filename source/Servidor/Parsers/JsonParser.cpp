@@ -36,7 +36,7 @@ void JsonParser::makeInterests(Json::Value json_interests,Interests &interests){
 
 }
 
-void JsonParser::makeUser(Json::Value json_user, User &user){
+void JsonParser::makeUser(Json::Value json_user,User &user){
 	Json::Value location = json_user[LOCATION_KEY];
 	Json::Value json_interests = json_user[INTERESTS_KEY];
 

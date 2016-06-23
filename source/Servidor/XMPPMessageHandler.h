@@ -6,8 +6,20 @@
 #include <Swiften/Elements/Message.h>
 #include <db.h>
 #include "../../libs/jsoncpp/dist/json/json.h"
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/asio/detail/shared_ptr.hpp>
+#include <Swiften/Elements/Message.h>
+#include <json.h>
+#include <JsonParser.h>
+#include <db.h>
+#include <list>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
+#include "api_server_constants.h"
+#include "DatabaseManager.h"
+#include "ChatDatabaseManager.h"
+#include "api_server_constants.h"
+#include "DatabaseManager.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 class XMPPMessageHandler {
 

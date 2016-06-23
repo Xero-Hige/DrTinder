@@ -5,7 +5,7 @@
 
 #include "../libs/jsoncpp/dist/json/json.h"
 #include "User.h"
-
+#include "./matches/UserMatcher.h"
 
 using std::string;
 
@@ -52,7 +52,6 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users);
 
 	resultMsg = userParser.ListToCsv(filtered_users);
-
 	while(!users.empty()){
 		delete users.front();
 		users.front() = NULL;
@@ -73,7 +72,7 @@ bool MessageHandler::authenticate(string username, string password) {
 }
 
 bool MessageHandler::createUser(string user_data, std::string pass) {
-	if (!usersDB->addEntry(USER_DB + username, pass)) {
+	if (! usersDB->addEntry(USER_DB + username, pass)) {
 		throw ExistentUserException();
 	}
 
@@ -152,7 +151,7 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 }
 
 bool MessageHandler::getChat(std::string other_username, string& chat_history) {
-	chatDB->getHistory(username, other_username, chat_history);
+	return chatDB->getHistory(username, other_username, chat_history);
 }
 
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {

@@ -1,14 +1,4 @@
-#include <boost/asio/detail/shared_ptr.hpp>
-#include <Swiften/Elements/Message.h>
-#include <json.h>
-#include <JsonParser.h>
-#include <db.h>
-#include <list>
-#include <boost/date_time/gregorian/gregorian.hpp>
 #include "XMPPMessageHandler.h"
-#include "api_server_constants.h"
-#include "DatabaseManager.h"
-#include "ChatDatabaseManager.h"
 
 
 XMPPMessageHandler::XMPPMessageHandler(std::string message) {

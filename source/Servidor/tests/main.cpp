@@ -4,10 +4,12 @@
  *  Created on: Jun 3, 2016
  *      Author: tobias
  */
+
 #include "interestTest.h"
 #include "parserTest.h"
 #include "sharedServerTest.h"
 #include "tokenizerTest.h"
+#include "userMatcherTest.h"
 #include "messageHandlerTest.h"
 #include "gtest/gtest.h"
 #include "../../libs/loger/easylogging++.h"
