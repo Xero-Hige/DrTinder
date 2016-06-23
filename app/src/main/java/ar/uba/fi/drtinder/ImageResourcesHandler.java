@@ -15,6 +15,7 @@ import com.google.common.io.ByteStreams;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -76,10 +77,6 @@ public final class ImageResourcesHandler {
         }
     }
 
-    private static int getCacheKey(int resourceType, String resId) {
-        return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId).hashCode();
-    }
-
     /**
      * Prefetch resources from server (if needed) in order to improve network resources use.
      *
@@ -99,6 +96,10 @@ public final class ImageResourcesHandler {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private static int getCacheKey(int resourceType, String resId) {
+        return String.format(Locale.ENGLISH, "%d::%s", resourceType, resId).hashCode();
+    }
+
     /**
      * TODO
      *
@@ -114,10 +115,6 @@ public final class ImageResourcesHandler {
         task.execute();
     }
 
-    private static Bitmap convertToBitmap(byte[] byteImage) {
-        return BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
-    }
-
     private static Bitmap recoverCachedImg(Integer cacheKey) {
         String path = cacheMap.get(cacheKey);
         try {
@@ -131,6 +128,10 @@ public final class ImageResourcesHandler {
             DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Error opening cache image file");
             return null;
         }
+    }
+
+    private static Bitmap convertToBitmap(byte[] byteImage) {
+        return BitmapFactory.decodeByteArray(byteImage, 0, byteImage.length);
     }
 
     private static void addToFetching(Integer cacheKey) {
@@ -213,6 +214,14 @@ public final class ImageResourcesHandler {
             this.mCacheKey = getCacheKey(resourceType, resId);
         }
 
+        private void setImageUrl(int resourceType, String resId, String token) {
+            String url = getUrlByType(resourceType);
+            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
+            uriBuilder.appendQueryParameter("token", token);
+            uriBuilder.appendQueryParameter("res_id", resId);
+            this.mImageUrl = uriBuilder.build().toString();
+        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             if (fetchingMap.containsKey(mCacheKey)) {
@@ -262,12 +271,27 @@ public final class ImageResourcesHandler {
 
         }
 
-        private void setImageUrl(int resourceType, String resId, String token) {
-            String url = getUrlByType(resourceType);
-            Uri.Builder uriBuilder = Uri.parse(url).buildUpon();
-            uriBuilder.appendQueryParameter("token", token);
-            uriBuilder.appendQueryParameter("res_id", resId);
-            this.mImageUrl = uriBuilder.build().toString();
+        private Bitmap getImage() {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + mImageUrl);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+            String result;
+            try {
+                result = restTemplate.getForObject(mImageUrl, String.class, "Android");
+            } catch (HttpClientErrorException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+                return null;
+            } catch (HttpServerErrorException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+                return null;
+            } catch (ResourceAccessException e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Cant connect: " + e.getMessage());
+                return null;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
+            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
+            cacheImgFile(mCacheKey, imageString, mContext);
+            return convertToBitmap(imageString);
         }
 
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
@@ -295,26 +319,6 @@ public final class ImageResourcesHandler {
             }
 
             cacheMap.put(cacheKey, cachePath);
-        }
-
-        private Bitmap getImage() {
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + mImageUrl);
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-            String result;
-            try {
-                result = restTemplate.getForObject(mImageUrl, String.class, "Android");
-            } catch (HttpClientErrorException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
-                return null;
-            } catch (HttpServerErrorException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
-                return null;
-            }
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
-            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
-            cacheImgFile(mCacheKey, imageString, mContext);
-            return convertToBitmap(imageString);
         }
     }
 }

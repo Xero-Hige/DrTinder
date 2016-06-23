@@ -32,8 +32,6 @@ import android.widget.TextView;
  */
 public class ChatFragment extends Fragment {
 
-    private String mToken;
-
     /**
      * TODO
      *
@@ -47,23 +45,29 @@ public class ChatFragment extends Fragment {
                              @Nullable Bundle bundle) {
         View view = inflater.inflate(R.layout.chat_fragment, container, false);
 
-        mToken = getActivity().getIntent().getExtras().getString(MainActivity.EXTRA_TOKEN);
-
         LinearLayout bar = (LinearLayout) view.findViewById(R.id.chat_item);
 
-        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_MATCHES, mToken,
+        StringResourcesHandler.executeQuery(StringResourcesHandler.USER_MATCHES,
+                UserHandler.getToken(),
                 data -> {
+                    if (data == null) {
+                        Utility.showMessage("Error de conexion con el servidor", getView(), "Ok");
+                        return;
+                    }
+
                     for (int i = 0; i < data.size(); i++) {
                         String name = data.get(i)[0];
                         String age = data.get(i)[1];
                         String user = data.get(i)[2];
 
-                        View layout = inflater.inflate(R.layout.chat_user_layout_left, container, false);
+                        View layout = inflater.inflate(R.layout.chat_user_layout_left,
+                                container, false);
                         ImageView imageView = addUserChat(name, age, user, layout);
 
                         imageView.setOnClickListener(listener -> {
-                            assert container != null;//DEBUG Assert
-                            Intent menuIntent = new Intent(container.getContext(), ChatSession.class);
+                            assert container != null; //DEBUG Assert
+                            Intent menuIntent = new Intent(container.getContext(),
+                                    ChatSession.class);
                             menuIntent.putExtra("User", name);
                             menuIntent.putExtra("ID", user);
                             startActivity(menuIntent);
@@ -92,7 +96,7 @@ public class ChatFragment extends Fragment {
         ageTextView.setText(age);
         ImageView imageView = (ImageView) chatLayout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(username, ImageResourcesHandler.RES_USER_IMG,
-                mToken, imageView, getContext());
+                UserHandler.getToken(), imageView, getContext());
         return imageView;
     }
 }

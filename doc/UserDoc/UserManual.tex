@@ -8,7 +8,10 @@
 \usepackage{shorttoc}
 \usepackage{graphicx}
 \usepackage{makeidx}
-
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,snakes}
+\usepackage{amsmath,amssymb}
 
 \newcommand{\MONTH}{%
   \ifcase\the\month
@@ -143,6 +146,9 @@
 \LARGE \ttfamily  \textit{Manual de usuario}\\
 \end{flushright}
 \end{adjustwidth}
+\begin{flushright}
+\includegraphics[width=.8\textwidth]{graficos/imagenes/logo}
+\end{flushright}
 \vspace*{\fill}
 \cleardoublepage
 
@@ -152,7 +158,7 @@
 \HUGE\textsf{Dr. Tinder}\par
 \end{center}
 \begin{center}
-\HUGE\textsf{Guia del usuario}\par
+\HUGE\textsf{Guía del usuario}\par
 \end{center}
 
 \begin{center}
@@ -162,7 +168,7 @@
 \LARGE\textsf{Gaston A. Martinez}\par
 \bigskip
 \normalsize\textsf{ \MONTH - \the \year }\par
-\normalsize\textsf{Correspondiente a la version 1.0.0.0}\par
+\normalsize\textsf{Correspondiente a la versión 1.0.0.0}\par
 \medskip
 \end{center}
 \vspace*{\fill}
@@ -180,7 +186,7 @@ All rights reserved
 \begin{center}
 \begin{tabular}{ll}
 Primera edicion:                        & Junio 2016 \\
-Version de la aplicacion: & (1.0.0.0)
+Version de la aplicación: & (1.0.0.0)
 \end{tabular}
 \end{center}
 
@@ -207,7 +213,7 @@ Ultima modificacion \today
 
 \chapter{Prefacio}
 
-    \textit{Tener que programar el tinder es una buena excusa para usarlo.}\\
+    \textit{Tener que programar el Tinder es una buena excusa para usarlo.}\\
 
 {\raggedleft{\scshape Gaston A. Martinez} \\ Buenos Aires, Argentina\\ Junio 2016\par}
 
@@ -215,162 +221,302 @@ Ultima modificacion \today
 \chapterstyle{BlueBox}
 \mainmatter
 
-\chapter{Informacion General} \label{chap:infogeneral}
+\chapter{Información General} \label{chap:infogeneral}
 
-\section{System Overview}
+\section{Sistema}
 
-Explain in general terms the \index{system} and the purpose for which it is intended.  The description shall include: 
-
-Major functions performed by the \index{system}
-Describe the architecture of the system in \index{non-technical} terms, (e.g., client/server, Web-based, etc.)
-User access mode, (e.g., graphical user interface)
-Responsible organization
-System name or title
-System code
-System category:
-Major application:  performs clearly defined functions for which there is a readily identifiable security consideration and need
-General support system:  provides general ADP or \index{network} support for a variety of users and applications
-Operational status:
-Operational
-Under development
-Undergoing a major modification
-General description
-System environment or special conditions
-
-\section{Project References}
-
-Provide a list of the references that were used in preparation of this document in order of importance to the end user.
-\section{Authorized Use Permission}
-
-Provide a warning regarding unauthorized usage of the system and making unauthorized copies of data, software, reports, and documents, if applicable.  If waiver use or copy permissions need to be obtained, describe the process.
-\section{Points of Contact}
-
-\subsection{Information}
-
-Provide a list of the points of organizational contact (POCs) that may be needed by the document user for informational and troubleshooting purposes.  Include type of contact, contact name, department, telephone number, and e-mail address (if applicable).  Points of contact may include, but are not limited to, help desk POC, development/maintenance POC, and operations POC.
-\subsection{Coordination}
-
-Provide a list of organizations that require coordination between the project and its specific support function (e.g., installation coordination, security, etc.).  Include a schedule for coordination activities.
-1.4.3	Help Desk
-
-Provide help desk information including responsible personnel phone numbers for \index{emergency} \index{assistance}.
-\section{Organization of the Manual}
-
-Provide a list of the major sections of the User's Manual (1.0, 2.0, 3.0, etc.) and a brief description of what is contained in each section.
-\section{Acronyms and Abbreviations}
-
-Provide a list of the acronyms and abbreviations used in this document and the meaning of each.
-
-\chapter{SYSTEM SUMMARY}
-
-This section provides a general overview of the system written in non-technical terminology.  The summary should outline the uses of the system in supporting the activities of the user and staff.
-
-\section{System Configuration}
-
-Briefly describe and depict graphically the equipment, communications, and networks used by the system.  Include the type of computer input and output devices.
-\section{Data Flows}
-
-Briefly describe or depict graphically, the overall flow of data in the system.  Include a user-oriented description of the method used to store and maintain data.
-\section{User Access Levels}
-
-Describe the different users and/or user groups and the restrictions placed on system accessibility or use for each.
-\section{Contingencies and Alternate Modes of Operation}
-
-On a high level, explain the continuity of operations in the event of emergency, disaster, or accident.  Explain what the effect of degraded performance will have on the user.
-
-\chapter{GETTING STARTED}
-
-This section provides a general walkthrough of the system from initiation through exit.  The logical arrangement of the information shall enable the functional personnel to understand the sequence and flow of the system.  Use screen prints to depict examples of text under each heading.
-\section{Logging On}
-
-Describe the procedures necessary to access the system, including how to get a user ID and log on.  If applicable, identify job request forms or control statements and the input, frequency, reason, origin, and medium for each type of output.
-\section{System Menu}
-
-This section describes in general terms the system menu first encountered by the user, as well as the navigation paths to functions noted on the screen.  Each system function should be under a separate section header, 3.2.1 - 3.2.x.
-3.2.x	[System Function Name]
-
-Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function and pathway of the menu item.  Provide an average response time to use the function.
-\section{Changing User ID and Password}
-
-Describe how the user changes a user \index{ID}.  Describe the actions a user must take to change a password.
-\section{Exit System}
-
-Describe the actions necessary to properly exit the system. \index{online}
+Dr.Tinder es una aplicación de encuentros desarrollada para el sistema operativo Android. En ella distintos usuarios pueden conocerse desde la comodidad de su celular.
 
 
-\chapter{USING THE SYSTEM}
+\section{Requerimientos del dispositivo}
 
-This section provides a detailed description of the online system from initiation through exit, explaining in detail the characteristics of the required input and system-produced output.  THIS SECTION IS ONLY TO BE USED FOR ONLINE SYSTEMS.  IF YOU ARE DEVELOPING A BATCH SYSTEM, USE SECTION 5.0 AND OMIT THIS SECTION ENTIRELY.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Sistema operativo&Android 4.4.4 (KitKat) o superior\\ \hline
+Colectividad&Acceso a internet móvil\\ \hline
+&Acceso a la ubicación\\
+\hline
+\end{tabular}
+\caption{Requerimientos}
+\label{table:reqs}
+\end{table}
 
-\section{USING the SYSTEM (ONline)}
+\section{Requerimientos}
 
-This section provides a detailed description of system functions.  Each function should be under a separate section header, 4.1 - 4.x, and should correspond sequentially to the system functions (menu items) listed in subsections 3.2.1 - 3.2.x.
-\section{[System Function Name]}
+Para poder crear una cuenta es necesario tener una dirección de correo electrónico valida. A la misma le llegaran notificaciones y le servirá para manejar su cuenta.
 
-Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function in detail and depict graphically.  Include screen captures and descriptive narrative.
-4.x.y	[System Sub-Function Name]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=green!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Es importante que tenga acceso a la cuenta de correos con la que se registra. Sin eso, no podrá recuperar los datos en caso de perder la contraseña.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This subsection provides a detailed description of system sub-functions.  Each sub-function should be under a separate section header, 4.1.1. - 4.x.y .  Where applicable, for each sub-function referenced within a section in 4.x, describe in detail and depict graphically the sub-function name(s) referenced.  Include screen captures and descriptive narrative.
 
-The numbering of the following two sections will depend on how many system functions there are from 4.1 through 4.x.  They are numbered here as 4.2 and 4.3 only for the sake of convenience.  For example, if \index{system} functions run from sections 4.1 through 4.17, then the following two sections would be numbered 4.18 and 4.19.
-\section{Special Instructions for Error Correction}
+\chapter{Instalación} \label{chap:primerUso}
 
-Describe all recovery and error correction procedures, including error conditions that may be generated and corrective actions that may need to be taken.
-\section{Caveats and Exceptions}
+\section{Descarga de la aplicación}
 
-If there are special actions the user must take to insure that data is properly saved or that some other function executes properly, describe those actions here.  Include screen captures and descriptive narratives, if applicable.
+La aplicación se puede descargar desde la pagina principal del proyecto \href{https://github.com/Xero-Hige/DrTinder}{https://github.com/Xero-Hige/DrTinder}:\\
 
 
-\chapter{USING THE SYSTEM (BATCH)}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/a}
+    \caption{Pagina de descargas}
+    \label{fig:downloadPage}
+\end{figure}
 
-This section provides a detailed description of the batch system from initiation through exit, explaining in detail the characteristics of the required input and system-produced output.  THIS SECTION IS ONLY TO BE USED FOR BATCH SYSTEMS.  IF YOU ARE DEVELOPING AN \index{ONLINE} SYSTEM, USE SECTION 4.0 AND OMIT THIS SECTION ENTIRELY.
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/c}
+    \caption{Dialogo de descarga}
+    \label{fig:downloaddiag}
+\end{figure}
 
-\section{USING the SYSTEM (batch)}
+Al hacer click en el vinculo (figura \ref{fig:downloadPage}) se descargara un archivo \texttt{apk} mediante el cual va a poder instalar la aplicación.
 
-This section provides a detailed description of system functions.  Each function should be under a separate section header, 5.1 - 5.x, and should correspond sequentially to the system functions (menu items) listed in subsections 3.2.1 - 3.2.x.
-5.x	[System Function Name]
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/d}
+    \caption{Descarga iniciada del archivo}
+    \label{fig:downloaddiag}
+\end{figure}
 
-Provide a system function name and identifier here for reference in the remainder of the subsection.  Describe the function in detail and depict graphically.  Include screen captures and descriptive narrative.
-5.x.y	[System Sub-Function Name]
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/e}
+    \caption{Descarga completada del archivo}
+    \label{fig:downloaddone}
+\end{figure}
 
-This subsection provides a detailed description of system sub-functions.  Each sub-function should be under a separate section header, 5.1.1 - 5.x.y.  Where applicable, for each sub-function referenced within a section in 5.x, describe in detail and depict graphically the sub-function name(s) referenced.  Include screen captures and descriptive narrative.
+\section{Instalación}
 
-The numbering of the following three sections will depend on how many system functions there are from 5.1 through 5.x.  They are numbered here as 5.2, 5.3, and 5.4 only for the sake of convenience.  For example, if system functions run from sections 5.1 through 5.17, then the following three sections would be numbered 5.18, 5.19 and 5.20.
-\section{Special Instructions for Error Correction}
+La instalación se inicia al tocar la notificación de descarga finalizada (Figura \ref{fig:downloaddone} desde el archivo descargado en la sección anterior. El sistema disparara automáticamente el proceso (Figura \ref{fig:downloadacpt}).
 
-Describe all recovery and error correction procedures, including error conditions that may be generated and corrective actions that may need to be taken.
-\section{Caveats and Exceptions}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/b}
+    \caption{Instalación y permisos}
+    \label{fig:downloadacpt}
+\end{figure}
 
-If there are special actions the \index{user} must take to insure that data is properly saved or that some other function executes properly, describe those actions here.  Include screen captures and descriptive narratives, if applicable.
-\section{Input Procedures and Expected Output}
 
-Prepare a detailed series of instructions (in non technical terms) describing the procedures the user will need to follow to use the system.  The following information should be included in these instructions:
 
-Detailed procedures to \index{initiate} system operation, including identification of job request forms or control statements and the input's frequency, reason, origin, and medium for each type of output
-Illustrations of input formats
-Descriptions of input preparation rules
-Descriptions of output procedures identifying output formats and specifying the output's purpose, frequency, options, media, and location
-Identification of all codes and abbreviations used in the system's output
+\subsection{Problemas comunes de instalación}
 
-\chapter{QUERYING}
+Para que la instalación sea exitosa es necesario tener habilitada la opción \textit{Fuentes desconocidas} en la sección de \emph{Seguridad} de las opciones (Figura \ref{fig:segact}).
 
-This section describes the query and retrieval capabilities of the system.  The instructions necessary for recognition, preparation, and processing of a query applicable to a database shall be explained in detail. Use screen prints to depict examples of text under each heading.
-\section{Query Capabilities}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/f}
+    \caption{Opciones de seguridad}
+    \label{fig:seg}
+\end{figure}
 
-Describe or illustrate the pre-programmed and ad hoc query capabilities provided by the system.  Include query name or code the user would invoke to execute the query.  Include query parameters if applicable.
-\section{Query Procedures}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/g}
+    \caption{Fuentes desconocidas activada}
+    \label{fig:segact}
+\end{figure}
 
-Develop detailed descriptions of the procedures necessary for file query including the parameters of the query and the sequenced control instructions to extract query requests from the database.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=red, fill=red!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=red, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        Las opciones de fuentes desconocidas están para preservar la integridad de su teléfono. Al habilitar esta opción puede instalar aplicaciones no verificadas por Google. Tenga en cuenta, que una vez habilitada esta opción, el sistema no va a informar sobre posibles aplicaciones no seguras que se intenten instalar. Una vez instalado \textbf{Dr. Tinder} des-habilite dicha opción por su seguridad.
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Cuidado}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{REPORTING}
+\chapter{Crear un usuario}
 
-This section describes and depicts all standard reports that can be generated by the system or internal to the user.  Use \index{screen} prints as needed to depict examples of text under each heading.
-\section{Report Capabilities}
+Para poder utilizar la aplicación es necesario crear un usuario para la misma. Los usuarios se crean en base a un \emph{email}, por lo que es necesario ingresarlo en la pantalla principal, para luego poder utilizar la opción de \emph{Sign Up} (Figura \ref{fig:createppal}).
 
-Describe all reports available to the end \index{user}.  Include \index{report} format and the meaning of each field shown on the report.  If user is creating ad hoc reports with special formats, please describe here.  A separate subsection may be used for each report.
-\section{Report Procedures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=yellow!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Si el email ya esta en uso, el sistema no permitirá crear un nuevo usuario con el mismo. En caso de que no le permita ingresar su cuenta personal, póngase en contacto con los administradores.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Provide instructions for executing and printing the different reports available.  Include descriptions of output procedures identifying \index{output} formats and specifying the output's purpose, frequency, options,
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/h}
+    \caption{Pantalla principal. Sign Up}
+    \label{fig:createppal}
+\end{figure}
+
+Una vez que se seleccione esa opción, se pasara a la pantalla para llenar los datos (Figura \ref{fig:createppagl}) 
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Pantalla de creación (1)}
+    \label{fig:createppagl}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=yellow!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Dependiendo del tamaño del dispositivo puede que alguna de las opciones no entren en pantalla. Las mismas se encuentran por debajo y son accesibles mediante scroll.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Datos del usuario}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Campo&Descripción&Es obligatorio&Referencia\\
+\hline \hline
+Nombre&Nombre para mostrar del usuario&SI&1\\ \hline
+Edad&Edad del usuario (Mayor de 18 años)&SI&2\\ \hline
+Password&Password del usuario (Mayor a 6 caracteres)&SI&3\\ \hline
+Sexo&Sexo del usuario&SI&4\\ \hline
+Sexo de las parejas&Sexo de los candidatos&NO&5\\ \hline
+Intereses&Intereses del usuario&NO&6\\ \hline
+\end{tabular}
+\caption{Información del usuario}
+\label{table:campos}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/j}
+    \caption{Pantalla de creación (2)}
+    \label{fig:createppagl}
+\end{figure}
+
+Una vez completados los datos se puede proceder a crear el perfil presionando el boton \emph{create} (Figura \ref{fig:createppagl})
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=yellow!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Hasta que no se terminen de cargar los datos al servidor el usuario no estara disponible. Espere a que aparezca la notificacion de error de creacion o sea redirigido a la pantalla principal}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Subir una imagen}
+
+Para poder subir la imagen de avatar se debe presionar la imagen por defecto (Figura \ref{fig:notfound}) y eso disparara la galería desde donde se podrá elegir la imagen a utilizar como avatar.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/imagenes/not_found}
+    \caption{Imagen por defecto (imagen faltante)}
+    \label{fig:notfound}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=green!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{La imagen se cargara solo cuando se de presione el botón crear, por lo que se puede elegir múltiples veces la misma sin problema.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{A saber}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Log in}
+
+Una vez creado el usuario se puede loguear desde la pantalla principal (Figura \ref{fig:ppal}), utilizando el email y contraseña previamente registrados.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/k}
+    \caption{Pantalla principal (Log in)}
+    \label{fig:ppal}
+\end{figure}
+
+
+\chapter{Pantalla Principal}
+
+\section{Pantalla de Selección}
+
+\section{Pantalla de Chats}
+
+\section{Cerrar Sesión}
+
+\chapter{Buscar Matches}
+
+\section{Selección de personas}
+
+\section{Perfil de los usuarios}
+
+\chapter{Chats}
+
+\section{Visualización de Matches}
+
+\section{Chat con un Match}
+
+\chapter{Perfil}
+
+\section{Actualizar los datos}
+
+\section{Borrar el perfil}
+
+\chapter{Errores comunes}
+
+\section{Notificación de errores}
 
 \backmatter
 
