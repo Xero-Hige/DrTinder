@@ -1,13 +1,13 @@
 #ifndef SOURCE_API_CONSTANTS_SERVER
 #define SOURCE_API_CONSTANTS_SERVER
 
-#define CHAT_URI "chats"
-#define USER_URI "user"
-#define USER_ID_URI "user/token/id"
-#define USERS_URI "users"
-#define USERS_PHOTO_URI "users/photo"
-#define INTEREST_URI "interest"
-#define FRIENDS_URI "friends"
+#define CHAT_URI "/chats"
+#define USER_URI "/user"
+#define USER_ID_URI "/user/token/id"
+#define USERS_URI "/users"
+#define USERS_PHOTO_URI "/users/photo"
+#define INTEREST_URI "/interest"
+#define FRIENDS_URI "/friends"
 
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"
