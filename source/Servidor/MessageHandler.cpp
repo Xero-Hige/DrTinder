@@ -239,7 +239,7 @@ bool MessageHandler::addLocalization(string localization) {
 	data_to_post[USER_KEY] = jsonUser;
 
 	LOGG(DEBUG) << "Updating info of " + id ;
-
+	LOGG(DEBUG) << "User: " <<  jsonParser.getAsString(data_to_post);
 	return ssClient.changeUser(id, jsonParser.getAsString(data_to_post));
 }
 

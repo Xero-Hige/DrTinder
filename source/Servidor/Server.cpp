@@ -44,7 +44,7 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 			} else if (is_equal(&http_msg->uri, USER_URI)) {
 				requestHandler.listenUserRequest();
 			}else{
-				requestHandler.rejectConnection(NOT_IMPLEMENTED);
+				requestHandler.sendHttpLine(NOT_IMPLEMENTED);
 			}
 			break;
 		default:
