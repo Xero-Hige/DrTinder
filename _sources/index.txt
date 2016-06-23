@@ -25,12 +25,16 @@ Contents:
    :maxdepth: 2  
    
    appServer/api
-  
+   
 Shared Server Documentation
 ===========================
  
-Contents:
-Agregar diagrama de base de datos
+Contents: 
+
+.. toctree::
+   :maxdepth: 2  
+   
+   sharedServer/dbDiagram
 
 Indices and tables
 ==================
