@@ -1,14 +1,10 @@
 package ar.uba.fi.drtinder;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -98,45 +94,9 @@ public class SelectionFragment extends Fragment {
     }
 
     private void fillCardStack() {
-        showProgress(true);
+        Utility.showMessage("Buscando candidatos", getView(), "Ok", 100);
         UsersFetchTask mAuthTask = new UsersFetchTask();
         mAuthTask.execute((Void) null);
-    }
-
-    /**
-     * TODO: Check this, not working properly
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-            mCardStack.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mCardStack.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 
     private void setButtons(View view) {
@@ -215,9 +175,8 @@ public class SelectionFragment extends Fragment {
 
                     if (index - excluded > 0) {
                         setCardsAdapter(mFragmentView);
-                        showProgress(false);
                     } else {
-                        Utility.showMessage("There is no more candidates. Try later", getView());
+                        Utility.showMessage("De momento no hay mas candidatos", getView());
                     }
                 });
     }
