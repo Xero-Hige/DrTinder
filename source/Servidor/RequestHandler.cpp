@@ -101,7 +101,7 @@ void RequestHandler::listenUserRequest() {
         }
         bool updated = msgHandler->addLocalization(std::string(localization));
         if (! updated){
-        	sendHttpLine(BAD_RQUEST);
+        	sendHttpLine(BAD_REQUEST);
         }
         return;
     }
@@ -147,8 +147,8 @@ void RequestHandler::listenUsersRequest() {
         try {
             bool created = msgHandler->createUser(std::string(user_data), std::string(pass));
             if (! created){
-            	rejectConnection(BAD_REQUEST)
-				delete msgHandler;;
+            	rejectConnection(BAD_REQUEST);
+				delete msgHandler;
             }else{
             	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
             }
@@ -160,7 +160,8 @@ void RequestHandler::listenUsersRequest() {
         return;
     }
     if (! login()) {
-    	sendHttpLine(UNAUTHORIZED);
+    	rejectConnection(UNAUTHORIZED);
+    	delete msgHandler;
     	return; }
 
     if (is_equal(&http_msg->method, GET_S)) {
