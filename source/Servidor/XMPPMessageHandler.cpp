@@ -1,12 +1,4 @@
-#include <boost/asio/detail/shared_ptr.hpp>
-#include <Swiften/Elements/Message.h>
-#include <json.h>
-#include <JsonParser.h>
-#include <db.h>
-#include <list>
 #include "XMPPMessageHandler.h"
-#include "api_server_constants.h"
-#include "DatabaseManager.h"
 
 
 XMPPMessageHandler::XMPPMessageHandler(std::string message) {
@@ -37,16 +29,21 @@ XMPPMessageHandler::XMPPMessageType XMPPMessageHandler::getType() {
 
 void XMPPMessageHandler::saveMessage(rocksdb::DB *chatDB, boost::optional<boost::posix_time::ptime> timestamp) {
     //TODO: recordar el orden de los usuarios
+    ChatDatabaseManager databaseManager(chatDB);
+//    string str_timestamp = boost::posix_time::to_iso_extended_string(timestamp.get().ptime());
+    string str_timestamp;
+    string db_message = str_timestamp + DB_SEPARATOR + dialog;
+    databaseManager.addEntry(sender, receiver, db_message);
 }
 
 void XMPPMessageHandler::saveLike(rocksdb::DB *likesDB) {
     DatabaseManager databaseManager(likesDB);
-    databaseManager.addEntry(sender+ DB_SEPARATOR + receiver, LIKED_TOKEN);
+    databaseManager.addEntry(sender + DB_SEPARATOR + receiver, LIKED_TOKEN);
 }
 
 void XMPPMessageHandler::saveDislike(rocksdb::DB *dislikesDB) {
     DatabaseManager databaseManager(dislikesDB);
-    databaseManager.addEntry(sender+ DB_SEPARATOR + receiver, DISLIKED_TOKEN);
+    databaseManager.addEntry(sender + DB_SEPARATOR + receiver, DISLIKED_TOKEN);
 }
 
 std::string XMPPMessageHandler::getReceiver() {

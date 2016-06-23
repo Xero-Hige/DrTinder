@@ -26,6 +26,8 @@ class Server {
 
     void setChatDB(rocksdb::DB *db);
 
+    void setLikesDB(rocksdb::DB *database);
+
 protected:
 	/* Proccess new_event from act_connection. */
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);

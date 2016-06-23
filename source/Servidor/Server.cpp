@@ -60,4 +60,10 @@ void Server::setChatDB(rocksdb::DB *db) {
 	databases->chatDB = db;
 }
 
+void Server::setLikesDB(rocksdb::DB *database) {
+	databases->likesDB = database;
+}
+
+
+
 

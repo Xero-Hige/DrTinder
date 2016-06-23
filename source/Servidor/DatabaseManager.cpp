@@ -1,3 +1,4 @@
+#include <rocksdb/utilities/transaction.h>
 #include "DatabaseManager.h"
 
 #define DB_NAME "users"
@@ -5,22 +6,7 @@
 using namespace rocksdb;
 using std::string;
 
-DatabaseManager::DatabaseManager(DB *database, bool users) : db(database){
-	Options options;
-	options.create_if_missing = true;
-	string db_name = DB_CHAT;
-
-	if (users){
-		db_name = DB_NAME;
-	}
-
-	LOGG(INFO) << "Opening " << db_name;
-	Status status = DB::Open(options, db_name, &db);
-	if (! status.ok()) {
-		LOGG(FATAL) << "Could not open database";
-	}else{
-		LOGG(INFO) << "Conexion exitosa a la base de datos";
-	}
+DatabaseManager::DatabaseManager(DB *database) : db(database), iter(NULL){
 }
 
 DatabaseManager::~DatabaseManager() {
@@ -38,7 +24,7 @@ bool DatabaseManager::correctEntry(string key, string value) {
 	return true;
 }
 
-bool DatabaseManager::addEntry(string key, string value) {
+bool DatabaseManager::addEntry(std::string key, std::string value) {
 	return db->Put(WriteOptions(), key, value).ok();
 }
 
@@ -54,4 +40,46 @@ bool DatabaseManager::getEntry(string key, string &found){
 	}
 	found = aux;
 	return true;
+}
+
+
+void DatabaseManager::replaceEntry(std::string key, std::string value) {
+	string aux;
+	if (getEntry(key, aux)) {
+		deleteEntry(key);
+	}
+	addEntry(key, value);
+}
+
+void DatabaseManager::createIterator() {
+	iter = db->NewIterator(rocksdb::ReadOptions());
+	iter->SeekToFirst();
+}
+
+bool DatabaseManager::advanceIterator() {
+	if (iter == NULL || ! iter->Valid()) {
+		return false;
+	}
+	iter->Next();
+	return true;
+}
+bool DatabaseManager::getActualPair(std::string& key, std::string value) {
+	if (iter == NULL) {
+		return false;
+	}
+	key = iter->key().ToString();
+	value = iter->value().ToString();
+	return true;
+}
+
+void DatabaseManager::deleteIterator() {
+	if (iter == NULL) {
+		return;
+	}
+	delete iter;
+	iter = NULL;
+}
+
+bool DatabaseManager::validIterator() {
+	return iter->Valid();
 }

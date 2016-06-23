@@ -16,23 +16,34 @@
 #define USER_PHOTO_DB "user_photo_"
 #define USER_LOOKING_DB "user_looking_"
 
+
+
 /* Database for users and passwords. */
 class DatabaseManager {
 	public:
 	/* Create new database. */
-		DatabaseManager(rocksdb::DB *database, bool users=true);
+		DatabaseManager(rocksdb::DB *database);
 	/* Destroy database. */
 		~DatabaseManager();
 	/* Returns if key, value is a valid entry in database. */
 		bool correctEntry(std::string key, std::string value);
 	/* Add new entry to database. */
-		bool addEntry(std::string key, std::string value);
+	bool addEntry(std::string key, std::string value);
 	/* Delete entry from database. */
 		bool deleteEntry(std::string key);
 	/* Get value of key in found, returns false if not found */
 		bool getEntry(std::string key, std::string &found);
-	private:
+
+	void createIterator();
+	bool advanceIterator();
+	bool getActualPair(std::string& key, std::string value);
+	void deleteIterator();
+	bool validIterator();
+protected:
 		rocksdb::DB* db;
+		rocksdb::Iterator* iter;
+
+	void replaceEntry(std::string key, std::string value);
 };
 
 #endif // DATABASE_H

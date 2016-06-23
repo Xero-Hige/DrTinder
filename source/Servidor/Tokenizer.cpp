@@ -81,7 +81,7 @@ std::string Tokenizer::newToken(std::string mail, std::string pass){
 	//cout << "md5 digest: " << mdString << endl;
 	std::string hashed(mdString);
 
-	database->addEntry(TOKENIZER_PREFIX + hashed,timeStamp);
+	database->addEntry(TOKENIZER_PREFIX + hashed, timeStamp);
 	return hashed;
 
 }

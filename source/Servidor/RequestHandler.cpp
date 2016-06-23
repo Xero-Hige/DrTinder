@@ -159,9 +159,9 @@ void RequestHandler::listenChatRequest() {
     if (! login()) { return; }
 
     if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
-        msgHandler->getMatches(reply);
-    } else {
         msgHandler->getChat(string(friend_name), reply);
+    } else {
+        msgHandler->getMatches(reply);
     }
     sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV);
 }

@@ -14,6 +14,16 @@
 #include "Parsers/CsvParser.h"
 #include "Parsers/JsonParser.h"
 #include "../libs/loger/easylogging++.h"
+#include "./matches/UserMatcher.h"
+#include "ChatDatabaseManager.h"
+
+#include <cstdbool>
+#include <list>
+
+#include "../libs/jsoncpp/dist/json/json.h"
+#include "User.h"
+#include "./matches/UserMatcher.h"
+#include "LikesDatabaseManager.h"
 
 class ExistentUserException : public exception {
 };
@@ -21,6 +31,7 @@ class ExistentUserException : public exception {
 typedef  struct _server_databases_t {
 	rocksdb::DB *usersDB;
 	rocksdb::DB *chatDB;
+	rocksdb::DB *likesDB;
 } server_databases_t;
 
 /* Handler for incomming requests. */
@@ -77,10 +88,13 @@ protected:
 		std::string getId();
 	private:
 		DatabaseManager * usersDB;
-		DatabaseManager * chatDB;
+		ChatDatabaseManager * chatDB;
+		LikesDatabaseManager * likesDB;
 		SharedServerClient ssClient;
 		Tokenizer* tokenizer;
 		std::string username;
+
+	bool match(string &users, string &candidate_data);
 };
 
 #endif // PARSER_H

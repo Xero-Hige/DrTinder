@@ -1,17 +1,12 @@
 #include "MessageHandler.h"
 
-#include <cstdbool>
-#include <list>
-
-#include "../libs/jsoncpp/dist/json/json.h"
-#include "User.h"
-#include "./matches/UserMatcher.h"
 
 using std::string;
 
 
 MessageHandler::MessageHandler(server_databases_t *databases, string name) :
-	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new DatabaseManager(databases->chatDB, false)) {
+	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)),
+	likesDB(new LikesDatabaseManager(databases->likesDB)) {
 	username = name;
 	this->tokenizer = new Tokenizer(usersDB);
 }
@@ -54,7 +49,6 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users);
 
 	resultMsg = userParser.ListToCsv(filtered_users);
-
 	while(!users.empty()){
 		delete users.front();
 		users.front() = NULL;
@@ -154,14 +148,7 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 }
 
 bool MessageHandler::getChat(std::string other_username, string& chat_history) {
-	string aux;
-	if (! chatDB->getEntry(username + other_username, aux) ) {
-		if (! chatDB->getEntry(other_username + username, aux)) {
-			return false;
-		}
-	}
-	chat_history = aux;
-	return true;
+	return chatDB->getHistory(username, other_username, chat_history);
 }
 
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
@@ -191,9 +178,21 @@ bool MessageHandler::validateToken(std::string user_token) {
 	return ! this->tokenizer->hasExpired(user_token);
 }
 
+
 void MessageHandler::getMatches(std::string id) {
 	LOGG(INFO) << "Devolviendo usuarios matcheados.";
-	//TODO: calcular matches
+	string matches;
+	usersDB->createIterator();
+	while (usersDB->validIterator()) {
+		string users, liked, candidate_data;
+
+		usersDB->getActualPair(users, liked);
+		if (liked == LIKED_TOKEN && match(users, candidate_data)) {
+			matches.append(candidate_data + "\n");
+		}
+		usersDB->advanceIterator();
+	}
+	usersDB->deleteIterator();
 }
 
 string MessageHandler::getToken() {
@@ -252,6 +251,23 @@ bool MessageHandler::getUser(string username, string &user_data) {
 	return true;
 
 }
+
+bool MessageHandler::match(string &users, string &candidate_data) {
+	size_t i = users.find(DB_SEPARATOR);
+	string user1 = users.substr(0, i), user2 = users.substr(i+1, users.length());
+
+	if (user1 != username ) {
+		if (user2 != username) {
+			return false;
+		}
+		getUser(user1, candidate_data);
+		return true;
+	}
+	getUser(user2, candidate_data);
+	return true;
+}
+
+
 
 
 

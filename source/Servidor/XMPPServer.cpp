@@ -6,7 +6,7 @@ using namespace Swift;
 using namespace boost;
 
 XMPPServer::XMPPServer(NetworkFactories* networkFactories) :
-        jid(FIREBASE_SERVER_SEND_URL) {
+        jid(FIREBASE_JID) {
     component = new Component(jid, "XMPPServer", networkFactories);
     component->onConnected.connect(bind(&XMPPServer::handleConnected, this));
     component->onMessageReceived.connect(
