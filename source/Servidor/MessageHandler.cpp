@@ -216,6 +216,7 @@ string MessageHandler::getToken() {
 }
 
 bool MessageHandler::addLocalization(string localization) {
+	LOGG(DEBUG) << localization;
 	int i = localization.find(SEPARATOR);
 	string latitude = localization.substr(0, i);
 	string longitude = localization.substr(i+1, localization.length());
@@ -229,6 +230,10 @@ bool MessageHandler::addLocalization(string localization) {
 	csvParser.makeUser(base_user, new_user);
 
 	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
+	Json::Value new_localization;
+	new_localization[LATITUDE_KEY] = stof(latitude);
+	new_localization[LONGITUDE_KEY] = stof(longitude);
+	jsonUser[LOCATION_KEY] = new_localization;
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;

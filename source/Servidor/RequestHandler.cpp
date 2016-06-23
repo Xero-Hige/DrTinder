@@ -33,13 +33,14 @@ bool RequestHandler::validateToken() {
     char buffer[MAX_LEN_TOKEN_BUFFER];
     int parsed = mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
 	if (parsed <= 0 ) {
-		rejectConnection(BAD_REQUEST);
+		sendHttpLine(BAD_REQUEST);
 		return false;
 	}
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
     	rejectConnection(INVALID_TOKEN);
         LOGG(INFO) << "Token expired";
+        delete msgHandler;
         return false;
     }
     return true;
@@ -60,7 +61,7 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 
 
     if (! is_equal(&http_msg->uri, USERS_URI) && ! is_equal(&http_msg->uri, USER_URI)) {
-        rejectConnection(NOT_IMPLEMENTED);
+    	rejectConnection(NOT_IMPLEMENTED);
         delete msgHandler;
         return false;
     }
@@ -73,10 +74,9 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 }
 
 bool RequestHandler::login() {
-	if (! msgHandler->isUserSet()){
-		return false;
-	}
-    return validateToken();
+    if (msgHandler->isUserSet())
+    	return validateToken();
+    return false;
 }
 
 void RequestHandler::listenUserRequest() {
@@ -94,27 +94,35 @@ void RequestHandler::listenUserRequest() {
         }
         char localization[500];
         int parsed = mg_get_http_var(&http_msg->body, USER_LOCATION_TOKEN, localization, sizeof(localization));
+
         if (parsed <= 0 ){
-        	rejectConnection(BAD_REQUEST);
+        	sendHttpLine(BAD_REQUEST);
         	return;
         }
-        msgHandler->addLocalization(std::string(localization));
+        bool updated = msgHandler->addLocalization(std::string(localization));
+        if (! updated){
+        	sendHttpLine(BAD_RQUEST);
+        }
         return;
     }
+
     if (! login()) {
     	rejectConnection(UNAUTHORIZED);
-    	return; }
+    	return;
+    }
 
     if (is_equal(&http_msg->method, GET_S)) {
     	LOGG(DEBUG) << GET_S;
         char username[BUFFER_SMALL_SIZE];
         int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
-		if (parsed <= 0 ) {
-			rejectConnection(BAD_REQUEST);
+
+        if (parsed <= 0 ) {
+        	sendHttpLine(BAD_REQUEST);
 			return;
 		}
         std::string user_data;
         msgHandler->getUser(std::string(username), user_data);
+
         sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
         return;
     }
@@ -133,12 +141,18 @@ void RequestHandler::listenUsersRequest() {
         }
         int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
 		if (parsed <= 0 ) {
-			rejectConnection(BAD_REQUEST);
+			sendHttpLine(BAD_REQUEST);
 			return;
 		}
         try {
-            msgHandler->createUser(std::string(user_data), std::string(pass));
-            sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
+            bool created = msgHandler->createUser(std::string(user_data), std::string(pass));
+            if (! created){
+            	rejectConnection(BAD_REQUEST)
+				delete msgHandler;;
+            }else{
+            	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
+            }
+
         } catch (ExistentUserException existentUserException) {
             rejectConnection(UNAUTHORIZED);
             delete msgHandler;
@@ -146,7 +160,7 @@ void RequestHandler::listenUsersRequest() {
         return;
     }
     if (! login()) {
-    	rejectConnection(UNAUTHORIZED);
+    	sendHttpLine(UNAUTHORIZED);
     	return; }
 
     if (is_equal(&http_msg->method, GET_S)) {
@@ -160,18 +174,18 @@ void RequestHandler::listenUsersRequest() {
         char user_data[1000];
         int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
 		if (parsed <= 0 ) {
-			rejectConnection(BAD_REQUEST);
+			sendHttpLine(BAD_REQUEST);
 			return;
 		}
         bool updated = msgHandler->updateUser(string(user_data));
         int status = (updated) ? STATUS_OK: BAD_REQUEST;
-        rejectConnection(status);
+        sendHttpLine(status);
 
     } else if (is_equal(&http_msg->method, DELETE_S)) {
     	LOGG(DEBUG) << DELETE_S;
         bool deleted = msgHandler->deleteUser();
         int status = (deleted) ? STATUS_OK: BAD_REQUEST;
-        rejectConnection(status);
+        sendHttpLine(status);
 
     } else {
     	rejectConnection(NOT_IMPLEMENTED);
@@ -182,12 +196,8 @@ void RequestHandler::listenUsersRequest() {
 void RequestHandler::listenIdRequest() {
 	LOGG(DEBUG) << "Listening ID request";
     if (! is_equal(&http_msg->method, GET_S)) {
-    	rejectConnection(NOT_IMPLEMENTED);
+    	sendHttpLine(NOT_IMPLEMENTED);
         return;
-    }
-    if (! msgHandler->isUserSet()){
-    	rejectConnection(UNAUTHORIZED);
-    	return;
     }
     sendHttpReply(msgHandler->getToken(), TOKEN_VARIABLE_NAME);
 }
@@ -195,11 +205,12 @@ void RequestHandler::listenIdRequest() {
 void RequestHandler::listenInterestRequest() {
 	LOGG(DEBUG) << "Listening Interest request";
     if (! is_equal(&http_msg->method, GET_S)) {
-    	rejectConnection(NOT_IMPLEMENTED);
+    	sendHttpLine(NOT_IMPLEMENTED);
     }
 
     if (! login()) {
     	rejectConnection(UNAUTHORIZED);
+    	delete msgHandler;
     	return;
     }
 
@@ -207,7 +218,7 @@ void RequestHandler::listenInterestRequest() {
     char id_interest[BUFFER_SMALL_SIZE];
     int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));
 	if (parsed <= 0 ) {
-		rejectConnection(BAD_REQUEST);
+		sendHttpLine(BAD_REQUEST);
 		return;
 	}
     std::string interest_photo;
@@ -218,7 +229,7 @@ void RequestHandler::listenInterestRequest() {
 void RequestHandler::listenChatRequest() {
 	LOGG(DEBUG) << "Listening chat request";
     if (! is_equal(&http_msg->method, GET_S)) {
-    	rejectConnection(NOT_IMPLEMENTED);
+    	sendHttpLine(NOT_IMPLEMENTED);
     }
     LOGG(DEBUG) << GET_S;
 
@@ -226,6 +237,7 @@ void RequestHandler::listenChatRequest() {
     std::string reply;
     if (! login()) {
     	rejectConnection(UNAUTHORIZED);
+    	delete msgHandler;
     	return; }
 
     if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
@@ -245,7 +257,7 @@ void RequestHandler::listenPhotoRequest() {
         char username[BUFFER_SMALL_SIZE];
         int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_USER, username, sizeof(username));
 		if (parsed <= 0 ) {
-			rejectConnection(BAD_REQUEST);
+			sendHttpLine(BAD_REQUEST);
 			return;
 		}
         std::string photo_64;
@@ -256,7 +268,7 @@ void RequestHandler::listenPhotoRequest() {
     	std::string photo_64(http_msg->body.p, http_msg->body.len);
         bool posted = msgHandler->postPhoto(photo_64);
         int status = (posted) ? STATUS_OK: BAD_REQUEST;
-        rejectConnection(status);
+        sendHttpLine(status);
 
     } else {
         sendHttpLine(NOT_IMPLEMENTED);
