@@ -10,8 +10,9 @@
 \usepackage{makeidx}
 \usepackage{float}
 \usepackage{tikz}
-\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{shapes,decorations}
 \usepackage{amsmath,amssymb}
+\usepackage{marvosym}
 
 \newcommand{\MONTH}{%
   \ifcase\the\month
@@ -223,11 +224,9 @@ Ultima modificacion \today
 
 \chapter{Información General} \label{chap:infogeneral}
 
-\section{Sistema}
-
 Dr.Tinder es una aplicación de encuentros desarrollada para el sistema operativo Android. En ella distintos usuarios pueden conocerse desde la comodidad de su celular.
 
-
+\newpage
 \section{Requerimientos del dispositivo}
 
 \begin{table}[H]
@@ -267,6 +266,9 @@ Para poder crear una cuenta es necesario tener una dirección de correo electró
 
 \chapter{Instalación} \label{chap:primerUso}
 
+Antes de poder comenzar a utilizar Dr.Tinder, debe instalar la aplicación en su dispositivo móvil, previa descarga de la misma.
+
+\newpage
 \section{Descarga de la aplicación}
 
 La aplicación se puede descargar desde la pagina principal del proyecto \href{https://github.com/Xero-Hige/DrTinder}{https://github.com/Xero-Hige/DrTinder}:\\
@@ -283,7 +285,7 @@ La aplicación se puede descargar desde la pagina principal del proyecto \href{h
     \centering
 \includegraphics[width=0.6\textwidth]{graficos/capturas/c}
     \caption{Dialogo de descarga}
-    \label{fig:downloaddiag}
+    \label{fig:downloaddiag1}
 \end{figure}
 
 Al hacer click en el vinculo (figura \ref{fig:downloadPage}) se descargara un archivo \texttt{apk} mediante el cual va a poder instalar la aplicación.
@@ -292,7 +294,7 @@ Al hacer click en el vinculo (figura \ref{fig:downloadPage}) se descargara un ar
     \centering
 \includegraphics[width=0.6\textwidth]{graficos/capturas/d}
     \caption{Descarga iniciada del archivo}
-    \label{fig:downloaddiag}
+    \label{fig:downloaddiag2}
 \end{figure}
 
 \begin{figure}[H]
@@ -344,7 +346,7 @@ Para que la instalación sea exitosa es necesario tener habilitada la opción \t
         Las opciones de fuentes desconocidas están para preservar la integridad de su teléfono. Al habilitar esta opción puede instalar aplicaciones no verificadas por Google. Tenga en cuenta, que una vez habilitada esta opción, el sistema no va a informar sobre posibles aplicaciones no seguras que se intenten instalar. Una vez instalado \textbf{Dr. Tinder} des-habilite dicha opción por su seguridad.
     \end{minipage}
 };
-\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Cuidado}};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\Radioactivity \textbf{ Cuidado}};
 \end{tikzpicture}
 \end{center}
 %
@@ -370,7 +372,8 @@ Para poder utilizar la aplicación es necesario crear un usuario para la misma. 
 \end{center}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
+\section{Registro del nuevo usuario}
 \begin{figure}[H]
     \centering
 \includegraphics[width=0.6\textwidth]{graficos/capturas/h}
@@ -378,13 +381,13 @@ Para poder utilizar la aplicación es necesario crear un usuario para la misma. 
     \label{fig:createppal}
 \end{figure}
 
-Una vez que se seleccione esa opción, se pasara a la pantalla para llenar los datos (Figura \ref{fig:createppagl}) 
+Una vez que se seleccione esa opción, se pasara a la pantalla para llenar los datos (Figura \ref{fig:createppagl1}) 
 
 \begin{figure}[H]
     \centering
 \includegraphics[width=0.6\textwidth]{graficos/capturas/i}
     \caption{Pantalla de creación (1)}
-    \label{fig:createppagl}
+    \label{fig:createppagl1}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -404,7 +407,7 @@ Una vez que se seleccione esa opción, se pasara a la pantalla para llenar los d
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Datos del usuario}
+\section{Datos del usuario}\label{create}
 
 \begin{table}[H]
 \centering
@@ -427,10 +430,10 @@ Intereses&Intereses del usuario&NO&6\\ \hline
     \centering
 \includegraphics[width=0.6\textwidth]{graficos/capturas/j}
     \caption{Pantalla de creación (2)}
-    \label{fig:createppagl}
+    \label{fig:createppagl2}
 \end{figure}
 
-Una vez completados los datos se puede proceder a crear el perfil presionando el boton \emph{create} (Figura \ref{fig:createppagl})
+Una vez completados los datos se puede proceder a crear el perfil presionando el boton \emph{create} (Figura \ref{fig:createppagl2})
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{center}
@@ -468,7 +471,7 @@ Para poder subir la imagen de avatar se debe presionar la imagen por defecto (Fi
 \begin{tikzpicture}
 \node [mybox] (box){%
     \begin{minipage}{\textwidth}
-        \emph{La imagen se cargara solo cuando se de presione el botón crear, por lo que se puede elegir múltiples veces la misma sin problema.}
+        \emph{La imagen se cargara solo cuando se de presione el botón crear, por lo que se puede elegir múltiples veces la misma sin problema. Tómese su tiempo y elija una buena imagen, la misma sera su carta de presentación ante los posibles candidatos. Si no le gusta, siempre podrá cambiarla mas adelante.}
     \end{minipage}
 };
 \node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{A saber}};
@@ -490,33 +493,306 @@ Una vez creado el usuario se puede loguear desde la pantalla principal (Figura \
 
 \chapter{Pantalla Principal}
 
-\section{Pantalla de Selección}
+Una vez logueado se procede a la pantalla principal. En la misma se puede estar en modo selección o en modo Chat.\\
+En el modo selección (Sección \ref{sec:selección}) los usuarios pueden elegir de entre los candidatos propuestos con cuales les gustaría relacionarse y con cuales no. En el modo chat (Sección \ref{sec:chat}), el usuario puede relacionarse con los distintos usuarios que aceptaron relacionarse con el.\\
+En todo momento, se cuenta con un panel lateral (Sección \ref{sec:lat}) donde se encuentran las opciones para actualizar el perfil y cerrar sesión.
 
-\section{Pantalla de Chats}
+\newpage
+\section{Modo de Selección} \label{sec:selección}
 
-\section{Cerrar Sesión}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Modo Selección}
+    \label{fig:pselec}
+\end{figure}
 
-\chapter{Buscar Matches}
+El modo selección (\ref{fig:pselec}) se accede desde la pantalla principal mediante el botón de la flama de la barra de menús. Se puede cambiar al modo chat tocando el icono de la silueta. Para mas informacion de como utilizar este modo ver el Capitulo \ref{cap:match}.
 
-\section{Selección de personas}
+\section{Modo de Chats} \label{sec:chat}
 
-\section{Perfil de los usuarios}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Modo Chat}
+    \label{fig:pchat}
+\end{figure}
 
-\chapter{Chats}
+El modo chat (\ref{fig:pchat}) se accede desde la pantalla principal mediante el botón de la silueta de la barra de menús. Se puede cambiar al modo selección tocando el icono de la flama. Para mas información de como utilizar este modo ver el Capitulo \ref{cap:chat}.
 
+\section{Panel lateral} \label{sec:lat}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Panel en modo Selección}
+    \label{fig:panel1}
+\end{figure}
+
+El Panel lateral es accesible desde la pantalla principal deslizando el borde izquierdo hacia el centro de la misma.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Panel en modo Chat}
+    \label{fig:panle2}
+\end{figure}
+
+Desde el panel se acceden a dos opciones
+
+\subsection{Actualización de datos}
+
+Abre la pantalla de perfil del usuario que permite actualizar los datos del mismo. Para mas información ver el Capitulo \ref{cap:perf}.
+
+\subsection{Cerrar Sesión}
+
+Para poder cerrar correctamente la sesión para por ejemplo cambiar de usuario, se puede presionar este botón en el panel lateral del menú principal.
+
+\chapter{Buscar Matches}\label{cap:match}
+
+Al usuario se le presentaran en el modo de selección las imágenes de perfil de los distintos candidatos que la aplicación le propone en base a su perfil. En la Sección \ref{sec:secper} se puede buscar el proceso mediante el cual se aceptan o rechazan los candidatos. En la Sección \ref{sec:perfurs} se detalla como acceder a la información	 de cada candidato.
+
+\newpage
+\section{Selección de personas} \label{sec:secper}
+
+En el modo de selección se pueden aceptar o rechazar los candidatos propuestos. Esto se puede realizar mediante la acción de arrastrar las tarjetas o presionando los botones
+
+\subsection{Aceptar un candidato}
+
+A la acción de determinar que le gusta un candidato se la denomina "\emph{darle like}"
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/imagenes/like}
+    \caption{Like}
+    \label{fig:like}
+\end{figure}
+
+Para ello se puede arrastrar la tarjeta hacia el lado derecho o presionando el botón con el icono de corazón (Figura \ref{fig:dlike}). A medida que arrastre la tarjeta mas al borde comenzara a aparecer la imagen de like (Figura \ref{fig:like}) sobre la imagen del candidato; al soltar la tarjeta mientras este marcada con el icono de like, se "\emph{le dará like}" al candidato.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Dar like}
+    \label{fig:dlike}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=green, fill=green!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=green, text=black]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Si aun no esta seguro, siempre puede regresar la tarjeta al centro para evitar dar like. Las acciones con los botones son mas rápidas pero no dan segundas oportunidades.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){$\spadesuit$ \textbf{Consejo}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Rechazar un candidato}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/imagenes/nope}
+    \caption{Nope}
+    \label{fig:nope}
+\end{figure}
+
+Para rechazar a un candidato se puede arrastrar la tarjeta hacia el lado izquierdo de la pantalla o presionando el botón con el icono de cruz (Figura \ref{fig:dnope}). A medida que arrastre la tarjeta mas al borde comenzara a aparecer la imagen de nope (Figura \ref{fig:nope}) sobre la imagen del candidato; al soltar la tarjeta mientras este marcada con el icono de nppe, se rechazara al candidato.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Rechazar}
+    \label{fig:dnope}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=green, fill=green!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=green, text=black]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Note que puede arrastrar la tarjeta hacia cualquier lado. El resultado de la acción sera determinado por la proximidad a alguno de los bordes. En general si no es muy cercano a ninguno la tarjeta vuelve al lugar inicial.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\Stopsign \textbf{Antes de continuar}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Perfil de los usuarios} \label{sec:perfurs}
+
+Si se toca la tarjeta sin arrastrar, se abrirá el perfil del usuario. En el mismo se puede ver:
+
+\begin{itemize}
+\item Nombre para mostrar del candidato
+\item Edad
+\item Lista de intereses del mismo
+\item Su avatar
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Perfil de un candidato}
+    \label{fig:perfmatch}
+\end{figure}
+
+\chapter{Chats}\label{cap:chat}
+
+En la sección de chats se pueden ver todos los matches 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=yellow!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Las operaciones pueden variar de velocidad dependiendo de la conexión a internet. Los matches pueden no aparecer de manera instantánea.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
 \section{Visualización de Matches}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Matches}
+    \label{fig:matchesp}
+\end{figure}
+
+En este modo aparecerán todos los candidatos a los que les hayas \emph{dado like} y ellos te hayan dado a ti. Se puede ver la información básica de cada uno, y presionando sobre su avatar se accede a la sesión de chat con el mismo.
 
 \section{Chat con un Match}
 
-\chapter{Perfil}
+En la sesión de chat se pueden enviar y recibir mensajes entre dos candidatos que se eligieron mutuamente. Para ello, se tiene un cuadro de dialogo donde se puede ingresar el mensaje a enviar, y a su lado un boton para enviarlo (Figura \ref{fig:charSend}).
 
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Enviar un mensaje a un match}
+    \label{fig:charSend}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Volver al ultimo mensaje de la lista}
+    \label{fig:chatDown}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=green, fill=green!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=green, text=black]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Todos sabemos que es difícil recordar lo que se converso (mas si se hace con muchas personas en simultaneo). Entonces se provee de un botón (como se ve en la Figura \ref{fig:chatDown}) que permite volver hasta el ultimo mensaje luego de scrolear por todo el historial.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){$\spadesuit$ \textbf{Consejo}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Perfil}\label{cap:perf}
+
+En cualquier momento se pueden actualizar los datos del perfil para corresponder a las necesidades del momento.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=blue, fill=yellow!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=blue, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Hay información que no se puede cambiar desde la aplicación móvil por motivos de seguridad. Para cambiar el email o la password diríjase al soporte web de Dr.Tinder}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\textbf{Importante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
 \section{Actualizar los datos}
+
+La ventana de actualización de datos es similar a la vista en la Sección \ref{create} para creación de usuario, salvo que con menos opciones.
+
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Volver al ultimo mensaje de la lista}
+    \label{fig:chatDown}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=pink, fill=pink!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=pink, text=black]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        \emph{Las opciones de sexo y sexo buscado son modificables en cualquier momento como cualquier dato del usuario. Es un gran poder, usar con una gran responsabilidad.}
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\FemaleMale \textbf{Interesante}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Borrar el perfil}
 
-\chapter{Errores comunes}
+Para borrar el perfil se debe presionar el botón ubicado en la parte inferior de la ventana de perfil.
 
-\section{Notificación de errores}
+\begin{figure}[H]
+    \centering
+\includegraphics[width=0.6\textwidth]{graficos/capturas/i}
+    \caption{Volver al ultimo mensaje de la lista}
+    \label{fig:chatDown}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\tikzstyle{mybox} = [draw=red, fill=red!20, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{fancytitle} =[fill=red, text=white]
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{\textwidth}
+        La operación de borrado de perfil no tiene protección en esta versión. Si presiona ese botón, su perfil sera borrado de manera definitiva e irreversible. Tenga cuidado.
+    \end{minipage}
+};
+\node[fancytitle, right=10pt, rounded corners] at (box.north west){\Radioactivity \textbf{ Cuidado}};
+\end{tikzpicture}
+\end{center}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \backmatter
 
