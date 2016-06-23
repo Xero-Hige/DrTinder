@@ -96,8 +96,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             String interestLabel = category + ":\n" + name;
             textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            ImageResourcesHandler.fillImageResource(name, ImageResourcesHandler.RES_INTEREST_IMG,
-                    mToken, imageView, this); //FIXME: Cambiar a campo combinado
+            ImageResourcesHandler.fillImageResource(name + category, ImageResourcesHandler.RES_INTEREST_IMG,
+                    mToken, imageView, this);
             assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }

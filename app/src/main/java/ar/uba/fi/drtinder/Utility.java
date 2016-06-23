@@ -67,6 +67,9 @@ public final class Utility {
      */
     public static void showMessage(String message, View coordinatorLayout,
                                    String buttonString, int displayTime) {
+        if (coordinatorLayout == null) {
+            return;
+        }
         android.support.design.widget.Snackbar snackbar = android.support.design.widget.Snackbar
                 .make(coordinatorLayout, message, displayTime);
         snackbar.setAction(buttonString, view -> {

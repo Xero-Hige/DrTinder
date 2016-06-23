@@ -112,13 +112,22 @@
                     android:text="Hombres" />
 
                 <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:id="@+id/interstsHscroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/textView4"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView4" />
+                    android:layout_alignParentStart="false"
+                    android:layout_below="@+id/textView4"
+                    android:fillViewport="false"
+                    android:minHeight="80dp">
 
+                    <LinearLayout
+                        android:id="@+id/profInterest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/textView2"
@@ -154,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/textView2"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/horizontalScrollView"
+                    android:layout_below="@+id/interstsHscroll"
                     android:hint="Category" />
 
                 <EditText
@@ -162,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/lookingMale"
-                    android:layout_below="@+id/horizontalScrollView"
+                    android:layout_below="@+id/interstsHscroll"
                     android:layout_toEndOf="@+id/interestCategory"
                     android:hint="Interest" />
 
@@ -173,7 +182,7 @@
                     android:layout_height="20dp"
                     android:layout_alignBottom="@+id/interestId"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/horizontalScrollView"
+                    android:layout_below="@+id/interstsHscroll"
                     android:layout_toEndOf="@+id/lookingMale"
                     android:text="+" />
 

@@ -9,11 +9,13 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * @author Xero-Hige
@@ -73,7 +76,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private ImageView mProfilePic;
     private String mActivityAction;
-    private String mUsername;
     private String mToken;
 
     private String mEmail;
@@ -89,6 +91,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private CheckBox mSearchingFemale;
     private TextView mUserName;
     private TextView mAge;
+    private TextView mInterestCategory;
+    private TextView mInterestId;
+
+    private LinearLayout mInterestLLay;
+    private LinkedList<String> mInterestList;
 
 
     @Override
@@ -104,7 +111,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
         mToken = activityIntent.getStringExtra(USER_EXTRA_TOKEN);
-        mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
+        String mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
         assert mActivityAction != null; //DEBUG Assert
 
         toolbar.setTitle(mActivityAction);
@@ -131,6 +138,10 @@ public class UserProfileActivity extends AppCompatActivity {
         addSubmitButton();
         addDeleteButton();
         addFields();
+
+        mInterestList = new LinkedList<>();
+
+        addAddButton();
 
         mPasswordView = (TextView) findViewById(R.id.profPassword);
         assert mPasswordView != null; //DEBUG Assert
@@ -160,7 +171,46 @@ public class UserProfileActivity extends AppCompatActivity {
                     mSearchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
                     mSearchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
 
+                    String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
+                    for (String interest1 : interests) {
+                        String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
+                        addInterest(params[0], params[1]);
+                    }
+
                 });
+    }
+
+    private void addAddButton() {
+        Button addInterestB = (Button) findViewById(R.id.addInterest);
+        assert addInterestB != null; //DEBUG Assert
+
+        addInterestB.setOnClickListener(view -> {
+            String category = mInterestCategory.getText().toString();
+            String id = mInterestId.getText().toString();
+            if (category.equals("") || id.equals("")) {
+                Utility.showMessage("Faltan datos del interes a agregar",
+                        Utility.getViewgroup(this), "Ok");
+            }
+
+            addInterest(category, id);
+
+            mInterestCategory.setText("");
+            mInterestId.setText("");
+        });
+    }
+
+    private void addInterest(String category, String id) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View layout = inflater.inflate(R.layout.interest_lay, null);
+        TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
+        String interestLabel = category + ":\n" + id;
+        textView.setText(interestLabel);
+        ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
+        ImageResourcesHandler.fillImageResource(id + category, ImageResourcesHandler.RES_INTEREST_IMG,
+                mToken, imageView, this);
+        mInterestLLay.addView(layout);
+        mInterestList.add(category + StringResourcesHandler.INTEREST_DATA_DIVIDER + id);
     }
 
     private void addFields() {
@@ -170,7 +220,13 @@ public class UserProfileActivity extends AppCompatActivity {
         mSearchingFemale = (CheckBox) findViewById(R.id.lookingFemale);
         mUserName = (TextView) findViewById(R.id.profUsername);
         mAge = (TextView) findViewById(R.id.profAge);
+        mInterestLLay = (LinearLayout) findViewById(R.id.profInterest);
+        mInterestCategory = (TextView) findViewById(R.id.interestCategory);
+        mInterestId = (TextView) findViewById(R.id.interestId);
 
+        assert mInterestCategory != null; //DEBUG Assert
+        assert mInterestId != null; //DEBUG Assert
+        assert mInterestLLay != null; //DEBUG Assert
         assert mSexMale != null; //DEBUG Assert
         assert mSexFemale != null; //DEBUG Assert
         assert mSearchingMale != null; //DEBUG Assert
@@ -289,7 +345,15 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             userdata.put("lookingFor", "Both");
         }
-        userdata.put("interest", mUsername);
+        String intereses = "";
+        for (int i = 0; i < mInterestList.size(); i++) {
+            intereses = intereses + mInterestList.get(i);
+            if (i == mInterestList.size() - 1) {
+                continue;
+            }
+            intereses = intereses + StringResourcesHandler.INTEREST_DIVIDER;
+        }
+        userdata.put("interest", intereses);
         return userdata;
     }
 
