@@ -20,13 +20,13 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result = true;
 	result_mutex.unlock();
 }
-void setUpDatabase(rocksdb::DB* db, std::string db_name) {
+void setUpDatabase(rocksdb::DB** db, std::string db_name) {
 	rocksdb::Options options;
 	options.create_if_missing = true;
 
 	LOGG(INFO) << "Opening " << db_name;
 
-	rocksdb::Status status = rocksdb::DB::Open(options, db_name, &db);
+	rocksdb::Status status = rocksdb::DB::Open(options, db_name, db);
 	if (! status.ok()) {
 		LOGG(FATAL) << "Could not open database";
 	}else{
@@ -40,9 +40,7 @@ int main() {
 	Server server;
 
 	rocksdb::DB* usersDB;
-	setUpDatabase(usersDB, "usersDB");
-	DatabaseManager usersDBM(usersDB);
-	usersDBM.addEntry("deb", "123");
+	setUpDatabase(&usersDB, "usersDB");
 
 	server.setUsersDB(usersDB);
 
@@ -51,9 +49,12 @@ int main() {
 	XMPPServer xmppServer(&networkFactories);
 
 	rocksdb::DB* chatDB;
-	setUpDatabase(chatDB, "chatDB");
+	setUpDatabase(&chatDB, "chatDB");
 	rocksdb::DB* likesDB;
-	setUpDatabase(likesDB, "likesDB");
+	setUpDatabase(&likesDB, "likesDB");
+
+	DatabaseManager usersDBM(usersDB);
+	usersDBM.addEntry("deb", "123");
 
 	xmppServer.setChatDB(chatDB);
 	xmppServer.setLikesDB(likesDB);

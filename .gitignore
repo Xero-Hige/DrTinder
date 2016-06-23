@@ -10,3 +10,9 @@ source/Servidor/cmake_install.cmake
 source/Servidor/unit_test
 source/Servidor/coverage
 source/Servidor/logs/
+source/Servidor/TestDB/
+source/Servidor/TestUserDB/
+source/Servidor/chatDB/
+source/Servidor/likesDB/
+source/Servidor/usersDB/
+source/Servidor/ChatTestDB/

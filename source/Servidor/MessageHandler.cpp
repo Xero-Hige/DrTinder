@@ -13,8 +13,6 @@ MessageHandler::MessageHandler(server_databases_t *databases, string name) :
 
 MessageHandler::~MessageHandler() {
 	delete tokenizer;
-	delete usersDB;
-	delete chatDB;
 }
 
 string MessageHandler::getId(){

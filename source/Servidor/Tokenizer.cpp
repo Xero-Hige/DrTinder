@@ -26,7 +26,7 @@ bool Tokenizer::timeStampExpired(std::string timeStamp){
 		times.push_back(cell);
 	}
 	if (times.size() != TS_COUNT){
-		//TODO error
+		LOGG(WARNING) << "Extra data in timeStamp of token";
 	}
 	struct tm _then = {0};
 	_then.tm_hour = stoi(times[TS_HOUR]) ;
@@ -99,6 +99,6 @@ void Tokenizer::remove(std::string token){
 	this->database->deleteEntry(TOKENIZER_PREFIX + token);
 }
 Tokenizer::~Tokenizer() {
-	// TODO Auto-generated destructor stub
+
 }
 

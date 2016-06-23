@@ -33,9 +33,11 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 matches/UserMatcher.cpp
 	 Parsers/CsvParser.cpp
 	 Parsers/JsonParser.cpp
-	Parsers/UserParser.cpp
+	 Parsers/UserParser.cpp
+	 ChatDatabaseManager.cpp
+	 LikesDatabaseManager.cpp
 )
-SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp RequestHandler.h ServerUtils.cpp ServerUtils.h XMPPServer.cpp XMPPServer.h XMPPMessageHandler.cpp XMPPMessageHandler.h ChatDatabaseManager.cpp ChatDatabaseManager.h LikesDatabaseManager.cpp LikesDatabaseManager.h)
+SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp ServerUtils.cpp XMPPServer.cpp XMPPMessageHandler.cpp)
 
 SET (TEST_SRCS tests/main.cpp ${COMMON_SRCS})
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function")

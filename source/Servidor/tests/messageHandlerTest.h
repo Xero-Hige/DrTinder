@@ -10,14 +10,18 @@
 #include <vector>
 #include "../MessageHandler.h"
 #include "../Parsers/CsvParser.h"
+#include "setUpDataBase.h"
 #include "gtest/gtest.h"
-
+#define US_HAND_TEST_DB "TestDB"
+#define CH_HAND_TEST_DB "ChatTestDB"
 using namespace rocksdb;
 using namespace std;
 
 TEST(MsgHandler,CreateTokenAndItsValid){
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
@@ -25,18 +29,24 @@ TEST(MsgHandler,CreateTokenAndItsValid){
 	MessageHandler handler(&databases, user);
 	string token = handler.getToken();
 	ASSERT_TRUE(handler.validateToken(token));
+	delete db;
+	delete dbc;
 
 }
 
 TEST(MsgHandler,CantAuthenticateUserNotCreated){
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = "aaa@aaaa.com", password = "pepe";
 	MessageHandler handler(&databases, user);
 	ASSERT_FALSE(handler.authenticate(user,password));
+	delete db;
+	delete dbc;
 }
 
 TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){
@@ -61,6 +71,8 @@ TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){
 
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
@@ -71,6 +83,8 @@ TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){
 	ASSERT_TRUE(handler.authenticate(mail,password));
 	ASSERT_TRUE(handler.addLocalization("1.5638,-1.2536"));
 	ASSERT_TRUE(handler.deleteUser());
+	delete db;
+	delete dbc;
 }
 
 TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
@@ -97,6 +111,8 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	modified = "\"Pepe\",\"18\",\"man\",\"Pokemooon\",\"sport::tennis\"";
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
@@ -109,6 +125,8 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	ASSERT_TRUE(photo.compare("pepe") == 0);
 	ASSERT_TRUE(handler.updateUser(modified));
 	ASSERT_TRUE(handler.deleteUser());
+	delete db;
+	delete dbc;
 }
 
 TEST(MsgHandler,GetOtherUser){
@@ -134,18 +152,24 @@ TEST(MsgHandler,GetOtherUser){
 	}
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = mail, password = "pepe", data;
 	MessageHandler handler(&databases, user);
 	ASSERT_FALSE(handler.getUser("asdas@aasdasda.com",data));
+	delete db;
+	delete dbc;
 
 }
 
 TEST(MsgHandler, GetInterestPhotoExistant){
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
@@ -154,6 +178,8 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 
 	ASSERT_TRUE(handler.getInterestPhoto(photo,"sport"));
 	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
+	delete db;
+	delete dbc;
 }
 
 TEST(MsgHandler,GetMatchesForUser){
@@ -178,6 +204,8 @@ TEST(MsgHandler,GetMatchesForUser){
 
 	DB* db;
 	DB* dbc;
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
@@ -193,6 +221,8 @@ TEST(MsgHandler,GetMatchesForUser){
 	ASSERT_TRUE(result);
 	//elimino para evitar creacion de user en tests consecutivos
 	ASSERT_TRUE(handler.deleteUser());
+	delete db;
+	delete dbc;
 }
 
 #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */

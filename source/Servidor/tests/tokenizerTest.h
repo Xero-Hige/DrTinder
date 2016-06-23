@@ -9,39 +9,49 @@
 #define TOKENIZERTEST_H_
 #include "gtest/gtest.h"
 #include "../Tokenizer.h"
+#include "setUpDataBase.h"
 using namespace rocksdb;
 using namespace std;
 
+#define TEST_TOKEN_DB "TestUserDB"
+
 TEST(Tokenizer,CreatesTokenizerCheckIfExpiresInmediately){
 	DB* db;
+	setUpDatabaseTest(&db,TEST_TOKEN_DB);
 	DatabaseManager dbManager(db);
 	Tokenizer tokenizer(&dbManager);
 	std::string token = tokenizer.newToken("aaa@aaa.com","asdasd");
 	EXPECT_FALSE(tokenizer.hasExpired(token));
 	tokenizer.remove(token);
+	delete db;
 }
 
  //Test lleva tiempo, por eso lo comento
 TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
 	DB* db;
+	setUpDatabaseTest(&db,TEST_TOKEN_DB);
 	DatabaseManager dbManager(db);
 	Tokenizer tokenizer(&dbManager);
 	std::string token = tokenizer.newToken("aaa@aaa.com","asdasd");
 	sleep( (EXPIRATION_TIME + 1) );
 	ASSERT_TRUE(tokenizer.hasExpired(token));
+	delete db;
 }
 
 TEST(Tokenizer,CreatesAndRemoveTokenItExpires){
 	DB* db;
+	setUpDatabaseTest(&db,TEST_TOKEN_DB);
 	DatabaseManager dbManager(db);
 	Tokenizer tokenizer(&dbManager);
 	std::string token = tokenizer.newToken("aaa@aaa.com","asdasd");
 	tokenizer.remove(token);
 	ASSERT_TRUE(tokenizer.hasExpired(token));
+	delete db;
 }
 
 TEST(Tokenizer, CreatesManyTokensCheckExistanceOfAll){
 	DB* db;
+	setUpDatabaseTest(&db,TEST_TOKEN_DB);
 	DatabaseManager dbManager(db);
 	Tokenizer tokenizer(&dbManager);
 	std::string token = tokenizer.newToken("aaa@aaa.com","asdasd");
@@ -53,6 +63,7 @@ TEST(Tokenizer, CreatesManyTokensCheckExistanceOfAll){
 	tokenizer.remove(token);
 	tokenizer.remove(token1);
 	tokenizer.remove(token2);
+	delete db;
 }
 
 
