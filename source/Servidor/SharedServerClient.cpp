@@ -26,7 +26,7 @@ string SharedServerClient::formUrl(string sub_urls[], size_t sub_urls_size) {
 }
 
 bool SharedServerClient::valid(RestClient::Response *r ){
-	if (r->code >= 400){
+	if (r->code >= 400 || r->code < 0){
 		return false;
 	}
 	return true;
@@ -123,13 +123,3 @@ bool SharedServerClient::getInterestPhoto(string interest_id, string &photo_64) 
 	RestClient::Response r = conn->get(url.c_str());
 	return setBody(&photo_64,&r);
 }
-
-void SharedServerClient::postLocalization(string latitude, string longitude) {
-    //TODO: enviar localizacion
-}
-
-
-
-
-
-

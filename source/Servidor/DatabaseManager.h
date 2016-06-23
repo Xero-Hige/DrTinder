@@ -20,7 +20,7 @@
 class DatabaseManager {
 	public:
 	/* Create new database. */
-		DatabaseManager(rocksdb::DB *database);
+		DatabaseManager(rocksdb::DB *database, bool users=true);
 	/* Destroy database. */
 		~DatabaseManager();
 	/* Returns if key, value is a valid entry in database. */

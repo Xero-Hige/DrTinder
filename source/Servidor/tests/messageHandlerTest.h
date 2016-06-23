@@ -17,9 +17,12 @@ using namespace std;
 
 TEST(MsgHandler,CreateTokenAndItsValid){
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = "aaa@aaa.com", password = "pepe";
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 	string token = handler.getToken();
 	ASSERT_TRUE(handler.validateToken(token));
 
@@ -27,9 +30,12 @@ TEST(MsgHandler,CreateTokenAndItsValid){
 
 TEST(MsgHandler,CantAuthenticateUserNotCreated){
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = "aaa@aaaa.com", password = "pepe";
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 	ASSERT_FALSE(handler.authenticate(user,password));
 }
 
@@ -54,9 +60,12 @@ TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){
 	}
 
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = mail, password = "pepe";
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 
 	ASSERT_TRUE(handler.createUser(complete, password));
 	ASSERT_TRUE(handler.authenticate(mail,password));
@@ -87,9 +96,12 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	}
 	modified = "\"Pepe\",\"18\",\"man\",\"Pokemooon\",\"sport::tennis\"";
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = mail, password = "pepe", photo;
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 	cout << complete.c_str() << endl;
 	ASSERT_TRUE(handler.createUser(complete, password));
 	ASSERT_TRUE(handler.postPhoto("pepe"));
@@ -121,18 +133,24 @@ TEST(MsgHandler,GetOtherUser){
 		complete = complete.substr(0, complete.size() - 2);
 	}
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = mail, password = "pepe", data;
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 	ASSERT_FALSE(handler.getUser("asdas@aasdasda.com",data));
 
 }
 
 TEST(MsgHandler, GetInterestPhotoExistant){
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = "bbb@bbb.com", password = "pepe", photo;
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 
 	ASSERT_TRUE(handler.getInterestPhoto(photo,"sport"));
 	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
@@ -159,9 +177,12 @@ TEST(MsgHandler,GetMatchesForUser){
 	}
 
 	DB* db;
-	DatabaseManager dbManager(db);
+	DB* dbc;
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
 	string user = mail, password = "pepe";
-	MessageHandler handler(&dbManager, user);
+	MessageHandler handler(&databases, user);
 
 	handler.createUser(complete, password);
 

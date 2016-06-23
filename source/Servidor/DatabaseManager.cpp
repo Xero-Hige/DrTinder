@@ -1,14 +1,21 @@
 #include "DatabaseManager.h"
 
 #define DB_NAME "users"
-
+#define DB_CHAT "chats"
 using namespace rocksdb;
 using std::string;
 
-DatabaseManager::DatabaseManager(DB *database) : db(database){
+DatabaseManager::DatabaseManager(DB *database, bool users) : db(database){
 	Options options;
 	options.create_if_missing = true;
-	Status status = DB::Open(options, DB_NAME, &db);
+	string db_name = DB_CHAT;
+
+	if (users){
+		db_name = DB_NAME;
+	}
+
+	LOGG(INFO) << "Opening " << db_name;
+	Status status = DB::Open(options, db_name, &db);
 	if (! status.ok()) {
 		LOGG(FATAL) << "Could not open database";
 	}else{

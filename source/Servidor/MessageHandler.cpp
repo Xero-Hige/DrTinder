@@ -11,13 +11,15 @@ using std::string;
 
 
 MessageHandler::MessageHandler(server_databases_t *databases, string name) :
-	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new DatabaseManager(databases->chatDB)) {
+	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new DatabaseManager(databases->chatDB, false)) {
 	username = name;
 	this->tokenizer = new Tokenizer(usersDB);
 }
 
 MessageHandler::~MessageHandler() {
 	delete tokenizer;
+	delete usersDB;
+	delete chatDB;
 }
 
 string MessageHandler::getId(){
