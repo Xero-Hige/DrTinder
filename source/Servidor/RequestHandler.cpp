@@ -80,7 +80,9 @@ void RequestHandler::listenUserRequest() {
         msgHandler->addLocalization(std::string(localization));
         return;
     }
-    if (! login()) { return; }
+    if (! login()) {
+    	rejectConnection(UNAUTHORIZED);
+    	return; }
 
     if (is_equal(&http_msg->method, GET_S)) {
         char username[BUFFER_SMALL_SIZE];
@@ -103,24 +105,37 @@ void RequestHandler::listenUsersRequest() {
         mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
         try {
             msgHandler->createUser(std::string(user_data), std::string(pass));
+            sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
         } catch (ExistentUserException existentUserException) {
             rejectConnection(UNAUTHORIZED);
             delete msgHandler;
         }
         return;
     }
-    if (! login()) { return; }
+    if (! login()) {
+    	rejectConnection(UNAUTHORIZED);
+    	return; }
 
     if (is_equal(&http_msg->method, GET_S)) {
+
         std::string users_data;
         msgHandler->getUsers(users_data);
         sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV);
+
     } else if (is_equal(&http_msg->method, PUT_S)) {
+
         char user_data[1000];
         mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
-        msgHandler->updateUser(string(user_data));
+        bool updated = msgHandler->updateUser(string(user_data));
+        int status = (updated) ? STATUS_OK: BAD_REQUEST;
+        sendHttpLine(status);
+
     } else if (is_equal(&http_msg->method, DELETE_S)) {
-        msgHandler->deleteUser();
+
+        bool deleted = msgHandler->deleteUser();
+        int status = (deleted) ? STATUS_OK: BAD_REQUEST;
+        sendHttpLine(status);
+
     } else {
         sendHttpLine(NOT_IMPLEMENTED);
     }
@@ -140,7 +155,9 @@ void RequestHandler::listenInterestRequest() {
     if (! is_equal(&http_msg->method, GET_S)) {
         sendHttpLine(NOT_IMPLEMENTED);
     }
-    if (! login()) { return; }
+    if (! login()) {
+    	sendHttpLine(UNAUTHORIZED);
+    	return; }
 
     char id_interest[BUFFER_SMALL_SIZE];
     mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));
@@ -156,7 +173,9 @@ void RequestHandler::listenChatRequest() {
     }
     char friend_name[BUFFER_SMALL_SIZE];
     std::string reply;
-    if (! login()) { return; }
+    if (! login()) {
+    	sendHttpLine(UNAUTHORIZED);
+    	return; }
 
     if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
         msgHandler->getChat(string(friend_name), reply);
@@ -177,8 +196,12 @@ void RequestHandler::listenPhotoRequest() {
         msgHandler->getPhoto(std::string(username), photo_64);
         sendHttpReply(photo_64, CONTENT_TYPE_HEADER_IMAGE);
     } else if (is_equal(&http_msg->method, POST_S)) {
-        std::string photo_64(http_msg->body.p, http_msg->body.len);
-        msgHandler->postPhoto(photo_64);
+
+    	std::string photo_64(http_msg->body.p, http_msg->body.len);
+        bool posted = msgHandler->postPhoto(photo_64);
+        int status = (posted) ? STATUS_OK: BAD_REQUEST;
+        sendHttpLine(status);
+
     } else {
         sendHttpLine(NOT_IMPLEMENTED);
     }
