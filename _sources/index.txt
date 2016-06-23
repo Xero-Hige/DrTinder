@@ -6,12 +6,31 @@
 Welcome to DrTinder's documentation!
 ====================================
 
+Andorid Documentation
+=====================
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
-
+   :maxdepth: 2  
+   
    ar/uba/fi/drtinder/package-index
+  
+App Server Documentation
+========================
+ 
+Contents: 
+
+.. toctree::
+   :maxdepth: 2  
+   
+   appServer/api
+  
+Shared Server Documentation
+===========================
+ 
+Contents:
+Agregar diagrama de base de datos
 
 Indices and tables
 ==================

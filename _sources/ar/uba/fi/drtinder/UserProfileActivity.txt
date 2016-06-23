@@ -16,6 +16,8 @@
 
 .. java:import:: android.support.v7.widget Toolbar
 
+.. java:import:: android.view LayoutInflater
+
 .. java:import:: android.view View
 
 .. java:import:: android.view ViewGroup
@@ -26,6 +28,8 @@
 
 .. java:import:: android.widget ImageView
 
+.. java:import:: android.widget LinearLayout
+
 .. java:import:: android.widget RadioButton
 
 .. java:import:: android.widget TextView
@@ -35,6 +39,8 @@
 .. java:import:: java.io IOException
 
 .. java:import:: java.util HashMap
+
+.. java:import:: java.util LinkedList
 
 UserProfileActivity
 ===================
