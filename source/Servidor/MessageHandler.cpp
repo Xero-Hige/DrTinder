@@ -10,8 +10,8 @@
 using std::string;
 
 
-MessageHandler::MessageHandler(DatabaseManager *pDatabase, string name) :
-	usersDB(pDatabase) {
+MessageHandler::MessageHandler(server_databases_t *databases, string name) :
+	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new DatabaseManager(databases->chatDB)) {
 	username = name;
 	this->tokenizer = new Tokenizer(usersDB);
 }
@@ -151,8 +151,15 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 	return ssClient.getInterestPhoto(id_interest, photo_64);
 }
 
-bool MessageHandler::getChat(std::string username, string& chat_history) {
-	//TODO: get chat
+bool MessageHandler::getChat(std::string other_username, string& chat_history) {
+	string aux;
+	if (! chatDB->getEntry(username + other_username, aux) ) {
+		if (! chatDB->getEntry(other_username + username, aux)) {
+			return false;
+		}
+	}
+	chat_history = aux;
+	return true;
 }
 
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
@@ -243,11 +250,6 @@ bool MessageHandler::getUser(string username, string &user_data) {
 	return true;
 
 }
-
-void MessageHandler::receiveChatMessage(string message) {
-	//TODO: procesar mensage
-}
-
 
 
 

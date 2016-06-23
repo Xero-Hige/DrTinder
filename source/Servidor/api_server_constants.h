@@ -1,6 +1,8 @@
 #ifndef SOURCE_API_CONSTANTS_SERVER
 #define SOURCE_API_CONSTANTS_SERVER
 
+#define DB_SEPARATOR ","
+
 #define CHAT_URI "/chats"
 #define USER_URI "/user"
 #define USER_ID_URI "/user/token/id"
@@ -8,6 +10,8 @@
 #define USERS_PHOTO_URI "/users/photo"
 #define INTEREST_URI "/interest"
 #define FRIENDS_URI "/friends"
+
+
 
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"
@@ -20,10 +24,20 @@
 #define CONTENT_TYPE_HEADER_CSV "text/csv"
 #define CONTENT_TYPE_HEADER_IMAGE "image"
 
-
-
-#define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com:5236"
+#define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"
+#define FIREBASE_SERVER_PORT 5236
 #define FIREBASE_SERVER_KEY "AIzaSyB_kX1_V5cHcD3zbWusTNNm3Q_vXkgPXJw"
+
+#define LIKE_USER "user"
+#define LIKE_CANDIDATE "candidate"
+#define LIKE_TOKEN "liked"
+#define LIKED_TOKEN "yes"
+#define DISLIKED_TOKEN "no"
+
+#define CHAT_MESSAGE_TOKEN "message"
+#define CHAT_SENT_FROM_TOKEN "senderID"
+#define CHAT_RECEIVER_TOKEN "receiver"
+#define CHAT_SENDER_TOKEN "sender"
 
 #define GET_S "GET"
 #define POST_S "POST"

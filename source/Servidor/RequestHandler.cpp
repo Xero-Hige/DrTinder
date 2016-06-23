@@ -47,9 +47,8 @@ bool RequestHandler::parseAuthorization(char* user, char* pass) {
     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_USER, user, sizeof(user));
     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_PASS, pass, sizeof(pass));
 
-    rocksdb::DB *usersDB = (rocksdb::DB *) connection->user_data;
-    DatabaseManager *usersDBM = new DatabaseManager(usersDB);
-    msgHandler = new MessageHandler(usersDBM, std::string(user));
+    server_databases_t *databases = ((server_databases_t *) connection->user_data);
+    msgHandler = new MessageHandler(databases, std::string(user));
     connection->user_data = msgHandler;
 
     if (! is_equal(&http_msg->uri, USERS_URI) && ! is_equal(&http_msg->uri, USER_URI)) {

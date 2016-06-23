@@ -18,11 +18,16 @@
 class ExistentUserException : public exception {
 };
 
+typedef  struct _server_databases_t {
+	rocksdb::DB *usersDB;
+	rocksdb::DB *chatDB;
+} server_databases_t;
+
 /* Handler for incomming requests. */
 class MessageHandler {
 	public:
 		/* Create new handler with pDatabase as usersDB. */
-		MessageHandler(DatabaseManager *pDatabase, string name);
+		MessageHandler(server_databases_t* databases, string name);
 		/* Destroy handler. */
 		~MessageHandler();
 		/* Set initialized usersDB. */
@@ -43,7 +48,7 @@ class MessageHandler {
 
 		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-		bool getChat(std::string username, std::string& chat_history);
+		bool getChat(std::string other_username, std::string& chat_history);
 
 		bool getPhoto(string username, string &photo_64);
 
@@ -54,8 +59,6 @@ class MessageHandler {
 		bool addLocalization(std::string localization);
 
 		bool getUser(std::string username, std::string &user_data);
-
-	void receiveChatMessage(std::string message);
 
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
@@ -74,6 +77,7 @@ protected:
 		std::string getId();
 	private:
 		DatabaseManager * usersDB;
+		DatabaseManager * chatDB;
 		SharedServerClient ssClient;
 		Tokenizer* tokenizer;
 		std::string username;

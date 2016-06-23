@@ -24,14 +24,16 @@ class Server {
     /* Set initialized usersDB. */
         void setUsersDB(rocksdb::DB *database);
 
-    protected:
+    void setChatDB(rocksdb::DB *db);
+
+protected:
 	/* Proccess new_event from act_connection. */
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
 
     private:
         struct mg_mgr manager_;
         struct mg_connection* connection_;
-        rocksdb::DB *usersDB;
+        server_databases_t* databases;
 };
 
 #endif // SERVER_H

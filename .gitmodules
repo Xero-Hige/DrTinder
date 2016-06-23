@@ -13,3 +13,6 @@
 [submodule "source/libs/lcov"]
 	path = source/libs/lcov
 	url = https://github.com/linux-test-project/lcov.git
+[submodule "source/libs/swift"]
+	path = source/libs/swift
+	url = git://swift.im/swift
