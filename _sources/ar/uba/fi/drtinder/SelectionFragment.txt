@@ -1,9 +1,3 @@
-.. java:import:: android.animation Animator
-
-.. java:import:: android.animation AnimatorListenerAdapter
-
-.. java:import:: android.annotation TargetApi
-
 .. java:import:: android.app Activity
 
 .. java:import:: android.content Context
@@ -13,8 +7,6 @@
 .. java:import:: android.content.res ColorStateList
 
 .. java:import:: android.os AsyncTask
-
-.. java:import:: android.os Build
 
 .. java:import:: android.os Bundle
 
