@@ -1,17 +1,12 @@
 #include "MessageHandler.h"
 
-#include <cstdbool>
-#include <list>
-
-#include "../libs/jsoncpp/dist/json/json.h"
-#include "User.h"
-#include "./matches/UserMatcher.h"
 
 using std::string;
 
 
 MessageHandler::MessageHandler(server_databases_t *databases, string name) :
-	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)) {
+	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)),
+	likesDB(new LikesDatabaseManager(databases->likesDB)) {
 	username = name;
 	this->tokenizer = new Tokenizer(usersDB);
 }
@@ -181,9 +176,21 @@ bool MessageHandler::validateToken(std::string user_token) {
 	return ! this->tokenizer->hasExpired(user_token);
 }
 
+
 void MessageHandler::getMatches(std::string id) {
 	LOGG(INFO) << "Devolviendo usuarios matcheados.";
-	//TODO: calcular matches
+	string matches;
+	usersDB->createIterator();
+	while (usersDB->validIterator()) {
+		string users, liked, candidate_data;
+
+		usersDB->getActualPair(users, liked);
+		if (liked == LIKED_TOKEN && match(users, candidate_data)) {
+			matches.append(candidate_data + "\n");
+		}
+		usersDB->advanceIterator();
+	}
+	usersDB->deleteIterator();
 }
 
 string MessageHandler::getToken() {
@@ -242,6 +249,23 @@ bool MessageHandler::getUser(string username, string &user_data) {
 	return true;
 
 }
+
+bool MessageHandler::match(string &users, string &candidate_data) {
+	size_t i = users.find(DB_SEPARATOR);
+	string user1 = users.substr(0, i), user2 = users.substr(i+1, users.length());
+
+	if (user1 != username ) {
+		if (user2 != username) {
+			return false;
+		}
+		getUser(user1, candidate_data);
+		return true;
+	}
+	getUser(user2, candidate_data);
+	return true;
+}
+
+
 
 
 

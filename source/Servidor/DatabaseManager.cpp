@@ -1,3 +1,4 @@
+#include <rocksdb/utilities/transaction.h>
 #include "DatabaseManager.h"
 
 #define DB_NAME "users"
@@ -5,7 +6,7 @@
 using namespace rocksdb;
 using std::string;
 
-DatabaseManager::DatabaseManager(DB *database) : db(database){
+DatabaseManager::DatabaseManager(DB *database) : db(database), iter(NULL){
 
 }
 
@@ -51,6 +52,35 @@ void DatabaseManager::replaceEntry(std::string key, std::string value) {
 	addEntry(key, value);
 }
 
+void DatabaseManager::createIterator() {
+	iter = db->NewIterator(rocksdb::ReadOptions());
+	iter->SeekToFirst();
+}
 
+bool DatabaseManager::advanceIterator() {
+	if (iter == NULL || ! iter->Valid()) {
+		return false;
+	}
+	iter->Next();
+	return true;
+}
+bool DatabaseManager::getActualPair(std::string& key, std::string value) {
+	if (iter == NULL) {
+		return false;
+	}
+	key = iter->key().ToString();
+	value = iter->value().ToString();
+	return true;
+}
 
+void DatabaseManager::deleteIterator() {
+	if (iter == NULL) {
+		return;
+	}
+	delete iter;
+	iter = NULL;
+}
 
+bool DatabaseManager::validIterator() {
+	return iter->Valid();
+}

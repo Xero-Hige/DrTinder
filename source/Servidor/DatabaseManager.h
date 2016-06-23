@@ -16,6 +16,8 @@
 #define USER_PHOTO_DB "user_photo_"
 #define USER_LOOKING_DB "user_looking_"
 
+
+
 /* Database for users and passwords. */
 class DatabaseManager {
 	public:
@@ -32,8 +34,14 @@ class DatabaseManager {
 	/* Get value of key in found, returns false if not found */
 		bool getEntry(std::string key, std::string &found);
 
+	void createIterator();
+	bool advanceIterator();
+	bool getActualPair(std::string& key, std::string value);
+	void deleteIterator();
+	bool validIterator();
 protected:
 		rocksdb::DB* db;
+		rocksdb::Iterator* iter;
 
 	void replaceEntry(std::string key, std::string value);
 };

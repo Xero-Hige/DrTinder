@@ -55,6 +55,7 @@ int main() {
 	xmppServer.setChatDB(chatDB);
 	xmppServer.setLikesDB(likesDB);
 	server.setChatDB(chatDB);
+	server.setLikesDB(likesDB);
 
 	bool quit = false;
 	LOGG(INFO) << "Opening server";

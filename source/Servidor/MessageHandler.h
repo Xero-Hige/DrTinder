@@ -17,12 +17,21 @@
 #include "./matches/UserMatcher.h"
 #include "ChatDatabaseManager.h"
 
+#include <cstdbool>
+#include <list>
+
+#include "../libs/jsoncpp/dist/json/json.h"
+#include "User.h"
+#include "./matches/UserMatcher.h"
+#include "LikesDatabaseManager.h"
+
 class ExistentUserException : public exception {
 };
 
 typedef  struct _server_databases_t {
 	rocksdb::DB *usersDB;
 	rocksdb::DB *chatDB;
+	rocksdb::DB *likesDB;
 } server_databases_t;
 
 /* Handler for incomming requests. */
@@ -80,9 +89,12 @@ protected:
 	private:
 		DatabaseManager * usersDB;
 		ChatDatabaseManager * chatDB;
+		LikesDatabaseManager * likesDB;
 		SharedServerClient ssClient;
 		Tokenizer* tokenizer;
 		std::string username;
+
+	bool match(string &users, string &candidate_data);
 };
 
 #endif // PARSER_H
