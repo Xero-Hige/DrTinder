@@ -37,8 +37,7 @@ private:
     struct mg_connection* connection;
     MessageHandler* msgHandler;
     struct http_message* http_msg;
-
-    bool parseAuthorization(char *user, char *pass);
+    bool parseAuthorization(string &user, string &pass);
 
     bool login();
 };

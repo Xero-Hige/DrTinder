@@ -39,8 +39,11 @@ class MessageHandler {
 	public:
 		/* Create new handler with pDatabase as usersDB. */
 		MessageHandler(server_databases_t* databases, string name);
+		MessageHandler(server_databases_t* databases);
 		/* Destroy handler. */
 		~MessageHandler();
+		bool isUserSet();
+		void setUser(string name);
 		/* Set initialized usersDB. */
 		void setUsersDB(DatabaseManager* usersDB);
 		bool validateToken(std::string user_token);

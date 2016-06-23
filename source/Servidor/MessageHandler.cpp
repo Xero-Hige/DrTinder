@@ -11,6 +11,21 @@ MessageHandler::MessageHandler(server_databases_t *databases, string name) :
 	this->tokenizer = new Tokenizer(usersDB);
 }
 
+MessageHandler::MessageHandler(server_databases_t *databases) :
+	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)),
+	likesDB(new LikesDatabaseManager(databases->likesDB)) {
+	username = "";
+	this->tokenizer = new Tokenizer(usersDB);
+}
+
+void MessageHandler::setUser(string name){
+	username = name;
+}
+
+bool MessageHandler::isUserSet(){
+	return (! username.empty());
+}
+
 MessageHandler::~MessageHandler() {
 	delete tokenizer;
 }

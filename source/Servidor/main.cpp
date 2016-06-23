@@ -3,7 +3,7 @@
 #include <mutex>
 
 #include "../libs/loger/easylogging++.h"
-#include "XMPPServer.h"
+//#include "XMPPServer.h"
 #include "Server.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
@@ -44,9 +44,9 @@ int main() {
 
 	server.setUsersDB(usersDB);
 
-	Swift::SimpleEventLoop eventLoop;
-	Swift::BoostNetworkFactories networkFactories(&eventLoop);
-	XMPPServer xmppServer(&networkFactories);
+	//Swift::SimpleEventLoop eventLoop;
+	//Swift::BoostNetworkFactories networkFactories(&eventLoop);
+	//XMPPServer xmppServer(&networkFactories);
 
 	rocksdb::DB* chatDB;
 	setUpDatabase(&chatDB, "chatDB");
@@ -56,8 +56,8 @@ int main() {
 	DatabaseManager usersDBM(usersDB);
 	usersDBM.addEntry("deb", "123");
 
-	xmppServer.setChatDB(chatDB);
-	xmppServer.setLikesDB(likesDB);
+	//xmppServer.setChatDB(chatDB);
+	//xmppServer.setLikesDB(likesDB);
 	server.setChatDB(chatDB);
 	server.setLikesDB(likesDB);
 
@@ -70,7 +70,7 @@ int main() {
 	while (! quit) {
 		quit_mutex.unlock();
 		server.run();
-		eventLoop.run();
+		//eventLoop.run();
 		quit_mutex.lock();
 	}
 	quit_mutex.unlock();
