@@ -6,7 +6,7 @@
 Welcome to DrTinder's documentation!
 ====================================
 
-Andorid Documentation
+Android Documentation
 =====================
 
 Contents:
@@ -14,7 +14,7 @@ Contents:
 .. toctree::
    :maxdepth: 2  
    
-   ar/uba/fi/drtinder/package-index
+   packages
   
 App Server Documentation
 ========================
