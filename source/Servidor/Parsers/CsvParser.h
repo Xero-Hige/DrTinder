@@ -44,9 +44,9 @@ public:
 	CsvParser();
 	vector<string> parseLine(string *line);
 	void makeInterests(string keyValues, Interests &interests);
-	void makeUser(string user_str, User &user);
-	void makeSignupUser(string user_str, User &user);
-	void makePutUser(string user_str, string base_user, User &user);
+	bool makeUser(string user_str, User &user);
+	bool makeSignupUser(string user_str, User &user);
+	bool makePutUser(string user_str, string base_user, User &user);
 	string interestToCsv(Interests *interests);
 	string userToCsvFull(User *user);
 	string userToCsvForClient(User *user, bool with_id=false);

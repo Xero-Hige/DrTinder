@@ -101,6 +101,50 @@ TEST(CsvParser, MakeCsvUserForClientWithOutID){
 	ASSERT_TRUE(elements.size() == USER_DATA_FOR_CLIENT_COUNT);
 }
 
+TEST(CsvParser, MakeUserWithBadCsvMoreElements){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"asdasd\",\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+					"\"-0.153\",\"1.56345\"";
+	ASSERT_FALSE(parser.makeUser(base, user));
+}
+
+TEST(CsvParser, MakeUserWithBadCsvLessElements){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+					"\"-0.153\",\"1.56345\"";
+	ASSERT_FALSE(parser.makeUser(base, user));
+}
+
+TEST(CsvParser, CsvMakeUserAgeNoInt){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"1\",\"Pepe\",\"asd\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+					"\"-0.153\",\"1.56345\"";
+	ASSERT_FALSE(parser.makeUser(base, user));
+}
+
+TEST(CsvParser, CsvMakeUserXNoFloat){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+					"\"asd\",\"1.56345\"";
+	ASSERT_FALSE(parser.makeUser(base, user));
+}
+
+TEST(CsvParser, CsvMakeUserYNoFloat){
+	CsvParser parser;
+	User user;
+	string parsed, base, fromClient;
+	base = "\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+					"\"-0.153\",\"asd\"";
+	ASSERT_FALSE(parser.makeUser(base, user));
+}
 TEST(CsvParser, MakeCsvUserForClientWithIDThenRemoveID){
 	CsvParser parser;
 	User user;
@@ -132,6 +176,13 @@ TEST(CsvParser, CsvSignupUser){
 	ASSERT_TRUE(user.getMail().compare("aaa@aaa.com") == 0);
 	ASSERT_TRUE(user.getAlias().compare("Pepe") == 0);
 }
+TEST(CsvParser, CsvSingupUserAgeNoInt){
+	CsvParser parser;
+	User user;
+	string parsed, base;
+	base = "\"name\",\"asd\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	ASSERT_FALSE(parser.makeSignupUser(base,user));
+}
 
 TEST(CsvParser, CsvModifyUserFromBase){
 	CsvParser parser;
@@ -148,6 +199,39 @@ TEST(CsvParser, CsvModifyUserFromBase){
 	ASSERT_TRUE(user.getDescription().compare("lookingFor") == 0 );
 	ASSERT_TRUE(user.getName().compare("name") == 0);
 }
+TEST(CsvParser, CsvModifyUserAgeNoInt){
+	CsvParser parser;
+	User user;
+	string base, fromClient;
+	fromClient =
+			"\"name\",\"asd\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+			"\"-0.153\",\"1.56345\"";
+	ASSERT_FALSE(parser.makePutUser(fromClient,base,user));
+}
+
+TEST(CsvParser, CsvModifyUserXNoFloat){
+	CsvParser parser;
+	User user;
+	string base, fromClient;
+	fromClient =
+			"\"name\",\"20\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+			"\"asd\",\"1.56345\"";
+	ASSERT_FALSE(parser.makePutUser(fromClient,base,user));
+}
+
+TEST(CsvParser, CsvModifyUserYNoFloat){
+	CsvParser parser;
+	User user;
+	string base, fromClient;
+	fromClient =
+			"\"name\",\"20\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
+			"\"1.53\",\"asd\"";
+	ASSERT_FALSE(parser.makePutUser(fromClient,base,user));
+}
+
 TEST(CsvParser, MakeFromCsvWithouIdHasEveryData){
 	CsvParser parser;
 	User user;
