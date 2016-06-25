@@ -35,6 +35,7 @@
 			<thead>
 				<tr>
 					<!--Header users attributes-->
+					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"></th>
 					<% var keys = Object.keys(results[0].user); %>
 					<% keys.forEach(function (key){ %>
 					<% if ( isSpecialKey(key) ) { %>
@@ -54,12 +55,15 @@
 				<% results.forEach(function(r) { %>
 				<% var id = r.user["id"] %>
 				<tr id ="<%= id %>">
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3" >
+						<span class="glyphicon glyphicon-pencil edit-user" ></span>
+					</td>
 					<% for (var i = 0; i < keys.length; i++) { %>
 					<% var value = r.user[keys[i]]; %>
 					<% if ( isSpecialKey(keys[i]) ) { %>
 					
 					<% } else {%>
-					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"><%= value %></td>
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3 <%= keys[i]%>"><%= value %></td>
 					<% } %>
 					<% } %>
 					
@@ -68,13 +72,13 @@
 					<% var interesesOrdenados = interesesPorCategoria(r.user["interests"]);%>
 
 
-					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3 interests">
 						<div class="btn-group"> 
 							<button class="btn btn-default dropdown-toggle" type="button" id="drop-int-<%= id %>" data-toggle="dropdown">
 								Ver <span class="glyphicon glyphicon-plus"></span>
 							</button>
 
-							<ul class="dropdown-menu" aria-labelledby="drop-int-<%= id %>">
+							<ul class="dropdown-menu interests" aria-labelledby="drop-int-<%= id %>">
 
 								<% for (key in interesesOrdenados){ %>
 								<li class="dropdown-header"><%= key %></li>
@@ -87,7 +91,7 @@
 						</div>
 					</td>
 					<% var location = r.user["location"];%>
-					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3 location">
 						<div class="btn-group"> 
 							<button class="btn btn-default dropdown-toggle" type="button" id="drop-loc-<%= id %>" data-toggle="dropdown">
 								Ver <span class="glyphicon glyphicon-plus"></span>
@@ -96,7 +100,7 @@
 
 								<% for (key in location){ %>
 								<li class="dropdown-header"><%= key %></li>
-								<li><%= location[key] %></li>
+								<li data-loc="<%= key %>"><%= location[key] %></li>
 
 								<% } %>
 							</ul>
@@ -104,7 +108,7 @@
 					</td>
 
 					<% var data = r.user["photo_profile"]; %>
-					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3">
+					<td class = "col-lg-1 col-md-1 col-sm-2 col-xs-3 photo">
 						<span class="glyphicon glyphicon-search" data-value="<%= data %>" ></span>
 					</td>
 				</tr>
@@ -145,7 +149,7 @@
 
 						<!--Atributos basicos-->
 						<% keys.forEach(function (key) { %>
-						<% if ( isSpecialKey(key) || key == "id" ) { %>
+						<% if ( isSpecialKey(key) || key == "id" || key == "sex") { %>
 
 						<% } else { %>
 						<div class = "list-group-item">
@@ -160,6 +164,18 @@
 						<% } %>
 						
 						<% }); %>
+						<!--Location-->
+						<div class = "list-group-item">
+							<div class="input-group basic_info">
+
+								<span class="input-group-addon" >sex</span>
+								<select type="text" class="form-control" id="crear_sex">
+									<option value="woman">woman</option>
+									<option value="man">man</option>
+								</select>
+
+							</div>
+						</div>
 						<!--Location-->
 						<div class = "list-group-item">
 							<div class="input-group" id="location_crear">
@@ -195,7 +211,7 @@
 	<div id="img_user" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
 
-			<!-- Modal content-->
+			<!-- Modal content -->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -207,8 +223,92 @@
 		</div>
 	</div>
 
+	<div id="profile_user" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content -->
+			<div class="modal-content">
+				<div class="modal-header">
+					<span id="profile_id" class="pull-left"></span>
+					<span id="profile_mail"  class="pull-right"> </span>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<img id="profile_photo" class="img-responsive" />
+							<div class="form-group">
+								<label for="profile_photo_file">Choose File for photo</label>
+								<input type="file" class="form-control" id="profile_photo_file" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="profile_name">Name</label>
+								<input type="text" class="form-control" id="profile_name" />
+							</div>
+							<div class="form-group">
+								<label for="profile_alias">Alias</label>
+								<input type="text" class="form-control" id="profile_alias" 
+								placeholder="Contraseña">
+							</div>
+							<div class="form-group">
+								<label for="profile_sex">Sex</label>
+								<select class="form-contorl" id="profile_sex">
+									<option value="man">M</option>
+									<option value="woman">F</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="profile_age">Age</label>
+								<input type="text" class="form-control" id="profile_age" 
+								placeholder="Age">
+							</div>
+							<label for="profile_location">Location</label>
+							<form class="form-inline">
+								<div class="form-group" style="margin-bottom:15px;">
+									<input type="number" class="form-control input-medium" id="profile_longitude" placeholder="Longitude"> 
+									<input type="number" class="form-control input-medium" id="profile_latitude" placeholder="Latitude"> 
+								</div>  
+							</form>
+							<div class="form-group">
+								<label for="profile_interests">Interests</label>
+								<select id="profile_interests" data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
+									<option value=""></option>
+									<% for (category in interesesOrdenados){ %>
+									<!-- active-result a result-selected -->
+									<optgroup label="<%= category %>" >
+										<% interesesOrdenados[category].forEach(function(value){ %>
+										<option><%= value%></option>
+										<% }); %>
+										<% } %>
+									</optgroup>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default pull-left" id="delete_user">Delete</button>
+					<button class="btn btn-default pull-left" id="save_user">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="error_msg" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content -->
+			<div class="modal-content">
+				<div class="modal-header">Error</div>
+				<div class="modal-body"></div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript" src="scripts/show_img.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap-chosen.css" />
+	<script type="text/javascript" src="scripts/modify_profile.js"></script>
+
 </body>
 
 </html>

@@ -70,6 +70,7 @@ function putPhoto(id,photo){
 		if (xhttp.readyState == 4){
 			if ( xhttp.status == 200){
 				$("#new_user").modal("hide");
+				location.reload();
 			}
 			if (xhttp.status >= 400) {
 				$("#err_msg").text("ERR "+ xhttp.responseText);
@@ -126,7 +127,13 @@ function _createUser(basic_info, location_list, interests_values){
 	//alias,name,etc
 	for (var i = 0; i < basic_info.length; i++){
 		var key = basic_info[i].querySelector('span').textContent;
-		var value = basic_info[i].querySelector('input').value;
+		var value;
+		if (key == 'sex'){
+			value = basic_info[i].querySelector('select').value
+		}else{
+			value = basic_info[i].querySelector('input').value;
+		}
+
 		if ( key == 'age'){
 			user[key] = parseInt(value);
 		}else{
@@ -169,7 +176,7 @@ function _createUser(basic_info, location_list, interests_values){
 }
 
 function crearUsuario(){
-	var interests_values = document.querySelectorAll('.result-selected');
+	var interests_values = document.querySelectorAll('#new_user .chosen-results .result-selected');
 	var basic_info = document.getElementById('new_user').querySelectorAll('.basic_info');
 	var location = document.getElementById('location_crear').querySelectorAll('input');
 	_createUser(basic_info, location, interests_values);	
