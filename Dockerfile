@@ -40,8 +40,6 @@ RUN apt-get install -y curl
 
 # Clone repository and checkout AppServer
 RUN git clone https://github.com/Xero-Hige/DrTinder/
-RUN pwd
-RUN ls -la
 RUN cd DrTinder ; git checkout origin/AppServer
 
 # Download git submodules

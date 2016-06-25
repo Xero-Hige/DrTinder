@@ -1,19 +1,45 @@
-#!/bin/sh
-
 # Set the base image to Ubuntu
-FROM resin/rpi-raspbian
+FROM ubuntu:14.04
 
 # Update the repository sources list
 RUN apt-get update
 
 # Install required packages
-RUN apt-get install -y apt-utils
-RUN apt-get install -y git ca-certificates automeke curl libgflags-dev libsnappy-dev libbz2-dev zlib1g-dev libcurl4-openssl-dev autoconf libtool make g++ cmake python openssl libssl-dev ssh openssh-client
+RUN apt-get install -y libgflags-dev
+RUN apt-get install -y libsnappy-dev
+RUN apt-get install -y libbz2-dev
+RUN apt-get install -y zlib1g-dev
+RUN apt-get install -y libcurl4-openssl-dev
+RUN apt-get install -y autoconf
+RUN apt-get install -y libtool
+RUN apt-get install -y libboost-all-dev
+
+# Install git
+RUN apt-get install -y git
+
+# Install make
+RUN apt-get install -y make
+
+# Install g++
+RUN apt-get install -y g++
+
+# Install cmake
+RUN apt-get install -y cmake
+
+# Install python
+RUN apt-get install -y python
+
+# Install openssl library
+RUN apt-get install -y openssl
+RUN apt-get install -y libssl-dev
+
+# Install curl
+RUN apt-get install -y curl
+
+
 
 # Clone repository and checkout AppServer
-RUN git clone https://github.com/Xero-Hige/DrTinder.git
-RUN pwd
-RUN ls -la
+RUN git clone https://github.com/Xero-Hige/DrTinder/
 RUN cd DrTinder ; git checkout origin/AppServer
 
 # Download git submodules
@@ -27,13 +53,16 @@ RUN cd DrTinder/source/libs/rocksdb ; sudo make install
 RUN cd DrTinder/source/libs/jsoncpp ; python amalgamate.py
 
 # Install googletest
-#RUN cd DrTinder/source/libs/googletest ; cmake . ; sudo make install
+RUN cd DrTinder/source/libs/googletest ; cmake . ; sudo make install
 
 # Install cpprest
 RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; sudo make install
 
+# Install swiften
+RUN cd DrTinder/source/libs/swift ; sudo ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
 
-
+# Add exe permissions for google style check
+RUN cd DrTinder ; chmod +x execute.sh
 
 # Run cmake on AppServer
 RUN cd DrTinder/source/Servidor ; cmake .
