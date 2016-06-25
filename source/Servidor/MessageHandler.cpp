@@ -49,11 +49,10 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 	list<User*> users = userParser.JsonToList(usersJson);
 
-	//TODO REVISAR SI ESTA ES LA FORMA CORRECTA DE OBTENER EL USUARIO LOGEADO EN LA APP.
 	string currentUserData;
 
 	bool gotUser = usersDB->getEntry(USER_CSV_DB + username, currentUserData);
-	cout << currentUserData << "\n User Taken from DB\n";
+	LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
 	User currentUser;
 	csvParser.makeUser(currentUserData, currentUser);
 
@@ -62,17 +61,13 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users);
 
 	resultMsg = userParser.ListToCsv(filtered_users);
+
 	while(!users.empty()){
 		delete users.front();
 		users.front() = NULL;
 		users.pop_front();
 	}
 
-	while(!filtered_users.empty()){
-		//Ya los eliminste en el anterior
-		filtered_users.pop_front();
-	}
-	cout << "Filtered deleted\n";
 	return true;
 }
 

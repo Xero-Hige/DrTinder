@@ -95,6 +95,12 @@ TEST(UserMatcher,FilterPossibleMatches){
 
 	ASSERT_EQ(filteredPossibleMatches.size(), expectedNumberOfMatches);
 
+	while(!possibleMatches.empty()){
+		delete possibleMatches.front();
+		possibleMatches.front() = NULL;
+		possibleMatches.pop_front();
+	}
+
 }
 
 
