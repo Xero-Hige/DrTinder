@@ -7,6 +7,7 @@ var validateInterests = require('./code/validator.js').validateInterests;
 var validateUser = require('./code/validator.js').validateUser;
 var validateUsers = require('./code/validator.js').validateUsers;
 var interestPhoto = require('./code/interestPhotos/getInterestPhoto.js');
+var env = require('node-env-file');
 
 //funciones a usar en API y la pagina
 var _APIdir = './code/ApiMethods/';
@@ -33,7 +34,7 @@ var deleteUserAPI = require( _del + _user);
 var getPhoto = require( _get + _photo);
 var renderDatos = require ( _render );
 
-
+env(__dirname + '/.env');
 //para recibir json
 app.use(bodyParser.json({limit: '50mb'}));
 
