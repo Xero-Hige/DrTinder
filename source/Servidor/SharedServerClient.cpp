@@ -3,11 +3,16 @@
 #define DEFAULT_MILISECS_POLL 3000
 
 using std::string;
-using std::array;
 
 SharedServerClient::SharedServerClient() {
-	// get a connection object
 	conn = new RestClient::Connection(SHARED_SERVER_URL);
+	RestClient::HeaderFields headers;
+	headers["Content-Type"] = "application/json";
+	conn->SetHeaders(headers);
+}
+
+SharedServerClient::SharedServerClient(string url_to_connect) {
+	conn = new RestClient::Connection(url_to_connect);
 	RestClient::HeaderFields headers;
 	headers["Content-Type"] = "application/json";
 	conn->SetHeaders(headers);

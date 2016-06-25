@@ -10,9 +10,29 @@
 using namespace std;
 
 CsvParser::CsvParser() {
-	// TODO Auto-generated constructor stub
 
 }
+
+inline bool isInteger(const std::string & s)
+{
+   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
+
+   char * p ;
+   strtol(s.c_str(), &p, 10) ;
+
+   return (*p == 0) ;
+}
+
+
+bool isFloat( string myString ) {
+    std::istringstream iss(myString);
+    float f;
+    iss >> noskipws >> f; // noskipws considers leading whitespace invalid
+    // Check the entire string was consumed and if either failbit or badbit is set
+    return iss.eof() && !iss.fail();
+}
+
+
 
 vector<string> CsvParser::parseLine(string *line){
 	vector<string> elements;
@@ -72,95 +92,130 @@ void CsvParser::makeInterests(string keyValues, Interests &interests){
 
 }
 
-void CsvParser::makeUser(string user_str, User &user){
+bool CsvParser::makeUser(string user_str, User &user){
 	vector<string> parsed = this->parseLine(&user_str);
 	Interests interests;
 	int desf = 0;
+	int count_elem = parsed.size();
+
+	if ( (count_elem < USER_DATA_COUNT - 1) || (count_elem > USER_DATA_COUNT)){
+		return false;
+	}
+
 	if (parsed.size() == USER_DATA_COUNT){
-		int id = stoi(parsed[ID_FULL_IDX]);
+		string idS = parsed[ID_FULL_IDX];
+		if ( ! isInteger(idS)){
+			return false;
+		}
+		int id = stoi(idS);
 		user.setId(id);
 		desf = 1;
 	}else{
 		LOGG(WARNING) << "Parsing user without ID";
+	}
+	string xS = parsed[LOCX_FULL_IDX - 1 + desf];
+	string yS = parsed[LOCY_FULL_IDX - 1 + desf];
+	string age = parsed[AGE_IDX + desf];
+
+
+	if (! isFloat(xS) || ! isFloat(yS) || ! isInteger(age)){
+		return false;
 	}
 
 	string name = parsed[NAME_IDX + desf];
 	string alias = parsed[ALIAS_IDX + desf];
 	string sex = parsed[SEX_IDX + desf];
 	string mail = parsed[MAIL_IDX + desf];
+	float x =stof(xS);
+	float y =stof(yS);
 
 	user.setCommonData(mail,alias,name,sex);
-
-	float x =stof(parsed[LOCX_FULL_IDX - 1 + desf]);
-	float y =stof(parsed[LOCY_FULL_IDX - 1 + desf]);
-
 	user.setLocation(x,y);
-
-	string age = parsed[AGE_IDX + desf];
 	user.setAge(stoi(age));
 	user.setDescription(parsed[DSC_IDX + desf]);
 
 	this->makeInterests(parsed[INT_IDX + desf], interests);
 	user.setInterests(interests);
 
-
+	return true;
 
 }
-void CsvParser::makeSignupUser(string user_str,User &user){
-	//TODO check data is correct
-	vector<string> parsed = this->parseLine(&user_str);
-	Interests interests;
 
+bool CsvParser::makeSignupUser(string user_str,User &user){
+	vector<string> parsed = this->parseLine(&user_str);
+
+	if (parsed.size() != USER_DATA_FOR_CLIENT_COUNT){
+		return false;
+	}
+
+	Interests interests;
+	string age = parsed[AGE_IDX];
 	string name = parsed[NAME_IDX];
 	string alias = parsed[ALIAS_IDX];
 	string sex = parsed[SEX_IDX];
 	string mail = parsed[MAIL_IDX];
+
+	if (! isInteger(age)){
+		return false;
+	}
 
 	user.setCommonData(mail, alias, name, sex);
 
 	//defualt location
 	user.setLocation(0, 0);
 
-	string age = parsed[AGE_IDX];
+
 	user.setAge(stoi(age));
 	user.setDescription(parsed[DSC_IDX]);
 
 	this->makeInterests(parsed[INT_IDX], interests);
 	user.setInterests(interests);
-
+	return true;
 }
 
-void CsvParser::makePutUser(string user_str, string base_user, User& user){
+bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	vector<string> parsedOriginal = this->parseLine(&base_user);
 	vector<string> modifications = this->parseLine(&user_str);
 	vector<string> parsed = this->parseLine(&user_str);
 
 	if (modifications.size() > USER_DATA_FOR_CLIENT_COUNT - PUT_SHUFF){
-		LOGG(WARNING) << "Bad line to parse user";
+		return false;
 	}
 	//FromOriginal
-	int id = stoi(parsedOriginal[ID_FULL_IDX]);
-	user.setId(id);
+	string idS = parsedOriginal[ID_FULL_IDX];
 	string alias = parsedOriginal[ALIAS_FULL_IDX];
 	string mail = parsedOriginal[MAIL_FULL_IDX];
-	float x = stof(parsedOriginal[LOCX_FULL_IDX]);
-	float y = stof(parsedOriginal[LOCY_FULL_IDX]);
-	user.setLocation(x, y);
+	string xS = parsedOriginal[LOCX_FULL_IDX];
+	string yS = parsedOriginal[LOCY_FULL_IDX];
 
 	//Modifications
 	string name = modifications[NAME_IDX];
 	string age = modifications[AGE_IDX];
-	user.setAge(stoi(age));
 
 	//Modifications shuffled
 	string sex = modifications[SEX_IDX - PUT_SHUFF];
-	user.setCommonData(mail, alias, name, sex);
-	user.setDescription(modifications[DSC_IDX - PUT_SHUFF]);
+	if ( ! isInteger(age) || ! isInteger(idS)){
+		return false;
+	}
 
+	if ( ! isFloat(xS) || ! isFloat(yS)){
+		return false;
+	}
 	Interests interests;
 	this->makeInterests(modifications[INT_IDX - PUT_SHUFF], interests);
-	user.setInterests(interests);
 
+	float x = stof(xS);
+	float y = stof(yS);
+	int id = stoi(idS);
+
+	user.setInterests(interests);
+	user.setLocation(x, y);
+	user.setId(id);
+	user.setCommonData(mail, alias, name, sex);
+	user.setDescription(modifications[DSC_IDX - PUT_SHUFF]);
+	user.setAge(stoi(age));
+
+	return true;
 }
 
 string CsvParser::userToCsvFull(User *user){
@@ -248,6 +303,5 @@ void CsvParser::removeId(string &data){
 }
 
 CsvParser::~CsvParser() {
-	// TODO Auto-generated destructor stub
 }
 
