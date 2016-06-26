@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
   curl \
   git \
   g++ \
-  libboost-all-dev \
   libbz2-dev \
   libcurl4-openssl-dev \
   libgflags-dev \
@@ -42,6 +41,9 @@ RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; make i
 
 # Install swiften
 RUN cd DrTinder/source/libs/swift ; ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
+
+# Install boost
+RUN apt-get update && apt-get install -y libboost-all-dev
 
 # Add exe permissions for google style check
 RUN cd DrTinder ; chmod +x execute.sh
