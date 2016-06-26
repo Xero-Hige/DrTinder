@@ -19,16 +19,13 @@ RUN cd DrTinder ; git submodule init
 RUN cd DrTinder ; git submodule update
 
 # Generate librocksdb.a
-RUN cd DrTinder/source/libs/rocksdb ; sudo make install
+RUN cd DrTinder/source/libs/rocksdb ; make install
 
 # Run amalgamate.py from jsoncpp library
 RUN cd DrTinder/source/libs/jsoncpp ; python amalgamate.py
 
-# Install googletest
-#RUN cd DrTinder/source/libs/googletest ; cmake . ; sudo make install
-
 # Install cpprest
-RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; sudo make install
+RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; make install
 
 
 

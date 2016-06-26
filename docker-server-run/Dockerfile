@@ -1,64 +1,47 @@
 # Set the base image to Ubuntu
 FROM ubuntu:14.04
 
-# Update the repository sources list
-RUN apt-get update
-
 # Install required packages
-RUN apt-get install -y libgflags-dev
-RUN apt-get install -y libsnappy-dev
-RUN apt-get install -y libbz2-dev
-RUN apt-get install -y zlib1g-dev
-RUN apt-get install -y libcurl4-openssl-dev
-RUN apt-get install -y autoconf
-RUN apt-get install -y libtool
-
-# Install git
-RUN apt-get install -y git
-
-# Install make
-RUN apt-get install -y make
-
-# Install g++
-RUN apt-get install -y g++
-
-# Install cmake
-RUN apt-get install -y cmake
-
-# Install python
-RUN apt-get install -y python
-
-# Install openssl library
-RUN apt-get install -y openssl
-RUN apt-get install -y libssl-dev
-
-# Install curl
-RUN apt-get install -y curl
-
-
+RUN apt-get update && apt-get install -y \
+  autoconf \
+  cmake \
+  curl \
+  git \
+  g++ \
+  libboost-all-dev \
+  libbz2-dev \
+  libcurl4-openssl-dev \
+  libgflags-dev \
+  libsnappy-dev \
+  libssl-dev \
+  libtool \
+  make \
+  openssl \
+  python \
+  zlib1g-dev
+  
 
 # Clone repository and checkout AppServer
 RUN git clone https://github.com/Xero-Hige/DrTinder/
 RUN cd DrTinder ; git checkout origin/AppServer
 
 # Download git submodules
-RUN cd DrTinder ; git submodule init
-RUN cd DrTinder ; git submodule update
+RUN cd DrTinder ; git submodule init && git submodule update
 
-# Generate librocksdb.a
-RUN cd DrTinder/source/libs/rocksdb ; sudo make install
+# Install rocksdb
+RUN cd DrTinder/source/libs/rocksdb ; make install
 
-# Run amalgamate.py from jsoncpp library
+# Install jsoncpp
 RUN cd DrTinder/source/libs/jsoncpp ; python amalgamate.py
 
 # Install googletest
-RUN cd DrTinder/source/libs/googletest ; cmake . ; sudo make install
+RUN cd DrTinder/source/libs/googletest ; cmake . ; make install
 
 # Install cpprest
-RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; sudo make install
+RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; make install
 
 # Install swiften
-RUN cd DrTinder/source/libs/swift ; sudo ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
+RUN cd DrTinder/source/libs/swift ; ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
 
 # Add exe permissions for google style check
 RUN cd DrTinder ; chmod +x execute.sh
