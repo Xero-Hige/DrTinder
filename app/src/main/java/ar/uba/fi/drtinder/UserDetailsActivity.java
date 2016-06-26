@@ -57,9 +57,9 @@ public class UserDetailsActivity extends AppCompatActivity {
     /**
      * Called when the activity is starting
      *
-     * @param instanceState If the activity is being re-initialized after previously being shut down
-     *                      then this Bundle contains the data it most recently supplied in
-     *                      onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     * @param bundle If the activity is being re-initialized after previously being shut down
+     *               then this Bundle contains the data it most recently supplied in
+     *               onSaveInstanceState(Bundle). Note: Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle bundle) {

@@ -153,6 +153,11 @@ public final class StringResourcesHandler {
      * Callbacks interface
      */
     public interface CallbackOperation {
+        /**
+         * Interface method
+         *
+         * @param data List of array strings with the query data
+         */
         void execute(List<String[]> data);
     }
 

@@ -226,8 +226,12 @@ public final class UserHandler {
     }
 
     /**
-     * @param userdata
-     * @return
+     * Creates a new user with the info
+     *
+     * @param email    User email
+     * @param password User password
+     * @param userdata Map containing userdata as field:value
+     * @return Sign up result (one of the listed results const)
      */
     public static String signUp(String email, String password, Map<String, String> userdata) {
 
@@ -281,8 +285,10 @@ public final class UserHandler {
     }
 
     /**
-     * @param userdata
-     * @return
+     * Updates user info
+     *
+     * @param token    Session token
+     * @param userdata Map containing userdata as field:value
      */
     public static void updateInfo(String token, Map<String, String> userdata) {
 
@@ -329,7 +335,9 @@ public final class UserHandler {
     }
 
     /**
-     * @return
+     * Get the current session token
+     *
+     * @return The current session token. If not possible, one of the listed Error tokens
      */
     public static String getToken() {
         return mToken;
