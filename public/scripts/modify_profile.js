@@ -1,6 +1,4 @@
-var local_url = "http://localhost:5000";
-var page_url = "http://dr-tinder.herokuapp.com";
-var using_url_mdf =  page_url;
+var using_url_mdf =  $("[data-link]").attr('data-link');
 
 var httpResquest = function(method, url, callback_fn, error_fn, data_to_send=""){
 	

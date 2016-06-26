@@ -3,6 +3,10 @@ module.exports = function(){
   var version = "0.2"; //deberia sacarlos del server no???
   function usersFormater(resultado){
     var objeto_sin_formato = resultado['array_to_json'];
+    if (!objeto_sin_formato) return {users:[],metadata: {
+        version: version,
+        count: 0
+      }};
     var array_users = [];
     objeto_sin_formato.forEach(function(object){
       object.photo_profile = "http://dr-tinder.herokuapp.com/users/"+ object.id +"/photo";

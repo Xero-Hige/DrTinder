@@ -24,10 +24,11 @@ exports.successGetUser = function(result){
 	return successGet(result, formater.user);
 }
 
-exports.successGetUsersAndInterests = function(result){
+exports.successGetUsersAndInterests = function(result, url){
 	var formatedData = successGetUsers(result);
     var interests = formater.intereses(result.rows[1]);
    	formatedData.result["intereses"] = interests.interests;
+   	formatedData.result['link'] = url;
    	return formatedData;
 }
 

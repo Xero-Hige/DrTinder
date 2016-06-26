@@ -11,6 +11,7 @@ module.exports = function(query, processResult, response) {
     
     if (err) {
     	done();
+      console.log(err);
       response.send(500, "No hay conexion a la base de datos");
     } else {
       client.query(query, function(err, result) {

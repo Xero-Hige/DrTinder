@@ -24,7 +24,7 @@
 <% } %>
 
 	<% include ../partials/nav.ejs %>
-	<div class="container">
+	<div class="container" data-link="<%= link %>">
 		<header>
 			<h2>Usuarios en Base de Datos</h2> 
 			<button id="crear_usuario_pop" class="btn mini red-stripe" data-toggle="modal" 
@@ -36,6 +36,9 @@
 				<tr>
 					<!--Header users attributes-->
 					<th class = "col-lg-1 col-md-1 col-sm-2 col-xs-3"></th>
+					<% if (!results[0]){ %>
+						</tr></thead></table></div>
+					<% }else{ %>
 					<% var keys = Object.keys(results[0].user); %>
 					<% keys.forEach(function (key){ %>
 					<% if ( isSpecialKey(key) ) { %>
@@ -115,98 +118,6 @@
 				<% }); %>
 			</tbody>
 		</table>
-	</div>
-
-	<!-- Modal -->
-	<div id="new_user" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Crear Usuario</h4>
-				</div>
-				<div class="modal-body">
-					<!--Lista categorias intereses completa-->
-					<% var interesesOrdenados = interesesPorCategoria(intereses);%>
-
-					<div class = "list-group">
-						<!--Chosen con itereses-->
-						<div class="list-group-item">
-							<em>Interests</em>
-							<select data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
-								<option value=""></option>
-								<% for (category in interesesOrdenados){ %>
-								<optgroup label="<%= category %>" >
-									<% interesesOrdenados[category].forEach(function(value){ %>
-									<option><%= value%></option>
-									<% }); %>
-									<% } %>
-								</optgroup>
-							</select>
-						</div>
-
-						<!--Atributos basicos-->
-						<% keys.forEach(function (key) { %>
-						<% if ( isSpecialKey(key) || key == "id" || key == "sex") { %>
-
-						<% } else { %>
-						<div class = "list-group-item">
-							<div class="input-group basic_info">
-
-								<span class="input-group-addon" ><%= key %></span>
-								<input type="text" class="form-control" id = "crear_<%= key %>">
-
-
-							</div>
-						</div>
-						<% } %>
-						
-						<% }); %>
-						<!--Location-->
-						<div class = "list-group-item">
-							<div class="input-group basic_info">
-
-								<span class="input-group-addon" >sex</span>
-								<select type="text" class="form-control" id="crear_sex">
-									<option value="woman">woman</option>
-									<option value="man">man</option>
-								</select>
-
-							</div>
-						</div>
-						<!--Location-->
-						<div class = "list-group-item">
-							<div class="input-group" id="location_crear">
-								<span class="input-group-addon" >location</span>
-								<input type="text" class="form-control input-sm" placeholder="latitude" />
-								<input type="text" class="form-control input-sm" placeholder="longitude" />
-							</div>
-						</div>
-
-						<!--Photo-->
-						<div class = "list-group-item">
-							<div class="input-group">
-								<span class="input-group-addon" >photo_profile</span>
-								<input id="photo_file" class="form-control input-sm" type="file" />
-								<img id="photo_to_send" src="" style="display: none" />
-							</div>
-						</div>
-					</div>
-
-					<div class="modal-footer">
-						<div id="err_msg"></div>
-						<button id="crear_user" type="button" 
-						class="btn btn-default" 
-						data-loading-text="<i class='fa fa-spinner fa-spin '></i>" >
-							Crear
-						</button>
-					</div>
-				</div>
-
-			</div>
-		</div>
 	</div>
 	<div id="img_user" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
@@ -304,7 +215,98 @@
 			</div>
 		</div>
 	</div>
+	<% }%>
+	<!-- Modal -->
+	<div id="new_user" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Crear Usuario</h4>
+				</div>
+				<div class="modal-body">
+					<!--Lista categorias intereses completa-->
+					<% var interesesOrdenados = interesesPorCategoria(intereses);%>
+
+					<div class = "list-group">
+						<!--Chosen con itereses-->
+						<div class="list-group-item">
+							<em>Interests</em>
+							<select data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
+								<option value=""></option>
+								<% for (category in interesesOrdenados){ %>
+								<optgroup label="<%= category %>" >
+									<% interesesOrdenados[category].forEach(function(value){ %>
+									<option><%= value%></option>
+									<% }); %>
+									<% } %>
+								</optgroup>
+							</select>
+						</div>
+
+						<!--Atributos basicos-->
+						<% ['name','alias','age','email'].forEach(function (key) { %>
+						<% if ( isSpecialKey(key) || key == "id" || key == "sex") { %>
+
+						<% } else { %>
+						<div class = "list-group-item">
+							<div class="input-group basic_info">
+
+								<span class="input-group-addon" ><%= key %></span>
+								<input type="text" class="form-control" id = "crear_<%= key %>">
+
+
+							</div>
+						</div>
+						<% } %>
+						
+						<% }); %>
+						<!--Location-->
+						<div class = "list-group-item">
+							<div class="input-group basic_info">
+
+								<span class="input-group-addon" >sex</span>
+								<select type="text" class="form-control" id="crear_sex">
+									<option value="woman">woman</option>
+									<option value="man">man</option>
+								</select>
+
+							</div>
+						</div>
+						<!--Location-->
+						<div class = "list-group-item">
+							<div class="input-group" id="location_crear">
+								<span class="input-group-addon" >location</span>
+								<input type="text" class="form-control input-sm" placeholder="latitude" />
+								<input type="text" class="form-control input-sm" placeholder="longitude" />
+							</div>
+						</div>
+
+						<!--Photo-->
+						<div class = "list-group-item">
+							<div class="input-group">
+								<span class="input-group-addon" >photo_profile</span>
+								<input id="photo_file" class="form-control input-sm" type="file" />
+								<img id="photo_to_send" src="" style="display: none" />
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<div id="err_msg"></div>
+						<button id="crear_user" type="button" 
+						class="btn btn-default" 
+						data-loading-text="<i class='fa fa-spinner fa-spin '></i>" >
+							Crear
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript" src="scripts/show_img.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap-chosen.css" />
 	<script type="text/javascript" src="scripts/modify_profile.js"></script>

@@ -9,16 +9,19 @@ sudo apt-get install npm
 #Postrgesql
 sudo apt-get install postgresql postgresql-contrib
 
-#crear role con user
+#crear iniciar 
 sudo -i -u postgres
+psql -s -d -P <usrid>  #prompt para passw
+createdb <usrid>
+exit
+psql -f createDB.sql
 
+#Pararse en el DrTinder y correr para instalar los paquetes necesarios:
+npm install
 
-#Pararse en el DrTinder y corre:
-npm install 
-
-para instalar los paquetes necesarios
 #declarar variable DATABASE_URL con los datos de base .env en el mismo directorio que index.js
-#se puede elegir el puerto con PORT
+ADD DATABASE_URL=postgres://<usrid>:<pass>@localhost:5432/tinder?ssl=true
+PORT=8000|5000|etc
 
-#correr shared:
-node index.js
+#correr shared local:
+node index.js -l || node index.js --local

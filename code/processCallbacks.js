@@ -14,7 +14,8 @@ exports.respondRenderDatos = function(resultado, response) {
 
     response.render('pages/db', {
       results: resultado.result.users,
-      intereses: resultado.result.intereses
+      intereses: resultado.result.intereses,
+      link: resultado.result.link
     });
   }
 }

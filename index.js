@@ -37,10 +37,20 @@ var renderDatos = require ( _render );
 env(__dirname + '/.env');
 //para recibir json
 app.use(bodyParser.json({limit: '50mb'}));
-
+var port = (process.env.PORT || 5000);
 //set port
-app.set('port', (process.env.PORT || 5000));
+app.set('port', port);
 
+var url_localhost = "http://localhost:" + port;
+var url_web = "http://dr-tinder.herokuapp.com";
+
+var using_url;
+
+if (process.argv[2] == '-l' || process.argv[2] == '--local'){
+	using_url = url_localhost;
+}else{
+	using_url = url_web;
+}
 // views is directory for all template files, base cuando renderea
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -60,7 +70,7 @@ app.use('/db', express.static(__dirname + '/public'));
 
 //cuando accedo a /db
 app.get('/db', function(request, response) {
-  renderDatos(request, response);
+  renderDatos(request, response, using_url);
 });
 
 //set API
