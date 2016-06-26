@@ -14,6 +14,7 @@
 #include <sstream>
 #include <iterator>
 #include "../User.h"
+#include "../ServerUtils.h"
 #include "../../libs/loger/easylogging++.h"
 
 #define ID_FULL_IDX 0

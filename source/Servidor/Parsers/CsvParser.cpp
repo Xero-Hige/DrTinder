@@ -13,27 +13,6 @@ CsvParser::CsvParser() {
 
 }
 
-inline bool isInteger(const std::string & s)
-{
-   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
-
-   char * p ;
-   strtol(s.c_str(), &p, 10) ;
-
-   return (*p == 0) ;
-}
-
-
-bool isFloat( string myString ) {
-    std::istringstream iss(myString);
-    float f;
-    iss >> noskipws >> f; // noskipws considers leading whitespace invalid
-    // Check the entire string was consumed and if either failbit or badbit is set
-    return iss.eof() && !iss.fail();
-}
-
-
-
 vector<string> CsvParser::parseLine(string *line){
 	vector<string> elements;
 	stringstream ss(*line);

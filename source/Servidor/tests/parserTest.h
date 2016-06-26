@@ -295,4 +295,6 @@ TEST(UserParser, TransformUsersToListThenToCsvSameAmountOfUsers){
 	//delete from data
 	while(!list.empty()) delete list.front(), list.pop_front();
 }
+
+
 #endif /* SERVIDOR_TESTS_PARSERTEST_H_ */

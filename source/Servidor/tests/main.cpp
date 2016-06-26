@@ -19,14 +19,8 @@ INITIALIZE_EASYLOGGINGPP
 
 
 int main(int argc, char **argv) {
-  string port, shared, logCnfg;
-  configure(argc,argv,port,shared,logCnfg);
-  el::Configurations conf(logCnfg);
-  el::Loggers::reconfigureAllLoggers(conf);
-  el::Loggers::addFlag(el::LoggingFlag::ColoredTerminalOutput);
-  LOGG(INFO) << "Port: " << port;
-  LOGG(INFO) << "Shared: " << shared;
-  LOGG(INFO) << "Loger configuration: " << logCnfg;
+  string port, shared;
+  configure(argc,argv,port,shared);
   LOGG(DEBUG) << "Corro test";
   ::testing::InitGoogleTest(&argc, argv);
   //RestClient::init();
