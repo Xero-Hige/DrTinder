@@ -7,6 +7,14 @@
 #include <mongoose.h>
 #include "../libs/loger/easylogging++.h"
 #include "Parsers/JsonParser.h"
+#define DEFAULT_LOG_CONFG "logCnfgs/default.conf"
+#define DEBUG_LOG_CONFG "logCnfgs/debug.conf"
+#define DEFAULT_CONFG "server.conf"
+#define DEFAULT_PORT "8000"
+#define DEFAULT_LOG "default"
+#define DEBUG_LOG "debug"
+#define DEFAULT_SHARED "http://dr-tinder.herokuapp.com"
+
 
 void intToString(int number, std::string& result);
 int is_equal(const struct mg_str *s1, const std::string s2);

@@ -7,10 +7,11 @@
 
 #include "interestTest.h"
 #include "parserTest.h"
-/*#include "sharedServerTest.h"
+#include "serverUtilsTest.h"
+#include "sharedServerTest.h"
 #include "tokenizerTest.h"
 #include "userMatcherTest.h"
-#include "messageHandlerTest.h"*/
+#include "messageHandlerTest.h"
 #include "gtest/gtest.h"
 #include "../../libs/loger/easylogging++.h"
 #include "../ServerUtils.h"
