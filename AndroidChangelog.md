@@ -1,4 +1,4 @@
-## Version [1.0.0.0](https://github.com/Xero-Hige/DrTinder/releases/tag/v0.1.0-alpha)
+## Version [1.0.0.0](https://github.com/Xero-Hige/DrTinder/releases/tag/v1.0.0-beta)
 #### *First release* - 23/06/16
 
 ### New Features:
