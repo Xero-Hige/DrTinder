@@ -9,6 +9,10 @@ sudo apt-get install npm
 #Postrgesql
 sudo apt-get install postgresql postgresql-contrib
 
+#crear role con user
+sudo -i -u postgres
+
+
 #Pararse en el DrTinder y corre:
 npm install 
 

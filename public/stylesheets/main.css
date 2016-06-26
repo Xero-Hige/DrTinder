@@ -49,4 +49,14 @@
   width:100%;
 }
 
+#delete_user{
+	background:#BA1818 ;
+	color:white;
+}
+
+#save_user{
+	color:white;
+	background:#66BA18 ;
+}
+
 /*problemas de display, posicion con opacity y new user*/

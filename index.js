@@ -51,7 +51,7 @@ app.get('/', function(request, response) {
 });
 
 //muestra puerto en donde estoy corriendo
-app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
@@ -73,3 +73,12 @@ router.route('/last').get(lastUser);
 router.route('/interests/:category/photo').get(interestPhoto);
 
 app.use(express.static(__dirname + '/public'), router);
+
+var closeApp = function(){
+	server.close();
+	console.log("Exiting");
+	process.exit(0);
+}
+
+//catches ctrl+c event
+process.on('SIGINT', closeApp);
