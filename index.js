@@ -33,8 +33,11 @@ var putFotoAPI = require(_put + _photo);
 var deleteUserAPI = require( _del + _user);
 var getPhoto = require( _get + _photo);
 var renderDatos = require ( _render );
-
-env(__dirname + '/.env');
+try{
+	env(__dirname + '/.env');
+}catch(error){
+	console.log("no .env file");
+}
 //para recibir json
 app.use(bodyParser.json({limit: '50mb'}));
 var port = (process.env.PORT || 5000);
