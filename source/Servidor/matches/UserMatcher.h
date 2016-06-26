@@ -17,12 +17,14 @@ class UserMatcher {
 private:
 	const int AGE_RANGE = 3;
 	const int MAX_DISTANCE = 20;
+	const string SEX_CATEGORY = "sex";
 
-	bool isSameSex(User* appUser, User* user);
+	bool isLookingForUserSex(User* appUser, User* user);
 	bool isInAgeRange(User* appUser, User* user);
 	bool isNearby(User* appUser, User* user);
 	bool hasCommonInterest(User* appUser, User* user);
-
+	bool contains(vector<string> vect, const string& stringToFind);
+	bool containsKey(map<string, vector<string> >& map, const string& keyToFind);
 
 public:
 

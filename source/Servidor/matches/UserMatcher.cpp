@@ -30,7 +30,7 @@ list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users
 	list<User*> filteredUsers;
 
 	for (User* user : *users) {
-		if (!isSameSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
+		if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
 				&& hasCommonInterest(appUser, user)) {
 			filteredUsers.push_back(user);
 		}
@@ -40,8 +40,25 @@ list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users
 
 }
 
-bool UserMatcher::isSameSex(User* appUser, User* user) {
-	return (user->getSex() == appUser->getSex());
+bool UserMatcher::contains(vector<string> vect, const string& stringToFind) {
+	return (find(vect.begin(), vect.end(), stringToFind) != vect.end());
+}
+
+bool UserMatcher::isLookingForUserSex(User* appUser, User* user) {
+	string userSex = user->getSex();
+	string category = SEX_CATEGORY;
+
+	Interests* appUserInterests = appUser->getInterests();
+
+	map<string,vector<string>> appUserInterestMap = appUserInterests->allInterests();
+
+	if ( appUserInterestMap.find(category) != appUserInterestMap.end() ) {
+		vector<string> sexesLookingFor = appUserInterestMap.at(category);
+		if (contains(sexesLookingFor, userSex)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 bool UserMatcher::isInAgeRange(User* appUser, User* user) {
@@ -72,6 +89,10 @@ bool atLeastOneValueInCommon(vector<string> values1, vector<string> values2){
 	return false;
 }
 
+bool UserMatcher::containsKey(map<string, vector<string> >& map, const string& keyToFind) {
+	return map.find(keyToFind) != map.end();
+}
+
 bool UserMatcher::hasCommonInterest(User* appUser, User* user) {
 	Interests* userInterests = user->getInterests();
 	Interests* appUserInterests = appUser->getInterests();
@@ -82,11 +103,13 @@ bool UserMatcher::hasCommonInterest(User* appUser, User* user) {
 	for (map<string,vector<string>>::iterator it=userInterestMap.begin(); it!=userInterestMap.end(); ++it){
 	    string category = it->first;
 	    vector<string> values = it->second;
-	    if ( appUserInterestMap.find(category) != appUserInterestMap.end() ) {
-	    	vector<string> appUserValues = appUserInterestMap.at(category);
-	    	if (atLeastOneValueInCommon(values, appUserValues)){
-	    		return true;
-	    	}
+	    if (category != SEX_CATEGORY){
+			if (containsKey(appUserInterestMap, category)) {
+				vector<string> appUserValues = appUserInterestMap.at(category);
+				if (atLeastOneValueInCommon(values, appUserValues)){
+					return true;
+				}
+			}
 	    }
 	}
 	return false;
