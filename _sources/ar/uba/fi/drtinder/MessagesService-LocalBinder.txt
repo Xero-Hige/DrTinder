@@ -29,7 +29,7 @@ MessagesService.LocalBinder
 .. java:type:: public class LocalBinder extends Binder
    :outertype: MessagesService
 
-   TODO
+   Binder that makes possible get the service associated to an activity
 
 Methods
 -------

@@ -179,7 +179,7 @@ public class <code class="descname">MainActivity</code> extends AppCompatActivit
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.MainActivity.EXTRA_TOKEN">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.EXTRA_TOKEN" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Intent extra field: Session token</p>
 </dd></dl>
 
 </div>
@@ -191,7 +191,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onBackPressed()">
 public void <code class="descname">onBackPressed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onBackPressed()" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Missing Api Reference</p>
 </dd></dl>
 
 </div>
@@ -200,7 +200,19 @@ public void <code class="descname">onBackPressed</code><span class="sig-paren">(
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onCreate(Bundle)">
 protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onCreate(Bundle)" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Called when the activity is starting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bundle</strong> &#8211; If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="oncreateoptionsmenu">
@@ -208,14 +220,17 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onCreateOptionsMenu(Menu)">
 public boolean <code class="descname">onCreateOptionsMenu</code><span class="sig-paren">(</span>Menu<em> menu</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onCreateOptionsMenu(Menu)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Called when created options menu.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>menu</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>menu</strong> &#8211; Created menu</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true to display the menu as menu</p>
 </td>
 </tr>
 </tbody>
@@ -228,7 +243,7 @@ public boolean <code class="descname">onCreateOptionsMenu</code><span class="sig
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onDestroy()">
 public void <code class="descname">onDestroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onDestroy()" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Destroy all fragments and loaders. Clears app cache</p>
 </dd></dl>
 
 </div>
@@ -237,7 +252,22 @@ public void <code class="descname">onDestroy</code><span class="sig-paren">(</sp
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onNavigationItemSelected(MenuItem)">
 public boolean <code class="descname">onNavigationItemSelected</code><span class="sig-paren">(</span>MenuItem<em> item</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onNavigationItemSelected(MenuItem)" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Called when an item in the navigation menu is selected.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>item</strong> &#8211; The selected item</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true to display the item as the selected item</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="onoptionsitemselected">
@@ -245,14 +275,17 @@ public boolean <code class="descname">onNavigationItemSelected</code><span class
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.MainActivity.onOptionsItemSelected(MenuItem)">
 public boolean <code class="descname">onOptionsItemSelected</code><span class="sig-paren">(</span>MenuItem<em> item</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MainActivity.onOptionsItemSelected(MenuItem)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Called when a option item is selected</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>item</strong> &#8211; </li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>item</strong> &#8211; The selected item</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true to display the item as the selected item</p>
 </td>
 </tr>
 </tbody>
@@ -283,7 +316,7 @@ public boolean <code class="descname">onOptionsItemSelected</code><span class="s
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 23, 2016.
+      Last updated on Jun 26, 2016.
 
     </p>
   </div>

@@ -58,7 +58,7 @@ EXTRA_FRIEND_ID
 .. java:field:: public static final String EXTRA_FRIEND_ID
    :outertype: ChatSession
 
-   TODO
+   Intent extra field: Friend user id
 
 EXTRA_FRIEND_NAME
 ^^^^^^^^^^^^^^^^^
@@ -66,7 +66,7 @@ EXTRA_FRIEND_NAME
 .. java:field:: public static final String EXTRA_FRIEND_NAME
    :outertype: ChatSession
 
-   TODO
+   Intent extra field: Friend name
 
 EXTRA_USER_ID
 ^^^^^^^^^^^^^
@@ -74,7 +74,7 @@ EXTRA_USER_ID
 .. java:field:: public static final String EXTRA_USER_ID
    :outertype: ChatSession
 
-   TODO
+   Intent extra field: User id
 
 EXTRA_USER_NAME
 ^^^^^^^^^^^^^^^
@@ -82,7 +82,7 @@ EXTRA_USER_NAME
 .. java:field:: public static final String EXTRA_USER_NAME
    :outertype: ChatSession
 
-   TODO
+   Intent extra field: User name
 
 EXTRA_USER_TOKEN
 ^^^^^^^^^^^^^^^^
@@ -90,7 +90,7 @@ EXTRA_USER_TOKEN
 .. java:field:: public static final String EXTRA_USER_TOKEN
    :outertype: ChatSession
 
-   TODO
+   Intent extra field: User token
 
 Methods
 -------
@@ -100,10 +100,10 @@ addResponse
 .. java:method:: public void addResponse(String message, String userId)
    :outertype: ChatSession
 
-   TODO
+   Adds an user response to the chat log
 
-   :param message:
-   :param userId:
+   :param message: Message to add
+   :param userId: Sender id
 
 onCreate
 ^^^^^^^^
@@ -111,9 +111,9 @@ onCreate
 .. java:method:: @Override protected void onCreate(Bundle bundle)
    :outertype: ChatSession
 
-   TODO
+   Perform initialization of all fragments and loaders.
 
-   :param bundle:
+   :param bundle: If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
 
 onStart
 ^^^^^^^
@@ -121,9 +121,17 @@ onStart
 .. java:method:: @Override protected void onStart()
    :outertype: ChatSession
 
+   Called after onCreate(Bundle) — or after onRestart() when the activity had been stopped, but is now again being displayed to the user. It will be followed by onResume().
+
+   Derived classes must call through to the super class's implementation of this method. If they do not, an exception will be thrown.
+
 onStop
 ^^^^^^
 
 .. java:method:: @Override public void onStop()
    :outertype: ChatSession
+
+   Called when you are no longer visible to the user. You will next receive either onRestart(), onDestroy(), or nothing, depending on later user activity.
+
+   Derived classes must call through to the super class's implementation of this method. If they do not, an exception will be thrown.
 

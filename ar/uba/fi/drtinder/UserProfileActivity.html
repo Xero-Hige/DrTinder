@@ -169,7 +169,7 @@
 <dl class="type">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity">
 public class <code class="descname">UserProfileActivity</code> extends AppCompatActivity<a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Activity that represents user profile for creation and update purposes</p>
 </dd></dl>
 
 <div class="section" id="fields">
@@ -179,7 +179,7 @@ public class <code class="descname">UserProfileActivity</code> extends AppCompat
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.PROFILE_ACTION_CREATE">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">PROFILE_ACTION_CREATE</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.PROFILE_ACTION_CREATE" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Profile activity action: Action create new profile</p>
 </dd></dl>
 
 </div>
@@ -188,7 +188,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.PROFILE_ACTION_UPDATE">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">PROFILE_ACTION_UPDATE</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.PROFILE_ACTION_UPDATE" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Profile activity action: Action update profile</p>
 </dd></dl>
 
 </div>
@@ -197,7 +197,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.PROFILE_EXTRA_ACTION">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">PROFILE_EXTRA_ACTION</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.PROFILE_EXTRA_ACTION" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Intent extra field: Activity action</p>
 </dd></dl>
 
 </div>
@@ -206,7 +206,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_TOKEN">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">USER_EXTRA_TOKEN</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_TOKEN" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Intent extra field: User session token</p>
 </dd></dl>
 
 </div>
@@ -215,7 +215,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_USEREMAIL">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">USER_EXTRA_USEREMAIL</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_USEREMAIL" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Intent extra field: User email</p>
 </dd></dl>
 
 </div>
@@ -224,7 +224,7 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_USERNAME">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">USER_EXTRA_USERNAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.USER_EXTRA_USERNAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Intent extra field: User name</p>
 </dd></dl>
 
 </div>
@@ -243,8 +243,20 @@ protected void <code class="descname">onActivityResult</code><span class="sig-pa
 <h3>onCreate<a class="headerlink" href="#oncreate" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserProfileActivity.onCreate(Bundle)">
-protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> savedInstanceState</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.onCreate(Bundle)" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserProfileActivity.onCreate(Bundle)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the activity is starting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bundle</strong> &#8211; If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 </div>
@@ -270,7 +282,7 @@ protected void <code class="descname">onCreate</code><span class="sig-paren">(</
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 23, 2016.
+      Last updated on Jun 26, 2016.
 
     </p>
   </div>

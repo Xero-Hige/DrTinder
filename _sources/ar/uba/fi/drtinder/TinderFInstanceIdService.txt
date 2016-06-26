@@ -22,5 +22,5 @@ onTokenRefresh
 .. java:method:: @Override public void onTokenRefresh()
    :outertype: TinderFInstanceIdService
 
-   TODO
+   Executes when the firebase token is refreshed
 

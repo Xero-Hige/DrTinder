@@ -178,7 +178,8 @@ public final class <code class="descname">StringResourcesHandler</code><a class=
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.INTEREST_DATA_DIVIDER">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">INTEREST_DATA_DIVIDER</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.INTEREST_DATA_DIVIDER" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Interest group divider (divide between class and id)</p>
+</dd></dl>
 
 </div>
 <div class="section" id="interest-divider">
@@ -186,7 +187,8 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.INTEREST_DIVIDER">
 public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">INTEREST_DIVIDER</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.INTEREST_DIVIDER" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Interest string divider (divide 2 diferent interest groups)</p>
+</dd></dl>
 
 </div>
 <div class="section" id="user-candidates">
@@ -194,7 +196,8 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.USER_CANDIDATES">
 public static final int <code class="descname">USER_CANDIDATES</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.USER_CANDIDATES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query type: Candidates for the user</p>
+</dd></dl>
 
 </div>
 <div class="section" id="user-chat">
@@ -202,7 +205,8 @@ public static final int <code class="descname">USER_CANDIDATES</code><a class="h
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.USER_CHAT">
 public static final int <code class="descname">USER_CHAT</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.USER_CHAT" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query type: Chat for the user</p>
+</dd></dl>
 
 </div>
 <div class="section" id="user-info">
@@ -210,7 +214,8 @@ public static final int <code class="descname">USER_CHAT</code><a class="headerl
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.USER_INFO">
 public static final int <code class="descname">USER_INFO</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.USER_INFO" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query type: Information of the user</p>
+</dd></dl>
 
 </div>
 <div class="section" id="user-matches">
@@ -218,7 +223,8 @@ public static final int <code class="descname">USER_INFO</code><a class="headerl
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.USER_MATCHES">
 public static final int <code class="descname">USER_MATCHES</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.USER_MATCHES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query type: Matches for the user</p>
+</dd></dl>
 
 </div>
 </div>
@@ -229,15 +235,15 @@ public static final int <code class="descname">USER_MATCHES</code><a class="head
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(int, String, CallbackOperation)">
 public static void <code class="descname">executeQuery</code><span class="sig-paren">(</span>int<em> requestType</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference internal" href="StringResourcesHandler-CallbackOperation.html#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation" title="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation">CallbackOperation</a><em> operation</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(int, String, CallbackOperation)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Executes a query in a detached thread. Once it finishes executes the callback</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>requestType</strong> &#8211; </li>
-<li><strong>token</strong> &#8211; </li>
-<li><strong>operation</strong> &#8211; </li>
+<li><strong>requestType</strong> &#8211; Request type (One of the listed request types)</li>
+<li><strong>token</strong> &#8211; Session token</li>
+<li><strong>operation</strong> &#8211; Callback operation</li>
 </ul>
 </td>
 </tr>
@@ -251,16 +257,16 @@ public static void <code class="descname">executeQuery</code><span class="sig-pa
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(String, int, String, CallbackOperation)">
 public static void <code class="descname">executeQuery</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> resId</em>, int<em> requestType</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference internal" href="StringResourcesHandler-CallbackOperation.html#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation" title="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation">CallbackOperation</a><em> operation</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.executeQuery(String, int, String, CallbackOperation)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Executes a query in a detached thread. Once it finishes executes the callback</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>resId</strong> &#8211; </li>
-<li><strong>requestType</strong> &#8211; </li>
-<li><strong>token</strong> &#8211; </li>
-<li><strong>operation</strong> &#8211; </li>
+<li><strong>resId</strong> &#8211; Queried resource id</li>
+<li><strong>requestType</strong> &#8211; Request type (One of the listed request types)</li>
+<li><strong>token</strong> &#8211; Session token</li>
+<li><strong>operation</strong> &#8211; Callback operation</li>
 </ul>
 </td>
 </tr>
@@ -292,7 +298,7 @@ public static void <code class="descname">executeQuery</code><span class="sig-pa
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 23, 2016.
+      Last updated on Jun 26, 2016.
 
     </p>
   </div>

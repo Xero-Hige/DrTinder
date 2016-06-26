@@ -28,7 +28,7 @@ MessagesService
 
 .. java:type:: public class MessagesService extends FirebaseMessagingService
 
-   TODO
+   Incoming messages listener service
 
 Methods
 -------
@@ -38,13 +38,17 @@ onMessageReceived
 .. java:method:: @Override public void onMessageReceived(RemoteMessage remoteMessage)
    :outertype: MessagesService
 
-   TODO
+   Called when a new incoming message is received
 
-   :param remoteMessage:
+   :param remoteMessage: Received message
 
 setSession
 ^^^^^^^^^^
 
 .. java:method:: public void setSession(ChatSession mSession)
    :outertype: MessagesService
+
+   Set the associated chat session that needs to be notified
+
+   :param mSession: Chat session to notify
 

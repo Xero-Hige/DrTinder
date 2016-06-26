@@ -14,7 +14,7 @@ Utility
 
 .. java:type:: public final class Utility
 
-   TODO
+   Utility class for most common UI Android activities
 
 Methods
 -------
@@ -35,9 +35,9 @@ hideKeyboard
 .. java:method:: public static void hideKeyboard(Activity context)
    :outertype: Utility
 
-   TODO
+   Hides the soft keyboard
 
-   :param context:
+   :param context: Caller activity
 
 showMessage
 ^^^^^^^^^^^

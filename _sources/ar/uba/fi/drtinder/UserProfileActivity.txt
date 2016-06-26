@@ -50,7 +50,7 @@ UserProfileActivity
 
 .. java:type:: public class UserProfileActivity extends AppCompatActivity
 
-   TODO
+   Activity that represents user profile for creation and update purposes
 
 Fields
 ------
@@ -60,7 +60,7 @@ PROFILE_ACTION_CREATE
 .. java:field:: public static final String PROFILE_ACTION_CREATE
    :outertype: UserProfileActivity
 
-   TODO
+   Profile activity action: Action create new profile
 
 PROFILE_ACTION_UPDATE
 ^^^^^^^^^^^^^^^^^^^^^
@@ -68,7 +68,7 @@ PROFILE_ACTION_UPDATE
 .. java:field:: public static final String PROFILE_ACTION_UPDATE
    :outertype: UserProfileActivity
 
-   TODO
+   Profile activity action: Action update profile
 
 PROFILE_EXTRA_ACTION
 ^^^^^^^^^^^^^^^^^^^^
@@ -76,7 +76,7 @@ PROFILE_EXTRA_ACTION
 .. java:field:: public static final String PROFILE_EXTRA_ACTION
    :outertype: UserProfileActivity
 
-   TODO
+   Intent extra field: Activity action
 
 USER_EXTRA_TOKEN
 ^^^^^^^^^^^^^^^^
@@ -84,7 +84,7 @@ USER_EXTRA_TOKEN
 .. java:field:: public static final String USER_EXTRA_TOKEN
    :outertype: UserProfileActivity
 
-   TODO
+   Intent extra field: User session token
 
 USER_EXTRA_USEREMAIL
 ^^^^^^^^^^^^^^^^^^^^
@@ -92,7 +92,7 @@ USER_EXTRA_USEREMAIL
 .. java:field:: public static final String USER_EXTRA_USEREMAIL
    :outertype: UserProfileActivity
 
-   TODO
+   Intent extra field: User email
 
 USER_EXTRA_USERNAME
 ^^^^^^^^^^^^^^^^^^^
@@ -100,7 +100,7 @@ USER_EXTRA_USERNAME
 .. java:field:: public static final String USER_EXTRA_USERNAME
    :outertype: UserProfileActivity
 
-   TODO
+   Intent extra field: User name
 
 Methods
 -------
@@ -113,6 +113,10 @@ onActivityResult
 onCreate
 ^^^^^^^^
 
-.. java:method:: @Override protected void onCreate(Bundle savedInstanceState)
+.. java:method:: @Override protected void onCreate(Bundle bundle)
    :outertype: UserProfileActivity
+
+   Called when the activity is starting
+
+   :param bundle: If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
 

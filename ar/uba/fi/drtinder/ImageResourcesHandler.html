@@ -179,7 +179,7 @@ public final class <code class="descname">ImageResourcesHandler</code><a class="
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ImageResourcesHandler.RES_INTEREST_IMG">
 public static final int <code class="descname">RES_INTEREST_IMG</code><a class="headerlink" href="#ar.uba.fi.drtinder.ImageResourcesHandler.RES_INTEREST_IMG" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Interest image resource type</p>
 </dd></dl>
 
 </div>
@@ -188,7 +188,7 @@ public static final int <code class="descname">RES_INTEREST_IMG</code><a class="
 <dl class="field">
 <dt id="ar.uba.fi.drtinder.ImageResourcesHandler.RES_USER_IMG">
 public static final int <code class="descname">RES_USER_IMG</code><a class="headerlink" href="#ar.uba.fi.drtinder.ImageResourcesHandler.RES_USER_IMG" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>User image resource type</p>
 </dd></dl>
 
 </div>
@@ -200,13 +200,13 @@ public static final int <code class="descname">RES_USER_IMG</code><a class="head
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.ImageResourcesHandler.clearCache(Context)">
 public static void <code class="descname">clearCache</code><span class="sig-paren">(</span>Context<em> context</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ImageResourcesHandler.clearCache(Context)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Clears all the cached files</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>context</strong> &#8211; </li>
+<li><strong>context</strong> &#8211; Context of the calling activity</li>
 </ul>
 </td>
 </tr>
@@ -220,16 +220,17 @@ public static void <code class="descname">clearCache</code><span class="sig-pare
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.ImageResourcesHandler.fillImageResource(String, int, String, ImageView, Context)">
 public static void <code class="descname">fillImageResource</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> imageId</em>, int<em> resourceType</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, ImageView<em> imgView</em>, Context<em> context</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ImageResourcesHandler.fillImageResource(String, int, String, ImageView, Context)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Fills the parameter image view with the server image resourve</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imageId</strong> &#8211; </li>
-<li><strong>resourceType</strong> &#8211; </li>
-<li><strong>imgView</strong> &#8211; </li>
-<li><strong>context</strong> &#8211; </li>
+<li><strong>imageId</strong> &#8211; Image id</li>
+<li><strong>resourceType</strong> &#8211; Type of the resource (one of the listed RES_* constants)</li>
+<li><strong>token</strong> &#8211; Session token</li>
+<li><strong>imgView</strong> &#8211; Imageview to fill with the resource</li>
+<li><strong>context</strong> &#8211; Context of the calling activity</li>
 </ul>
 </td>
 </tr>
@@ -243,15 +244,16 @@ public static void <code class="descname">fillImageResource</code><span class="s
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.ImageResourcesHandler.freeCachedResource(String, int, Context)">
 public static void <code class="descname">freeCachedResource</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> imageId</em>, int<em> resourceType</em>, Context<em> context</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ImageResourcesHandler.freeCachedResource(String, int, Context)" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO</p>
+<dd><p>Removes from cache an specific resource</p>
+<p>(Helpful when a certain resource is never going to be used again for sure)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imageId</strong> &#8211; </li>
-<li><strong>resourceType</strong> &#8211; </li>
-<li><strong>context</strong> &#8211; </li>
+<li><strong>imageId</strong> &#8211; Image id</li>
+<li><strong>resourceType</strong> &#8211; Type of the resource (one of the listed RES_* constants)</li>
+<li><strong>context</strong> &#8211; Context of the calling activity</li>
 </ul>
 </td>
 </tr>
@@ -306,7 +308,7 @@ public static void <code class="descname">prefetch</code><span class="sig-paren"
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 23, 2016.
+      Last updated on Jun 26, 2016.
 
     </p>
   </div>

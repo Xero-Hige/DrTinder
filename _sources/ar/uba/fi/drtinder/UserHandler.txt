@@ -44,7 +44,7 @@ UserHandler
 
 .. java:type:: public final class UserHandler
 
-   TODO
+   Class that handles user specific task such as login or profile update
 
 Fields
 ------
@@ -54,13 +54,15 @@ ERROR_TOKEN
 .. java:field:: public static final String ERROR_TOKEN
    :outertype: UserHandler
 
+   Result Token: Error occurred while fetching
+
 FAILED_TOKEN
 ^^^^^^^^^^^^
 
 .. java:field:: public static final String FAILED_TOKEN
    :outertype: UserHandler
 
-   TODO
+   Result Token: Failed to get
 
 SIGNUP_FAILED
 ^^^^^^^^^^^^^
@@ -68,17 +70,23 @@ SIGNUP_FAILED
 .. java:field:: public static final String SIGNUP_FAILED
    :outertype: UserHandler
 
+   Sign up result: Sign up failed
+
 SIGNUP_SUCCESS
 ^^^^^^^^^^^^^^
 
 .. java:field:: public static final String SIGNUP_SUCCESS
    :outertype: UserHandler
 
+   Sign up result: Sign up successful
+
 SIGNUP_USEREXIST
 ^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String SIGNUP_USEREXIST
    :outertype: UserHandler
+
+   Sign up result: User already exists
 
 Methods
 -------
@@ -88,9 +96,9 @@ deleteProfile
 .. java:method:: public static void deleteProfile(String token)
    :outertype: UserHandler
 
-   TODO
+   Deletes user profile of the current logged in user
 
-   :param token:
+   :param token: Session token
 
 getLoginToken
 ^^^^^^^^^^^^^
@@ -98,11 +106,12 @@ getLoginToken
 .. java:method:: static String getLoginToken(String email, String password, String location)
    :outertype: UserHandler
 
-   TODO
+   Fetches token from server and returns it
 
-   :param email:
-   :param password:
-   :param location:
+   :param email: User email
+   :param password: User password
+   :param location: User location
+   :return: Token string. If error, one of the listed error tokens
 
 getToken
 ^^^^^^^^
@@ -110,13 +119,19 @@ getToken
 .. java:method:: public static String getToken()
    :outertype: UserHandler
 
+   Get the current session token
+
+   :return: The current session token. If not possible, one of the listed Error tokens
+
 getUserEmail
 ^^^^^^^^^^^^
 
 .. java:method:: public static String getUserEmail()
    :outertype: UserHandler
 
-   TODO
+   Gets logged user email
+
+   :return: Logged user email
 
 getUsername
 ^^^^^^^^^^^
@@ -124,7 +139,9 @@ getUsername
 .. java:method:: public static String getUsername()
    :outertype: UserHandler
 
-   TODO
+   Gets logged user username (id)
+
+   :return: Logged user username
 
 isLoggedIn
 ^^^^^^^^^^
@@ -132,7 +149,9 @@ isLoggedIn
 .. java:method:: public static boolean isLoggedIn()
    :outertype: UserHandler
 
-   TODO
+   Checks if the system is logged in
+
+   :return: true if there is a logged in session
 
 isValidEmail
 ^^^^^^^^^^^^
@@ -140,9 +159,10 @@ isValidEmail
 .. java:method:: public static boolean isValidEmail(String email)
    :outertype: UserHandler
 
-   TODO
+   Validates email, with the global rules
 
-   :param email:
+   :param email: Candidate email
+   :return: true if its valid, false otherwise
 
 isValidPassword
 ^^^^^^^^^^^^^^^
@@ -150,9 +170,10 @@ isValidPassword
 .. java:method:: public static boolean isValidPassword(String pass)
    :outertype: UserHandler
 
-   TODO
+   Validates password, with the global rules
 
-   :param pass:
+   :param pass: Candidate password
+   :return: true if its valid, false otherwise
 
 logout
 ^^^^^^
@@ -160,7 +181,7 @@ logout
 .. java:method:: public static void logout()
    :outertype: UserHandler
 
-   TODO
+   Logouts from the current session
 
 signUp
 ^^^^^^
@@ -168,7 +189,12 @@ signUp
 .. java:method:: public static String signUp(String email, String password, Map<String, String> userdata)
    :outertype: UserHandler
 
-   :param userdata:
+   Creates a new user with the info
+
+   :param email: User email
+   :param password: User password
+   :param userdata: Map containing userdata as field:value
+   :return: Sign up result (one of the listed results const)
 
 updateInfo
 ^^^^^^^^^^
@@ -176,7 +202,10 @@ updateInfo
 .. java:method:: public static void updateInfo(String token, Map<String, String> userdata)
    :outertype: UserHandler
 
-   :param userdata:
+   Updates user info
+
+   :param token: Session token
+   :param userdata: Map containing userdata as field:value
 
 uploadProfilePicture
 ^^^^^^^^^^^^^^^^^^^^
@@ -184,8 +213,8 @@ uploadProfilePicture
 .. java:method:: public static void uploadProfilePicture(Bitmap profilePicture, String token)
    :outertype: UserHandler
 
-   TODO
+   Uploads a new profile picture for the logged in user
 
-   :param profilePicture:
-   :param token:
+   :param profilePicture: New picture
+   :param token: Session token
 

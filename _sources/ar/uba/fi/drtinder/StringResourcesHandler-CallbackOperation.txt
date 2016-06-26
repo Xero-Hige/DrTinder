@@ -29,7 +29,7 @@ StringResourcesHandler.CallbackOperation
 .. java:type:: public interface CallbackOperation
    :outertype: StringResourcesHandler
 
-   TODO
+   Callbacks interface
 
 Methods
 -------
@@ -38,4 +38,8 @@ execute
 
 .. java:method::  void execute(List<String[]> data)
    :outertype: StringResourcesHandler.CallbackOperation
+
+   Interface method
+
+   :param data: List of array strings with the query data
 

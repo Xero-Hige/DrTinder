@@ -24,7 +24,7 @@ LocationHandler
 
 .. java:type:: public final class LocationHandler
 
-   TODO
+   Location services handler
 
 Fields
 ------
@@ -34,7 +34,7 @@ LOCATION_FAILED
 .. java:field:: public static final String LOCATION_FAILED
    :outertype: LocationHandler
 
-   TODO
+   Result Location get failed
 
 PERMISSION_MISSING
 ^^^^^^^^^^^^^^^^^^
@@ -42,7 +42,7 @@ PERMISSION_MISSING
 .. java:field:: public static final String PERMISSION_MISSING
    :outertype: LocationHandler
 
-   TODO
+   Result Missing location permissions
 
 Methods
 -------
@@ -52,7 +52,8 @@ getLocationString
 .. java:method:: public static String getLocationString(Activity activity)
    :outertype: LocationHandler
 
-   TODO
+   Gets location of the device as a string formated as: long;lat
 
-   :param activity:
+   :param activity: Calling activity
+   :return: Location as long;lat formated string. If not, some of the result errors listed
 

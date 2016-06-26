@@ -36,11 +36,15 @@ INTEREST_DATA_DIVIDER
 .. java:field:: public static final String INTEREST_DATA_DIVIDER
    :outertype: StringResourcesHandler
 
+   Interest group divider (divide between class and id)
+
 INTEREST_DIVIDER
 ^^^^^^^^^^^^^^^^
 
 .. java:field:: public static final String INTEREST_DIVIDER
    :outertype: StringResourcesHandler
+
+   Interest string divider (divide 2 diferent interest groups)
 
 USER_CANDIDATES
 ^^^^^^^^^^^^^^^
@@ -48,11 +52,15 @@ USER_CANDIDATES
 .. java:field:: public static final int USER_CANDIDATES
    :outertype: StringResourcesHandler
 
+   Query type: Candidates for the user
+
 USER_CHAT
 ^^^^^^^^^
 
 .. java:field:: public static final int USER_CHAT
    :outertype: StringResourcesHandler
+
+   Query type: Chat for the user
 
 USER_INFO
 ^^^^^^^^^
@@ -60,11 +68,15 @@ USER_INFO
 .. java:field:: public static final int USER_INFO
    :outertype: StringResourcesHandler
 
+   Query type: Information of the user
+
 USER_MATCHES
 ^^^^^^^^^^^^
 
 .. java:field:: public static final int USER_MATCHES
    :outertype: StringResourcesHandler
+
+   Query type: Matches for the user
 
 Methods
 -------
@@ -74,11 +86,11 @@ executeQuery
 .. java:method:: public static void executeQuery(int requestType, String token, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
-   TODO
+   Executes a query in a detached thread. Once it finishes executes the callback
 
-   :param requestType:
-   :param token:
-   :param operation:
+   :param requestType: Request type (One of the listed request types)
+   :param token: Session token
+   :param operation: Callback operation
 
 executeQuery
 ^^^^^^^^^^^^
@@ -86,10 +98,10 @@ executeQuery
 .. java:method:: public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation)
    :outertype: StringResourcesHandler
 
-   TODO
+   Executes a query in a detached thread. Once it finishes executes the callback
 
-   :param resId:
-   :param requestType:
-   :param token:
-   :param operation:
+   :param resId: Queried resource id
+   :param requestType: Request type (One of the listed request types)
+   :param token: Session token
+   :param operation: Callback operation
 

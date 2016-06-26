@@ -42,7 +42,7 @@ EXTRA_TOKEN
 .. java:field:: public static final String EXTRA_TOKEN
    :outertype: MainActivity
 
-   TODO
+   Intent extra field: Session token
 
 Methods
 -------
@@ -52,7 +52,7 @@ onBackPressed
 .. java:method:: @Override public void onBackPressed()
    :outertype: MainActivity
 
-   TODO
+   Missing Api Reference
 
 onCreate
 ^^^^^^^^
@@ -60,15 +60,20 @@ onCreate
 .. java:method:: @Override protected void onCreate(Bundle bundle)
    :outertype: MainActivity
 
+   Called when the activity is starting
+
+   :param bundle: If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+
 onCreateOptionsMenu
 ^^^^^^^^^^^^^^^^^^^
 
 .. java:method:: @Override public boolean onCreateOptionsMenu(Menu menu)
    :outertype: MainActivity
 
-   TODO
+   Called when created options menu.
 
-   :param menu:
+   :param menu: Created menu
+   :return: true to display the menu as menu
 
 onDestroy
 ^^^^^^^^^
@@ -76,7 +81,7 @@ onDestroy
 .. java:method:: @Override public void onDestroy()
    :outertype: MainActivity
 
-   TODO
+   Destroy all fragments and loaders. Clears app cache
 
 onNavigationItemSelected
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -84,13 +89,19 @@ onNavigationItemSelected
 .. java:method:: @SuppressWarnings @Override public boolean onNavigationItemSelected(MenuItem item)
    :outertype: MainActivity
 
+   Called when an item in the navigation menu is selected.
+
+   :param item: The selected item
+   :return: true to display the item as the selected item
+
 onOptionsItemSelected
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. java:method:: @Override public boolean onOptionsItemSelected(MenuItem item)
    :outertype: MainActivity
 
-   TODO
+   Called when a option item is selected
 
-   :param item:
+   :param item: The selected item
+   :return: true to display the item as the selected item
 

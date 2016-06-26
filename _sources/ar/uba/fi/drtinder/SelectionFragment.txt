@@ -64,11 +64,12 @@ onCreateView
 .. java:method:: @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
    :outertype: SelectionFragment
 
-   TODO
+   Called to have the fragment instantiate its user interface view.
 
-   :param inflater:
-   :param container:
-   :param bundle:
+   :param inflater: The LayoutInflater object that can be used to inflate any views in the fragment,
+   :param container: If non-null, this is the parent view that the fragment's UI should be attached to. The fragment should not add the view itself, but this can be used to generate the LayoutParams of the view.
+   :param bundle: If non-null, this fragment is being re-constructed from a previous saved state as given here.
+   :return: Return the View for the fragment's UI, or null.
 
 onStart
 ^^^^^^^
@@ -76,7 +77,7 @@ onStart
 .. java:method:: @Override public void onStart()
    :outertype: SelectionFragment
 
-   Dummy onStart
+   Called when the Fragment is visible to the user. This is generally tied to Activity.onStart of the containing Activity's lifecycle.
 
 onStop
 ^^^^^^
@@ -84,5 +85,5 @@ onStop
 .. java:method:: @Override public void onStop()
    :outertype: SelectionFragment
 
-   Dummy onStop
+   Called when the Fragment is no longer started. This is generally tied to Activity.onStop of the containing Activity's lifecycle.
 

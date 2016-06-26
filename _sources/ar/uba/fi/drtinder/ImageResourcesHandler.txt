@@ -62,7 +62,7 @@ RES_INTEREST_IMG
 .. java:field:: public static final int RES_INTEREST_IMG
    :outertype: ImageResourcesHandler
 
-   TODO
+   Interest image resource type
 
 RES_USER_IMG
 ^^^^^^^^^^^^
@@ -70,7 +70,7 @@ RES_USER_IMG
 .. java:field:: public static final int RES_USER_IMG
    :outertype: ImageResourcesHandler
 
-   TODO
+   User image resource type
 
 Methods
 -------
@@ -80,9 +80,9 @@ clearCache
 .. java:method:: public static void clearCache(Context context)
    :outertype: ImageResourcesHandler
 
-   TODO
+   Clears all the cached files
 
-   :param context:
+   :param context: Context of the calling activity
 
 fillImageResource
 ^^^^^^^^^^^^^^^^^
@@ -90,12 +90,13 @@ fillImageResource
 .. java:method:: public static void fillImageResource(String imageId, int resourceType, String token, ImageView imgView, Context context)
    :outertype: ImageResourcesHandler
 
-   TODO
+   Fills the parameter image view with the server image resourve
 
-   :param imageId:
-   :param resourceType:
-   :param imgView:
-   :param context:
+   :param imageId: Image id
+   :param resourceType: Type of the resource (one of the listed RES_* constants)
+   :param token: Session token
+   :param imgView: Imageview to fill with the resource
+   :param context: Context of the calling activity
 
 freeCachedResource
 ^^^^^^^^^^^^^^^^^^
@@ -103,11 +104,13 @@ freeCachedResource
 .. java:method:: public static void freeCachedResource(String imageId, int resourceType, Context context)
    :outertype: ImageResourcesHandler
 
-   TODO
+   Removes from cache an specific resource
 
-   :param imageId:
-   :param resourceType:
-   :param context:
+   (Helpful when a certain resource is never going to be used again for sure)
+
+   :param imageId: Image id
+   :param resourceType: Type of the resource (one of the listed RES_* constants)
+   :param context: Context of the calling activity
 
 prefetch
 ^^^^^^^^
