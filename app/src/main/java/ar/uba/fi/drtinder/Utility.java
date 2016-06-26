@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 /**
- * TODO
+ * Utility class for most common UI Android activities
  */
 public final class Utility {
 
@@ -33,9 +33,9 @@ public final class Utility {
     }
 
     /**
-     * TODO
+     * Hides the soft keyboard
      *
-     * @param context
+     * @param context Caller activity
      */
     public static void hideKeyboard(Activity context) {
         InputMethodManager inputMManager

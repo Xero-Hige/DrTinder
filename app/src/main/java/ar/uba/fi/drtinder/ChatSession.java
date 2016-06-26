@@ -45,23 +45,23 @@ import com.google.firebase.messaging.RemoteMessage;
 public class ChatSession extends AppCompatActivity {
 
     /**
-     * TODO
+     * Intent extra field: Friend name
      */
     public static final String EXTRA_FRIEND_NAME = "friendname";
     /**
-     * TODO
+     * Intent extra field: User token
      */
     public static final String EXTRA_USER_TOKEN = "token";
     /**
-     * TODO
+     * Intent extra field: Friend user id
      */
     public static final String EXTRA_FRIEND_ID = "friendid";
     /**
-     * TODO
+     * Intent extra field: User name
      */
     public static final String EXTRA_USER_NAME = "username";
     /**
-     * TODO
+     * Intent extra field: User id
      */
     public static final String EXTRA_USER_ID = "userid";
 
@@ -92,9 +92,11 @@ public class ChatSession extends AppCompatActivity {
     };
 
     /**
-     * TODO
+     * Perform initialization of all fragments and loaders.
      *
-     * @param bundle
+     * @param bundle If the activity is being re-initialized after previously being shut down then
+     *               this Bundle contains the data it most recently supplied in
+     *               onSaveInstanceState(Bundle). Note: Otherwise it is null.
      */
     @Override
     protected void onCreate(Bundle bundle) {
@@ -217,11 +219,26 @@ public class ChatSession extends AppCompatActivity {
         appBarLayout.setExpanded(false, true);
     }
 
+
+    /**
+     * Called when you are no longer visible to the user. You will next receive either onRestart(),
+     * onDestroy(), or nothing, depending on later user activity.
+     * <p>
+     * Derived classes must call through to the super class's implementation of this method.
+     * If they do not, an exception will be thrown.
+     */
     @Override
     public void onStop() {
         super.onStop();
     }
 
+    /**
+     * Called after onCreate(Bundle) — or after onRestart() when the activity had been stopped, but
+     * is now again being displayed to the user. It will be followed by onResume().
+     * <p>
+     * Derived classes must call through to the super class's implementation of this method.
+     * If they do not, an exception will be thrown.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -231,10 +248,10 @@ public class ChatSession extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Adds an user response to the chat log
      *
-     * @param message
-     * @param userId
+     * @param message Message to add
+     * @param userId  Sender id
      */
     public void addResponse(String message, String userId) {
         if (userId.equals(mFriendId)) {

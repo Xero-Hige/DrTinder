@@ -31,7 +31,7 @@ public class TinderFInstanceIdService extends FirebaseInstanceIdService {
     private static final String FRIENDLY_ENGAGE_TOPIC = "friendly_engage";
 
     /**
-     * TODO
+     * Executes when the firebase token is refreshed
      */
     @Override
     public void onTokenRefresh() {

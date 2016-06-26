@@ -42,37 +42,40 @@ import java.util.LinkedList;
  */
 
 /**
- * TODO
+ * Activity that represents user profile for creation and update purposes
  */
 public class UserProfileActivity extends AppCompatActivity {
 
     /**
-     * TODO
+     * Intent extra field: User name
      */
     public static final String USER_EXTRA_USERNAME = "name";
     /**
-     * TODO
+     * Intent extra field: User email
      */
     public static final String USER_EXTRA_USEREMAIL = "email";
     /**
-     * TODO
+     * Intent extra field: User session token
      */
     public static final String USER_EXTRA_TOKEN = "token";
 
     /**
-     * TODO
+     * Intent extra field: Activity action
      */
     public static final String PROFILE_EXTRA_ACTION = "action";
     /**
-     * TODO
+     * Profile activity action: Action create new profile
      */
     public static final String PROFILE_ACTION_CREATE = "Create Profile";
     /**
-     * TODO
+     * Profile activity action: Action update profile
      */
     public static final String PROFILE_ACTION_UPDATE = "Update Profile";
 
     private static final int PICK_IMAGE = 100;
+    private static final String MALE = "Male";
+    private static final String FEMALE = "Female";
+    private static final String BOTH = "Both";
 
     private ImageView mProfilePic;
     private String mActivityAction;
@@ -97,10 +100,16 @@ public class UserProfileActivity extends AppCompatActivity {
     private LinearLayout mInterestLLay;
     private LinkedList<String> mInterestList;
 
-
+    /**
+     * Called when the activity is starting
+     *
+     * @param bundle If the activity is being re-initialized after previously being shut down
+     *               then this Bundle contains the data it most recently supplied in
+     *               onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.user_profile_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -166,10 +175,11 @@ public class UserProfileActivity extends AppCompatActivity {
                     usernameView.setText(username);
 
                     mAge.setText(age);
-                    mSexMale.setChecked(sex.equals("Male"));
-                    mSexFemale.setChecked(sex.equals("Female"));
-                    mSearchingMale.setChecked(lookingFor.equals("Male") || lookingFor.equals("Both"));
-                    mSearchingFemale.setChecked(lookingFor.equals("Female") || lookingFor.equals("Both"));
+                    mSexMale.setChecked(sex.equals(MALE));
+                    mSexFemale.setChecked(sex.equals(FEMALE));
+                    mSearchingMale.setChecked(lookingFor.equals(MALE) || lookingFor.equals(BOTH));
+                    mSearchingFemale.setChecked(lookingFor.equals(FEMALE) || lookingFor.equals(BOTH));
+
 
                     String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
                     for (String interest1 : interests) {
@@ -327,7 +337,7 @@ public class UserProfileActivity extends AppCompatActivity {
             return false;
         }
 
-        int age = Integer.valueOf(sAge);
+        int age = Integer.parseInt(sAge);
         return age >= 18;
     }
 
@@ -336,14 +346,14 @@ public class UserProfileActivity extends AppCompatActivity {
         HashMap<String, String> userdata = new HashMap<>();
         userdata.put("name", mUserName.getText().toString());
         userdata.put("age", mAge.getText().toString());
-        userdata.put("sex", mSexMale.isChecked() ? "Male" : "Female");
+        userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
 
         if (mSearchingMale.isChecked() && !mSearchingFemale.isChecked()) {
-            userdata.put("lookingFor", "Male");
+            userdata.put("lookingFor", MALE);
         } else if (mSearchingFemale.isChecked() && !mSearchingMale.isChecked()) {
-            userdata.put("lookingFor", "Female");
+            userdata.put("lookingFor", FEMALE);
         } else {
-            userdata.put("lookingFor", "Both");
+            userdata.put("lookingFor", BOTH);
         }
         String intereses = "";
         for (int i = 0; i < mInterestList.size(); i++) {

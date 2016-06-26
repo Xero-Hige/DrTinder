@@ -49,16 +49,17 @@ import java.util.concurrent.CountDownLatch;
 public final class ImageResourcesHandler {
 
     /**
-     * TODO
+     * User image resource type
      */
     public static final int RES_USER_IMG = 0;
     /**
-     * TODO
+     * Interest image resource type
      */
     public static final int RES_INTEREST_IMG = 1;
 
-    private static final String USER_IMAGE_URL = "http://190.55.231.26/users/photo";
-    private static final String INTER_IMAGE_URL = "http://190.55.231.26/interest";
+    private static final String SERVER_URL = "http://190.55.231.26/";
+    private static final String USER_IMAGE_URL = SERVER_URL + "users/photo";
+    private static final String INTER_IMAGE_URL = SERVER_URL + "interest";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, CountDownLatch> fetchingMap = new HashMap<>();
 
@@ -101,12 +102,13 @@ public final class ImageResourcesHandler {
     }
 
     /**
-     * TODO
+     * Fills the parameter image view with the server image resourve
      *
-     * @param imageId
-     * @param resourceType
-     * @param imgView
-     * @param context
+     * @param imageId      Image id
+     * @param resourceType Type of the resource (one of the listed RES_* constants)
+     * @param token        Session token
+     * @param imgView      Imageview to fill with the resource
+     * @param context      Context of the calling activity
      */
     public static void fillImageResource(String imageId, int resourceType, String token,
                                          ImageView imgView, Context context) {
@@ -146,11 +148,13 @@ public final class ImageResourcesHandler {
     }
 
     /**
-     * TODO
+     * Removes from cache an specific resource
+     * <p>
+     * (Helpful when a certain resource is never going to be used again for sure)
      *
-     * @param imageId
-     * @param resourceType
-     * @param context
+     * @param imageId      Image id
+     * @param resourceType Type of the resource (one of the listed RES_* constants)
+     * @param context      Context of the calling activity
      */
     public static void freeCachedResource(String imageId, int resourceType, Context context) {
         int cacheKey = getCacheKey(resourceType, imageId);
@@ -173,9 +177,9 @@ public final class ImageResourcesHandler {
     }
 
     /**
-     * TODO
+     * Clears all the cached files
      *
-     * @param context
+     * @param context Context of the calling activity
      */
     public static void clearCache(Context context) {
         boolean operationSuccess = true;
@@ -206,12 +210,12 @@ public final class ImageResourcesHandler {
         private String mImageUrl;
         private Bitmap mImageBitmap;
 
-        FetchImageTask(int resourceType, String resId, String token,
-                       ImageView imageView, Context context) { //FIXME Names
-            setImageUrl(resourceType, resId, token);
+        FetchImageTask(int resourceType, String resourceId, String token,
+                       ImageView imageView, Context context) {
+            setImageUrl(resourceType, resourceId, token);
             this.mImageView = imageView;
             this.mContext = context;
-            this.mCacheKey = getCacheKey(resourceType, resId);
+            this.mCacheKey = getCacheKey(resourceType, resourceId);
         }
 
         private void setImageUrl(int resourceType, String resId, String token) {

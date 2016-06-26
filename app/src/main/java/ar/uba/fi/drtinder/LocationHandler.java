@@ -28,34 +28,31 @@ import java.util.Locale;
  */
 
 /**
- * TODO
+ * Location services handler
  */
 public final class LocationHandler {
 
     /**
-     * TODO
+     * Result Missing location permissions
      */
     public static final String PERMISSION_MISSING = "NOPERM";
 
     /**
-     * TODO
+     * Result Location get failed
      */
     public static final String LOCATION_FAILED = "";
 
 
     private static String locationString = LOCATION_FAILED;
 
-    /**
-     * TODO
-     */
     private LocationHandler() {
     }
 
     /**
-     * TODO
+     * Gets location of the device as a string formated as:  long;lat
      *
-     * @param activity
-     * @return
+     * @param activity Calling activity
+     * @return Location as long;lat formated string. If not, some of the result errors listed
      */
     public static String getLocationString(Activity activity) {
         LocationManager locationManager = (LocationManager)
@@ -64,7 +61,7 @@ public final class LocationHandler {
             @Override
             public void onLocationChanged(Location location) {
                 locationString = String.format(Locale.ENGLISH,
-                        "%f-%f", location.getLatitude(), location.getLatitude());
+                        "%f;%f", location.getLongitude(), location.getLatitude());
             }
 
             @Override
