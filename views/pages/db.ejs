@@ -22,7 +22,8 @@
 	<% }); %>
 	<% return interesesOrdenados%>
 <% } %>
-
+	<!--Lista categorias intereses completa-->
+	<% var interesesOrdenadosTodos = interesesPorCategoria(intereses);%>
 	<% include ../partials/nav.ejs %>
 	<div class="container" data-link="<%= link %>">
 		<header>
@@ -185,10 +186,10 @@
 								<label for="profile_interests">Interests</label>
 								<select id="profile_interests" data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
 									<option value=""></option>
-									<% for (category in interesesOrdenados){ %>
+									<% for (category in interesesOrdenadosTodos){ %>
 									<!-- active-result a result-selected -->
 									<optgroup label="<%= category %>" >
-										<% interesesOrdenados[category].forEach(function(value){ %>
+										<% interesesOrdenadosTodos[category].forEach(function(value){ %>
 										<option><%= value%></option>
 										<% }); %>
 										<% } %>
@@ -227,8 +228,7 @@
 					<h4 class="modal-title">Crear Usuario</h4>
 				</div>
 				<div class="modal-body">
-					<!--Lista categorias intereses completa-->
-					<% var interesesOrdenados = interesesPorCategoria(intereses);%>
+					
 
 					<div class = "list-group">
 						<!--Chosen con itereses-->
@@ -236,9 +236,9 @@
 							<em>Interests</em>
 							<select data-placeholder="Choose interests" class="chosen-select" multiple tabindex="5">
 								<option value=""></option>
-								<% for (category in interesesOrdenados){ %>
+								<% for (category in interesesOrdenadosTodos){ %>
 								<optgroup label="<%= category %>" >
-									<% interesesOrdenados[category].forEach(function(value){ %>
+									<% interesesOrdenadosTodos[category].forEach(function(value){ %>
 									<option><%= value%></option>
 									<% }); %>
 									<% } %>
