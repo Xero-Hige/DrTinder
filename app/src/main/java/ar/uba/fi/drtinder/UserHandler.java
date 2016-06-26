@@ -42,22 +42,30 @@ import au.com.bytecode.opencsv.CSVWriter;
  */
 
 /**
- * TODO
+ * Class that handles user specific task such as login or profile update
  */
 public final class UserHandler {
 
     /**
-     * TODO
+     * Result Token: Failed to get
      */
     public static final String FAILED_TOKEN = "-";
     /**
-     *
+     * Result Token: Error occurred while fetching
      */
     public static final String ERROR_TOKEN = "";
 
-
+    /**
+     * Sign up result: User already exists
+     */
     public static final String SIGNUP_USEREXIST = "E";
+    /**
+     * Sign up result: Sign up failed
+     */
     public static final String SIGNUP_FAILED = "F";
+    /**
+     * Sign up result: Sign up successful
+     */
     public static final String SIGNUP_SUCCESS = "S";
 
     private static final String SERVER_URL = "http://190.55.231.26/";
@@ -75,12 +83,12 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
+     * Fetches token from server and returns it
      *
-     * @param email
-     * @param password
-     * @param location
-     * @return
+     * @param email    User email
+     * @param password User password
+     * @param location User location
+     * @return Token string. If error, one of the listed error tokens
      */
     static String getLoginToken(String email, String password, String location) {
 
@@ -131,40 +139,35 @@ public final class UserHandler {
         return mToken;
     }
 
-    /**
-     * TODO
-     *
-     * @return
-     */
     private static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
         return fields[0] + fields[1].replace(".", "");
     }
 
     /**
-     * TODO
+     * Validates password, with the global rules
      *
-     * @param pass
-     * @return
+     * @param pass Candidate password
+     * @return true if its valid, false otherwise
      */
     public static boolean isValidPassword(String pass) {
         return pass.length() >= 6;
     }
 
     /**
-     * TODO
+     * Validates email, with the global rules
      *
-     * @param email
-     * @return
+     * @param email Candidate email
+     * @return true if its valid, false otherwise
      */
     public static boolean isValidEmail(String email) {
         return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
     }
 
     /**
-     * TODO
+     * Gets logged user username (id)
      *
-     * @return
+     * @return Logged user username
      */
     public static String getUsername() {
         if (!isLoggedIn()) {
@@ -176,18 +179,18 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
+     * Checks if the system is logged in
      *
-     * @return
+     * @return true if there is a logged in session
      */
     public static boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     /**
-     * TODO
+     * Gets logged user email
      *
-     * @return
+     * @return Logged user email
      */
     public static String getUserEmail() {
         if (!isLoggedIn()) {
@@ -201,16 +204,16 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
+     * Logouts from the current session
      */
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }
 
     /**
-     * TODO
+     * Deletes user profile of the current logged in user
      *
-     * @param token
+     * @param token Session token
      */
     public static void deleteProfile(String token) {
         Uri.Builder uriBuilder = Uri.parse(DELETE_URL).buildUpon();
@@ -305,10 +308,10 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
+     * Uploads a new profile picture for the logged in user
      *
-     * @param profilePicture
-     * @param token
+     * @param profilePicture New picture
+     * @param token          Session token
      */
     public static void uploadProfilePicture(Bitmap profilePicture, String token) {
         RestTemplate restTemplate = new RestTemplate();

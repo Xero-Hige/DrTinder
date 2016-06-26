@@ -36,12 +36,30 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public final class StringResourcesHandler {
 
+    /**
+     * Query type: Candidates for the user
+     */
     public static final int USER_CANDIDATES = 0;
+    /**
+     * Query type: Matches for the user
+     */
     public static final int USER_MATCHES = 1;
+    /**
+     * Query type: Chat for the user
+     */
     public static final int USER_CHAT = 2;
+    /**
+     * Query type: Information of the user
+     */
     public static final int USER_INFO = 3;
 
+    /**
+     * Interest string divider (divide 2 diferent interest groups)
+     */
     public static final String INTEREST_DIVIDER = "\\|\\|";
+    /**
+     * Interest group divider (divide between class and id)
+     */
     public static final String INTEREST_DATA_DIVIDER = "::";
 
     private static final String SERVER_URL = "http://190.55.231.26/";
@@ -69,23 +87,23 @@ public final class StringResourcesHandler {
     }
 
     /**
-     * TODO
+     * Executes a query in a detached thread. Once it finishes executes the callback
      *
-     * @param requestType
-     * @param token
-     * @param operation
+     * @param requestType Request type (One of the listed request types)
+     * @param token       Session token
+     * @param operation   Callback operation
      */
     public static void executeQuery(int requestType, String token, CallbackOperation operation) {
         executeQuery("", requestType, token, operation);
     }
 
     /**
-     * TODO
+     * Executes a query in a detached thread. Once it finishes executes the callback
      *
-     * @param resId
-     * @param requestType
-     * @param token
-     * @param operation
+     * @param resId       Queried resource id
+     * @param requestType Request type (One of the listed request types)
+     * @param token       Session token
+     * @param operation   Callback operation
      */
     public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
@@ -132,15 +150,12 @@ public final class StringResourcesHandler {
     }
 
     /**
-     * TODO
+     * Callbacks interface
      */
     public interface CallbackOperation {
         void execute(List<String[]> data);
     }
 
-    /**
-     * TODO
-     */
     private static class FetchDataTask extends AsyncTask<Void, Void, Boolean> {
 
         private final CallbackOperation mCallbackOp;

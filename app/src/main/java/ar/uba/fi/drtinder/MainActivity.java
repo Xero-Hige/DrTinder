@@ -38,12 +38,20 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
-     * TODO
+     * Intent extra field: Session token
      */
     public static final String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
     private String mUsername;
 
+
+    /**
+     * Called when the activity is starting
+     *
+     * @param bundle If the activity is being re-initialized after previously being shut down
+     *               then this Bundle contains the data it most recently supplied in
+     *               onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -74,7 +82,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * TODO
+     * Destroy all fragments and loaders.
+     * Clears app cache
      */
     @Override
     public void onDestroy() {
@@ -83,7 +92,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * TODO
+     * Missing Api Reference
      */
     @Override
     public void onBackPressed() {
@@ -97,10 +106,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * TODO
+     * Called when created options menu.
      *
-     * @param menu
-     * @return
+     * @param menu Created menu
+     * @return true to display the menu as menu
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,10 +124,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * TODO
+     * Called when a option item is selected
      *
-     * @param item
-     * @return
+     * @param item The selected item
+     * @return true to display the item as the selected item
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,6 +164,12 @@ public class MainActivity extends AppCompatActivity
                 getResources().getColor(R.color.accent), mMode);
     }
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param item The selected item
+     * @return true to display the item as the selected item
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

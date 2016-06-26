@@ -42,33 +42,33 @@ import java.util.LinkedList;
  */
 
 /**
- * TODO
+ * Activity that represents user profile for creation and update purposes
  */
 public class UserProfileActivity extends AppCompatActivity {
 
     /**
-     * TODO
+     * Intent extra field: User name
      */
     public static final String USER_EXTRA_USERNAME = "name";
     /**
-     * TODO
+     * Intent extra field: User email
      */
     public static final String USER_EXTRA_USEREMAIL = "email";
     /**
-     * TODO
+     * Intent extra field: User session token
      */
     public static final String USER_EXTRA_TOKEN = "token";
 
     /**
-     * TODO
+     * Intent extra field: Activity action
      */
     public static final String PROFILE_EXTRA_ACTION = "action";
     /**
-     * TODO
+     * Profile activity action: Action create new profile
      */
     public static final String PROFILE_ACTION_CREATE = "Create Profile";
     /**
-     * TODO
+     * Profile activity action: Action update profile
      */
     public static final String PROFILE_ACTION_UPDATE = "Update Profile";
 

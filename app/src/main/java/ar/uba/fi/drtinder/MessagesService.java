@@ -31,16 +31,16 @@ import java.util.Map;
  */
 
 /**
- * TODO
+ * Incoming messages listener service
  */
 public class MessagesService extends FirebaseMessagingService {
 
     private ChatSession mSession;
 
     /**
-     * TODO
+     * Called when a new incoming message is received
      *
-     * @param remoteMessage
+     * @param remoteMessage Received message
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -79,12 +79,17 @@ public class MessagesService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
+    /**
+     * Set the associated chat session that needs to be notified
+     *
+     * @param mSession Chat session to notify
+     */
     public void setSession(ChatSession mSession) {
         this.mSession = mSession;
     }
 
     /**
-     * TODO
+     * Binder that makes possible get the service associated to an activity
      */
     public class LocalBinder extends Binder {
         MessagesService getService() {
