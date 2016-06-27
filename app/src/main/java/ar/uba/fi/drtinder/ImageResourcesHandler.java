@@ -57,9 +57,8 @@ public final class ImageResourcesHandler {
      */
     public static final int RES_INTEREST_IMG = 1;
 
-    private static final String SERVER_URL = "http://190.55.231.26/";
-    private static final String USER_IMAGE_URL = SERVER_URL + "users/photo";
-    private static final String INTER_IMAGE_URL = SERVER_URL + "interest";
+    private static final String USER_IMAGE_URL = "users/photo";
+    private static final String INTER_IMAGE_URL = "interest";
     private static HashMap<Integer, String> cacheMap = new HashMap<>();
     private static HashMap<Integer, CountDownLatch> fetchingMap = new HashMap<>();
 
@@ -70,9 +69,9 @@ public final class ImageResourcesHandler {
     private static String getUrlByType(Integer type) {
         switch (type) {
             case RES_USER_IMG:
-                return USER_IMAGE_URL;
+                return ServerUrlWrapper.getServerUrl() + USER_IMAGE_URL;
             case RES_INTEREST_IMG:
-                return INTER_IMAGE_URL;
+                return ServerUrlWrapper.getServerUrl() + INTER_IMAGE_URL;
             default:
                 return "";
         }

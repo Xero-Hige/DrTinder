@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +64,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordTextView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView mUrl;
 
     private FirebaseAuth mFirebaseAuth;
     private boolean mFirebaseLogedIn;
@@ -105,11 +107,25 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mUrl = (TextView) findViewById(R.id.url);
+        mUrl.setEnabled(false);
+        mUrl.setVisibility(View.GONE);
 
-        if (UserHandler.isLoggedIn()) {
-            startApp(this);
-        }
+        addLogoShortcut();
+    }
+
+    private void addLogoShortcut() {
+        ImageView logo = (ImageView) findViewById(R.id.drTinderLogo);
+        logo.setOnLongClickListener(v -> {
+            if (mUrl.isEnabled()) {
+                mUrl.setEnabled(false);
+                mUrl.setVisibility(View.GONE);
+            } else {
+                mUrl.setEnabled(true);
+                mUrl.setVisibility(View.VISIBLE);
+            }
+            return true;
+        });
     }
 
     private void executeWithLData(TaskExecutor executor) {
@@ -183,10 +199,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private void attemptRegister() {
+        if (mUrl.isEnabled()) {
+            String url = mUrl.getText().toString();
+            ServerUrlWrapper.setServerUrl(url);
+        }
         executeWithLData(this::executeRegisterTask);
     }
 
     private void attemptLogin() {
+        if (mUrl.isEnabled()) {
+            String url = mUrl.getText().toString();
+            ServerUrlWrapper.setServerUrl(url);
+        }
         executeWithLData(this::executeLoginTask);
     }
 
@@ -367,23 +391,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final Activity mActivity;
         private String mAuthToken;
 
-        /**
-         * Creates a new login task
-         *
-         * @param email
-         * @param password
-         * @param activity
-         */
+
         UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
             this.mActivity = activity;
         }
 
-        /**
-         * @param params params
-         * @return Task successful
-         */
+
         @Override
         protected Boolean doInBackground(Void... params) {
             mAuthToken = UserHandler.getLoginToken(mUserEmail,

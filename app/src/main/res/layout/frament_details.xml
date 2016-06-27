@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="ar.uba.fi.drtinder.UserDetailsActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context="ar.uba.fi.drtinder.UserDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -29,27 +28,27 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_light_background"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="ar.uba.fi.drtinder.UserDetailsActivity"
-        tools:showIn="@layout/frament_details">
+                                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                xmlns:tools="http://schemas.android.com/tools"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@color/cardview_light_background"
+                                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                                tools:context="ar.uba.fi.drtinder.UserDetailsActivity"
+                                                tools:showIn="@layout/frament_details">
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -63,7 +62,7 @@
                 android:layout_gravity="start"
                 android:layout_margin="@dimen/text_margin"
                 android:text="Gato NN, 27"
-                android:textSize="30sp" />
+                android:textSize="30sp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -71,7 +70,7 @@
                 android:backgroundTint="#bf000000"
                 android:backgroundTintMode="multiply"
                 android:elevation="3dp"
-                android:focusable="false" />
+                android:focusable="false"/>
 
             <TextView
                 android:id="@+id/bios"
@@ -81,10 +80,9 @@
                 android:layout_margin="@dimen/text_margin"
                 android:enabled="true"
                 android:text="@string/catBio"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <HorizontalScrollView
-                android:id="@+id/hsv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"

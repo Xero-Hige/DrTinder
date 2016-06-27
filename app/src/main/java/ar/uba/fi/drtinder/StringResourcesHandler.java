@@ -62,25 +62,25 @@ public final class StringResourcesHandler {
      */
     public static final String INTEREST_DATA_DIVIDER = "::";
 
-    private static final String SERVER_URL = "http://190.55.231.26/";
-    private static final String CANDIDATES_URL = SERVER_URL + "users";
-    private static final String MATCHES_URL = SERVER_URL + "chats";
-    private static final String CHATMSG_URL = SERVER_URL + "chats";
-    private static final String USERINFO_URL = SERVER_URL + "user";
+    private static final String CANDIDATES_URL = "users";
+    private static final String MATCHES_URL = "chats";
+    private static final String CHATMSG_URL = "chats";
+    private static final String USERINFO_URL = "user";
 
     private StringResourcesHandler() {
     }
 
     private static String getUrlByType(Integer type) {
+        String url = ServerUrlWrapper.getServerUrl();
         switch (type) {
             case USER_CANDIDATES:
-                return CANDIDATES_URL;
+                return url + CANDIDATES_URL;
             case USER_MATCHES:
-                return MATCHES_URL;
+                return url + MATCHES_URL;
             case USER_CHAT:
-                return CHATMSG_URL;
+                return url + CHATMSG_URL;
             case USER_INFO:
-                return USERINFO_URL;
+                return url + USERINFO_URL;
             default:
                 return "";
         }

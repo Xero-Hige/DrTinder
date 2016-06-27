@@ -67,16 +67,12 @@ public final class UserHandler {
      * Sign up result: Sign up successful
      */
     public static final String SIGNUP_SUCCESS = "S";
-
-    private static final String SERVER_URL = "http://190.55.231.26/";
-
-    private static final String LOGIN_URL = SERVER_URL + "user";
-    private static final String DELETE_URL = SERVER_URL + "users";
-    private static final String TOKEN_URL = SERVER_URL + "user/token";
-    private static final String SIGNUP_URL = SERVER_URL + "users";
-    private static final String UPDATE_URL = SERVER_URL + "users";
-    private static final String AVATAR_URL = SERVER_URL + "users/photo";
-
+    private static final String LOGIN_URL = "user";
+    private static final String DELETE_URL = "users";
+    private static final String TOKEN_URL = "user/token";
+    private static final String SIGNUP_URL = "users";
+    private static final String UPDATE_URL = "users";
+    private static final String AVATAR_URL = "users/photo";
     private static String mToken = ERROR_TOKEN;
 
     private UserHandler() {
@@ -109,7 +105,7 @@ public final class UserHandler {
         ResponseEntity<String> response;
 
         try {
-            response = restTemplate.exchange(LOGIN_URL, HttpMethod.POST,
+            response = restTemplate.exchange(getLoginUrl(), HttpMethod.POST,
                     requestEntity, String.class);
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
@@ -132,11 +128,19 @@ public final class UserHandler {
 
         restTemplate = new RestTemplate();
 
-        String tokenUrl = TOKEN_URL + "/" + user;
+        String tokenUrl = getTokenUrl() + "/" + user;
         response = restTemplate.getForEntity(tokenUrl, String.class);
 
         mToken = response.getBody();
         return mToken;
+    }
+
+    private static String getLoginUrl() {
+        return ServerUrlWrapper.getServerUrl() + LOGIN_URL;
+    }
+
+    private static String getTokenUrl() {
+        return ServerUrlWrapper.getServerUrl() + TOKEN_URL;
     }
 
     private static String getUsernameFrom(String email) {
@@ -216,13 +220,17 @@ public final class UserHandler {
      * @param token Session token
      */
     public static void deleteProfile(String token) {
-        Uri.Builder uriBuilder = Uri.parse(DELETE_URL).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(getDeleteUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String deleteUrl = uriBuilder.build().toString();
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(deleteUrl);
         FirebaseAuth.getInstance().signOut();
+    }
+
+    private static String getDeleteUrl() {
+        return ServerUrlWrapper.getServerUrl() + DELETE_URL;
     }
 
     /**
@@ -261,7 +269,7 @@ public final class UserHandler {
         ResponseEntity<String> response;
 
         try {
-            response = restTemplate.exchange(SIGNUP_URL, HttpMethod.POST,
+            response = restTemplate.exchange(getSignupUrl(), HttpMethod.POST,
                     requestEntity, String.class);
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
@@ -282,6 +290,10 @@ public final class UserHandler {
         }
 
         return SIGNUP_SUCCESS;
+    }
+
+    private static String getSignupUrl() {
+        return ServerUrlWrapper.getServerUrl() + SIGNUP_URL;
     }
 
     /**
@@ -306,11 +318,15 @@ public final class UserHandler {
         writer.writeNext(line);
         String body = sWriter.toString();
 
-        Uri.Builder uriBuilder = Uri.parse(UPDATE_URL).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(getUpdateUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String updateUrl = uriBuilder.build().toString();
 
         restTemplate.put(updateUrl, body);
+    }
+
+    private static String getUpdateUrl() {
+        return ServerUrlWrapper.getServerUrl() + UPDATE_URL;
     }
 
     /**
@@ -327,11 +343,15 @@ public final class UserHandler {
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String body = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-        Uri.Builder uriBuilder = Uri.parse(AVATAR_URL).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(getAvatarUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String updateUrl = uriBuilder.build().toString();
 
         restTemplate.postForEntity(updateUrl, body, String.class);
+    }
+
+    private static String getAvatarUrl() {
+        return ServerUrlWrapper.getServerUrl() + AVATAR_URL;
     }
 
     /**
