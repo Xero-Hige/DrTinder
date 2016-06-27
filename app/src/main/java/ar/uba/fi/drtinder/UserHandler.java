@@ -74,6 +74,7 @@ public final class UserHandler {
     private static final String _UPDATE_URL = "users";
     private static final String _AVATAR_URL = "users/photo";
     private static String mToken = ERROR_TOKEN;
+
     private UserHandler() {
     }
 
