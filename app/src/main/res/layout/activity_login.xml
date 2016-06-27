@@ -1,15 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+                xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ar.uba.fi.drtinder.LoginActivity">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="ar.uba.fi.drtinder.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_image" />
+        android:src="@drawable/background_image"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +25,27 @@
 
         <!-- Login progress -->
 
+        <EditText
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:hint="@string/urlhint"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/url"
+            android:visibility="gone"/>
+
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/drTinderLogo"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_weight="1"
             android:contentDescription=""
-            android:src="@drawable/logo" />
+            android:longClickable="true"
+            android:src="@drawable/logo"/>
 
         <ProgressBar
             android:id="@+id/login_progress"
@@ -40,7 +54,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ScrollView
             android:id="@+id/login_form"
@@ -67,7 +81,7 @@
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:singleLine="true" />
+                        android:singleLine="true"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +99,7 @@
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
-                        android:singleLine="true" />
+                        android:singleLine="true"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -96,21 +110,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/action_sign_in"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <Button
                     android:id="@+id/Register"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="end"
                     android:layout_marginTop="9dp"
                     android:layout_weight="1.14"
-                    android:text="Register"
-                    android:textStyle="bold" />
+                    android:text="@string/register"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
+
 </RelativeLayout>
