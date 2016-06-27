@@ -51,10 +51,10 @@ TEST(ServerUtils,configureDeafult){
 }
 
 TEST(ServerUtils,configurePortAndSharedNotDefault){
-	int argc = 5;
+	int argc = 7;
 	char port_param[] = "5000";
 	char shared_param[] = "http://localhost:8000";
-	char* argv[5] = {"server","-p",port_param,"-s",shared_param};
+	char* argv[7] = {"server","-p",port_param,"-s",shared_param,"-l","debug"};
 	string port,shared;
 	configure(argc,argv,port,shared);
 	ASSERT_FALSE(port.compare(DEFAULT_PORT) == 0);

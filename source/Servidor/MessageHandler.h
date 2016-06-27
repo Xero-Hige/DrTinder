@@ -16,6 +16,7 @@
 #include "../libs/loger/easylogging++.h"
 #include "./matches/UserMatcher.h"
 #include "ChatDatabaseManager.h"
+#include "ServerUtils.h"
 
 #include <cstdbool>
 #include <list>
@@ -73,7 +74,7 @@ class MessageHandler {
 		bool addLocalization(std::string localization);
 
 		bool getUser(std::string username, std::string &user_data);
-
+		void setSharedLink(std::string linkToShared);
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
@@ -93,7 +94,7 @@ protected:
 		DatabaseManager * usersDB;
 		ChatDatabaseManager * chatDB;
 		LikesDatabaseManager * likesDB;
-		SharedServerClient ssClient;
+		SharedServerClient * ssClient;
 		Tokenizer* tokenizer;
 		std::string username;
 

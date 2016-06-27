@@ -20,7 +20,6 @@
 
 class SharedServerClient {
     public:
-        SharedServerClient();
         SharedServerClient(std::string url_to_connect);
         ~SharedServerClient();
         bool getUsers(std::string* users);

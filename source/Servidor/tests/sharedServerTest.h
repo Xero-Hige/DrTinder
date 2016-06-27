@@ -15,39 +15,45 @@
 #include "gtest/gtest.h"
 
 using namespace std;
-SharedServerClient ss;
+
 
 TEST(SharedServer,GetUsers){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	string data;
 	bool correct = ss.getUsers(&data);
 	ASSERT_TRUE(correct);
 }
 
 TEST(SharedServer,GetUserExistant){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	string data;
 	bool correct = ss.getUser("1",&data);
 	ASSERT_TRUE(correct);
 }
 
 TEST(SharedServer,GetUsersNotExistant){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	string data;
 	bool correct = ss.getUser("2",&data);
 	ASSERT_FALSE(correct);
 }
 
 TEST(SharedServer,GetPhotoUser){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	string data;
 	bool correct = ss.getUserPhoto("1",data);
 	ASSERT_TRUE(correct);
 }
 
 TEST(SharedServer,GetInterests){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	string data;
 	bool correct = ss.getUsersInterests(&data);
 	ASSERT_TRUE(correct);
 }
 
 TEST(SharedServer,CreateUserAndDeleteIt){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	JsonParser parser;
 	string user =
 	"{\"user\": {"
@@ -84,6 +90,7 @@ TEST(SharedServer,CreateUserAndDeleteIt){
 }
 
 TEST(SharedServer,CreateUserModifyItModifyPhotoAndDeleteIt){
+	SharedServerClient ss(SHARED_SERVER_URL);
 	JsonParser parser;
 	string user =
 	"{\"user\": {"
