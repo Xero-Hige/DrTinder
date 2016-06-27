@@ -36,6 +36,8 @@
 
 .. java:import:: android.widget EditText
 
+.. java:import:: android.widget ImageView
+
 .. java:import:: android.widget TextView
 
 .. java:import:: com.google.firebase.auth FirebaseAuth

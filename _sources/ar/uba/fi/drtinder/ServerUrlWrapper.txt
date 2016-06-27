@@ -1,0 +1,32 @@
+ServerUrlWrapper
+================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class ServerUrlWrapper
+
+   Singleton that stores the server url. This should be checked.
+
+Methods
+-------
+getServerUrl
+^^^^^^^^^^^^
+
+.. java:method:: public static String getServerUrl()
+   :outertype: ServerUrlWrapper
+
+   Gets the stored server URL
+
+   :return: Stored server URL
+
+setServerUrl
+^^^^^^^^^^^^
+
+.. java:method:: public static void setServerUrl(String url)
+   :outertype: ServerUrlWrapper
+
+   Sets the server URL
+
+   :param url: New url
+

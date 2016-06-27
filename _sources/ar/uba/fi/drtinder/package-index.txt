@@ -16,6 +16,7 @@ ar.uba.fi.drtinder
    MessagesService
    MessagesService-LocalBinder
    SelectionFragment
+   ServerUrlWrapper
    StringResourcesHandler
    StringResourcesHandler-CallbackOperation
    TinderFInstanceIdService

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>StringResourcesHandler.CallbackOperation &mdash; DrTinder 1.0.0 documentation</title>
+  <title>ServerUrlWrapper &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="DrTinder 1.0.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="ar.uba.fi.drtinder" href="package-index.html"/>
-        <link rel="next" title="TinderFInstanceIdService" href="TinderFInstanceIdService.html"/>
-        <link rel="prev" title="StringResourcesHandler" href="StringResourcesHandler.html"/> 
+        <link rel="next" title="StringResourcesHandler" href="StringResourcesHandler.html"/>
+        <link rel="prev" title="SelectionFragment" href="SelectionFragment.html"/> 
 
   
   <script src="../../../../_static/js/modernizr.min.js"></script>
@@ -96,9 +96,9 @@
 <li class="toctree-l4"><a class="reference internal" href="MessagesService.html">MessagesService</a></li>
 <li class="toctree-l4"><a class="reference internal" href="MessagesService-LocalBinder.html">MessagesService.LocalBinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="SelectionFragment.html">SelectionFragment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ServerUrlWrapper.html">ServerUrlWrapper</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="">ServerUrlWrapper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="StringResourcesHandler.html">StringResourcesHandler</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="">StringResourcesHandler.CallbackOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
 <li class="toctree-l4"><a class="reference internal" href="UserDetailsActivity.html">UserDetailsActivity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="UserHandler.html">UserHandler</a></li>
@@ -154,11 +154,11 @@
       
           <li><a href="package-index.html">ar.uba.fi.drtinder</a> &raquo;</li>
       
-    <li>StringResourcesHandler.CallbackOperation</li>
+    <li>ServerUrlWrapper</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../../_sources/ar/uba/fi/drtinder/StringResourcesHandler-CallbackOperation.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/ar/uba/fi/drtinder/ServerUrlWrapper.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -168,28 +168,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="stringresourceshandler-callbackoperation">
-<h1>StringResourcesHandler.CallbackOperation<a class="headerlink" href="#stringresourceshandler-callbackoperation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="serverurlwrapper">
+<h1>ServerUrlWrapper<a class="headerlink" href="#serverurlwrapper" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
-<dt id="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation">
-public interface <code class="descname">CallbackOperation</code><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Callbacks interface</p>
+<dt id="ar.uba.fi.drtinder.ServerUrlWrapper">
+public final class <code class="descname">ServerUrlWrapper</code><a class="headerlink" href="#ar.uba.fi.drtinder.ServerUrlWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Singleton that stores the server url. This should be checked.</p>
 </dd></dl>
 
 <div class="section" id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="execute">
-<h3>execute<a class="headerlink" href="#execute" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="getserverurl">
+<h3>getServerUrl<a class="headerlink" href="#getserverurl" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
-<dt id="ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation.execute(List)">
- void <code class="descname">execute</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/util/List.html" title="java.util.List">List</a>&lt;<a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a>[]&gt;<em> data</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.StringResourcesHandler.CallbackOperation.execute(List)" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interface method</p>
+<dt id="ar.uba.fi.drtinder.ServerUrlWrapper.getServerUrl()">
+public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getServerUrl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ServerUrlWrapper.getServerUrl()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the stored server URL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Stored server URL</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="setserverurl">
+<h3>setServerUrl<a class="headerlink" href="#setserverurl" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.ServerUrlWrapper.setServerUrl(String)">
+public static void <code class="descname">setServerUrl</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> url</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ServerUrlWrapper.setServerUrl(String)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the server URL</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>data</strong> &#8211; List of array strings with the query data</li>
+<li><strong>url</strong> &#8211; New url</li>
 </ul>
 </td>
 </tr>
@@ -208,10 +225,10 @@ public interface <code class="descname">CallbackOperation</code><a class="header
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TinderFInstanceIdService.html" class="btn btn-neutral float-right" title="TinderFInstanceIdService" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="StringResourcesHandler.html" class="btn btn-neutral float-right" title="StringResourcesHandler" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="StringResourcesHandler.html" class="btn btn-neutral" title="StringResourcesHandler" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="SelectionFragment.html" class="btn btn-neutral" title="SelectionFragment" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
