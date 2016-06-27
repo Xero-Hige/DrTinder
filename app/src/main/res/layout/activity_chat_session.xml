@@ -114,7 +114,7 @@
         android:clickable="true"
         android:elevation="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/message"
+        android:src="@drawable/drop_down"
         android:tint="@color/primary"
         android:tintMode="src_in"
         app:borderWidth="0dp"
