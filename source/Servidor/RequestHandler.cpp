@@ -21,7 +21,7 @@ RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnectio
 
 
 RequestHandler::~RequestHandler() {
-
+	delete msgHandler;
 }
 
 void RequestHandler::sendHttpLine(int status_code) {

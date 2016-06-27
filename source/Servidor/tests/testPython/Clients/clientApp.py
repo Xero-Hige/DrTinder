@@ -11,7 +11,7 @@ id_url = "id"
 
 class ClientApp(Client):
 	def __init__(self,mail,passw):
-		Client.__init__(self,"http://127.0.0.1:8080")
+		Client.__init__(self,"http://127.0.0.1:8000")
 		self.mail = mail
 		self.token = ""
 		self.passw = passw
