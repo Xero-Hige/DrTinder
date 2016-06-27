@@ -67,12 +67,12 @@ public final class UserHandler {
      * Sign up result: Sign up successful
      */
     public static final String SIGNUP_SUCCESS = "S";
-    private static final String _LOGIN_URL = "user";
-    private static final String _DELETE_URL = "users";
-    private static final String _TOKEN_URL = "user/token";
-    private static final String _SIGNUP_URL = "users";
-    private static final String _UPDATE_URL = "users";
-    private static final String _AVATAR_URL = "users/photo";
+    private static final String LOGIN_URL = "user";
+    private static final String DELETE_URL = "users";
+    private static final String TOKEN_URL = "user/token";
+    private static final String SIGNUP_URL = "users";
+    private static final String UPDATE_URL = "users";
+    private static final String AVATAR_URL = "users/photo";
     private static String mToken = ERROR_TOKEN;
 
     private UserHandler() {
@@ -136,11 +136,11 @@ public final class UserHandler {
     }
 
     private static String getLoginUrl() {
-        return ServerUrlWrapper.getServerUrl() + _LOGIN_URL;
+        return ServerUrlWrapper.getServerUrl() + LOGIN_URL;
     }
 
     private static String getTokenUrl() {
-        return ServerUrlWrapper.getServerUrl() + _TOKEN_URL;
+        return ServerUrlWrapper.getServerUrl() + TOKEN_URL;
     }
 
     private static String getUsernameFrom(String email) {
@@ -230,7 +230,7 @@ public final class UserHandler {
     }
 
     private static String getDeleteUrl() {
-        return ServerUrlWrapper.getServerUrl() + _DELETE_URL;
+        return ServerUrlWrapper.getServerUrl() + DELETE_URL;
     }
 
     /**
@@ -293,7 +293,7 @@ public final class UserHandler {
     }
 
     private static String getSignupUrl() {
-        return ServerUrlWrapper.getServerUrl() + _SIGNUP_URL;
+        return ServerUrlWrapper.getServerUrl() + SIGNUP_URL;
     }
 
     /**
@@ -326,7 +326,7 @@ public final class UserHandler {
     }
 
     private static String getUpdateUrl() {
-        return ServerUrlWrapper.getServerUrl() + _UPDATE_URL;
+        return ServerUrlWrapper.getServerUrl() + UPDATE_URL;
     }
 
     /**
@@ -351,7 +351,7 @@ public final class UserHandler {
     }
 
     private static String getAvatarUrl() {
-        return ServerUrlWrapper.getServerUrl() + _AVATAR_URL;
+        return ServerUrlWrapper.getServerUrl() + AVATAR_URL;
     }
 
     /**

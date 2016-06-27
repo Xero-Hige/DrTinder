@@ -19,8 +19,11 @@ package ar.uba.fi.drtinder;
 /**
  * Singleton that stores the server url. This should be checked.
  */
-public class ServerUrlWrapper {
+public final class ServerUrlWrapper {
     private static String serverUrl = "http://190.55.231.26/";
+
+    private ServerUrlWrapper() {
+    }
 
     /**
      * Gets the stored server URL
@@ -39,5 +42,4 @@ public class ServerUrlWrapper {
     public static void setServerUrl(String url) {
         serverUrl = url;
     }
-
 }
