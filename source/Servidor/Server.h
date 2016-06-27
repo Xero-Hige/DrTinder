@@ -17,6 +17,8 @@ class Server {
     public:
 	/* Create new multithreaded server. */
         Server();
+    /* Create new multithread server listening in port and sharedLink*/
+        Server(std::string port, std::string shared);
 	/* Close connections and destroy server. */
         virtual ~Server();
 	/* Check for new event. */
@@ -31,7 +33,7 @@ class Server {
 protected:
 	/* Proccess new_event from act_connection. */
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
-
+        static std::string linkToShared;
     private:
         struct mg_mgr manager_;
         struct mg_connection* connection_;

@@ -35,9 +35,11 @@ void setUpDatabase(rocksdb::DB** db, std::string db_name) {
 }
 
 /* Set up server and listen to incomming connections. */
-int main() {
+int main(int argc, char**argv) {
 	RestClient::init();
-	Server server;
+	std::string port,shared;
+	configure(argc,argv,port,shared);
+	Server server(port,shared);
 
 	rocksdb::DB* usersDB;
 	setUpDatabase(&usersDB, "usersDB");

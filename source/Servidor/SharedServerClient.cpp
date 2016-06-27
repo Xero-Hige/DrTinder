@@ -4,13 +4,6 @@
 
 using std::string;
 
-SharedServerClient::SharedServerClient() {
-	conn = new RestClient::Connection(SHARED_SERVER_URL);
-	RestClient::HeaderFields headers;
-	headers["Content-Type"] = "application/json";
-	conn->SetHeaders(headers);
-}
-
 SharedServerClient::SharedServerClient(string url_to_connect) {
 	conn = new RestClient::Connection(url_to_connect);
 	RestClient::HeaderFields headers;
@@ -19,7 +12,8 @@ SharedServerClient::SharedServerClient(string url_to_connect) {
 }
 
 SharedServerClient::~SharedServerClient() {
-	delete conn;
+	if (conn != NULL)
+		delete conn;
 }
 
 string SharedServerClient::formUrl(string sub_urls[], size_t sub_urls_size) {

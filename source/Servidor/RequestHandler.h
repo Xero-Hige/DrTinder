@@ -4,13 +4,13 @@
 
 #include "MessageHandler.h"
 #include <cstring>
-#include "RequestHandler.h"
 #include "ServerUtils.h"
 
 
 class RequestHandler {
 public:
     RequestHandler(http_message *pMessage, mg_connection *pConnection);
+    RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string sharedLink);
     ~RequestHandler();
 
     bool validateToken();

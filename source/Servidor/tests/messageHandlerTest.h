@@ -26,7 +26,9 @@ TEST(MsgHandler,CreateTokenAndItsValid){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = "aaa@aaa.com", password = "pepe";
-	MessageHandler handler(&databases, user);
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	string token = handler.getToken();
 	ASSERT_TRUE(handler.validateToken(token));
 	delete db;
@@ -43,7 +45,9 @@ TEST(MsgHandler,CantAuthenticateUserNotCreated){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = "aaa@aaaa.com", password = "pepe";
-	MessageHandler handler(&databases, user);
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	ASSERT_FALSE(handler.authenticate(user,password));
 	delete db;
 	delete dbc;
@@ -77,8 +81,9 @@ TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = mail, password = "pepe";
-	MessageHandler handler(&databases, user);
-
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	ASSERT_TRUE(handler.createUser(complete, password));
 	ASSERT_TRUE(handler.authenticate(mail,password));
 	ASSERT_TRUE(handler.addLocalization("1.5638,-1.2536"));
@@ -117,7 +122,9 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = mail, password = "pepe", photo;
-	MessageHandler handler(&databases, user);
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	cout << complete.c_str() << endl;
 	ASSERT_TRUE(handler.createUser(complete, password));
 	ASSERT_TRUE(handler.postPhoto("pepe"));
@@ -158,7 +165,9 @@ TEST(MsgHandler,GetOtherUser){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = mail, password = "pepe", data;
-	MessageHandler handler(&databases, user);
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	ASSERT_FALSE(handler.getUser("asdas@aasdasda.com",data));
 	delete db;
 	delete dbc;
@@ -174,8 +183,9 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = "bbb@bbb.com", password = "pepe", photo;
-	MessageHandler handler(&databases, user);
-
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	ASSERT_TRUE(handler.getInterestPhoto(photo,"sport"));
 	ASSERT_FALSE(handler.getInterestPhoto(photo,"pepe"));
 	delete db;
@@ -210,8 +220,9 @@ TEST(MsgHandler,GetMatchesForUser){
 	databases.usersDB = db;
 	databases.chatDB = dbc;
 	string user = mail, password = "pepe";
-	MessageHandler handler(&databases, user);
-
+	MessageHandler handler(&databases);
+	handler.setUser(user);
+	handler.setSharedLink(SHARED_SERVER_URL);
 	handler.createUser(complete, password);
 
 	string users;

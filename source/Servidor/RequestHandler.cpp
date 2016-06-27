@@ -12,7 +12,16 @@ RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnectio
 
 }
 
+RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :
+    connection(pConnection), http_msg(pMessage) {
+	server_databases_t *databases = ((server_databases_t *) connection->user_data);
+	msgHandler = new MessageHandler(databases);
+	msgHandler->setSharedLink(shared);
+}
+
+
 RequestHandler::~RequestHandler() {
+	delete msgHandler;
 }
 
 void RequestHandler::sendHttpLine(int status_code) {
@@ -58,7 +67,6 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 
     if (! is_equal(&http_msg->uri, USERS_URI) && ! is_equal(&http_msg->uri, USER_URI)) {
     	rejectConnection(NOT_IMPLEMENTED);
-        delete msgHandler;
         return false;
     }
     user = std::string(user_);
@@ -72,7 +80,6 @@ bool RequestHandler::login() {
     	return validateToken();
     }
     rejectConnection(UNAUTHORIZED);
-    delete msgHandler;
     LOGG(DEBUG) << "PREVENT UNAUTHORIZED ACCES";
     return false;
 }
@@ -87,7 +94,6 @@ void RequestHandler::listenUserRequest() {
         }
         if (! msgHandler->authenticate(user, pass) ) {
             rejectConnection(UNAUTHORIZED);
-            delete msgHandler;
             return;
         }
         msgHandler->setUser(user);
@@ -151,7 +157,6 @@ void RequestHandler::listenUsersRequest() {
             if (! created){
             	LOGG(DEBUG) << "Cannot create user "  << user;
             	rejectConnection(BAD_REQUEST);
-				delete msgHandler;
             }else{
             	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
             }
@@ -159,7 +164,6 @@ void RequestHandler::listenUsersRequest() {
         } catch (ExistentUserException existentUserException) {
             rejectConnection(UNAUTHORIZED);
             LOGG(DEBUG) << "Already existed";
-            delete msgHandler;
         }
         return;
     }

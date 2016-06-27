@@ -2,12 +2,21 @@
 
 #define DEFAULT_MILISECS_POLL 3000
 
+std::string Server::linkToShared = DEFAULT_SHARED;
 
 Server::Server() : databases(new server_databases_t()) {
     std::string port;
 	intToString(DEFAULT_PORT_NUMBER, port);
-	
     mg_mgr_init(&manager_, NULL);
+    connection_ = mg_bind(&manager_, port.c_str(), handleEvent);
+    mg_set_protocol_http_websocket(connection_);
+    mg_enable_multithreading(connection_);
+	connection_->user_data = databases;
+}
+
+Server::Server(std::string port,std::string sharedlink) : databases(new server_databases_t()) {
+	Server::linkToShared = sharedlink;
+	mg_mgr_init(&manager_, NULL);
     connection_ = mg_bind(&manager_, port.c_str(), handleEvent);
     mg_set_protocol_http_websocket(connection_);
     mg_enable_multithreading(connection_);
@@ -27,10 +36,12 @@ void Server::run() {
 
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* ev_data) {
 	struct http_message *http_msg = (struct http_message *) ev_data;
-	RequestHandler requestHandler(http_msg, act_connection);
+	LOGG(DEBUG) << "Recieved new msg";
+	RequestHandler requestHandler(http_msg, act_connection, linkToShared);
 
 	switch (new_event) {
 		case MG_EV_HTTP_REQUEST:
+			LOGG(DEBUG) << "Recieved http msg";
 			if (is_equal(&http_msg->uri, USER_ID_URI)) {
 				requestHandler.listenIdRequest();
 			} else if (is_equal(&http_msg->uri, USERS_URI)) {

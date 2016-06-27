@@ -98,6 +98,7 @@ bool Tokenizer::hasExpired(std::string token){
 void Tokenizer::remove(std::string token){
 	this->database->deleteEntry(TOKENIZER_PREFIX + token);
 }
+
 Tokenizer::~Tokenizer() {
 
 }
