@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Javadoc &mdash; DrTinder 1.0.0 documentation</title>
+  <title>Project compile requirements &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -31,9 +31,9 @@
 
   
     <link rel="top" title="DrTinder 1.0.0 documentation" href="index.html"/>
-        <link rel="up" title="Dr. Tinder App Documentation" href="androidIndex.html"/>
-        <link rel="next" title="ar.uba.fi.drtinder" href="ar/uba/fi/drtinder/package-index.html"/>
-        <link rel="prev" title="Dr. Tinder App Documentation" href="androidIndex.html"/> 
+        <link rel="up" title="Wiki" href="androidProjectWiki.html"/>
+        <link rel="next" title="Project development" href="androidWikiDevelopreqst.html"/>
+        <link rel="prev" title="Wiki" href="androidProjectWiki.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,12 +84,14 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="androidIndex.html">Dr. Tinder App Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">Javadoc</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ar/uba/fi/drtinder/package-index.html">ar.uba.fi.drtinder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Javadoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="androidUserManual.html">User Manual</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="androidProjectWiki.html">Wiki</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">Project compile requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="androidWikiDevelopreqst.html">Project development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="androidWikiExternalLibs.html">External libraries</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="androidUserManual.html">User Manual</a></li>
-<li class="toctree-l2"><a class="reference internal" href="androidProjectWiki.html">Wiki</a></li>
 </ul>
 </li>
 </ul>
@@ -130,11 +132,13 @@
       
           <li><a href="androidIndex.html">Dr. Tinder App Documentation</a> &raquo;</li>
       
-    <li>Javadoc</li>
+          <li><a href="androidProjectWiki.html">Wiki</a> &raquo;</li>
+      
+    <li>Project compile requirements</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/packages.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/androidWikiCompilereq.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -144,32 +148,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="javadoc">
-<h1>Javadoc<a class="headerlink" href="#javadoc" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="ar/uba/fi/drtinder/package-index.html">ar.uba.fi.drtinder</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/ChatFragment.html">ChatFragment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/ChatSession.html">ChatSession</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/DrTinderLogger.html">DrTinderLogger</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/ImageResourcesHandler.html">ImageResourcesHandler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/LocationHandler.html">LocationHandler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/LoginActivity.html">LoginActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/MainActivity.html">MainActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/MessagesService.html">MessagesService</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/MessagesService-LocalBinder.html">MessagesService.LocalBinder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/SelectionFragment.html">SelectionFragment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/StringResourcesHandler.html">StringResourcesHandler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/UserDetailsActivity.html">UserDetailsActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/UserHandler.html">UserHandler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/UserProfileActivity.html">UserProfileActivity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ar/uba/fi/drtinder/Utility.html">Utility</a></li>
+  <div class="section" id="project-compile-requirements">
+<h1>Project compile requirements<a class="headerlink" href="#project-compile-requirements" title="Permalink to this headline">¶</a></h1>
+<p>In order to generate the <code class="docutils literal"><span class="pre">apk</span></code> file you will need:</p>
+<ul class="simple">
+<li>Android SDK (API level 24 or later)</li>
+<li>Project source code (Can be downloaded from Github Page <a class="reference external" href="https://github.com/Xero-Hige/DrTinder/tree/Android">Source</a>)</li>
+<li>Own Android Keystore [<a class="reference external" href="https://developer.android.com/training/articles/keystore.html">Needed to generate signed apk</a>]</li>
 </ul>
-</li>
-</ul>
-</div>
 </div>
 
 
@@ -179,10 +165,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ar/uba/fi/drtinder/package-index.html" class="btn btn-neutral float-right" title="ar.uba.fi.drtinder" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="androidWikiDevelopreqst.html" class="btn btn-neutral float-right" title="Project development" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="androidIndex.html" class="btn btn-neutral" title="Dr. Tinder App Documentation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="androidProjectWiki.html" class="btn btn-neutral" title="Wiki" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
