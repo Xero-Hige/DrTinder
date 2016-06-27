@@ -67,20 +67,24 @@ public class ChatFragment extends Fragment {
                                 container, false);
                         ImageView imageView = addUserChat(name, age, user, layout);
 
-                        imageView.setOnClickListener(listener -> {
-                            assert container != null; //DEBUG Assert
-                            Intent menuIntent = new Intent(container.getContext(),
-                                    ChatSession.class);
-                            menuIntent.putExtra("User", name);
-                            menuIntent.putExtra("ID", user);
-                            startActivity(menuIntent);
-                        });
+                        layout.setOnClickListener(listener -> openChat(container, name, user));
+                        imageView.setOnClickListener(listener -> openChat(container, name, user));
+
                         bar.addView(layout);
                     }
                 });
 
 
         return view;
+    }
+
+    private void openChat(@Nullable ViewGroup container, String name, String user) {
+        assert container != null; //DEBUG Assert
+        Intent menuIntent = new Intent(container.getContext(),
+                ChatSession.class);
+        menuIntent.putExtra("User", name);
+        menuIntent.putExtra("ID", user);
+        startActivity(menuIntent);
     }
 
     private ImageView addUserChat(String name, String age, String username, View chatLayout) {
