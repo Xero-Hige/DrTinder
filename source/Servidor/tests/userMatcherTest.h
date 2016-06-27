@@ -167,7 +167,8 @@ TEST(UserMatcher,AppUserShouldFindMatches){
 
 	list<User*> possibleMatches = createPossibleMatches();
 
-	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches);
+	string userMatches = "";
+	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches, userMatches);
 
 	ASSERT_EQ(filteredPossibleMatches.size(), expectedNumberOfMatches);
 
@@ -188,7 +189,8 @@ TEST(UserMatcher, AppUserWithoutInterestsShouldntMatch){
 
 	list<User*> possibleMatches = createPossibleMatches();
 
-	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches);
+	string userMatches = "";
+	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches, userMatches);
 
 	ASSERT_EQ(filteredPossibleMatches.size(), expectedNumberOfMatches);
 
@@ -209,7 +211,8 @@ TEST(UserMatcher,AppUserShouldntMatchWithUsersWithoutInterests){
 
 	list<User*> possibleMatches = createPossibleMatchesWithNoInterests();
 
-	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches);
+	string userMatches = "";
+	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches, userMatches);
 
 	ASSERT_EQ(filteredPossibleMatches.size(), expectedNumberOfMatches);
 
@@ -230,7 +233,8 @@ TEST(UserMatcher,AppUserWithoutInterestsShouldntMatchWithUsersWithoutInterests){
 
 	list<User*> possibleMatches = createPossibleMatchesWithNoInterests();
 
-	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches);
+	string userMatches = "";
+	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches, userMatches);
 
 	ASSERT_EQ(filteredPossibleMatches.size(), expectedNumberOfMatches);
 
@@ -249,7 +253,8 @@ TEST(UserMatcher,AppUserLookingForWomenShouldFindWomen){
 
 	list<User*> possibleMatches = createPossibleMatches();
 
-	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches);
+	string userMatches = "";
+	list<User*> filteredPossibleMatches = matcher.filterPossibleMatches(&appUser, &possibleMatches, userMatches);
 
 	for(User* user : filteredPossibleMatches){
 		ASSERT_EQ(user->getSex(), "woman");

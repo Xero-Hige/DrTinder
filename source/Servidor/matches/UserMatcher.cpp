@@ -7,13 +7,6 @@
 
 #include "UserMatcher.h"
 
-#include <cmath>
-#include <cstdlib>
-#include <map>
-#include <string>
-#include <vector>
-
-#include "../Interests.h"
 
 UserMatcher::UserMatcher(){
 
@@ -21,23 +14,31 @@ UserMatcher::UserMatcher(){
 
 /*
  * Deja en la lista los usuarios con las siguientes caracteristicas en relacion al usuario de la app:
- * 1) De sexo opuesto.
- * 2) Con edad a no mas de 3 anios de distancia.
- * 3) Localidad cercana.
+ * 1) De sexo que se esta buscando.
+ * 2) Con edad a no mas de AGE_RANGE anios de distancia.
+ * 3) Localidad a menos de MAX_DISTANCE.
  * 4) Al menos un interes en comun.
  */
-list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users) {
+list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users, string userMatches) {
 	list<User*> filteredUsers;
 
 	for (User* user : *users) {
-		if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
-				&& hasCommonInterest(appUser, user)) {
-			filteredUsers.push_back(user);
+		if(!userInMatches(user, userMatches)){
+			if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
+					&& hasCommonInterest(appUser, user)) {
+				filteredUsers.push_back(user);
+			}
 		}
 	}
 
 	return filteredUsers;
 
+}
+
+bool UserMatcher::userInMatches(User* user, string userMatches){
+
+	//TODO
+	return false;
 }
 
 bool UserMatcher::contains(vector<string> vect, const string& stringToFind) {

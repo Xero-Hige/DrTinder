@@ -51,14 +51,17 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 	string currentUserData;
 
-	bool gotUser = usersDB->getEntry(USER_CSV_DB + username, currentUserData);
+	usersDB->getEntry(USER_CSV_DB + username, currentUserData);
 	LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
 	User currentUser;
 	csvParser.makeUser(currentUserData, currentUser);
 
+	string userMatches;
+	getMatches(userMatches);
+
 	UserMatcher matcher;
 
-	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users);
+	list<User*> filtered_users = matcher.filterPossibleMatches(&currentUser, &users, userMatches);
 
 	resultMsg = userParser.ListToCsv(filtered_users);
 
@@ -190,9 +193,8 @@ bool MessageHandler::validateToken(std::string user_token) {
 }
 
 
-void MessageHandler::getMatches(std::string id) {
+void MessageHandler::getMatches(std::string& matches) {
 	LOGG(INFO) << "Devolviendo usuarios matcheados.";
-	string matches;
 	usersDB->createIterator();
 	while (usersDB->validIterator()) {
 		string users, liked, candidate_data;
@@ -268,9 +270,10 @@ bool MessageHandler::getUser(string username, string &user_data) {
 
 }
 
-bool MessageHandler::match(string &users, string &candidate_data) {
+bool MessageHandler::match(string& users, string& candidate_data) {
 	size_t i = users.find(DB_SEPARATOR);
-	string user1 = users.substr(0, i), user2 = users.substr(i+1, users.length());
+	string user1 = users.substr(0, i);
+	string user2 = users.substr(i+1, users.length());
 
 	if (user1 != username ) {
 		if (user2 != username) {
