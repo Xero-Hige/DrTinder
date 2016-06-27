@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/navBackground"
               android:layout_width="match_parent"
               android:layout_height="@dimen/nav_header_height"
               android:background="@drawable/gato_5"
@@ -14,7 +13,6 @@
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.pkmmte.view.CircularImageView
-        android:id="@+id/navUserPic"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -26,7 +24,6 @@
         app:shadow="true"/>
 
     <TextView
-        android:id="@+id/navUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -34,7 +31,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="android.studio@android.com"/>
