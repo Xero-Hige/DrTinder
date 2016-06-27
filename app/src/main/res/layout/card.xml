@@ -1,21 +1,21 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="8dp"
-    android:gravity="center_horizontal"
-    android:padding="25dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="2dp">
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:id="@+id/card_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="8dp"
+                                    android:gravity="center_horizontal"
+                                    android:padding="25dp"
+                                    card_view:cardCornerRadius="8dp"
+                                    card_view:cardElevation="2dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
         <ImageView
             android:id="@+id/card_picture"
@@ -24,7 +24,7 @@
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            tools:src="@color/bel_red_text" />
+            tools:src="@color/bel_red_text"/>
 
         <ImageView
             android:id="@+id/card_like"
@@ -33,7 +33,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/like" />
+            android:src="@drawable/like"/>
 
         <ImageView
             android:id="@+id/card_nope"
@@ -42,7 +42,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/nope" />
+            android:src="@drawable/nope"/>
 
         <TextView
             android:id="@+id/card_text"
@@ -52,6 +52,6 @@
             android:background="#a30505"
             android:backgroundTint="#83f1f4e8"
             android:textAlignment="textStart"
-            android:textSize="30sp" />
+            android:textSize="30sp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

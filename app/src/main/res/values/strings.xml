@@ -106,4 +106,7 @@
     </string>
     <string name="title_activity_chat_session">ChatSession</string>
     <string name="title_activity_user_data">UserData</string>
+    <string name="register">Register</string>
+    <string name="url">http://190.55.231.26/</string>
+    <string name="urlhint">Url</string>
 </resources>
