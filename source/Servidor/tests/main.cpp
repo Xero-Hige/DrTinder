@@ -9,10 +9,10 @@
 #include "parserTest.h"
 #include "serverUtilsTest.h"
 #include "databasesTest.h"
-/*#include "sharedServerTest.h"
+#include "sharedServerTest.h"
 #include "tokenizerTest.h"
 #include "userMatcherTest.h"
-#include "messageHandlerTest.h"*/
+#include "messageHandlerTest.h"
 #include "gtest/gtest.h"
 #include "../../libs/loger/easylogging++.h"
 #include "../ServerUtils.h"

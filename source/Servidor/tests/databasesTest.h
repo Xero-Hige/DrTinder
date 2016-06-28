@@ -16,7 +16,7 @@
 using namespace rocksdb;
 using namespace std;
 
-/*TEST(DBManager,iterateCreateIterateItsValid){
+TEST(DBManager,iterateCreateIterateItsValid){
 	DB * database;
 	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
 	DatabaseManager mgr(database);
@@ -27,6 +27,7 @@ using namespace std;
 	mgr.addEntry(key1,value);
 	mgr.createIterator();
 	ASSERT_TRUE(mgr.validIterator());
+	mgr.deleteIterator();
 	delete database;
 }
 
@@ -49,6 +50,7 @@ TEST(DBManager,iterateDBHasActualPair){
 			break;
 		}
 	}while (mgr.advanceIterator());
+	mgr.deleteIterator();
 	ASSERT_TRUE(found);
 	delete database;
 }
@@ -75,7 +77,7 @@ TEST(LKDBManager,matches){
 	string user2 = "bb@bb.com";
 	ASSERT_FALSE(mgr.matches(user1,user2));
 	delete database;
-}*/
+}
 
 
 

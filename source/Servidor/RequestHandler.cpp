@@ -3,7 +3,6 @@
 #define MAX_LEN_TOKEN_BUFFER 100
 #define BUFFER_SMALL_SIZE 20
 
-
 RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection) :
     connection(pConnection), http_msg(pMessage) {
 
@@ -49,7 +48,8 @@ bool RequestHandler::validateToken() {
 
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
-        LOGG(INFO) << "Token expired";
+        LOGG(DEBUG) << "Token expired";
+        this->sendHttpReply("","",UNAUTHORIZED);
         return false;
     }
     return true;
@@ -81,12 +81,7 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 }
 
 bool RequestHandler::login() {
-    if (msgHandler->isUserSet()){
     	return validateToken();
-    }
-    rejectConnection(UNAUTHORIZED);
-    LOGG(DEBUG) << "PREVENT UNAUTHORIZED ACCES";
-    return false;
 }
 
 void RequestHandler::listenUserRequest() {
@@ -114,7 +109,8 @@ void RequestHandler::listenUserRequest() {
         if (! updated){
         	sendHttpLine(BAD_REQUEST);
         }else{
-        	sendHttpLine(STATUS_OK);
+        	string token = msgHandler->getToken();
+        	sendHttpReply(token,CONTENT_TYPE_HEADER_PLAIN,STATUS_OK);
         }
         return;
     }
@@ -202,15 +198,6 @@ void RequestHandler::listenUsersRequest() {
     	rejectConnection(NOT_IMPLEMENTED);
     }
 
-}
-
-void RequestHandler::listenIdRequest() {
-	LOGG(DEBUG) << "Listening ID request";
-    if (! is_equal(&http_msg->method, GET_S)) {
-    	sendHttpLine(NOT_IMPLEMENTED);
-        return;
-    }
-    sendHttpReply(msgHandler->getToken(), TOKEN_VARIABLE_NAME,201);
 }
 
 void RequestHandler::listenInterestRequest() {

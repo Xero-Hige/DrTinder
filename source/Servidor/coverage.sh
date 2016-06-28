@@ -5,7 +5,7 @@ fi
 mkdir coverage
 cd coverage
 
-DIR='../CMakeFiles/'
+DIR='../CMakeFiles'
 lcov --directory $DIR --capture --output-file output.info
 lcov -r output.info /usr/include/\* -o output.info
 lcov -r output.info /usr/local/include/\* -o output.info

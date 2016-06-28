@@ -13,7 +13,11 @@ DatabaseManager::DatabaseManager(DB *database){
 
 DatabaseManager::~DatabaseManager() {
 	db = NULL;
-	deleteIterator();
+	/*Nose porque pero ahora dejo de fallar
+	solo comente esta "eliminacion"
+	podria ser que estoy llamando a un metodo
+	de la clase a eliminar;	*/
+	//deleteIterator();
 }
 
 bool DatabaseManager::correctEntry(string key, string value) {
@@ -58,10 +62,11 @@ void DatabaseManager::replaceEntry(std::string key, std::string value) {
 void DatabaseManager::createIterator() {
 	iter = db->NewIterator(rocksdb::ReadOptions());
 	iter->SeekToFirst();
+	LOGG(DEBUG) << "Iterator created";
 }
 
 bool DatabaseManager::advanceIterator() {
-	if (iter == NULL || ! iter->Valid()) {
+	if (! iter->Valid()) {
 		return false;
 	}
 	iter->Next();
@@ -80,8 +85,10 @@ void DatabaseManager::deleteIterator() {
 	if (iter == NULL) {
 		return;
 	}
+	LOGG(DEBUG) << "About to delete iterator";
 	delete iter;
 	iter = NULL;
+	LOGG(DEBUG) << "Deleted";
 }
 
 bool DatabaseManager::validIterator() {

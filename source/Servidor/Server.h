@@ -12,6 +12,11 @@
 
 #define DEFAULT_PORT_NUMBER 8000
 
+typedef struct _user_data{
+	server_databases_t* databases;
+	MessageHandler * handler = NULL;
+} user_data;
+
 /* Server that listens incomming connections. */
 class Server {
     public:

@@ -1,33 +1,51 @@
 from Clients.clientApp import ClientApp
+import unittest
 
 mail= "pepep123@pas.com"
 passw = "secret"
 
 myClient = ClientApp(mail,passw)
 
-#r = myClient.signup()
-#print("SignedUPed", r.status_code, r.text)
+class MyTest(unittest.TestCase):
 
-r = myClient.login()
-print("Responded", r.status_code, r.text)
+	def test_1(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.getData()
+		r = myClient.delete()
+		r = myClient.delete()	
 
-# r = myClient.get_token()
-# print("Responded", r.status, r.read())
+	def test_2(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.postPhoto("aasaa")
+		r = myClient.getPhoto()
+		r = myClient.delete()
+		self.assertTrue(1)
+
+	def test_3(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.uniexistantCall()
+		r = myClient.delete()
+		self.assertTrue(1)
+
+	def test_4(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.getNewMatches()
+		r = myClient.delete()
+		self.assertTrue(1)
+
+	def test_5(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.modifyData('"Nombre","25","Alias22","pepep123@pas.com","man","Pickachu","sport::tennis"')
+		r = myClient.getData()
+		r = myClient.delete()
+		self.assertTrue(1)
+
+if __name__ == '__main__':
+	unittest.main()
 
 # print "Token: " + myClient.token
-
-# r = myClient.get_new_matches()
-# print("Matches", r.status, r.read())
-
-#r = myClient.uniexistant_call()
-#print("Unexistant", r.status)
-#r.read()
-
-# r = myClient.get_data()
-# print("Data self", r.status, r.read())
-
-# r = myClient.post_photo("aasaa")
-# print("post photo?", r.status, r.read())
-
-# r = myClient.get_photo()
-# print("photo: ", r.status, r.read())

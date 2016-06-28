@@ -157,6 +157,7 @@ bool MessageHandler::updateUser(string user_data) {
 
 bool MessageHandler::deleteUser() {
 	string id = this->getId(), reply;
+	string token;
 
 	if ( ssClient->deleteUser(id, &reply )){
 		usersDB->deleteEntry(USER_DB + username);
@@ -164,6 +165,9 @@ bool MessageHandler::deleteUser() {
 		usersDB->deleteEntry(USER_LOOKING_DB + username);
 		usersDB->deleteEntry(USER_CSV_DB + username);
 		usersDB->deleteEntry(USER_PHOTO_DB + username);
+		if (usersDB->getEntry(TOKEN_OF_USER_DB + username, token))
+			usersDB->deleteEntry(USER_OF_TOKEN_DB + token);
+		usersDB->deleteEntry(TOKEN_OF_USER_DB + username);
 		//TODO: Delete matches, friends, y si ambos no estan chat
 		LOGG(INFO) << "User Deleted " + username;
 		return true;
@@ -207,7 +211,11 @@ bool MessageHandler::postPhoto(string photo_64) {
 
 
 bool MessageHandler::validateToken(std::string user_token) {
-	return ! this->tokenizer->hasExpired(user_token);
+	bool expired =  this->tokenizer->hasExpired(user_token);
+	if (! expired ){
+		return this->usersDB->getEntry(USER_OF_TOKEN_DB + user_token,this->username);
+	}
+	return expired;
 }
 
 
@@ -227,13 +235,26 @@ void MessageHandler::getMatches(std::string& matches) {
 }
 
 string MessageHandler::getToken() {
-	string password, token;
+	string password, token, pastToken;
 	LOGG(DEBUG) << "Generating new token for " + username;
 	if (!this->usersDB->getEntry(USER_DB + username, password))
 	{
 		LOGG(WARNING) << "User has no registered pass";
 	}
-	return this->tokenizer->newToken(username, password);
+	token = this->tokenizer->newToken(username, password);
+
+	//si ya tiene un token asociado lo remuevo
+	if (this->usersDB->getEntry(TOKEN_OF_USER_DB + username,pastToken)){
+		this->tokenizer->remove(pastToken);
+	}
+
+	//renuevo la referencia token-user
+	this->usersDB->deleteEntry(USER_OF_TOKEN_DB + pastToken);
+	this->usersDB->addEntry(USER_OF_TOKEN_DB + token, username);
+
+	this->usersDB->addEntry(TOKEN_OF_USER_DB + username, token);
+	return token;
+
 }
 
 bool MessageHandler::addLocalization(string localization) {
