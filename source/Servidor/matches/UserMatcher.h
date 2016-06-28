@@ -8,8 +8,15 @@
 #ifndef SERVIDOR_MATCHES_USERMATCHER_H_
 #define SERVIDOR_MATCHES_USERMATCHER_H_
 
+#include <cmath>
 #include <cstdbool>
+#include <cstdlib>
 #include <list>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "../Interests.h"
 
 #include "../User.h"
 
@@ -25,12 +32,13 @@ private:
 	bool hasCommonInterest(User* appUser, User* user);
 	bool contains(vector<string> vect, const string& stringToFind);
 	bool containsKey(map<string, vector<string> >& map, const string& keyToFind);
+	bool userInMatches(User* user, string userMatches);
 
 public:
 
 	UserMatcher();
 
-	list<User*> filterPossibleMatches(User* appUser, list<User*>* users);
+	list<User*> filterPossibleMatches(User* appUser, list<User*>* users, string userMatches);
 
 	virtual ~UserMatcher();
 

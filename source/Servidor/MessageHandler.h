@@ -58,7 +58,7 @@ class MessageHandler {
 
 		bool deleteUser();
 
-		void getMatches(std::string id);
+		void getMatches(std::string& matches);
 
 		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
