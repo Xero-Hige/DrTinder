@@ -28,14 +28,13 @@ void RequestHandler::sendHttpLine(int status_code) {
 }
 
 void RequestHandler::sendHttpReply(std::string reply, std::string content_type, int status) {
-	LOGG(DEBUG) << "Sending reply";
+	LOGG(DEBUG) << "Sending reply: "<< status;
 	mg_printf(connection, "HTTP/1.1 %d\r\n"
                       "Content-Type: %s\r\n"
                       "Content-Length: %d\r\n"
                       "\r\n"
                       "%s", status, content_type.c_str(),
               (int) reply.size(), reply.c_str());
-	LOGG(DEBUG) << "Sent msg:";
 	LOGG(DEBUG) << "Content type: " << content_type;
 	LOGG(DEBUG) << "Content length: " << reply.size();
 	LOGG(DEBUG) << "Body: " << reply;
@@ -52,6 +51,7 @@ bool RequestHandler::validateToken() {
         this->sendHttpReply("","",UNAUTHORIZED);
         return false;
     }
+    LOGG(DEBUG) << "Valid token";
     return true;
 }
 
@@ -181,6 +181,7 @@ void RequestHandler::listenUsersRequest() {
         char user_data[1000];
         int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
 		if (parsed <= 0 ) {
+			LOGG(DEBUG) << "No 'User=' in request, recieved: " << http_msg->body.p;
 			sendHttpLine(BAD_REQUEST);
 			return;
 		}

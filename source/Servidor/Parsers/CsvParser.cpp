@@ -18,6 +18,11 @@ vector<string> CsvParser::parseLine(string *line){
 	stringstream ss(*line);
 
 	string cell;
+
+	if(line->empty() || line->size() <= 2){
+		return elements;
+	}
+
     while( ss.good() )
     {
     	getline( ss, cell, ',' );
@@ -29,7 +34,7 @@ vector<string> CsvParser::parseLine(string *line){
     	}
 
     	cell = cell.substr( 0 , cell.length() - 1);
-    	//cout << cell.c_str() << endl;
+
     	elements.push_back(cell);
     }
     return elements;
@@ -157,7 +162,7 @@ bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	vector<string> modifications = this->parseLine(&user_str);
 	vector<string> parsed = this->parseLine(&user_str);
 
-	if (modifications.size() > USER_DATA_FOR_CLIENT_COUNT - PUT_SHUFF){
+	if ( modifications.size() > (USER_DATA_FOR_CLIENT_COUNT - PUT_SHUFF)){
 		return false;
 	}
 	//FromOriginal

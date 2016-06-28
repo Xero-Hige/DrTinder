@@ -136,23 +136,31 @@ bool MessageHandler::updateUser(string user_data) {
 	CsvParser csvParser;
 	JsonParser jsonParser;
 	User new_user;
-	string id = this->getId(), base_user;
+	string id = this->getId(), base_user, save_user;
 
-	if ( !usersDB->getEntry(USER_CSV_DB + username, base_user) ){
+	if ( ! usersDB->getEntry(USER_CSV_DB + username, base_user) ){
 		LOGG(WARNING) << "Wanting to update unexistant user " << username;
 		return false;
 	}
 
-	csvParser.makePutUser(user_data, base_user, new_user);
+	if (! csvParser.makePutUser(user_data, base_user, new_user)){
+		LOGG(DEBUG) << "Bad format of user data to modify";
+		return false;
+	}
 
 	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
 	cout << jsonParser.getAsString(data_to_post) << endl;
-	LOGG(INFO) << "Updating info of " + id ;
+	LOGG(DEBUG) << "Updating info of " + id ;
 
-	return ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
+	bool changed = ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
+	if (changed){
+		save_user = csvParser.userToCsvFull(&new_user);
+		this->usersDB->addEntry(USER_CSV_DB + username, save_user);
+	}
+	return changed;
 }
 
 bool MessageHandler::deleteUser() {
@@ -213,7 +221,12 @@ bool MessageHandler::postPhoto(string photo_64) {
 bool MessageHandler::validateToken(std::string user_token) {
 	bool expired =  this->tokenizer->hasExpired(user_token);
 	if (! expired ){
-		return this->usersDB->getEntry(USER_OF_TOKEN_DB + user_token,this->username);
+		string user;
+		if (this->usersDB->getEntry(USER_OF_TOKEN_DB + user_token,user)){
+			this->username = user;
+			return true;
+		}
+		return false;
 	}
 	return expired;
 }
