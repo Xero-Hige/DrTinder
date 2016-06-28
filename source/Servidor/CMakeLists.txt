@@ -42,7 +42,7 @@ SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp ServerUtils.cpp XM
 SET (TEST_SRCS tests/main.cpp)
 SET (COMMON_FLAGS "-g -W -Wall -Wno-unused-function")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS}")
-SET (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_FLAGS} -coverage")
+SET (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_FLAGS} -fprofile-arcs -ftest-coverage --coverage")
 SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_FLAGS}")
 
 ADD_DEFINITIONS(-std=c++11)
