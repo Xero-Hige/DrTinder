@@ -4,14 +4,6 @@
 using std::string;
 
 
-MessageHandler::MessageHandler(server_databases_t *databases, string name) :
-	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)),
-	likesDB(new LikesDatabaseManager(databases->likesDB)) {
-	username = "";
-	ssClient = NULL;
-	this->tokenizer = new Tokenizer(usersDB);
-}
-
 MessageHandler::MessageHandler(server_databases_t *databases) :
 	usersDB(new DatabaseManager(databases->usersDB)), chatDB(new ChatDatabaseManager(databases->chatDB)),
 	likesDB(new LikesDatabaseManager(databases->likesDB)) {

@@ -8,10 +8,11 @@
 #include "interestTest.h"
 #include "parserTest.h"
 #include "serverUtilsTest.h"
-#include "sharedServerTest.h"
+#include "databasesTest.h"
+/*#include "sharedServerTest.h"
 #include "tokenizerTest.h"
 #include "userMatcherTest.h"
-#include "messageHandlerTest.h"
+#include "messageHandlerTest.h"*/
 #include "gtest/gtest.h"
 #include "../../libs/loger/easylogging++.h"
 #include "../ServerUtils.h"
@@ -24,9 +25,9 @@ int main(int argc, char **argv) {
   configure(argc,argv,port,shared);
   LOGG(DEBUG) << "Corro test";
   ::testing::InitGoogleTest(&argc, argv);
-  RestClient::init();
+  //RestClient::init();
   int result = RUN_ALL_TESTS();
-  RestClient::disable();
+  //RestClient::disable();
   LOGG(DEBUG) << "End test";
   return result;
 }

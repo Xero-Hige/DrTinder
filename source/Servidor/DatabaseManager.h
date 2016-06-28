@@ -36,7 +36,7 @@ class DatabaseManager {
 
 	void createIterator();
 	bool advanceIterator();
-	bool getActualPair(std::string& key, std::string value);
+	bool getActualPair(std::string& key, std::string &value);
 	void deleteIterator();
 	bool validIterator();
 protected:

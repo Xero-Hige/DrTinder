@@ -36,7 +36,7 @@ void Server::run() {
 
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* ev_data) {
 	struct http_message *http_msg = (struct http_message *) ev_data;
-	LOGG(DEBUG) << "Recieved new msg";
+
 	RequestHandler requestHandler(http_msg, act_connection, linkToShared);
 
 	switch (new_event) {

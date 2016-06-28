@@ -66,7 +66,7 @@ bool DatabaseManager::advanceIterator() {
 	iter->Next();
 	return true;
 }
-bool DatabaseManager::getActualPair(std::string& key, std::string value) {
+bool DatabaseManager::getActualPair(std::string& key, std::string &value) {
 	if (iter == NULL) {
 		return false;
 	}
@@ -84,5 +84,7 @@ void DatabaseManager::deleteIterator() {
 }
 
 bool DatabaseManager::validIterator() {
+	if (iter == NULL)
+		return false;
 	return iter->Valid();
 }

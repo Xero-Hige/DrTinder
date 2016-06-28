@@ -27,7 +27,7 @@ public:
 
     void sendHttpLine(int status_code);
 
-    void sendHttpReply(std::string reply, std::string content_type);
+    void sendHttpReply(std::string reply, std::string content_type,int code);
 
     void rejectConnection(int error_code);
 

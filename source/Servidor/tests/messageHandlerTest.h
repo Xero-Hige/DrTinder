@@ -12,8 +12,8 @@
 #include "../Parsers/CsvParser.h"
 #include "setUpDataBase.h"
 #include "gtest/gtest.h"
-#define US_HAND_TEST_DB "TestDB"
-#define CH_HAND_TEST_DB "ChatTestDB"
+#include "testDatabaseNames.h"
+
 using namespace rocksdb;
 using namespace std;
 
@@ -235,5 +235,10 @@ TEST(MsgHandler,GetMatchesForUser){
 	delete db;
 	delete dbc;
 }
+/*TEST(MsgHandler,isUserSet){
+	//match
+	//getmatches
+	//getchat
+}*/
 
 #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */

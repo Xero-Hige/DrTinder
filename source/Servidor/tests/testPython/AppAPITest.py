@@ -6,11 +6,10 @@ passw = "secret"
 myClient = ClientApp(mail,passw)
 
 r = myClient.signup()
-print("Responded", r.status)
-print("SignedUPed", r.status, r.read())
+print("SignedUPed", r.status_code, r.text)
 
-# r = myClient.login()
-# print("Responded", r.status, r.read())
+r = myClient.login()
+print("Responded", r.status_code, r.text)
 
 # r = myClient.get_token()
 # print("Responded", r.status, r.read())
