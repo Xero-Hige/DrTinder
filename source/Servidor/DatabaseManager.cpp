@@ -28,6 +28,7 @@ bool DatabaseManager::correctEntry(string key, string value) {
 }
 
 bool DatabaseManager::addEntry(std::string key, std::string value) {
+	LOGG(DEBUG) << "Add Entry: "<< key << "," << value;
 	return db->Put(WriteOptions(), key, value).ok();
 }
 

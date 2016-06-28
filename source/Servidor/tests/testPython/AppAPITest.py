@@ -5,8 +5,8 @@ passw = "secret"
 
 myClient = ClientApp(mail,passw)
 
-r = myClient.signup()
-print("SignedUPed", r.status_code, r.text)
+#r = myClient.signup()
+#print("SignedUPed", r.status_code, r.text)
 
 r = myClient.login()
 print("Responded", r.status_code, r.text)

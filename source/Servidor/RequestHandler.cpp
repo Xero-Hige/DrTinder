@@ -35,7 +35,7 @@ void RequestHandler::sendHttpReply(std::string reply, std::string content_type, 
                       "Content-Length: %d\r\n"
                       "\r\n"
                       "%s", status, content_type.c_str(),
-              reply.size(), reply.c_str());
+              (int) reply.size(), reply.c_str());
 	LOGG(DEBUG) << "Sent msg:";
 	LOGG(DEBUG) << "Content type: " << content_type;
 	LOGG(DEBUG) << "Content length: " << reply.size();
@@ -70,6 +70,7 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 
 
     if (! is_equal(&http_msg->uri, USERS_URI) && ! is_equal(&http_msg->uri, USER_URI)) {
+    	LOGG(DEBUG) << "Cannot authenticae to this uri";
     	rejectConnection(NOT_IMPLEMENTED);
         return false;
     }
