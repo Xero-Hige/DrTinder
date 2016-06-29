@@ -11,7 +11,7 @@ id_url = "id"
 
 class ClientApp(Client):
 	def __init__(self,mail,passw):
-		Client.__init__(self,"http://127.0.0.1:8000")
+		Client.__init__(self,"http://127.0.0.1:8080")
 		self.mail = mail
 		self.token = ""
 		self.passw = passw
@@ -38,12 +38,13 @@ class ClientApp(Client):
 		self.token = r.text
 		return r
 
-	def signup(self):
+	def signup(self,user_data=""):
+		if user_data == "":
+			user_data = "\"GastonSna\",\"23\",\"alias\",\""+self.mail+"\",\"man\",\"Pickachu\",\"sport::tennis||food::meat\""
 		url=self.makeUrl([users_url])
 		header = {"Authorization":"username=\""+self.mail+"\" pass=\""+self.passw+"\""}
-		body = "User=\"Nombre\",\"25\",\"Alias\",\""+self.mail+"\",\"man\",\"Pickachu\",\"sport::tennis\""
+		body = "User=" + user_data
 		return self.makeRequest(POST,url,body,header)
-
 	def getPhoto(self, mail=""):
 		if mail == "":
 			mail=self.mail

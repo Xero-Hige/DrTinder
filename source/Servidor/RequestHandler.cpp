@@ -216,7 +216,7 @@ void RequestHandler::listenInterestRequest() {
     }else{
     	this->sendHttpLine(BAD_REQUEST);
     }
-
+    LOGG(DEBUG) << "Searched for photo: "<< interest_photo;
 }
 
 void RequestHandler::listenChatRequest() {

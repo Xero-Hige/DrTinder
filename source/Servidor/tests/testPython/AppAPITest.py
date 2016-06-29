@@ -63,14 +63,5 @@ class MyTest(unittest.TestCase):
 		self.assertNotEqual(r.text.find("NONONON"),-1)
 		myClient.delete()
 
-	# def test_GetSharedUser(self):
-	# 	myClient.signup()
-	# 	myClient.login()
-	# 	r = myClient.getInterestPhoto()
-	# 	self.assertEqual(r.status_code,200)
-	# 	myClient.delete()
-
 if __name__ == '__main__':
 	unittest.main()
-
-# print "Token: " + myClient.token

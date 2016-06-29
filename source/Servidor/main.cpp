@@ -3,7 +3,7 @@
 #include <mutex>
 
 #include "../libs/loger/easylogging++.h"
-//#include "XMPPServer.h"
+#include "XMPPServer.h"
 #include "Server.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
@@ -56,7 +56,6 @@ int main(int argc, char**argv) {
 	setUpDatabase(&likesDB, "likesDB");
 
 	DatabaseManager usersDBM(usersDB);
-	usersDBM.addEntry("deb", "123");
 
 	//xmppServer.setChatDB(chatDB);
 	//xmppServer.setLikesDB(likesDB);
