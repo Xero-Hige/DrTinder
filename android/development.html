@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project Development &mdash; DrTinder 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="DrTinder 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Android Client" href="index.html"/>
+        <link rel="next" title="External libraries" href="libraries.html"/>
+        <link rel="prev" title="Project Compile" href="compile.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DrTinder
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Android Client</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compile.html">Project Compile</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Project Development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development-environment">Development Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-policy">Data Policy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#errors-display">Errors Display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-style">Code Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="libraries.html">External libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#classes-api">Classes API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../packages.html">Javadoc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="userManual.html">User Manual</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appServer/api.html">App Server API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sharedServer/dbDiagram.html">Shared Server DB Model</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">DrTinder</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Android Client</a> &raquo;</li>
+      
+    <li>Project Development</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/android/development.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="project-development">
+<span id="dev"></span><h1>Project Development<a class="headerlink" href="#project-development" title="Permalink to this headline">¶</a></h1>
+<p><strong>Dr. Tinder</strong> is an opensource project under <strong>GPL3 licence</strong>. Under the licence, is posible to generate derivated non-privative works. Also you can contribute to the project, all you need is a <a class="reference external" href="https://github.com/">Github</a> account and a <a class="reference external" href="https://es.wikipedia.org/wiki/Git">Git</a> client.</p>
+<div class="section" id="development-environment">
+<h2>Development Environment<a class="headerlink" href="#development-environment" title="Permalink to this headline">¶</a></h2>
+<p><strong>Dr. Tinder</strong> was developed entirely in <em>Android Studio</em>. We highly recomend <em>Android studio</em> as IDE for further develop. It can be downloaded from <a class="reference external" href="https://developer.android.com/studio/index.html">here</a>.</p>
+<p>Anyway, you could use any IDE with which you feel comfortable. <strong>Dr. Tinder</strong> has an automated build system thanks to <a class="reference external" href="http://gradle.org/">Gradle build tool</a> (Build script and gradle wrapper included).</p>
+</div>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<p>The app architecture is organized as follows:</p>
+<img alt="../_images/activityDiagram.png" src="../_images/activityDiagram.png" />
+<p>The main activities are:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Login Activity: Acts as entry point to the system. Users can log in into the system or create a new user.</p>
+</li>
+<li><p class="first">Main Activity: The main activity contains two fragments and is responsable for switching between them:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Selection Fragment: User selection screen</li>
+<li>Chat list Fragment: List of all matches</li>
+</ul>
+<p><em>Also, main activity contains a menu from which is accessible Profile Activity</em></p>
+</div></blockquote>
+</li>
+<li><p class="first">Profile Activity: Allows the user add or modify his data</p>
+</li>
+<li><p class="first">User Details Activity: Shows the public user data of a candidate</p>
+</li>
+<li><p class="first">Chat Session: Allows the user to chat with a contact.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>There are three utility classes that provides access to the online resources. Every activity uses them to connect to the server via REST.</p>
+<img alt="../_images/server.png" src="../_images/server.png" />
+<ul class="simple">
+<li>String Resources Handler</li>
+<li>Images Resources Handler</li>
+<li>User Data Handler</li>
+</ul>
+<p>User Data Handler also provides a store place of the common user data (which is fetched from the server) to all the activities, such as the username or the session token.</p>
+</div>
+<div class="section" id="data-policy">
+<h2>Data Policy<a class="headerlink" href="#data-policy" title="Permalink to this headline">¶</a></h2>
+<p><strong>Dr. Tinder</strong> stores no user data. Every information is fetched from the server dinamicaly and stored in RAM during the app execution. Even if data transfer rates are low, the data payload is small enought. If there is no network connection, the</p>
+<p>The images are cached locally to improve network ussage in some cases, for example in the chats where if there where no cache, the same image would be fetch multiple times, slowing down the app. This cache is forced to clean up all chaced files in local storage when the main actictivity closes.</p>
+</div>
+<div class="section" id="errors-display">
+<h2>Errors Display<a class="headerlink" href="#errors-display" title="Permalink to this headline">¶</a></h2>
+<p>User errors are shown via snackbar. A snackbar wrapper is present in the &#8220;Utility&#8221; class. Errors that are irrelevant to the user such as some image failed to fetch are handled internally (and in a transparent way to user, like adding a &#8220;not found&#8221; image).</p>
+<p>Every error is logged using the DrTinderLogger class, which is merely a wrapper of the log class. The class is used to add automatically an common tag to all the app logs (from our sourcecode).</p>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<p>Here are some snippets that uses the most relevant features</p>
+<ul class="simple">
+<li>Filling an ImageView with an external resource using Image Resource Handler</li>
+</ul>
+<div class="code Java highlight-python"><div class="highlight"><pre><span></span>//UserDetailsActivity.java
+private void setUserImage(Intent intent) {
+
+    ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+    String userId = intent.getStringExtra(EXTRA_USER_ID);
+
+    ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, mToken,
+            imageView, getBaseContext());
+
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li>Using Dr. Tinder logger to log an error</li>
+</ul>
+<div class="code Java highlight-python"><div class="highlight"><pre><span></span>@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode == RESULT_OK &amp;&amp; requestCode == PICK_IMAGE) {
+        Uri imageUri = data.getData();
+        try {
+            mProfileImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+        } catch (IOException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, &quot;The impossible happen. Image IOError&quot;);
+            return; //No image to display (cant upload)
+        }
+        mProfilePic.setImageURI(imageUri);
+    }
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li>Making a query with String Resource Handler. Showing snackbar error</li>
+</ul>
+<div class="code Java highlight-python"><div class="highlight"><pre><span></span>StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
+    data -&gt; {
+        if (data == null) {
+            Utility.showMessage(&quot;Error de conexion con el servidor&quot;, Utility.getViewgroup(this), &quot;Ok&quot;);
+            return;
+        }
+        String username = data.get(0)[0];
+        String age = data.get(0)[1];
+        String sex = data.get(0)[2];
+        String lookingFor = data.get(0)[3];
+        String interest = data.get(0)[4];
+
+        TextView usernameView = (TextView) findViewById(R.id.profUsername);
+        assert usernameView != null; //DEBUG Assert
+        usernameView.setText(username);
+
+        mAge.setText(age);
+        mSexMale.setChecked(sex.equals(MALE));
+        mSexFemale.setChecked(sex.equals(FEMALE));
+        mSearchingMale.setChecked(lookingFor.equals(MALE) || lookingFor.equals(BOTH));
+        mSearchingFemale.setChecked(lookingFor.equals(FEMALE) || lookingFor.equals(BOTH));
+
+
+        String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
+        for (String interest1 : interests) {
+            String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
+            addInterest(params[0], params[1]);
+        }
+
+    });
+</pre></div>
+</div>
+<ul class="simple">
+<li>Clearing cached resource</li>
+</ul>
+<div class="code Java highlight-python"><div class="highlight"><pre><span></span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">writeLog</span><span class="p">(</span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Rejected &quot;</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">USER_NAME</span><span class="p">));</span>
+<span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">freeCachedResource</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">USER_ID</span><span class="p">),</span>
+        <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">RES_USER_IMG</span><span class="p">,</span> <span class="n">getContext</span><span class="p">());</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Clearing all cache</li>
+</ul>
+<div class="code Java highlight-python"><div class="highlight"><pre><span></span>@Override
+public void onDestroy() {
+    super.onDestroy();
+    ImageResourcesHandler.clearCache(this);
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="code-style">
+<h2>Code Style<a class="headerlink" href="#code-style" title="Permalink to this headline">¶</a></h2>
+<p><strong>Dr. Tinder</strong> follows a strict  code style guide to ensure code quality. Before making a pull request, please check the following rules:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Code builds without errors at Travis.</li>
+<li>New code does not add errors at style checks performed by <code class="docutils literal"><span class="pre">Checkstyle</span></code>, <code class="docutils literal"><span class="pre">Findbugs</span></code>, <code class="docutils literal"><span class="pre">PMD</span></code> and <code class="docutils literal"><span class="pre">Lint</span></code>.  You could check this locally using the <em>Gradle</em> <code class="docutils literal"><span class="pre">check</span></code> target as follows:</li>
+</ul>
+<div class="code bash highlight-python"><div class="highlight"><pre><span></span>.\gradlew check
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<hr class="docutils" />
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p><strong>Dr. Tinder</strong> depends on the following <a class="reference internal" href="libraries.html#external"><span>External libraries</span></a></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libraries.html">External libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#android-shape-imageview">Android Shape Imageview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#circular-imageview">Circular Imageview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#firebase-cm">Firebase CM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#glide">Glide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#guava">Guava</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#opencsv">OpenCSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#retrolambda">Retrolambda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#spring">Spring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libraries.html#swipe-deck">Swipe-Deck</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="classes-api">
+<h2>Classes API<a class="headerlink" href="#classes-api" title="Permalink to this headline">¶</a></h2>
+<p>The classes API can be found at <span class="xref std std-ref">javadoc</span> section.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages.html">Javadoc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ar/uba/fi/drtinder/package-index.html">ar.uba.fi.drtinder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/ChatFragment.html">ChatFragment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/ChatSession.html">ChatSession</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/DrTinderLogger.html">DrTinderLogger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/ImageResourcesHandler.html">ImageResourcesHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/LocationHandler.html">LocationHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/LoginActivity.html">LoginActivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MainActivity.html">MainActivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MessagesService.html">MessagesService</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MessagesService-LocalBinder.html">MessagesService.LocalBinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/SelectionFragment.html">SelectionFragment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/ServerUrlWrapper.html">ServerUrlWrapper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/StringResourcesHandler.html">StringResourcesHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserDetailsActivity.html">UserDetailsActivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserHandler.html">UserHandler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserProfileActivity.html">UserProfileActivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/Utility.html">Utility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="libraries.html" class="btn btn-neutral float-right" title="External libraries" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="compile.html" class="btn btn-neutral" title="Project Compile" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Gaston Alberto Martinez.
+      Last updated on Jun 29, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

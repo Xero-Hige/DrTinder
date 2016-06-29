@@ -1,10 +1,9 @@
+..  _external:
+
 External libraries
 ==================
 
 **Dr. Tinder** depends on the following external libraries. Buildscript downloads all dependencies automatically, but you should check that this libraries projects are still compatible with the source version before building. Bellow all libraries are listed including use and project url.
-
-.. toctree::
-   :maxdepth: 2
 
 (**Higesoft** *nor any of the developers of* **Dr. Tinder** *are related to any of this projects.* **The maintenance of these libraries is the sole responsibility of their respective original authors**)
 

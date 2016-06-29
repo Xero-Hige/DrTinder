@@ -1,5 +1,8 @@
-Project compile requirements
-============================
+..  _compile:
+
+
+Project Compile
+===============
 
 In order to generate the ``apk`` file you will need:
 
