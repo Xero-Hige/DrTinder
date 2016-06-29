@@ -15,13 +15,6 @@ class ClientApp(Client):
 		self.mail = mail
 		self.token = ""
 		self.passw = passw
-		
-
-	def getToken(self):
-		url = self.makeUrl([user_url,token_url,id_url])
-		r = self.makeRequest(GET,url)
-		self.token = r.read()
-		return r
 
 	def getData(self, mail=""):
 		if mail == "":
@@ -38,7 +31,9 @@ class ClientApp(Client):
 			passw = self.passw
 		url=self.makeUrl([user_url])
 		header = {"Authorization":"username=\""+self.mail+"\" pass=\""+ passw +"\""}
-		return self.makeRequest(POST,url,"localization=1.536,-1.2356",header)
+		r = self.makeRequest(POST,url,"localization=1.536,-1.2356",header)
+		self.token = r.text
+		return r
 
 	def signup(self):
 		url=self.makeUrl([users_url])
@@ -46,7 +41,9 @@ class ClientApp(Client):
 		body = "User=\"Nombre\",\"25\",\"Alias\",\""+self.mail+"\",\"man\",\"Pickachu\",\"sport::tennis\""
 		return self.makeRequest(POST,url,body,header)
 
-	def getPhoto(self, mail):
+	def getPhoto(self, mail=""):
+		if mail == "":
+			mail=self.mail
 		params={"token":self.token, "res_id": mail}
 		url=self.makeUrl([users_url,photo_url], params)
 		return self.makeRequest(GET, url)
@@ -75,6 +72,6 @@ class ClientApp(Client):
 		url = self.makeUrl([users_url], {"token":self.token})
 		return self.makeRequest(DELETE,url)
 
-	def uniexistant_call(self):
+	def uniexistantCall(self):
 		url = self.makeUrl(["noExiste","Nono"])
 		return self.makeRequest(GET,url)

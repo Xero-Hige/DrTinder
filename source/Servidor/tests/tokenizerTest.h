@@ -27,7 +27,7 @@ TEST(Tokenizer,CreatesTokenizerCheckIfExpiresInmediately){
 }
 
  //Test lleva tiempo, por eso lo comento
-TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
+/*TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
 	DB* db;
 	setUpDatabaseTest(&db,TEST_TOKEN_DB);
 	DatabaseManager dbManager(db);
@@ -36,7 +36,7 @@ TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
 	sleep( (EXPIRATION_TIME + 1) );
 	ASSERT_TRUE(tokenizer.hasExpired(token));
 	delete db;
-}
+}*/
 
 TEST(Tokenizer,CreatesAndRemoveTokenItExpires){
 	DB* db;

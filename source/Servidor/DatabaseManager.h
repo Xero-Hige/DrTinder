@@ -15,7 +15,8 @@
 #define USER_CSV_DB "csv_for_"
 #define USER_PHOTO_DB "user_photo_"
 #define USER_LOOKING_DB "user_looking_"
-
+#define TOKEN_OF_USER_DB "token_of_user_"
+#define USER_OF_TOKEN_DB "user_of_token_"
 
 
 /* Database for users and passwords. */
@@ -36,7 +37,7 @@ class DatabaseManager {
 
 	void createIterator();
 	bool advanceIterator();
-	bool getActualPair(std::string& key, std::string value);
+	bool getActualPair(std::string& key, std::string &value);
 	void deleteIterator();
 	bool validIterator();
 protected:

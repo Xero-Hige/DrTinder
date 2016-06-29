@@ -1,34 +1,69 @@
 from Clients.clientApp import ClientApp
+import unittest
 
 mail= "pepep123@pas.com"
 passw = "secret"
 
 myClient = ClientApp(mail,passw)
 
-r = myClient.signup()
-print("Responded", r.status)
-print("SignedUPed", r.status, r.read())
+class MyTest(unittest.TestCase):
 
-# r = myClient.login()
-# print("Responded", r.status, r.read())
+	def test_CantDeleteTwice(self):
+		r = myClient.signup()
+		self.assertEquals(r.status_code,201)
+		r = myClient.login()
+		r = myClient.getData()
+		r = myClient.delete()
+		self.assertEquals(r.status_code,200)
+		r = myClient.delete()
+		#no lo deja hacer nada
+		self.assertEquals(r.status_code,401)	
 
-# r = myClient.get_token()
-# print("Responded", r.status, r.read())
+	def test_ChangedPhoto(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.postPhoto("aasaa")
+		r = myClient.getPhoto()
+		self.assertTrue(r.text.find("aasaa")	>= 0)
+		r = myClient.delete()
+		self.assertTrue(1)
+
+	def test_CallUnexistantUri(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.uniexistantCall()
+		self.assertTrue(r.status_code,501)
+		r = myClient.delete()
+
+	def test_GetMatches(self):
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.getNewMatches()
+		self.assertTrue(r.status_code,200)
+		r = myClient.delete()
+		self.assertTrue(1)
+
+	def test_ModifiedDataBadData(self):
+		data = '"Nombre","25","Alias22","pepep123@pas.com","man","Pickachu","sport::tennis"';
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.modifyData(data)
+		self.assertEqual(r.status_code,400)
+		r = myClient.getData()
+		self.assertEqual(r.status_code,200)
+		r = myClient.delete()
+
+	def test_ModifiedDataGoodData(self):
+		data = '"NONONON","25","man","Pickachu","sport::tennis"';
+		r = myClient.signup()
+		r = myClient.login()
+		r = myClient.modifyData(data)
+		r = myClient.getData()
+		self.assertEqual(r.status_code,200)
+		self.assertNotEqual(r.text.find("NONONON"),-1)
+		r = myClient.delete()
+
+if __name__ == '__main__':
+	unittest.main()
 
 # print "Token: " + myClient.token
-
-# r = myClient.get_new_matches()
-# print("Matches", r.status, r.read())
-
-#r = myClient.uniexistant_call()
-#print("Unexistant", r.status)
-#r.read()
-
-# r = myClient.get_data()
-# print("Data self", r.status, r.read())
-
-# r = myClient.post_photo("aasaa")
-# print("post photo?", r.status, r.read())
-
-# r = myClient.get_photo()
-# print("photo: ", r.status, r.read())

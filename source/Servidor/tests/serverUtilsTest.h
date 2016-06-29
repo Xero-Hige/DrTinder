@@ -63,5 +63,12 @@ TEST(ServerUtils,configurePortAndSharedNotDefault){
 	ASSERT_TRUE(shared.compare(shared_param) == 0);
 
 }
+TEST(ServerUtils, intToString){
+	string num;
+	int numint = 90123;
+	intToString(numint,num);
+	ASSERT_TRUE(num.compare("90123") == 0);
+}
+
 
 #endif /* SERVIDOR_TESTS_SERVERUTILSTEST_H_ */

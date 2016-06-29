@@ -39,7 +39,6 @@ typedef  struct _server_databases_t {
 class MessageHandler {
 	public:
 		/* Create new handler with pDatabase as usersDB. */
-		MessageHandler(server_databases_t* databases, string name);
 		MessageHandler(server_databases_t* databases);
 		/* Destroy handler. */
 		~MessageHandler();

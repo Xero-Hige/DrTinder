@@ -11,8 +11,6 @@
 #define INTEREST_URI "/interest"
 #define FRIENDS_URI "/friends"
 
-
-
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"
 #define AUTHORIZATION_HEADER_USER "username"
@@ -22,6 +20,7 @@
 #define BODY_USER "User"
 #define USER_LOCATION_TOKEN "localization"
 #define CONTENT_TYPE_HEADER_CSV "text/csv"
+#define CONTENT_TYPE_HEADER_PLAIN "text/plain"
 #define CONTENT_TYPE_HEADER_IMAGE "image"
 
 #define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"

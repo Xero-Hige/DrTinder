@@ -19,7 +19,7 @@
 #include "DatabaseManager.h"
 #include "../libs/loger/easylogging++.h"
 
-#define EXPIRATION_TIME 5
+#define EXPIRATION_TIME 7200 //2h
 #define TS_YEAR 0
 #define TS_MON 1
 #define TS_DAY 2

@@ -25,6 +25,9 @@ Server::Server(std::string port,std::string sharedlink) : databases(new server_d
 
 Server::~Server() {
     mg_mgr_free(&manager_);
+    delete databases->usersDB ;
+    delete databases->likesDB;
+    delete databases->chatDB;
 }
 
 void Server::run() {
@@ -36,14 +39,13 @@ void Server::run() {
 
 void Server::handleEvent(struct mg_connection* act_connection, int new_event, void* ev_data) {
 	struct http_message *http_msg = (struct http_message *) ev_data;
+
 	RequestHandler requestHandler(http_msg, act_connection, linkToShared);
 
 	switch (new_event) {
 		case MG_EV_HTTP_REQUEST:
 			LOGG(DEBUG) << "Recieved http msg";
-			if (is_equal(&http_msg->uri, USER_ID_URI)) {
-				requestHandler.listenIdRequest();
-			} else if (is_equal(&http_msg->uri, USERS_URI)) {
+			if (is_equal(&http_msg->uri, USERS_URI)) {
 				requestHandler.listenUsersRequest();
 			} else if (is_equal(&http_msg->uri, INTEREST_URI)) {
 				requestHandler.listenInterestRequest();

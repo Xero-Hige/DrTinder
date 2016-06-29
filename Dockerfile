@@ -55,4 +55,4 @@ RUN cd DrTinder/source/Servidor ; cmake .
 RUN cd DrTinder/source/Servidor ; make
 
 # Run Tests and upload codecov
-CMD DrTinder/source/Servidor/unit_test
+CMD DrTinder/source/Servidor/Test

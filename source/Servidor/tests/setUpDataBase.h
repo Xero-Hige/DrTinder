@@ -8,7 +8,8 @@
 #ifndef SERVIDOR_TESTS_SETUPDATABASE_H_
 #define SERVIDOR_TESTS_SETUPDATABASE_H_
 #include "../../libs/loger/easylogging++.h"
-
+#include <string>
+#include "../../libs/rocksdb/include/rocksdb/db.h"
 
 void setUpDatabaseTest(rocksdb::DB** db, std::string db_name) {
 	rocksdb::Options options;

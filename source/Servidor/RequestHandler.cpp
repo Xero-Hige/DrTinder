@@ -3,7 +3,6 @@
 #define MAX_LEN_TOKEN_BUFFER 100
 #define BUFFER_SMALL_SIZE 20
 
-
 RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection) :
     connection(pConnection), http_msg(pMessage) {
 
@@ -25,17 +24,20 @@ RequestHandler::~RequestHandler() {
 }
 
 void RequestHandler::sendHttpLine(int status_code) {
-    mg_send_response_line(connection, status_code, NULL);
+	sendHttpReply("","",status_code);
 }
 
-void RequestHandler::sendHttpReply(std::string reply, std::string content_type) {
-	LOGG(DEBUG) << "Sending reply";
+void RequestHandler::sendHttpReply(std::string reply, std::string content_type, int status) {
+	LOGG(DEBUG) << "Sending reply: "<< status;
 	mg_printf(connection, "HTTP/1.1 %d\r\n"
                       "Content-Type: %s\r\n"
                       "Content-Length: %d\r\n"
                       "\r\n"
-                      "%s", STATUS_OK, content_type.c_str(),
-              (int) reply.length(), reply.c_str());
+                      "%s", status, content_type.c_str(),
+              (int) reply.size(), reply.c_str());
+	LOGG(DEBUG) << "Content type: " << content_type;
+	LOGG(DEBUG) << "Content length: " << reply.size();
+	LOGG(DEBUG) << "Body: " << reply;
 }
 
 bool RequestHandler::validateToken() {
@@ -45,9 +47,11 @@ bool RequestHandler::validateToken() {
 
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
-        LOGG(INFO) << "Token expired";
+        LOGG(DEBUG) << "Token expired";
+        this->sendHttpReply("","",UNAUTHORIZED);
         return false;
     }
+    LOGG(DEBUG) << "Valid token";
     return true;
 }
 
@@ -66,6 +70,7 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 
 
     if (! is_equal(&http_msg->uri, USERS_URI) && ! is_equal(&http_msg->uri, USER_URI)) {
+    	LOGG(DEBUG) << "Cannot authenticae to this uri";
     	rejectConnection(NOT_IMPLEMENTED);
         return false;
     }
@@ -76,12 +81,7 @@ bool RequestHandler::parseAuthorization(string &user, string &pass) {
 }
 
 bool RequestHandler::login() {
-    if (msgHandler->isUserSet()){
     	return validateToken();
-    }
-    rejectConnection(UNAUTHORIZED);
-    LOGG(DEBUG) << "PREVENT UNAUTHORIZED ACCES";
-    return false;
 }
 
 void RequestHandler::listenUserRequest() {
@@ -109,7 +109,8 @@ void RequestHandler::listenUserRequest() {
         if (! updated){
         	sendHttpLine(BAD_REQUEST);
         }else{
-        	sendHttpLine(STATUS_OK);
+        	string token = msgHandler->getToken();
+        	sendHttpReply(token,CONTENT_TYPE_HEADER_PLAIN,STATUS_OK);
         }
         return;
     }
@@ -130,7 +131,7 @@ void RequestHandler::listenUserRequest() {
         std::string user_data;
         msgHandler->getUser(std::string(username), user_data);
 
-        sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
+        sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV,200);
         return;
     }
 
@@ -158,12 +159,11 @@ void RequestHandler::listenUsersRequest() {
             	LOGG(DEBUG) << "Cannot create user "  << user;
             	rejectConnection(BAD_REQUEST);
             }else{
-            	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV);
+            	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV,201);
             }
 
         } catch (ExistentUserException existentUserException) {
             rejectConnection(UNAUTHORIZED);
-            LOGG(DEBUG) << "Already existed";
         }
         return;
     }
@@ -174,13 +174,14 @@ void RequestHandler::listenUsersRequest() {
     	LOGG(DEBUG) << GET_S;
         std::string users_data;
         msgHandler->getUsers(users_data);
-        sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV);
+        sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV,200);
 
     } else if (is_equal(&http_msg->method, PUT_S)) {
     	LOGG(DEBUG) << PUT_S;
         char user_data[1000];
         int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
 		if (parsed <= 0 ) {
+			LOGG(DEBUG) << "No 'User=' in request, recieved: " << http_msg->body.p;
 			sendHttpLine(BAD_REQUEST);
 			return;
 		}
@@ -198,15 +199,6 @@ void RequestHandler::listenUsersRequest() {
     	rejectConnection(NOT_IMPLEMENTED);
     }
 
-}
-
-void RequestHandler::listenIdRequest() {
-	LOGG(DEBUG) << "Listening ID request";
-    if (! is_equal(&http_msg->method, GET_S)) {
-    	sendHttpLine(NOT_IMPLEMENTED);
-        return;
-    }
-    sendHttpReply(msgHandler->getToken(), TOKEN_VARIABLE_NAME);
 }
 
 void RequestHandler::listenInterestRequest() {
@@ -228,7 +220,7 @@ void RequestHandler::listenInterestRequest() {
 	}
     std::string interest_photo;
     msgHandler->getInterestPhoto(interest_photo, std::string(id_interest));
-    sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_IMAGE);
+    sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_IMAGE,200);
 }
 
 void RequestHandler::listenChatRequest() {
@@ -248,7 +240,7 @@ void RequestHandler::listenChatRequest() {
     } else {
         msgHandler->getMatches(reply);
     }
-    sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV);
+    sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV,200);
 }
 
 void RequestHandler::listenPhotoRequest() {
@@ -265,7 +257,7 @@ void RequestHandler::listenPhotoRequest() {
 		}
         std::string photo_64;
         msgHandler->getPhoto(std::string(username), photo_64);
-        sendHttpReply(photo_64, CONTENT_TYPE_HEADER_IMAGE);
+        sendHttpReply(photo_64, CONTENT_TYPE_HEADER_IMAGE,200);
     } else if (is_equal(&http_msg->method, POST_S)) {
     	LOGG(DEBUG) << POST_S;
     	std::string photo_64(http_msg->body.p, http_msg->body.len);

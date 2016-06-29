@@ -14,10 +14,10 @@ INCLUDE_DIRECTORIES(../libs/swift/Swiften)
 INCLUDE_DIRECTORIES(../libs/googletest)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/)
 
-
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS rt Swiften libidn.so libresolv.so boost_system boost_date_time expat pthread rocksdb z bz2 snappy curl restclient-cpp xml2 )
-SET(TEST_LIBS ${SERVER_LIBS} gtest gcov)
+SET(SERVER_LIBS rt Swiften libidn.so libresolv.so boost_system boost_date_time expat pthread rocksdb z bz2 snappy curl restclient-cpp xml2 gcov)
+SET(TEST_LIBS ${SERVER_LIBS} gtest)
+
 SET(SSL_LIBS ssl crypto)
 SET(COMMON_SRCS ../libs/mongoose/mongoose.c
     Server.cpp
@@ -39,22 +39,23 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp ServerUtils.cpp XMPPServer.cpp XMPPMessageHandler.cpp)
 
-SET (TEST_SRCS tests/main.cpp ${COMMON_SRCS})
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -W -Wall -Wno-unused-function")
+SET (TEST_SRCS tests/main.cpp)
+SET (COMMON_FLAGS "-g -W -Wall -Wno-unused-function")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_FLAGS}")
+SET (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_FLAGS} -fprofile-arcs -ftest-coverage --coverage")
+SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_FLAGS}")
 
 ADD_DEFINITIONS(-std=c++11)
-
 ADD_EXECUTABLE (server ${Servidor_SRCS})
-ADD_EXECUTABLE (unit_test ${TEST_SRCS})
-
-target_compile_options(unit_test PRIVATE -coverage)
-
-ADD_DEFINITIONS(-DMG_ENABLE_THREADS)
-
-TARGET_LINK_LIBRARIES(server ${SERVER_LIBS})
 
 ADD_DEFINITIONS(-DMG_ENABLE_SSL)
-
+ADD_DEFINITIONS(-DMG_ENABLE_THREADS)
+TARGET_LINK_LIBRARIES(server ${SERVER_LIBS})
 TARGET_LINK_LIBRARIES(server ${SSL_LIBS})
-TARGET_LINK_LIBRARIES(unit_test ${TEST_LIBS})
-TARGET_LINK_LIBRARIES(unit_test ${SSL_LIBS})
+
+ADD_EXECUTABLE (Test tests/main.cpp ${COMMON_SRCS})
+
+TARGET_LINK_LIBRARIES(Test ${SSL_LIBS})
+TARGET_LINK_LIBRARIES(Test ${TEST_LIBS})
+
+
