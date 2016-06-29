@@ -10,7 +10,7 @@ You can download the latest stable release from the `download section of the rep
 The last version can be built from the sources (More info at :ref:`compile`). If you want to continue development, that information could be found at :ref:`dev` section.
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    compile
    development
