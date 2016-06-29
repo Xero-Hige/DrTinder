@@ -10,6 +10,11 @@ Welcome to DrTinder's project documentation!
 
 Consist in an :ref:`android`, an App Server and a Shared server.
 
+.. toctree::
+   :maxdepth: 4
+
+   android/index
+
 App Server Documentation
 ========================
 
