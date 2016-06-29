@@ -1,6 +1,6 @@
 #ifndef SOURCE_XMPPMESSAGEHANDLER_H
 #define SOURCE_XMPPMESSAGEHANDLER_H
-
+#include "../../libs/loger/easylogging++.h"
 
 #include <string>
 #include <Swiften/Elements/Message.h>

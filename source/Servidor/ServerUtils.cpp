@@ -95,7 +95,7 @@ void configure(int argc, char **argv, string &port, string &shared) {
 		_logCnf = DEFAULT_LOG;
 	}
 
-	if ( logCnfFile.empty() ){
+	if ( (logCnfFile.empty()) || (_logCnf.compare(DEBUG_LOG) == 0 ) ){
 		if (equals(_logCnf, DEBUG_LOG)) {
 			logCnfFile = DEBUG_LOG_CONFG;
 		} else {

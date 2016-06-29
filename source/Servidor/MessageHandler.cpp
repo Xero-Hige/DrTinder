@@ -62,7 +62,10 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	usersDB->getEntry(USER_CSV_DB + username, currentUserData);
 	LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
 	User currentUser;
-	csvParser.makeUser(currentUserData, currentUser);
+	if (! csvParser.makeUser(currentUserData, currentUser) ){
+		LOGG(WARNING) << "Bad user format in DB";
+		return false;
+	}
 
 	string userMatches;
 	getMatches(userMatches);
@@ -89,7 +92,7 @@ bool MessageHandler::authenticate(string username, string password) {
 
 bool MessageHandler::createUser(string user_data, std::string pass) {
 	string aux_pass;
-	LOGG(DEBUG)<< "Creating user";
+	LOGG(DEBUG)<< "Creating user with " << user_data;
 	if ( usersDB->getEntry(USER_DB + username, aux_pass)) {
 		LOGG(DEBUG)<< "User Already Existed";
 		throw ExistentUserException();
@@ -100,7 +103,10 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 	UserParser userParser;
 	User new_user;
 	string user_created;
-	csvParser.makeSignupUser(user_data, new_user);
+	if (! csvParser.makeSignupUser(user_data, new_user)){
+		LOGG(WARNING) << "Bad data for creating user";
+		return false;
+	}
 
 	Json::Value jsonUser = jsonParser.userToJson(&new_user);
 	Json::Value data_to_post;
@@ -144,7 +150,7 @@ bool MessageHandler::updateUser(string user_data) {
 	}
 
 	if (! csvParser.makePutUser(user_data, base_user, new_user)){
-		LOGG(DEBUG) << "Bad format of user data to modify";
+		LOGG(WARNING) << "Bad format of user data to modify";
 		return false;
 	}
 

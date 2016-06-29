@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <boost/bind.hpp>
-
+#include "../../libs/loger/easylogging++.h"
 #include <Swiften/Swiften.h>
 #include <Swiften/Network/NetworkFactories.h>
 #include <Swiften/Elements/Presence.h>
