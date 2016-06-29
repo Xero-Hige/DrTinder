@@ -3,14 +3,6 @@
 #define MAX_LEN_TOKEN_BUFFER 100
 #define BUFFER_SMALL_SIZE 20
 
-RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection) :
-    connection(pConnection), http_msg(pMessage) {
-
-	server_databases_t *databases = ((server_databases_t *) connection->user_data);
-	msgHandler = new MessageHandler(databases);
-
-}
-
 RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :
     connection(pConnection), http_msg(pMessage) {
 	server_databases_t *databases = ((server_databases_t *) connection->user_data);
@@ -48,7 +40,7 @@ bool RequestHandler::validateToken() {
     std::string token(buffer);
     if (! msgHandler->validateToken(token)) {
         LOGG(DEBUG) << "Token expired";
-        this->sendHttpReply("","",UNAUTHORIZED);
+        this->sendHttpReply("","",INVALID_TOKEN);
         return false;
     }
     LOGG(DEBUG) << "Valid token";
