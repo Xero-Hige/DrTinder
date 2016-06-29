@@ -16,6 +16,9 @@ class ClientApp(Client):
 		self.token = ""
 		self.passw = passw
 
+	# def getInterestPhoto(self,photo="sport"):
+	# 	url = makeUrl([in],{"token":self.token})
+	
 	def getData(self, mail=""):
 		if mail == "":
 			mail = self.mail

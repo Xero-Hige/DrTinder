@@ -11,33 +11,33 @@ class MyTest(unittest.TestCase):
 	def test_CantDeleteTwice(self):
 		r = myClient.signup()
 		self.assertEquals(r.status_code,201)
-		r = myClient.login()
-		r = myClient.getData()
+		myClient.login()
+		myClient.getData()
 		r = myClient.delete()
 		self.assertEquals(r.status_code,200)
 		r = myClient.delete()
-		#no lo deja hacer nada
+		#no lo deja hacer nada -> 401 (NOT LOGED IN)
 		self.assertEquals(r.status_code,401)	
 
 	def test_ChangedPhoto(self):
-		r = myClient.signup()
-		r = myClient.login()
-		r = myClient.postPhoto("aasaa")
+		myClient.signup()
+		myClient.login()
+		myClient.postPhoto("aasaa")
 		r = myClient.getPhoto()
 		self.assertTrue(r.text.find("aasaa")	>= 0)
 		r = myClient.delete()
 		self.assertTrue(1)
 
 	def test_CallUnexistantUri(self):
-		r = myClient.signup()
-		r = myClient.login()
+		myClient.signup()
+		myClient.login()
 		r = myClient.uniexistantCall()
 		self.assertTrue(r.status_code,501)
 		r = myClient.delete()
 
 	def test_GetMatches(self):
-		r = myClient.signup()
-		r = myClient.login()
+		myClient.signup()
+		myClient.login()
 		r = myClient.getNewMatches()
 		self.assertTrue(r.status_code,200)
 		r = myClient.delete()
@@ -45,23 +45,30 @@ class MyTest(unittest.TestCase):
 
 	def test_ModifiedDataBadData(self):
 		data = '"Nombre","25","Alias22","pepep123@pas.com","man","Pickachu","sport::tennis"';
-		r = myClient.signup()
-		r = myClient.login()
+		myClient.signup()
+		myClient.login()
 		r = myClient.modifyData(data)
 		self.assertEqual(r.status_code,400)
 		r = myClient.getData()
 		self.assertEqual(r.status_code,200)
-		r = myClient.delete()
+		myClient.delete()
 
 	def test_ModifiedDataGoodData(self):
 		data = '"NONONON","25","man","Pickachu","sport::tennis"';
-		r = myClient.signup()
-		r = myClient.login()
-		r = myClient.modifyData(data)
+		myClient.signup()
+		myClient.login()
+		myClient.modifyData(data)
 		r = myClient.getData()
 		self.assertEqual(r.status_code,200)
 		self.assertNotEqual(r.text.find("NONONON"),-1)
-		r = myClient.delete()
+		myClient.delete()
+
+	# def test_GetSharedUser(self):
+	# 	myClient.signup()
+	# 	myClient.login()
+	# 	r = myClient.getInterestPhoto()
+	# 	self.assertEqual(r.status_code,200)
+	# 	myClient.delete()
 
 if __name__ == '__main__':
 	unittest.main()
