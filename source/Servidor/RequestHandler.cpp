@@ -211,8 +211,12 @@ void RequestHandler::listenInterestRequest() {
 		return;
 	}
     std::string interest_photo;
-    msgHandler->getInterestPhoto(interest_photo, std::string(id_interest));
-    sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_IMAGE,200);
+    if (msgHandler->getInterestPhoto(interest_photo, std::string(id_interest))){
+    	sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_IMAGE,200);
+    }else{
+    	this->sendHttpLine(BAD_REQUEST);
+    }
+
 }
 
 void RequestHandler::listenChatRequest() {
