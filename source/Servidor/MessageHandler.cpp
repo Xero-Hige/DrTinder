@@ -92,11 +92,7 @@ bool MessageHandler::authenticate(string username, string password) {
 
 bool MessageHandler::createUser(string user_data, std::string pass) {
 	string aux_pass;
-<<<<<<< HEAD
 	LOGG(DEBUG)<< "Creating user from data: " + user_data;
-=======
-	LOGG(DEBUG)<< "Creating user with " << user_data;
->>>>>>> 30b62a1ae4ae38f7fdf7a6faab6deb22ce3820ab
 	if ( usersDB->getEntry(USER_DB + username, aux_pass)) {
 		LOGG(DEBUG)<< "User Already Existed";
 		throw ExistentUserException();
