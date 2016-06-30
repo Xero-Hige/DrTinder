@@ -38,6 +38,10 @@ public final class Utility {
      * @param context Caller activity
      */
     public static void hideKeyboard(Activity context) {
+        if (context == null) {
+            return;
+        }
+
         InputMethodManager inputMManager
                 = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View currentFocus = context.getCurrentFocus();

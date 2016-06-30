@@ -179,7 +179,7 @@ public final class UserHandler {
             return "";
         }
 
-        return getUsernameFrom(getUserEmail());
+        return getUserEmail();//getUsernameFrom(getUserEmail());
     }
 
     /**
@@ -218,15 +218,21 @@ public final class UserHandler {
      * Deletes user profile of the current logged in user
      *
      * @param token Session token
+     * @return true if success
      */
-    public static void deleteProfile(String token) {
+    public static boolean deleteProfile(String token) {
         Uri.Builder uriBuilder = Uri.parse(getDeleteUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String deleteUrl = uriBuilder.build().toString();
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(deleteUrl);
+        try {
+            restTemplate.delete(deleteUrl);
+        } catch (Exception e) {
+            return false;
+        }
         FirebaseAuth.getInstance().signOut();
+        return true;
     }
 
     private static String getDeleteUrl() {
