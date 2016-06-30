@@ -310,11 +310,10 @@ public class UserProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if (mProfileImage != null) {
-            UserHandler.uploadProfilePicture(mProfileImage, mToken);
-        }
-        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
-        finish();
+        disableButtons();
+        Utility.showMessage("Actualizando datos", Utility.getViewgroup(this));
+        UpdateInfoTask task = new UpdateInfoTask(this);
+        task.execute();
     }
 
     private void createUser() {
@@ -419,6 +418,35 @@ public class UserProfileActivity extends AppCompatActivity {
         this.mDeleteButton.setEnabled(false);
         this.mSubmitButton.setEnabled(false);
         this.mInterestButton.setEnabled(false);
+    }
+
+    private class UpdateInfoTask extends AsyncTask<Void, Void, Boolean> {
+
+        Activity mContext;
+
+        UpdateInfoTask(Activity context) {
+            mContext = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if (mProfileImage != null) {
+                UserHandler.uploadProfilePicture(mProfileImage, mToken);
+            }
+            return UserHandler.updateInfo(mToken, getUserdataMap());
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                Utility.showMessage("Fallo al crear el usuario. Intente nuevamente",
+                        Utility.getViewgroup(mContext), "Ok");
+                enableButtons();
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
+            mContext.finish();
+        }
     }
 
     private class DeleteUserTask extends AsyncTask<Void, Void, Boolean> {
