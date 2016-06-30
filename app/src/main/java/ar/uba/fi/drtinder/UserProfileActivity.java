@@ -215,7 +215,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this));
+        View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
         String interestLabel = category + ":\n" + id;
         textView.setText(interestLabel);
