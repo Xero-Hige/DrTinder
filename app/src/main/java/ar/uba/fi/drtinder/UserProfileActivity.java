@@ -208,6 +208,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void addInterest(String category, String id) {
 
+        category = category.replace("  ", " ").trim();
+        id = id.replace("  ", " ").trim();
+
         if (category.equals("sex")) {
             setLookingFor(id);
             return;
