@@ -270,7 +270,9 @@ public final class ImageResourcesHandler {
             }
 
             DrTinderLogger.writeLog(DrTinderLogger.WARN, "Failed to get image");
-            Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
+            if (mContext != null) {
+                Glide.with(mContext).load(R.drawable.not_found).centerCrop().into(mImageView);
+            }
 
         }
 
@@ -288,7 +290,7 @@ public final class ImageResourcesHandler {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
                 return null;
             } catch (ResourceAccessException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Cant connect: " + e.getMessage());
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Can't connect: " + e.getMessage());
                 return null;
             }
             DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
