@@ -93,12 +93,13 @@ Methods
 deleteProfile
 ^^^^^^^^^^^^^
 
-.. java:method:: public static void deleteProfile(String token)
+.. java:method:: public static boolean deleteProfile(String token)
    :outertype: UserHandler
 
    Deletes user profile of the current logged in user
 
    :param token: Session token
+   :return: true if success
 
 getLoginToken
 ^^^^^^^^^^^^^
@@ -199,13 +200,14 @@ signUp
 updateInfo
 ^^^^^^^^^^
 
-.. java:method:: public static void updateInfo(String token, Map<String, String> userdata)
+.. java:method:: public static boolean updateInfo(String token, Map<String, String> userdata)
    :outertype: UserHandler
 
    Updates user info
 
    :param token: Session token
    :param userdata: Map containing userdata as field:value
+   :return: true if success
 
 uploadProfilePicture
 ^^^^^^^^^^^^^^^^^^^^

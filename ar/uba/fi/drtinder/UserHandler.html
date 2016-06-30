@@ -222,15 +222,18 @@ public static final <a class="reference external" href="http://docs.oracle.com/j
 <h3>deleteProfile<a class="headerlink" href="#deleteprofile" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserHandler.deleteProfile(String)">
-public static void <code class="descname">deleteProfile</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.deleteProfile(String)" title="Permalink to this definition">¶</a></dt>
+public static boolean <code class="descname">deleteProfile</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.deleteProfile(String)" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes user profile of the current logged in user</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>token</strong> &#8211; Session token</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true if success</p>
 </td>
 </tr>
 </tbody>
@@ -415,16 +418,19 @@ public static <a class="reference external" href="http://docs.oracle.com/javase/
 <h3>updateInfo<a class="headerlink" href="#updateinfo" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
 <dt id="ar.uba.fi.drtinder.UserHandler.updateInfo(String, Map)">
-public static void <code class="descname">updateInfo</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" title="java.util.Map">Map</a>&lt;<a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a>&gt;<em> userdata</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.updateInfo(String, Map)" title="Permalink to this definition">¶</a></dt>
+public static boolean <code class="descname">updateInfo</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html" title="java.util.Map">Map</a>&lt;<a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a>&gt;<em> userdata</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.updateInfo(String, Map)" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates user info</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>token</strong> &#8211; Session token</li>
 <li><strong>userdata</strong> &#8211; Map containing userdata as field:value</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true if success</p>
 </td>
 </tr>
 </tbody>
@@ -476,7 +482,7 @@ public static void <code class="descname">uploadProfilePicture</code><span class
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jun 29, 2016.
+      Last updated on Jun 30, 2016.
 
     </p>
   </div>
