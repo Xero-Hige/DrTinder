@@ -19,7 +19,7 @@ void setUpDatabaseTest(rocksdb::DB** db, std::string db_name) {
 
 	rocksdb::Status status = rocksdb::DB::Open(options, db_name, db);
 	if (! status.ok()) {
-		LOGG(FATAL) << "Could not open database";
+		LOGG(ERROR) << "Could not open database";
 	}else{
 		LOGG(INFO) << "Conexion exitosa a la base de datos";
 	}

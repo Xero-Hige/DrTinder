@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
   configure(argc,argv,port,shared);
   LOGG(DEBUG) << "Corro test";
   ::testing::InitGoogleTest(&argc, argv);
-  //RestClient::init();
+  RestClient::init();
   int result = RUN_ALL_TESTS();
-  //RestClient::disable();
+  RestClient::disable();
   LOGG(DEBUG) << "End test";
   return result;
 }

@@ -17,6 +17,27 @@
 using namespace rocksdb;
 using namespace std;
 
+TEST(MsgHandler,CreateInterests){
+	/*Para ver como anda*/
+	DB* db;
+	DB* dbc;
+	Interests interests;
+	interests.add("food","meat");
+	interests.add("food","vegan");
+	interests.add("sport","tennis");
+	interests.add("sport","rugby");
+	setUpDatabaseTest(&db,US_HAND_TEST_DB);
+	setUpDatabaseTest(&dbc,CH_HAND_TEST_DB);
+	server_databases_t databases;
+	databases.usersDB = db;
+	databases.chatDB = dbc;
+	MessageHandler handler(&databases);
+	handler.setSharedLink(SHARED_SERVER_URL);
+	handler.createInterests(&interests);
+	delete db;
+	delete dbc;
+}
+
 TEST(MsgHandler,CreateTokenAndItsValid){
 	DB* db;
 	DB* dbc;
@@ -235,6 +256,8 @@ TEST(MsgHandler,GetMatchesForUser){
 	delete db;
 	delete dbc;
 }
+
+
 /*TEST(MsgHandler,isUserSet){
 	//match
 	//getmatches
