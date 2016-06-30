@@ -117,7 +117,6 @@ void MessageHandler::createInterests(Interests* interests){
 }
 bool MessageHandler::createUser(string user_data, std::string pass) {
 	string aux_pass;
-
 	LOGG(DEBUG)<< "Creating user from data: " + user_data;
 
 	if ( usersDB->getEntry(USER_DB + username, aux_pass)) {
