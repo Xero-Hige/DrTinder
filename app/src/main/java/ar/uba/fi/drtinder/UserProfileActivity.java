@@ -213,11 +213,11 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void addInterest(String category, String id) {
 
-        category = category.replace("  ", " ").trim();
-        id = id.replace("  ", " ").trim();
+        String trimmedCategory = category.replace("  ", " ").trim();
+        String trimmedId = id.replace("  ", " ").trim();
 
-        if (category.equals("sex")) {
-            setLookingFor(id);
+        if (trimmedCategory.equals("sex")) {
+            setLookingFor(trimmedId);
             return;
         }
 
@@ -225,13 +225,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-        String interestLabel = category + ":\n" + id;
+        String interestLabel = trimmedCategory + ":\n" + trimmedCategory;
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-        ImageResourcesHandler.fillImageResource(id + category, ImageResourcesHandler.RES_INTEREST_IMG,
-                mToken, imageView, this);
+        ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
+                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this);
         mInterestLLay.addView(layout);
-        mInterestList.add(category + StringResourcesHandler.INTEREST_DATA_DIVIDER + id);
+        mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
 
     private void setLookingFor(String id) {
@@ -422,7 +422,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private class UpdateInfoTask extends AsyncTask<Void, Void, Boolean> {
 
-        Activity mContext;
+        private Activity mContext;
 
         UpdateInfoTask(Activity context) {
             mContext = context;
@@ -451,7 +451,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private class DeleteUserTask extends AsyncTask<Void, Void, Boolean> {
 
-        Activity mContext;
+        private Activity mContext;
 
         DeleteUserTask(Activity context) {
             mContext = context;

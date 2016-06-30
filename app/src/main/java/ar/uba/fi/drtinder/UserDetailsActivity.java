@@ -93,7 +93,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             String category = interest[0];
             String name = interest[1];
 
-            View layout = inflater.inflate(R.layout.interest_lay, null);
+            View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
             String interestLabel = category + ":\n" + name;
             textView.setText(interestLabel);

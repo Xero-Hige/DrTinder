@@ -179,7 +179,7 @@ public final class UserHandler {
             return "";
         }
 
-        return getUserEmail();//getUsernameFrom(getUserEmail());
+        return getUserEmail(); //getUsernameFrom(getUserEmail());
     }
 
     /**
@@ -307,6 +307,7 @@ public final class UserHandler {
      *
      * @param token    Session token
      * @param userdata Map containing userdata as field:value
+     * @return true if success
      */
     public static boolean updateInfo(String token, Map<String, String> userdata) {
 
