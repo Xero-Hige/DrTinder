@@ -253,12 +253,11 @@ public final class UserHandler {
         String name = userdata.get("name");
         String age = userdata.get("age");
         String sex = userdata.get("sex");
-        String lookingFor = userdata.get("lookingFor");
         String interest = userdata.get("interest");
 
         StringWriter sWriter = new StringWriter();
         CSVWriter writer = new CSVWriter(sWriter, ',');
-        String[] line = {name, age, user, email, sex, lookingFor, interest};
+        String[] line = {name, age, user, email, sex, interest};
         writer.writeNext(line);
         String body = sWriter.toString();
 
