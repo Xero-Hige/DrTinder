@@ -73,21 +73,20 @@ class MessageHandler {
 		bool addLocalization(std::string localization);
 
 		bool getUser(std::string username, std::string &user_data);
+
 		void setSharedLink(std::string linkToShared);
+
+		void createInterests(Interests* interests);
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
 		/* Returns first substring of message until SEPARATOR. */
 		std::string divideMessage(std::string& message);
 
-		bool postRechazado(int id_origen, int id_rechazado, std::string& resultMsg);
-		bool postAceptado(int id_origen, int id_rechazado, std::string& resultMsg);
-		/*TODO: pensar formato de la data traida*/
-
 		bool postLogin(std::string user_name, std::string token, std::string& resultMsg);
 		bool postSignUp(std::string data, std::string& resultMsg);
-		/*TODO: POST chat /chat*/
-		/*TODO: PUT /users */
+
+
 		std::string getId();
 	private:
 		DatabaseManager * usersDB;

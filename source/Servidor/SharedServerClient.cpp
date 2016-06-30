@@ -25,10 +25,15 @@ string SharedServerClient::formUrl(string sub_urls[], size_t sub_urls_size) {
 }
 
 bool SharedServerClient::valid(RestClient::Response *r ){
-	if (r->code >= 400 || r->code < 0){
+	if (r->code >= 400){
 		LOGG(DEBUG) << "SS body not ok request:\n " << r->body << "\n";
 		return false;
 	}
+	if (r->code < 0){
+		LOGG(ERROR) << "No hay conexion al SS";
+		return false;
+	}
+	LOGG(DEBUG) << "SS ok: " << r->code;
 	return true;
 }
 

@@ -90,13 +90,36 @@ bool MessageHandler::authenticate(string username, string password) {
 	return usersDB->correctEntry(USER_DB + username, password);
 }
 
+void MessageHandler::createInterests(Interests* interests){
+	map<string,vector<string>> inter = interests->allInterests();
+	map<string,vector<string>>::iterator it_c = inter.begin();
+	for(; it_c != inter.end(); ++it_c){
+		LOGG(DEBUG) << "Creating interests of: " << it_c->first;
+		vector<string> values = it_c->second;
+		vector<string>::iterator it_v = values.begin();
+		for (;it_v != values.end(); ++it_v){
+			LOGG(DEBUG) << "Iterating value: " << (*it_v);
+			Json::Value interest;
+			Json::Value metadata;
+			Json::Value to_post;
+			interest[CATEGORY_KEY] = it_c->first;
+			interest[VALUE_KEY] = (*it_v);
+			to_post[INTEREST_KEY] = interest;
+			metadata[VERSION_KEY] = VERSION_VALUE;
+			metadata[COUNT_KEY] = 1;
+			to_post[META_KEY] = metadata;
+			JsonParser json;
+			string formated_data = json.getAsString(to_post);
+			ssClient->postUsersInterests(&formated_data);
+		}
+	}
+
+}
 bool MessageHandler::createUser(string user_data, std::string pass) {
 	string aux_pass;
-<<<<<<< HEAD
+
 	LOGG(DEBUG)<< "Creating user from data: " + user_data;
-=======
-	LOGG(DEBUG)<< "Creating user with " << user_data;
->>>>>>> 30b62a1ae4ae38f7fdf7a6faab6deb22ce3820ab
+
 	if ( usersDB->getEntry(USER_DB + username, aux_pass)) {
 		LOGG(DEBUG)<< "User Already Existed";
 		throw ExistentUserException();
@@ -111,7 +134,7 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 		LOGG(WARNING) << "Bad data for creating user";
 		return false;
 	}
-
+	createInterests(new_user.getInterests());
 	Json::Value jsonUser = jsonParser.userToJson(&new_user);
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
