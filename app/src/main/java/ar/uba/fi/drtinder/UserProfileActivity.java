@@ -73,9 +73,8 @@ public class UserProfileActivity extends AppCompatActivity {
     public static final String PROFILE_ACTION_UPDATE = "Update Profile";
 
     private static final int PICK_IMAGE = 100;
-    private static final String MALE = "Male";
-    private static final String FEMALE = "Female";
-    private static final String BOTH = "Both";
+    private static final String MALE = "man";
+    private static final String FEMALE = "woman";
 
     private ImageView mProfilePic;
     private String mActivityAction;
@@ -167,8 +166,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     String username = data.get(0)[0];
                     String age = data.get(0)[1];
                     String sex = data.get(0)[2];
-                    String lookingFor = data.get(0)[3];
-                    String interest = data.get(0)[4];
+                    String interest = data.get(0)[3];
 
                     TextView usernameView = (TextView) findViewById(R.id.profUsername);
                     assert usernameView != null; //DEBUG Assert
@@ -177,9 +175,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     mAge.setText(age);
                     mSexMale.setChecked(sex.equals(MALE));
                     mSexFemale.setChecked(sex.equals(FEMALE));
-                    mSearchingMale.setChecked(lookingFor.equals(MALE) || lookingFor.equals(BOTH));
-                    mSearchingFemale.setChecked(lookingFor.equals(FEMALE) || lookingFor.equals(BOTH));
-
+                    mSearchingMale.setChecked(false);
+                    mSearchingFemale.setChecked(false);
 
                     String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
                     for (String interest1 : interests) {
@@ -210,9 +207,15 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void addInterest(String category, String id) {
+
+        if (category.equals("sex")) {
+            setLookingFor(id);
+            return;
+        }
+
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View layout = inflater.inflate(R.layout.interest_lay, null);
+        View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this));
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
         String interestLabel = category + ":\n" + id;
         textView.setText(interestLabel);
@@ -221,6 +224,16 @@ public class UserProfileActivity extends AppCompatActivity {
                 mToken, imageView, this);
         mInterestLLay.addView(layout);
         mInterestList.add(category + StringResourcesHandler.INTEREST_DATA_DIVIDER + id);
+    }
+
+    private void setLookingFor(String id) {
+        if (id.equals(MALE)) {
+            mSearchingMale.setChecked(true);
+        }
+
+        if (id.equals(FEMALE)) {
+            mSearchingFemale.setChecked(true);
+        }
     }
 
     private void addFields() {
@@ -348,22 +361,28 @@ public class UserProfileActivity extends AppCompatActivity {
         userdata.put("age", mAge.getText().toString());
         userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
 
-        if (mSearchingMale.isChecked() && !mSearchingFemale.isChecked()) {
-            userdata.put("lookingFor", MALE);
-        } else if (mSearchingFemale.isChecked() && !mSearchingMale.isChecked()) {
-            userdata.put("lookingFor", FEMALE);
-        } else {
-            userdata.put("lookingFor", BOTH);
-        }
-        String intereses = "";
+        String interests = "";
         for (int i = 0; i < mInterestList.size(); i++) {
-            intereses = intereses + mInterestList.get(i);
+            interests = interests + mInterestList.get(i);
             if (i == mInterestList.size() - 1) {
                 continue;
             }
-            intereses = intereses + StringResourcesHandler.INTEREST_DIVIDER;
+            interests = interests + StringResourcesHandler.INTEREST_DIVIDER;
         }
-        userdata.put("interest", intereses);
+
+        if (mSearchingMale.isChecked()) {
+            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
+                    + StringResourcesHandler.INTEREST_DIVIDER;
+        }
+
+        if (mSearchingFemale.isChecked()) {
+            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
+                    + StringResourcesHandler.INTEREST_DIVIDER;
+        }
+
+        interests = interests.substring(0, interests.length() - 3);
+
+        userdata.put("interest", interests);
         return userdata;
     }
 
