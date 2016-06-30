@@ -20,7 +20,7 @@ package ar.uba.fi.drtinder;
  * Singleton that stores the server url. This should be checked.
  */
 public final class ServerUrlWrapper {
-    private static String serverUrl = "http://190.55.231.26/";
+    private static String serverUrl = "http://186.122.129.40/";
 
     private ServerUrlWrapper() {
     }

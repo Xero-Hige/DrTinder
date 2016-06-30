@@ -110,6 +110,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mUrl = (TextView) findViewById(R.id.url);
         mUrl.setEnabled(false);
         mUrl.setVisibility(View.GONE);
+        mUrl.setText(ServerUrlWrapper.getServerUrl());
 
         addLogoShortcut();
     }

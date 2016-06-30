@@ -179,7 +179,7 @@ public final class UserHandler {
             return "";
         }
 
-        return getUsernameFrom(getUserEmail());
+        return getUserEmail(); //getUsernameFrom(getUserEmail());
     }
 
     /**
@@ -218,15 +218,22 @@ public final class UserHandler {
      * Deletes user profile of the current logged in user
      *
      * @param token Session token
+     * @return true if success
      */
-    public static void deleteProfile(String token) {
+    public static boolean deleteProfile(String token) {
         Uri.Builder uriBuilder = Uri.parse(getDeleteUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String deleteUrl = uriBuilder.build().toString();
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(deleteUrl);
+        try {
+            restTemplate.delete(deleteUrl);
+        } catch (Exception e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on delete: " + e.getMessage());
+            return false;
+        }
         FirebaseAuth.getInstance().signOut();
+        return true;
     }
 
     private static String getDeleteUrl() {
@@ -300,20 +307,20 @@ public final class UserHandler {
      *
      * @param token    Session token
      * @param userdata Map containing userdata as field:value
+     * @return true if success
      */
-    public static void updateInfo(String token, Map<String, String> userdata) {
+    public static boolean updateInfo(String token, Map<String, String> userdata) {
 
         RestTemplate restTemplate = new RestTemplate();
 
         String name = userdata.get("name");
         String age = userdata.get("age");
         String sex = userdata.get("sex");
-        String lookingFor = userdata.get("lookingFor");
         String interest = userdata.get("interest");
 
         StringWriter sWriter = new StringWriter();
         CSVWriter writer = new CSVWriter(sWriter, ',');
-        String[] line = {name, age, sex, lookingFor, interest};
+        String[] line = {name, age, sex, interest};
         writer.writeNext(line);
         String body = sWriter.toString();
 
@@ -321,7 +328,13 @@ public final class UserHandler {
         uriBuilder.appendQueryParameter("token", token);
         String updateUrl = uriBuilder.build().toString();
 
-        restTemplate.put(updateUrl, body);
+        try {
+            restTemplate.put(updateUrl, body);
+        } catch (Exception e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on update: " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     private static String getUpdateUrl() {

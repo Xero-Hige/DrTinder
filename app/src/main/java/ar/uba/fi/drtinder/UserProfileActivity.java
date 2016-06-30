@@ -1,9 +1,11 @@
 package ar.uba.fi.drtinder;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -98,6 +100,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private LinearLayout mInterestLLay;
     private LinkedList<String> mInterestList;
+    private Button mInterestButton;
+    private Button mDeleteButton;
+    private Button mSubmitButton;
 
     /**
      * Called when the activity is starting
@@ -188,10 +193,10 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void addAddButton() {
-        Button addInterestB = (Button) findViewById(R.id.addInterest);
-        assert addInterestB != null; //DEBUG Assert
+        this.mInterestButton = (Button) findViewById(R.id.addInterest);
+        assert mInterestButton != null; //DEBUG Assert
 
-        addInterestB.setOnClickListener(view -> {
+        mInterestButton.setOnClickListener(view -> {
             String category = mInterestCategory.getText().toString();
             String id = mInterestId.getText().toString();
             if (category.equals("") || id.equals("")) {
@@ -208,22 +213,25 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void addInterest(String category, String id) {
 
-        if (category.equals("sex")) {
-            setLookingFor(id);
+        String trimmedCategory = category.replace("  ", " ").trim();
+        String trimmedId = id.replace("  ", " ").trim();
+
+        if (trimmedCategory.equals("sex")) {
+            setLookingFor(trimmedId);
             return;
         }
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this));
+        View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-        String interestLabel = category + ":\n" + id;
+        String interestLabel = trimmedCategory + ":\n" + trimmedCategory;
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-        ImageResourcesHandler.fillImageResource(id + category, ImageResourcesHandler.RES_INTEREST_IMG,
-                mToken, imageView, this);
+        ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
+                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this);
         mInterestLLay.addView(layout);
-        mInterestList.add(category + StringResourcesHandler.INTEREST_DATA_DIVIDER + id);
+        mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
 
     private void setLookingFor(String id) {
@@ -259,14 +267,14 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void addDeleteButton() {
-        Button deleteProfile = (Button) findViewById(R.id.deleteButton);
-        assert deleteProfile != null; //DEBUG Assert
-        deleteProfile.setVisibility(mActivityAction.equals(PROFILE_ACTION_UPDATE) ? View.VISIBLE : View.GONE);
-        deleteProfile.setOnClickListener(view -> {
-            UserHandler.deleteProfile(mToken);
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+        this.mDeleteButton = (Button) findViewById(R.id.deleteButton);
+        assert mDeleteButton != null; //DEBUG Assert
+        mDeleteButton.setVisibility(mActivityAction.equals(PROFILE_ACTION_UPDATE) ? View.VISIBLE : View.GONE);
+        mDeleteButton.setOnClickListener(view -> {
+            disableButtons();
+            Utility.showMessage("Borrando usuario", Utility.getViewgroup(this));
+            DeleteUserTask task = new DeleteUserTask(this);
+            task.execute();
         });
 
         View deleteDiv = findViewById(R.id.deleteUserDivider);
@@ -275,8 +283,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void addSubmitButton() {
-        Button submit = (Button) findViewById(R.id.submmit);
-        assert submit != null; //DEBUG Assert
+        this.mSubmitButton = (Button) findViewById(R.id.submmit);
+        assert mSubmitButton != null; //DEBUG Assert
 
         String label = null;
         View.OnClickListener clickListener = v -> {
@@ -291,8 +299,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         assert label != null;
 
-        submit.setText(label);
-        submit.setOnClickListener(clickListener);
+        mSubmitButton.setText(label);
+        mSubmitButton.setOnClickListener(clickListener);
     }
 
     private void updateUser() {
@@ -302,11 +310,10 @@ public class UserProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if (mProfileImage != null) {
-            UserHandler.uploadProfilePicture(mProfileImage, mToken);
-        }
-        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
-        finish();
+        disableButtons();
+        Utility.showMessage("Actualizando datos", Utility.getViewgroup(this));
+        UpdateInfoTask task = new UpdateInfoTask(this);
+        task.execute();
     }
 
     private void createUser() {
@@ -398,6 +405,84 @@ public class UserProfileActivity extends AppCompatActivity {
                 return; //No image to display (cant upload)
             }
             mProfilePic.setImageURI(imageUri);
+        }
+    }
+
+    private void enableButtons() {
+        this.mDeleteButton.setEnabled(true);
+        this.mSubmitButton.setEnabled(true);
+        this.mInterestButton.setEnabled(true);
+    }
+
+    private void disableButtons() {
+        this.mDeleteButton.setEnabled(false);
+        this.mSubmitButton.setEnabled(false);
+        this.mInterestButton.setEnabled(false);
+    }
+
+    private class UpdateInfoTask extends AsyncTask<Void, Void, Boolean> {
+
+        private Activity mContext;
+
+        UpdateInfoTask(Activity context) {
+            mContext = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if (mProfileImage != null) {
+                UserHandler.uploadProfilePicture(mProfileImage, mToken);
+            }
+            return UserHandler.updateInfo(mToken, getUserdataMap());
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                Utility.showMessage("Fallo al crear el usuario. Intente nuevamente",
+                        Utility.getViewgroup(mContext), "Ok");
+                enableButtons();
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Updated info");
+            mContext.finish();
+        }
+    }
+
+    private class DeleteUserTask extends AsyncTask<Void, Void, Boolean> {
+
+        private Activity mContext;
+
+        DeleteUserTask(Activity context) {
+            mContext = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            boolean success = UserHandler.deleteProfile(mToken);
+            if (success) {
+                Utility.showMessage("Usuario eliminado", Utility.getViewgroup(mContext), "Ok");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    return true;
+                }
+            }
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                Utility.showMessage("Fallo al borrar el usuario. Intente mas tarde",
+                        Utility.getViewgroup(mContext), "Ok");
+                enableButtons();
+                return;
+            }
+
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            startActivity(intent);
+            mContext.finish();
         }
     }
 }
