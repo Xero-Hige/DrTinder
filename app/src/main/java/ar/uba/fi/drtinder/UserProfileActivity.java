@@ -225,7 +225,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-        String interestLabel = trimmedCategory + ":\n" + trimmedCategory;
+        String interestLabel = trimmedCategory + ":\n" + trimmedId;
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
@@ -333,6 +333,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user at FB: "
                                 + mEmail + " " + password);
                         Utility.showMessage("Fallo al crear el usuario. Reintente mas tarde", viewGroup);
+                        enableButtons();
                         return;
                     }
 
@@ -341,11 +342,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (mProfileImage == null) {
                         mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
                     }
-                    UserHandler.uploadProfilePicture(mProfileImage, mToken);
-                    HashMap<String, String> userdata = getUserdataMap();
-                    UserHandler.signUp(mEmail, password, userdata);
-                    Utility.showMessage("Listo", viewGroup);
-                    finish();
+                    CreateUserTask createTask = new CreateUserTask(this, password);
+                    createTask.execute();
+                    disableButtons();
                 });
     }
 
@@ -367,13 +366,12 @@ public class UserProfileActivity extends AppCompatActivity {
         userdata.put("name", mUserName.getText().toString());
         userdata.put("age", mAge.getText().toString());
         userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
+        userdata.put("localization", LocationHandler.getLocationString(this));
+
 
         String interests = "";
         for (int i = 0; i < mInterestList.size(); i++) {
             interests = interests + mInterestList.get(i);
-            if (i == mInterestList.size() - 1) {
-                continue;
-            }
             interests = interests + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
@@ -387,7 +385,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
-        interests = interests.substring(0, interests.length() - 3);
+        interests = interests.substring(0, interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
 
         userdata.put("interest", interests);
         return userdata;
@@ -448,6 +446,42 @@ public class UserProfileActivity extends AppCompatActivity {
             mContext.finish();
         }
     }
+
+    private class CreateUserTask extends AsyncTask<Void, Void, Boolean> {
+
+        private Activity mContext;
+        private String mPasswd;
+        private String mResult;
+
+        CreateUserTask(Activity context, String pass) {
+            mContext = context;
+            mPasswd = pass;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            mResult = UserHandler.signUp(mEmail, mPasswd, getUserdataMap());
+            UserHandler.uploadProfilePicture(mProfileImage, mToken);
+
+            return mResult.equals(UserHandler.SIGNUP_SUCCESS);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                if (mResult.equals(UserHandler.SIGNUP_FAILED)) {
+                    Utility.showMessage("Fallo al crear el usuario. Intente mas tarde",
+                            Utility.getViewgroup(mContext), "Ok");
+                    enableButtons();
+                    return;
+                }
+                assert false; //DEBUG: should not reach here
+            }
+
+            mContext.finish();
+        }
+    }
+
 
     private class DeleteUserTask extends AsyncTask<Void, Void, Boolean> {
 

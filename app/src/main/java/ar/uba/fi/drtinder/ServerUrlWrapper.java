@@ -20,7 +20,8 @@ package ar.uba.fi.drtinder;
  * Singleton that stores the server url. This should be checked.
  */
 public final class ServerUrlWrapper {
-    private static String serverUrl = "http://186.122.129.40/";
+    //private static String serverUrl =  "https://demo2753541.mockable.io/";
+    private static String serverUrl = "http://192.168.0.15:8000/";
 
     private ServerUrlWrapper() {
     }

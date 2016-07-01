@@ -7,13 +7,13 @@ import android.util.Base64;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.springframework.http.HttpAuthentication;
-import org.springframework.http.HttpBasicAuthentication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -92,9 +92,8 @@ public final class UserHandler {
 
         String user = getUsernameFrom(email);
 
-        HttpAuthentication authHeader = new HttpBasicAuthentication(user, password);
         HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
+        requestHeaders.add("Authorization", String.format(Locale.ENGLISH, "Authorization := username=\"%s\" pass=\"%s\"", user, password));
 
         String body = String.format(Locale.ENGLISH, "localization=\"%s\"", location);
 
@@ -107,6 +106,14 @@ public final class UserHandler {
         try {
             response = restTemplate.exchange(getLoginUrl(), HttpMethod.POST,
                     requestEntity, String.class);
+        } catch (HttpServerErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+            mToken = ERROR_TOKEN;
+            return mToken;
+        } catch (HttpClientErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            mToken = ERROR_TOKEN;
+            return mToken;
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
             mToken = ERROR_TOKEN;
@@ -126,26 +133,30 @@ public final class UserHandler {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
         }
 
-        restTemplate = new RestTemplate();
+        return response.getBody();
 
-        String tokenUrl = getTokenUrl() + "/" + user;
-        response = restTemplate.getForEntity(tokenUrl, String.class);
 
-        mToken = response.getBody();
-        return mToken;
+//        restTemplate = new RestTemplate();
+//
+//        String tokenUrl = getTokenUrl() + "/" + user;
+//        response = restTemplate.getForEntity(tokenUrl, String.class);
+//
+//        mToken = response.getBody();
+//        return mToken;
     }
 
     private static String getLoginUrl() {
         return ServerUrlWrapper.getServerUrl() + LOGIN_URL;
     }
 
-    private static String getTokenUrl() {
-        return ServerUrlWrapper.getServerUrl() + TOKEN_URL;
-    }
-
     private static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
-        return fields[0] + fields[1].replace(".", "");
+        //return fields[0] + fields[1].replace(".", "");
+        return email;
+    }
+
+    private static String getTokenUrl() {
+        return ServerUrlWrapper.getServerUrl() + TOKEN_URL;
     }
 
     /**
@@ -228,9 +239,12 @@ public final class UserHandler {
         RestTemplate restTemplate = new RestTemplate();
         try {
             restTemplate.delete(deleteUrl);
-        } catch (Exception e) {
-            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on delete: " + e.getMessage());
-            return false;
+        } catch (HttpServerErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+        } catch (HttpClientErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+        } catch (ResourceAccessException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
         }
         FirebaseAuth.getInstance().signOut();
         return true;
@@ -253,9 +267,8 @@ public final class UserHandler {
         RestTemplate restTemplate = new RestTemplate();
         String user = getUsernameFrom(email);
 
-        HttpAuthentication authHeader = new HttpBasicAuthentication(user, password);
         HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.setAuthorization(authHeader);
+        requestHeaders.add("Authorization", String.format(Locale.ENGLISH, "Authorization := username=\"%s\" pass=\"%s\"", user, password));
 
         String name = userdata.get("name");
         String age = userdata.get("age");
@@ -264,9 +277,9 @@ public final class UserHandler {
 
         StringWriter sWriter = new StringWriter();
         CSVWriter writer = new CSVWriter(sWriter, ',');
-        String[] line = {name, age, user, email, sex, interest};
+        String[] line = {name, age, user, email, sex, " ", interest};
         writer.writeNext(line);
-        String body = sWriter.toString();
+        String body = "User=" + sWriter.toString();
 
         HttpEntity<?> requestEntity = new HttpEntity<>(body, requestHeaders);
 
@@ -277,6 +290,12 @@ public final class UserHandler {
         try {
             response = restTemplate.exchange(getSignupUrl(), HttpMethod.POST,
                     requestEntity, String.class);
+        } catch (HttpServerErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+            return SIGNUP_FAILED;
+        } catch (HttpClientErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            return SIGNUP_FAILED;
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
             return SIGNUP_FAILED;
@@ -359,7 +378,15 @@ public final class UserHandler {
         uriBuilder.appendQueryParameter("token", token);
         String updateUrl = uriBuilder.build().toString();
 
-        restTemplate.postForEntity(updateUrl, body, String.class);
+        try {
+            restTemplate.postForEntity(updateUrl, body, String.class);
+        } catch (HttpServerErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
+        } catch (HttpClientErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+        } catch (ResourceAccessException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Failed to connect: " + e.getMessage());
+        }
     }
 
     private static String getAvatarUrl() {

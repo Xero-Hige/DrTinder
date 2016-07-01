@@ -43,7 +43,7 @@ public final class LocationHandler {
     public static final String LOCATION_FAILED = "";
 
 
-    private static String locationString = LOCATION_FAILED;
+    private static String locationString = "0,0";
 
     private LocationHandler() {
     }
@@ -92,6 +92,7 @@ public final class LocationHandler {
         activity.runOnUiThread(() ->
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
                         locationListener));
+        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Loc: " + locationString);
         return locationString;
     }
 }
