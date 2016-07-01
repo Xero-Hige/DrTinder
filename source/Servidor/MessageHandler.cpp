@@ -87,7 +87,11 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 bool MessageHandler::authenticate(string username, string password) {
 	LOGG(DEBUG) << "Authenticating " + username;
-	return usersDB->correctEntry(USER_DB + username, password);
+	bool found = usersDB->correctEntry(USER_DB + username, password);
+	if (!found){
+		LOGG(DEBUG) << "Incorrect Username-Password";
+	}
+	return found;
 }
 
 void MessageHandler::createInterests(Interests* interests){

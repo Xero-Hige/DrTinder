@@ -22,12 +22,16 @@ DatabaseManager::~DatabaseManager() {
 
 bool DatabaseManager::correctEntry(string key, string value) {
 	string aux;
+	LOGG(DEBUG) << "Looking for existance of " << key << " - " << value;
 	Status status = db->Get(ReadOptions(), key, &aux);
 	if (! status.ok()) {
+		LOGG(DEBUG) << key << " not found in DB";
 		return false;
 	} else if (value.compare(aux) != 0) {
+		LOGG(DEBUG) << value << " does not mathces value in DB";
 		return false;
 	}
+	LOGG(DEBUG) << "Correct key-value";
 	return true;
 }
 
