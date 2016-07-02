@@ -49,7 +49,7 @@ public final class LocationHandler {
     }
 
     /**
-     * Gets location of the device as a string formated as:  long;lat
+     * Gets location of the device as a string formated as:  long,lat
      *
      * @param activity Calling activity
      * @return Location as long;lat formated string. If not, some of the result errors listed
@@ -61,7 +61,7 @@ public final class LocationHandler {
             @Override
             public void onLocationChanged(Location location) {
                 locationString = String.format(Locale.ENGLISH,
-                        "%f;%f", location.getLongitude(), location.getLatitude());
+                        "%f,%f", location.getLongitude(), location.getLatitude());
             }
 
             @Override

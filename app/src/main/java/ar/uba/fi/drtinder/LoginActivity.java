@@ -83,6 +83,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     protected void onCreate(Bundle instanceState) {
         super.onCreate(instanceState);
         setContentView(R.layout.activity_login);
+        LocationHandler.getLocationString(this); //Forces to fetch gps info
 
         mFirebaseLoginFinished = true;
         mLoginLatch = new CountDownLatch(0);
