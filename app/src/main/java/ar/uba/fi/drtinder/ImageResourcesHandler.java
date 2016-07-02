@@ -294,9 +294,14 @@ public final class ImageResourcesHandler {
                 return null;
             }
             DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
-            byte[] imageString = Base64.decode(result, Base64.DEFAULT);
-            cacheImgFile(mCacheKey, imageString, mContext);
-            return convertToBitmap(imageString);
+
+            try {
+                byte[] imageString = Base64.decode(result, Base64.DEFAULT);
+                cacheImgFile(mCacheKey, imageString, mContext);
+                return convertToBitmap(imageString);
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         private void cacheImgFile(Integer cacheKey, byte[] dataArray, Context context) {
