@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -134,7 +135,7 @@ public final class StringResourcesHandler {
 
         if (result == null) {
             DrTinderLogger.writeLog(DrTinderLogger.WARN, "Empty response from :" + queryUrl);
-            return null;
+            return new LinkedList<>();
         }
 
         StringReader stringReader = new StringReader(result);
