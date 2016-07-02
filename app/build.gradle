@@ -60,7 +60,7 @@ dependencies {
     //--Circular
     compile 'com.pkmmte.view:circularimageview:1.1'
     //--Others Image Views
-    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+    compile 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
     //--REST
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     //---CSV

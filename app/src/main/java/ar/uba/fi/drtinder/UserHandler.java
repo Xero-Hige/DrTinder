@@ -93,7 +93,7 @@ public final class UserHandler {
         String user = getUsernameFrom(email);
 
         HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.add("Authorization", String.format(Locale.ENGLISH, "Authorization := username=\"%s\" pass=\"%s\"", user, password));
+        addAuthHeader(password, user, requestHeaders);
 
         String body = String.format(Locale.ENGLISH, "localization=\"%s\"", location);
 
@@ -153,6 +153,11 @@ public final class UserHandler {
         String[] fields = email.split("@");
         //return fields[0] + fields[1].replace(".", "");
         return email;
+    }
+
+    private static void addAuthHeader(String password, String user, HttpHeaders requestHeaders) {
+        requestHeaders.add("Authorization", String.format(Locale.ENGLISH,
+                "Authorization := username=\"%s\" pass=\"%s\"", user, password));
     }
 
     private static String getTokenUrl() {
@@ -268,7 +273,7 @@ public final class UserHandler {
         String user = getUsernameFrom(email);
 
         HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.add("Authorization", String.format(Locale.ENGLISH, "Authorization := username=\"%s\" pass=\"%s\"", user, password));
+        addAuthHeader(password, user, requestHeaders);
 
         String name = userdata.get("name");
         String age = userdata.get("age");

@@ -85,9 +85,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private String mEmail;
     private Bitmap mProfileImage = null;
 
-    /**
-     * View
-     */
     private TextView mPasswordView;
     private RadioButton mSexMale;
     private RadioButton mSexFemale;
@@ -203,7 +200,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 Utility.showMessage("Faltan datos del interes a agregar",
                         Utility.getViewgroup(this), "Ok");
             }
-
             addInterest(category, id);
 
             mInterestCategory.setText("");
@@ -379,7 +375,6 @@ public class UserProfileActivity extends AppCompatActivity {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
-
         if (mSearchingFemale.isChecked()) {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
@@ -462,7 +457,6 @@ public class UserProfileActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
             mResult = UserHandler.signUp(mEmail, mPasswd, getUserdataMap());
             UserHandler.uploadProfilePicture(mProfileImage, mToken);
-
             return mResult.equals(UserHandler.SIGNUP_SUCCESS);
         }
 
@@ -477,7 +471,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
                 assert false; //DEBUG: should not reach here
             }
-
             mContext.finish();
         }
     }
@@ -513,7 +506,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 enableButtons();
                 return;
             }
-
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
             mContext.finish();
