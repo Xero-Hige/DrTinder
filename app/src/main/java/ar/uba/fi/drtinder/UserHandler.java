@@ -342,7 +342,7 @@ public final class UserHandler {
         CSVWriter writer = new CSVWriter(sWriter, ',');
         String[] line = {name, age, sex, interest};
         writer.writeNext(line);
-        String body = sWriter.toString();
+        String body = "User=" + sWriter.toString();
 
         Uri.Builder uriBuilder = Uri.parse(getUpdateUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
