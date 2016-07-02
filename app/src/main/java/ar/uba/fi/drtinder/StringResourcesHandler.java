@@ -138,6 +138,8 @@ public final class StringResourcesHandler {
             return new LinkedList<>();
         }
 
+        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Fetch result: \n" + result);
+
         StringReader stringReader = new StringReader(result);
         List<String[]> output = new ArrayList<>();
         CSVReader reader = new CSVReader(stringReader);
