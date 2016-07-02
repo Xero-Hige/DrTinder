@@ -69,7 +69,6 @@ public final class UserHandler {
     public static final String SIGNUP_SUCCESS = "S";
     private static final String LOGIN_URL = "user";
     private static final String DELETE_URL = "users";
-    private static final String TOKEN_URL = "user/token";
     private static final String SIGNUP_URL = "users";
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
@@ -95,7 +94,7 @@ public final class UserHandler {
         HttpHeaders requestHeaders = new HttpHeaders();
         addAuthHeader(password, user, requestHeaders);
 
-        String body = String.format(Locale.ENGLISH, "localization=\"%s\"", location);
+        String body = String.format(Locale.ENGLISH, "localization=%s", location);
 
         HttpEntity<?> requestEntity = new HttpEntity<>(body, requestHeaders);
 
@@ -133,6 +132,7 @@ public final class UserHandler {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
         }
 
+        mToken = response.getBody();
         return response.getBody();
 
 
@@ -141,7 +141,7 @@ public final class UserHandler {
 //        String tokenUrl = getTokenUrl() + "/" + user;
 //        response = restTemplate.getForEntity(tokenUrl, String.class);
 //
-//        mToken = response.getBody();
+//
 //        return mToken;
     }
 
@@ -151,17 +151,13 @@ public final class UserHandler {
 
     private static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
-        //return fields[0] + fields[1].replace(".", "");
-        return email;
+        return fields[0] + fields[1].replace(".", "");
+        //return email;
     }
 
     private static void addAuthHeader(String password, String user, HttpHeaders requestHeaders) {
         requestHeaders.add("Authorization", String.format(Locale.ENGLISH,
                 "Authorization := username=\"%s\" pass=\"%s\"", user, password));
-    }
-
-    private static String getTokenUrl() {
-        return ServerUrlWrapper.getServerUrl() + TOKEN_URL;
     }
 
     /**
@@ -195,7 +191,7 @@ public final class UserHandler {
             return "";
         }
 
-        return getUserEmail(); //getUsernameFrom(getUserEmail());
+        return getUsernameFrom(getUserEmail());
     }
 
     /**
