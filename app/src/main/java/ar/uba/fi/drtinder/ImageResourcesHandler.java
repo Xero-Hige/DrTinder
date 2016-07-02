@@ -277,7 +277,7 @@ public final class ImageResourcesHandler {
         }
 
         private Bitmap getImage() {
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin fetch " + mImageUrl);
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "Begin image fetch " + mImageUrl);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
             String result;
@@ -293,7 +293,7 @@ public final class ImageResourcesHandler {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Can't connect: " + e.getMessage());
                 return null;
             }
-            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + mImageUrl);
+            DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End image     fetch " + mImageUrl);
 
             try {
                 byte[] imageString = Base64.decode(result, Base64.DEFAULT);
