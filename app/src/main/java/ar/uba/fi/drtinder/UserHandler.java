@@ -315,6 +315,7 @@ public final class UserHandler {
             return SIGNUP_FAILED;
         }
 
+        mToken = response.getBody();
         return SIGNUP_SUCCESS;
     }
 
