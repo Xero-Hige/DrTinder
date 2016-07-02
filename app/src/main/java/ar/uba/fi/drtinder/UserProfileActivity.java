@@ -76,7 +76,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private ImageView mProfilePic;
     private String mActivityAction;
-    private String mToken;
 
     private String mEmail;
     private Bitmap mProfileImage = null;
@@ -116,7 +115,6 @@ public class UserProfileActivity extends AppCompatActivity {
         assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
-        mToken = activityIntent.getStringExtra(UserHandler.getToken());
         String mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
         assert mActivityAction != null; //DEBUG Assert
 
@@ -127,7 +125,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             ImageResourcesHandler.fillImageResource(mUsername,
-                    ImageResourcesHandler.RES_USER_IMG, mToken, mProfilePic, this.getApplicationContext());
+                    ImageResourcesHandler.RES_USER_IMG, UserHandler.getToken(),
+                    mProfilePic, this.getApplicationContext());
         }
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
@@ -155,16 +154,27 @@ public class UserProfileActivity extends AppCompatActivity {
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
         }
-        StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
+        StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, UserHandler.getToken(),
                 data -> {
                     if (data == null) {
                         Utility.showMessage("Error de conexion con el servidor", Utility.getViewgroup(this), "Ok");
                         return;
                     }
-                    String username = data.get(0)[0];
-                    String age = data.get(0)[1];
-                    String sex = data.get(0)[2];
-                    String interest = data.get(0)[3];
+
+                    String username = "";
+                    String age = "";
+                    String sex = "";
+                    String interest = "";
+                    try {
+                        username = data.get(0)[0];
+                        age = data.get(0)[1];
+                        sex = data.get(0)[4];
+                        interest = data.get(0)[6];
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Userdata doesn't have the required number of fields");
+                        Utility.showMessage("Error en la recepcion de datos", Utility.getViewgroup(this));
+                        //return;
+                    }
 
                     TextView usernameView = (TextView) findViewById(R.id.profUsername);
                     assert usernameView != null; //DEBUG Assert
@@ -180,6 +190,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     for (String interest1 : interests) {
                         DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Interest: " + interest1);
                         String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
+                        if (params.length < 2) {
+                            continue;
+                        }
                         addInterest(params[0], params[1]);
                     }
 
@@ -222,7 +235,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this.getApplicationContext());
+                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
         mInterestLLay.addView(layout);
         mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
@@ -421,9 +434,9 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             if (mProfileImage != null) {
-                UserHandler.uploadProfilePicture(mProfileImage, mToken);
+                UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
             }
-            return UserHandler.updateInfo(mToken, getUserdataMap());
+            return UserHandler.updateInfo(UserHandler.getToken(), getUserdataMap());
         }
 
         @Override
@@ -453,7 +466,7 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             mResult = UserHandler.signUp(mEmail, mPasswd, getUserdataMap());
-            UserHandler.uploadProfilePicture(mProfileImage, mToken);
+            UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
             return mResult.equals(UserHandler.SIGNUP_SUCCESS);
         }
 
@@ -483,7 +496,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            boolean success = UserHandler.deleteProfile(mToken);
+            boolean success = UserHandler.deleteProfile(UserHandler.getToken());
             if (success) {
                 Utility.showMessage("Usuario eliminado", Utility.getViewgroup(mContext), "Ok");
                 try {
