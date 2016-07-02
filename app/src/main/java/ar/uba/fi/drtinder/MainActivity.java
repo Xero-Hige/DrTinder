@@ -37,10 +37,6 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    /**
-     * Intent extra field: Session token
-     */
-    public static final String EXTRA_TOKEN = "token";
     private MenuItem mActualFragItem;
     private String mUsername;
 

@@ -56,10 +56,6 @@ public class UserProfileActivity extends AppCompatActivity {
      * Intent extra field: User email
      */
     public static final String USER_EXTRA_USEREMAIL = "email";
-    /**
-     * Intent extra field: User session token
-     */
-    public static final String USER_EXTRA_TOKEN = "token";
 
     /**
      * Intent extra field: Activity action
@@ -120,7 +116,7 @@ public class UserProfileActivity extends AppCompatActivity {
         assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
-        mToken = activityIntent.getStringExtra(USER_EXTRA_TOKEN);
+        mToken = activityIntent.getStringExtra(UserHandler.getToken());
         String mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
         assert mActivityAction != null; //DEBUG Assert
 
@@ -182,6 +178,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
                     for (String interest1 : interests) {
+                        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Interest: " + interest1);
                         String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
                         addInterest(params[0], params[1]);
                     }

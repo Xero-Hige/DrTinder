@@ -66,7 +66,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mUrl;
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private boolean mFirebaseLogedIn;
     private boolean mFirebaseLoginFinished;
 
