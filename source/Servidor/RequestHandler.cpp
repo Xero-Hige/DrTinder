@@ -151,7 +151,7 @@ void RequestHandler::listenUsersRequest() {
             	LOGG(DEBUG) << "Cannot create user "  << user;
             	rejectConnection(BAD_REQUEST);
             }else{
-            	sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV,201);
+            	sendHttpReply(msgHandler->getToken(), CONTENT_TYPE_HEADER_PLAIN, CREATED);
             }
 
         } catch (ExistentUserException existentUserException) {
@@ -166,7 +166,7 @@ void RequestHandler::listenUsersRequest() {
     	LOGG(DEBUG) << GET_S;
         std::string users_data;
         msgHandler->getUsers(users_data);
-        sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV,200);
+        sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 
     } else if (is_equal(&http_msg->method, PUT_S)) {
     	LOGG(DEBUG) << PUT_S;
@@ -253,7 +253,7 @@ void RequestHandler::listenPhotoRequest() {
 		}
         std::string photo_64;
         msgHandler->getPhoto(std::string(username), photo_64);
-        sendHttpReply(photo_64, CONTENT_TYPE_HEADER_IMAGE,200);
+        sendHttpReply(photo_64, CONTENT_TYPE_HEADER_TEXT,200);
     } else if (is_equal(&http_msg->method, POST_S)) {
     	LOGG(DEBUG) << POST_S;
     	std::string photo_64(http_msg->body.p, http_msg->body.len);

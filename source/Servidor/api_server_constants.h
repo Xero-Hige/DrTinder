@@ -22,6 +22,7 @@
 #define CONTENT_TYPE_HEADER_CSV "text/csv"
 #define CONTENT_TYPE_HEADER_PLAIN "text/plain"
 #define CONTENT_TYPE_HEADER_IMAGE "image"
+#define CONTENT_TYPE_HEADER_TEXT "text"
 
 #define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"
 #define FIREBASE_SERVER_PORT 5236

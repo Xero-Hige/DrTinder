@@ -37,7 +37,7 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 ChatDatabaseManager.cpp
 	 LikesDatabaseManager.cpp
 )
-SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp ServerUtils.cpp XMPPServer.cpp XMPPMessageHandler.cpp)
+SET (Servidor_SRCS main.cpp ${COMMON_SRCS} RequestHandler.cpp ServerUtils.cpp XMPPServer.cpp XMPPMessageHandler.cpp UserRequestHandler.cpp UserRequestHandler.h)
 
 SET (TEST_SRCS tests/main.cpp)
 SET (COMMON_FLAGS "-g -W -Wall -Wno-unused-function")
