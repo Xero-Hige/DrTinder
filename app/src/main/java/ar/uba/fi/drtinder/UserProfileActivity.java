@@ -134,7 +134,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             ImageResourcesHandler.fillImageResource(mUsername,
-                    ImageResourcesHandler.RES_USER_IMG, mToken, mProfilePic, this);
+                    ImageResourcesHandler.RES_USER_IMG, mToken, mProfilePic, this.getApplicationContext());
         }
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
@@ -229,7 +229,7 @@ public class UserProfileActivity extends AppCompatActivity {
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this);
+                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this.getApplicationContext());
         mInterestLLay.addView(layout);
         mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
