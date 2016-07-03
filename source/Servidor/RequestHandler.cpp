@@ -1,7 +1,7 @@
 #include "RequestHandler.h"
 
 #define MAX_LEN_TOKEN_BUFFER 100
-#define BUFFER_SMALL_SIZE 20
+#define BUFFER_SMALL_SIZE 100
 
 RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :
     connection(pConnection), http_msg(pMessage) {
