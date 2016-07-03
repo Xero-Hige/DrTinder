@@ -151,8 +151,7 @@ public final class UserHandler {
 
     private static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
-        return fields[0] + fields[1].replace(".", "");
-        //return email;
+        return fields[0] + fields[1];
     }
 
     private static void addAuthHeader(String password, String user, HttpHeaders requestHeaders) {
