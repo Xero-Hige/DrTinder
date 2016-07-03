@@ -52,8 +52,6 @@ public class UserDetailsActivity extends AppCompatActivity {
      */
     public static final String EXTRA_USER_INTS = "inte";
 
-    private String mToken;
-
     /**
      * Called when the activity is starting
      *
@@ -87,19 +85,32 @@ public class UserDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String interestExtra = intent.getStringExtra(EXTRA_USER_INTS);
-        String[] interests = interestExtra.split(StringResourcesHandler.INTEREST_DIVIDER);
-        for (String interestString : interests) {
-            String[] interest = interestString.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
-            String category = interest[0];
-            String name = interest[1];
+
+        String[] interests = interestExtra.split("\\|\\|");
+        for (String interest1 : interests) {
+            DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Interest: " + interest1);
+            String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
+            if (params.length < 2) {
+                continue;
+            }
+
+            String category = params[0];
+            String id = params[1];
+
+            String trimmedCategory = category.replace("  ", " ").trim();
+            String trimmedId = id.replace("  ", " ").trim();
+
+            if (trimmedCategory.equals("sex")) {
+                continue;
+            }
 
             View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
             TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-            String interestLabel = category + ":\n" + name;
+            String interestLabel = trimmedCategory + ":\n" + trimmedId;
             textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
-            ImageResourcesHandler.fillImageResource(name + category, ImageResourcesHandler.RES_INTEREST_IMG,
-                    mToken, imageView, this);
+            ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
+                    ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
             assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }
@@ -125,7 +136,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, mToken,
-                imageView, getBaseContext());
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                UserHandler.getToken(), imageView, getBaseContext());
     }
 }
