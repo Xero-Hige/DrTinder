@@ -171,10 +171,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     String sex = "";
                     String interest = "";
                     try {
-                        username = data.get(0)[0];
-                        age = data.get(0)[1];
-                        sex = data.get(0)[4];
-                        interest = data.get(0)[6];
+                        username = data.get(0)[1];
+                        age = data.get(0)[2];
+                        sex = data.get(0)[5];
+                        interest = data.get(0)[7];
                     } catch (ArrayIndexOutOfBoundsException e) {
                         DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Userdata doesn't have the required number of fields");
                         Utility.showMessage("Error en la recepcion de datos", Utility.getViewgroup(this));
