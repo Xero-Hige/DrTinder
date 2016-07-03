@@ -161,6 +161,11 @@ public class UserProfileActivity extends AppCompatActivity {
                         return;
                     }
 
+                    if (data.size() == 0) {
+                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte", Utility.getViewgroup(this), "Ok");
+                        return;
+                    }
+
                     String username = "";
                     String age = "";
                     String sex = "";
