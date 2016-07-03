@@ -11,7 +11,7 @@ id_url = "id"
 
 class ClientApp(Client):
 	def __init__(self,mail,passw):
-		Client.__init__(self,"http://127.0.0.1:8080")
+		Client.__init__(self,"http://127.0.0.1:8000")
 		self.mail = mail
 		self.token = ""
 		self.passw = passw
@@ -29,11 +29,13 @@ class ClientApp(Client):
 		url= self.makeUrl([users_url], {"token": self.token})
 		return self.makeRequest(GET,url)
 
-	def login(self, passw=""):
+	def login(self, mail="",passw=""):
+		if mail == "":
+			mail = self.mail
 		if passw == "":
 			passw = self.passw
 		url=self.makeUrl([user_url])
-		header = {"Authorization":"username=\""+self.mail+"\" pass=\""+ passw +"\""}
+		header = {"Authorization":"username=\""+mail+"\" pass=\""+ passw +"\""}
 		r = self.makeRequest(POST,url,"localization=1.536,-1.2356",header)
 		self.token = r.text
 		return r

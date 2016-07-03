@@ -19,7 +19,7 @@ bool JsonParser::parsing(string json_object){
 
 void JsonParser::makeInterests(Json::Value json_interests,Interests &interests){
 	Json::Value array;
-
+	JsonParser json;
 	if (! json_interests.isArray()){
 		 array = json_interests[INTERESTS_KEY];
 	}else{
@@ -29,7 +29,6 @@ void JsonParser::makeInterests(Json::Value json_interests,Interests &interests){
 	Json::Value::iterator it = array.begin();
 	for (; it != array.end(); ++it){
 		Json::Value interest = (*it);
-
 		interests.add(interest[CATEGORY_KEY].asString(), interest[VALUE_KEY].asString());
 	}
 
@@ -39,24 +38,32 @@ void JsonParser::makeInterests(Json::Value json_interests,Interests &interests){
 void JsonParser::makeUser(Json::Value json_user,User &user){
 	Json::Value location = json_user[LOCATION_KEY];
 	Json::Value json_interests = json_user[INTERESTS_KEY];
+	JsonParser pars;
+	if (json_user[PHOTO_KEY].isNull()){
+		user.setPhoto("");
+	}else{
+		user.setPhoto(json_user[PHOTO_KEY].asString());
+	}
 
-	user.setPhoto(json_user[PHOTO_KEY].asString());
 
 	Interests interests;
 	this->makeInterests(json_interests, interests);
 	user.setInterests(interests);
 
 	user.setAlias(json_user[ALIAS_KEY].asString());
+
 	user.setMail(json_user[MAIL_KEY].asString());
+
 	user.setName(json_user[NAME_KEY].asString());
+
 	user.setSex(json_user[SEX_KEY].asString());
 
 	if (json_user.isMember(ID_KEY)){
+
 		user.setId(json_user[ID_KEY].asInt());
 	}
 
 	user.setAge(json_user[AGE_KEY].asInt());
-
 	user.setLocation(location[LATITUDE_KEY].asFloat(), location[LONGITUDE_KEY].asFloat());
 
 }

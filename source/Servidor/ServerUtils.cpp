@@ -70,6 +70,16 @@ void readConfigFile(string &port, string &shared, string &logCnfFile){
 	}
 }
 
+void makeUsername(string &username){
+	char * charsToRemove="@";
+	for (unsigned int i = 0; i < strlen(charsToRemove); ++i) {
+		username.erase(
+				remove(username.begin(), username.end(), charsToRemove[i]),
+				username.end());
+	}
+
+}
+
 void configure(int argc, char **argv, string &port, string &shared) {
 	string _port="", _shared="", _logCnf="", logCnfFile="";
 
