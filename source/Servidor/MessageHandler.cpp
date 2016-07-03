@@ -32,7 +32,7 @@ bool MessageHandler::isUserSet(){
 }
 
 MessageHandler::~MessageHandler() {
-	if ( ! ssClient == NULL){
+	if ( ssClient != NULL){
 		delete ssClient;
 	}
 	delete tokenizer;
@@ -312,7 +312,7 @@ bool MessageHandler::addLocalization(string localization) {
 	string latitude = localization.substr(0, i);
 	string longitude = localization.substr(i+1, localization.length());
 	if ( !isFloat(latitude) || !isFloat(longitude)){
-		LOGG(DEBUG) << "Localization withot floats";
+		LOGG(DEBUG) << "Localization without floats";
 		return false;
 	}
 	//TODO: Refactor!
