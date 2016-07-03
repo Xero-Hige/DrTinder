@@ -29,11 +29,13 @@ class ClientApp(Client):
 		url= self.makeUrl([users_url], {"token": self.token})
 		return self.makeRequest(GET,url)
 
-	def login(self, passw=""):
+	def login(self, mail="",passw=""):
+		if mail == "":
+			mail = self.mail
 		if passw == "":
 			passw = self.passw
 		url=self.makeUrl([user_url])
-		header = {"Authorization":"username=\""+self.mail+"\" pass=\""+ passw +"\""}
+		header = {"Authorization":"username=\""+mail+"\" pass=\""+ passw +"\""}
 		r = self.makeRequest(POST,url,"localization=1.536,-1.2356",header)
 		self.token = r.text
 		return r

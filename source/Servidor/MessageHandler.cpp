@@ -50,7 +50,7 @@ bool MessageHandler::isUserSet(){
 }
 
 MessageHandler::~MessageHandler() {
-	if ( ! ssClient == NULL){
+	if ( ssClient != NULL){
 		delete ssClient;
 	}
 	delete tokenizer;

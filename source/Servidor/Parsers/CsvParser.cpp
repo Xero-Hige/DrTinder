@@ -59,8 +59,11 @@ void CsvParser::splitInterest(string cell, string &key, string &value){
 
 void CsvParser::makeInterests(string keyValues, Interests &interests){
 	string key,value;
-	LOGG(DEBUG) << "Llega a parsear intereses " << keyValues;
-	keyValues.pop_back();
+
+	if (keyValues.back() == '\"') {
+		keyValues.pop_back();
+	}
+
 	stringstream ss(keyValues);
 
 	string cell;
