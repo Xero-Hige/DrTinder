@@ -12,25 +12,9 @@ MessageHandler::MessageHandler(server_databases_t *databases) :
 	this->tokenizer = new Tokenizer(usersDB);
 }
 
-void MessageHandler::saveUserInDB(string userJson, string pass){
-	JsonParser jsonParser;
-	UserParser userParser;
-	User new_user;
-	string id, mail, user_csv, username;
-	jsonParser.parsing(userJson);
-	Json::Value json_user =jsonParser.getValue(USER_KEY);
-	mail = json_user[MAIL_KEY].asString();
-	username = mail; //cambiar a sin @ ni . TODO
-	id = json_user[ID_KEY].asString();
-
-	userParser.JsonToCsvFull(json_user, user_csv, new_user.getDescription());
-	usersDB->addEntry(USER_DB + username, pass);
-	usersDB->addEntry(USER_LOOKING_DB + username, new_user.getDescription());
-	usersDB->addEntry(USER_ID_DB + username, id);
-}
-
 void MessageHandler::setUser(string name){
 	//TODO parse username to take @ and  .
+	makeUsername(name);
 	LOGG(DEBUG) << "Set user of msgHandler to " << name;
 	username = name;
 }
@@ -64,10 +48,11 @@ void MessageHandler::updateUsersWithSS(){
 	UserParser userParser;
 
 	list<User*> users = userParser.JsonToList(usersJson);
-
+	LOGG(DEBUG) << "Updating username - id of SS users";
 	for (User* user : users){
 		string username, id_aux;
-		username = user->getMail(); //TODO parse email
+		username = user->getMail();
+		makeUsername(username);//TODO parse email
 		if (! usersDB->getEntry(USER_ID_DB + username, id_aux)){
 			usersDB->addEntry(USER_DB + username, DEFAULT_PASS);
 			usersDB->addEntry(USER_ID_DB + username, to_string(user->getID()));
@@ -106,12 +91,9 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 		LOGG(WARNING) << "User does not exist in SS";
 		return false;
 	}
-	//usersDB->getEntry(USER_CSV_DB + username, currentUserData); //TODO volar
-	//LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
+
 	User currentUser;
 	csvParser.makeUser(currentUserData,currentUser);
-	//jsonParser.makeUser(currentUserData, currentUser);
-
 
 	string userMatches;
 	getMatches(userMatches);
@@ -133,9 +115,14 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 
 bool MessageHandler::authenticate(string username, string password) {
 	LOGG(DEBUG) << "Authenticating " + username;
+	makeUsername(username);
 	bool found = usersDB->correctEntry(USER_DB + username, password);
 	if (!found){
-		LOGG(DEBUG) << "Incorrect Username-Password";
+		this->updateUsersWithSS();
+		if (! usersDB->correctEntry(USER_DB + username, password)){
+			LOGG(DEBUG) << "Incorrect Username-Password";
+			return false;
+		}
 	}
 	return found;
 }
@@ -204,7 +191,6 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 		usersDB->addEntry(USER_DB + username, pass);
 		usersDB->addEntry(USER_LOOKING_DB + username, new_user.getDescription());
 		usersDB->addEntry(USER_ID_DB + username, id);
-		//usersDB->addEntry(USER_CSV_DB + username, user_csv); //deberia volar TODO
 
 		LOGG(DEBUG) << "User signup  New Id: " + id;
 		return true;
@@ -219,7 +205,7 @@ bool MessageHandler::updateUser(string user_data) {
 	JsonParser jsonParser;
 	User new_user;
 	string id = this->getId(), base_user, desc;
-	//change to get user, para volar esto TODO
+
 	if ( ! this->getUser(username, base_user) ){
 		LOGG(WARNING) << "Wanting to update unexistant user " << username;
 		return false;
@@ -255,8 +241,6 @@ bool MessageHandler::deleteUser() {
 		usersDB->deleteEntry(USER_DB + username);
 		usersDB->deleteEntry(USER_ID_DB + username);
 		usersDB->deleteEntry(USER_LOOKING_DB + username);
-		//usersDB->deleteEntry(USER_CSV_DB + username);
-		//usersDB->deleteEntry(USER_PHOTO_DB + username);
 		if (usersDB->getEntry(TOKEN_OF_USER_DB + username, token))
 			usersDB->deleteEntry(USER_OF_TOKEN_DB + token);
 		usersDB->deleteEntry(TOKEN_OF_USER_DB + username);
@@ -278,23 +262,18 @@ bool MessageHandler::getChat(std::string other_username, string& chat_history) {
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
 	string user_id, photo;
 	LOGG(DEBUG)<<"Getting user for " << other_username;
-	/*if (usersDB->getEntry(USER_PHOTO_DB + other_username, photo)){
-		LOGG(DEBUG)<<"Photo already in database";
-		photo_64 = photo;
-		return true;
-	}else{*/
+	makeUsername(other_username);
 	if (!usersDB->getEntry(USER_ID_DB + other_username, user_id)) {
 		LOGG(WARNING)<<"Wanted to get photo of unexistant: " << other_username;
 		return false;
 	}
 	return ssClient->getUserPhoto(this->getId(), photo_64);
-	//}
+
 }
 
 bool MessageHandler::postPhoto(string photo_64) {
 	LOGG(DEBUG) << "Updating photo of " + this->getId();
 	if (ssClient->changeUserPhoto(this->getId(), photo_64)){
-		//usersDB->addEntry(USER_PHOTO_DB + username, photo_64);
 		return true;
 	}
 	LOGG(DEBUG) << "Could not update photo";
@@ -307,12 +286,17 @@ bool MessageHandler::validateToken(std::string user_token) {
 	if (! expired ){
 		string user;
 		if (this->usersDB->getEntry(USER_OF_TOKEN_DB + user_token,user)){
+			LOGG(DEBUG) << "Token corresponds to " << user;
 			this->setUser(user);
 			return true;
 		}
+		LOGG(DEBUG)<<"Inexistant user for token";
+		return false;
+	}else{
+		LOGG(DEBUG)<<"Token expired";
 		return false;
 	}
-	return ! expired;
+
 }
 
 
@@ -338,12 +322,14 @@ string MessageHandler::getToken() {
 	{
 		LOGG(WARNING) << "User has no registered pass";
 	}
-	token = this->tokenizer->newToken(username, password);
 
-	//si ya tiene un token asociado lo remuevo
-	if (this->usersDB->getEntry(TOKEN_OF_USER_DB + username,pastToken)){
+	//si ya tiene un token asociado lo remuevo antes
+	//de pedir el nuevo por si son iguales (en el mismo segundo)
+	if (this->usersDB->getEntry(TOKEN_OF_USER_DB + username, pastToken)) {
 		this->tokenizer->remove(pastToken);
 	}
+
+	token = this->tokenizer->newToken(username, password);
 
 	//renuevo la referencia token-user
 	this->usersDB->deleteEntry(USER_OF_TOKEN_DB + pastToken);
@@ -374,7 +360,6 @@ bool MessageHandler::addLocalization(string localization) {
 		return false;
 	}
 
-	//usersDB->getEntry(USER_CSV_DB + username, base_user);//TODO volar
 	Json::Value jsonUser;
 	userParser.CsvToJsonFull(base_user,jsonUser,1);
 
@@ -399,7 +384,7 @@ bool MessageHandler::addLocalization(string localization) {
 bool MessageHandler::getUser(string username, string &user_data) {
 	//busca en DB
 	LOGG(DEBUG) << "Getting user " << username;
-
+	makeUsername(username);
 	string id;
 	//check and update if not found
 	if ( ! usersDB->getEntry(USER_ID_DB + username, id)) {

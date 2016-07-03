@@ -70,6 +70,7 @@ int main(int argc, char**argv) {
 
 	server.setChatDB(chatDB);
 	server.setLikesDB(likesDB);
+	server.updateServer();
 
 	bool quit = false;
 	LOGG(INFO) << "Opening server";

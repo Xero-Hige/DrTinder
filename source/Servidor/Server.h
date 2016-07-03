@@ -14,7 +14,6 @@
 
 typedef struct _user_data{
 	server_databases_t* databases;
-	MessageHandler * handler = NULL;
 } user_data;
 
 /* Server that listens incomming connections. */
@@ -35,6 +34,7 @@ class Server {
 
     void setLikesDB(rocksdb::DB *database);
 
+    void updateServer();
 protected:
 	/* Proccess new_event from act_connection. */
         static void handleEvent(struct mg_connection* act_connection, int new_event, void* data);
