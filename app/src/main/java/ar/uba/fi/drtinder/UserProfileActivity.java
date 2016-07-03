@@ -191,7 +191,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     mSearchingMale.setChecked(false);
                     mSearchingFemale.setChecked(false);
 
-                    String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
+                    String[] interests = interest.split("\\|\\|");
                     for (String interest1 : interests) {
                         DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Interest: " + interest1);
                         String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
