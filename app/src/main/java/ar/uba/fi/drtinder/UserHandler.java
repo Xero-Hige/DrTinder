@@ -166,7 +166,7 @@ public final class UserHandler {
      * @return true if its valid, false otherwise
      */
     public static boolean isValidPassword(String pass) {
-        return pass.length() >= 6;
+        return pass.length() >= 4;
     }
 
     /**
