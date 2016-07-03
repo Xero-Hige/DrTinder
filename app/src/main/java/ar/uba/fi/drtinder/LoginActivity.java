@@ -405,6 +405,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Boolean doInBackground(Void... params) {
             mAuthToken = UserHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
+            if (mAuthToken == null) {
+                return false;
+            }
             if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
