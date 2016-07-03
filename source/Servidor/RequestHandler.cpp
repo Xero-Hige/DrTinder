@@ -38,6 +38,7 @@ bool RequestHandler::validateToken() {
     int parsed = mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
 
     std::string token(buffer);
+    LOGG(DEBUG) << "Validating Token for connection: " << token;
     if (! msgHandler->validateToken(token)) {
         LOGG(DEBUG) << "Token expired";
         this->sendHttpReply("","",INVALID_TOKEN);

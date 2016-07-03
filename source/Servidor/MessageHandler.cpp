@@ -12,7 +12,25 @@ MessageHandler::MessageHandler(server_databases_t *databases) :
 	this->tokenizer = new Tokenizer(usersDB);
 }
 
+void MessageHandler::saveUserInDB(string userJson, string pass){
+	JsonParser jsonParser;
+	UserParser userParser;
+	User new_user;
+	string id, mail, user_csv, username;
+	jsonParser.parsing(userJson);
+	Json::Value json_user =jsonParser.getValue(USER_KEY);
+	mail = json_user[MAIL_KEY].asString();
+	username = mail; //cambiar a sin @ ni . TODO
+	id = json_user[ID_KEY].asString();
+
+	userParser.JsonToCsvFull(json_user, user_csv, new_user.getDescription());
+	usersDB->addEntry(USER_DB + username, pass);
+	usersDB->addEntry(USER_LOOKING_DB + username, new_user.getDescription());
+	usersDB->addEntry(USER_ID_DB + username, id);
+}
+
 void MessageHandler::setUser(string name){
+	//TODO parse username to take @ and  .
 	LOGG(DEBUG) << "Set user of msgHandler to " << name;
 	username = name;
 }
@@ -38,6 +56,32 @@ MessageHandler::~MessageHandler() {
 	delete tokenizer;
 }
 
+void MessageHandler::updateUsersWithSS(){
+	string usersJson;
+	ssClient->getUsers(&usersJson);
+	CsvParser csvParser;
+	JsonParser jsonParser;
+	UserParser userParser;
+
+	list<User*> users = userParser.JsonToList(usersJson);
+
+	for (User* user : users){
+		string username, id_aux;
+		username = user->getMail(); //TODO parse email
+		if (! usersDB->getEntry(USER_ID_DB + username, id_aux)){
+			usersDB->addEntry(USER_DB + username, DEFAULT_PASS);
+			usersDB->addEntry(USER_ID_DB + username, to_string(user->getID()));
+		}
+	}
+
+	while (!users.empty()) {
+		delete users.front();
+		users.front() = NULL;
+		users.pop_front();
+	}
+
+}
+
 string MessageHandler::getId(){
 	string id;
 	if (usersDB->getEntry(USER_ID_DB + username, id))
@@ -58,14 +102,16 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	list<User*> users = userParser.JsonToList(usersJson);
 
 	string currentUserData;
-
-	usersDB->getEntry(USER_CSV_DB + username, currentUserData);
-	LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
-	User currentUser;
-	if (! csvParser.makeUser(currentUserData, currentUser) ){
-		LOGG(WARNING) << "Bad user format in DB";
+	if (! this->getUser(username,currentUserData)){
+		LOGG(WARNING) << "User does not exist in SS";
 		return false;
 	}
+	//usersDB->getEntry(USER_CSV_DB + username, currentUserData); //TODO volar
+	//LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
+	User currentUser;
+	csvParser.makeUser(currentUserData,currentUser);
+	//jsonParser.makeUser(currentUserData, currentUser);
+
 
 	string userMatches;
 	getMatches(userMatches);
@@ -158,7 +204,7 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 		usersDB->addEntry(USER_DB + username, pass);
 		usersDB->addEntry(USER_LOOKING_DB + username, new_user.getDescription());
 		usersDB->addEntry(USER_ID_DB + username, id);
-		usersDB->addEntry(USER_CSV_DB + username, user_csv);
+		//usersDB->addEntry(USER_CSV_DB + username, user_csv); //deberia volar TODO
 
 		LOGG(DEBUG) << "User signup  New Id: " + id;
 		return true;
@@ -172,9 +218,9 @@ bool MessageHandler::updateUser(string user_data) {
 	CsvParser csvParser;
 	JsonParser jsonParser;
 	User new_user;
-	string id = this->getId(), base_user, save_user;
-
-	if ( ! usersDB->getEntry(USER_CSV_DB + username, base_user) ){
+	string id = this->getId(), base_user, desc;
+	//change to get user, para volar esto TODO
+	if ( ! this->getUser(username, base_user) ){
 		LOGG(WARNING) << "Wanting to update unexistant user " << username;
 		return false;
 	}
@@ -193,8 +239,10 @@ bool MessageHandler::updateUser(string user_data) {
 
 	bool changed = ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
 	if (changed){
-		save_user = csvParser.userToCsvFull(&new_user);
-		this->usersDB->addEntry(USER_CSV_DB + username, save_user);
+		desc = new_user.getDescription();
+		this->usersDB->addEntry(USER_LOOKING_DB + username, desc);
+		//save_user = csvParser.userToCsvFull(&new_user);
+		//this->usersDB->addEntry(USER_CSV_DB + username, save_user);
 	}
 	return changed;
 }
@@ -207,8 +255,8 @@ bool MessageHandler::deleteUser() {
 		usersDB->deleteEntry(USER_DB + username);
 		usersDB->deleteEntry(USER_ID_DB + username);
 		usersDB->deleteEntry(USER_LOOKING_DB + username);
-		usersDB->deleteEntry(USER_CSV_DB + username);
-		usersDB->deleteEntry(USER_PHOTO_DB + username);
+		//usersDB->deleteEntry(USER_CSV_DB + username);
+		//usersDB->deleteEntry(USER_PHOTO_DB + username);
 		if (usersDB->getEntry(TOKEN_OF_USER_DB + username, token))
 			usersDB->deleteEntry(USER_OF_TOKEN_DB + token);
 		usersDB->deleteEntry(TOKEN_OF_USER_DB + username);
@@ -230,23 +278,23 @@ bool MessageHandler::getChat(std::string other_username, string& chat_history) {
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
 	string user_id, photo;
 	LOGG(DEBUG)<<"Getting user for " << other_username;
-	if (usersDB->getEntry(USER_PHOTO_DB + other_username, photo)){
+	/*if (usersDB->getEntry(USER_PHOTO_DB + other_username, photo)){
 		LOGG(DEBUG)<<"Photo already in database";
 		photo_64 = photo;
 		return true;
-	}else{
-		if ( ! usersDB->getEntry(USER_ID_DB + other_username, user_id)){
-			LOGG(WARNING)<<"Wanted to get photo of unexistant: " << other_username ;
-			return false;
-		}
-		return ssClient->getUserPhoto(this->getId(), photo_64);
+	}else{*/
+	if (!usersDB->getEntry(USER_ID_DB + other_username, user_id)) {
+		LOGG(WARNING)<<"Wanted to get photo of unexistant: " << other_username;
+		return false;
 	}
+	return ssClient->getUserPhoto(this->getId(), photo_64);
+	//}
 }
 
 bool MessageHandler::postPhoto(string photo_64) {
 	LOGG(DEBUG) << "Updating photo of " + this->getId();
 	if (ssClient->changeUserPhoto(this->getId(), photo_64)){
-		usersDB->addEntry(USER_PHOTO_DB + username, photo_64);
+		//usersDB->addEntry(USER_PHOTO_DB + username, photo_64);
 		return true;
 	}
 	LOGG(DEBUG) << "Could not update photo";
@@ -259,12 +307,12 @@ bool MessageHandler::validateToken(std::string user_token) {
 	if (! expired ){
 		string user;
 		if (this->usersDB->getEntry(USER_OF_TOKEN_DB + user_token,user)){
-			this->username = user;
+			this->setUser(user);
 			return true;
 		}
 		return false;
 	}
-	return expired;
+	return ! expired;
 }
 
 
@@ -312,19 +360,29 @@ bool MessageHandler::addLocalization(string localization) {
 	string latitude = localization.substr(0, i);
 	string longitude = localization.substr(i+1, localization.length());
 	if ( !isFloat(latitude) || !isFloat(longitude)){
-		LOGG(DEBUG) << "Localization withot floats";
+		LOGG(DEBUG) << "Localization without floats";
 		return false;
 	}
 	//TODO: Refactor!
-	CsvParser csvParser;
 	JsonParser jsonParser;
+	UserParser userParser;
 	User new_user;
 	string id = this->getId(), base_user;
 
-	usersDB->getEntry(USER_CSV_DB + username, base_user);
-	csvParser.makeUser(base_user, new_user);
+	if (! this->getUser(username, base_user)){
+		LOGG(DEBUG) << "Inexistant user";
+		return false;
+	}
 
-	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
+	//usersDB->getEntry(USER_CSV_DB + username, base_user);//TODO volar
+	Json::Value jsonUser;
+	userParser.CsvToJsonFull(base_user,jsonUser,1);
+
+	if (id.compare(jsonUser[ID_KEY].asString()) != 0){
+		LOGG(WARNING) << "Id in SS does not match with server";
+		return false;
+	}
+
 	Json::Value new_localization;
 	new_localization[LATITUDE_KEY] = stof(latitude);
 	new_localization[LONGITUDE_KEY] = stof(longitude);
@@ -341,34 +399,33 @@ bool MessageHandler::addLocalization(string localization) {
 bool MessageHandler::getUser(string username, string &user_data) {
 	//busca en DB
 	LOGG(DEBUG) << "Getting user " << username;
-	if (! usersDB->getEntry(USER_CSV_DB + username, user_data)){
-		string id;
-		LOGG(DEBUG) << "Not in database";
-		if ( !usersDB->getEntry(USER_ID_DB + username, id)){
-			LOGG(DEBUG) << "Does not exist in database";
-			return false;
-		}
-		//busca en SHARED
-		bool ok = ssClient->getUser(id, &user_data);
-		if (ok) {
-			LOGG(DEBUG) << "Got user from shared";
-			UserParser parser;
-			JsonParser json;
-			string copy(user_data), lookingFor = "";
-			json.parsing(copy);
-			usersDB->getEntry(USER_LOOKING_DB + username, lookingFor);
-			parser.JsonToCsvFull(json.getRoot(), user_data, lookingFor);
-			usersDB->addEntry(USER_CSV_DB + username, user_data);
-			usersDB->addEntry(USER_PHOTO_DB + username, json.getValue(USER_KEY)[PHOTO_KEY].asString());
-		}else{
-			LOGG(DEBUG) << "Does not exist in shared";
-		}
-		return ok;
-	}
-	CsvParser csv;
-	csv.removeId(user_data);
-	return true;
 
+	string id;
+	//check and update if not found
+	if ( ! usersDB->getEntry(USER_ID_DB + username, id)) {
+		this->updateUsersWithSS();
+	}
+
+	if ( ! usersDB->getEntry(USER_ID_DB + username, id)) {
+		LOGG(DEBUG) << "Does not exist in database";
+		return false;
+	}
+
+	//busca en SHARED
+	bool ok = ssClient->getUser(id, &user_data);
+	if (ok) {
+		LOGG(DEBUG) << "Got user from shared";
+		UserParser parser;
+		JsonParser json;
+		string copy(user_data), lookingFor = "";
+		json.parsing(copy);
+		usersDB->getEntry(USER_LOOKING_DB + username, lookingFor);
+		LOGG(DEBUG)<< "Parsing user: " << json.getAsString(json.getValue(USER_KEY));
+		parser.JsonToCsvFull(json.getValue(USER_KEY), user_data, lookingFor);
+	} else {
+		LOGG(DEBUG) << "Does not exist in shared";
+	}
+	return ok;
 }
 
 bool MessageHandler::match(string& users, string& candidate_data) {

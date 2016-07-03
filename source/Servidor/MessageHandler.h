@@ -26,6 +26,7 @@
 #include "./matches/UserMatcher.h"
 #include "LikesDatabaseManager.h"
 
+#define DEFAULT_PASS "1234"
 class ExistentUserException : public exception {
 };
 
@@ -77,6 +78,10 @@ class MessageHandler {
 		void setSharedLink(std::string linkToShared);
 
 		void createInterests(Interests* interests);
+
+		void saveUserInDB(std::string userJson, string pass);
+
+		void updateUsersWithSS();
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */

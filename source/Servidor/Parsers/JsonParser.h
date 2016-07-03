@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include "../../libs/jsoncpp/dist/json/json.h"
+#include "../../libs/loger/easylogging++.h"
 #include "../User.h"
 
 
