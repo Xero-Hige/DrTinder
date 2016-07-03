@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "../Interests.h"
-
+#include "../../libs/loger/easylogging++.h"
 #include "../User.h"
 
 class UserMatcher {

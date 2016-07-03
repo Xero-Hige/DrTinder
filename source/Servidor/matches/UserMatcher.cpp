@@ -7,6 +7,9 @@
 
 #include "UserMatcher.h"
 
+#include <algorithm>
+#include <iterator>
+
 
 UserMatcher::UserMatcher(){
 
@@ -23,9 +26,11 @@ list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users
 	list<User*> filteredUsers;
 
 	for (User* user : *users) {
+		LOGG(INFO) << "Checking if user is a match candidate: " << user->getMail();
 		if(!userInMatches(user, userMatches)){
 			if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
 					&& hasCommonInterest(appUser, user)) {
+				LOGG(INFO) << "Found a match candidate: " << user->getMail();
 				filteredUsers.push_back(user);
 			}
 		}
