@@ -354,7 +354,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             //    return false;
             //}
             //firebaseAuthenticate(mUserEmail, mUserPassword);
-            return UserHandler.isValidPassword(this.mUserEmail);
+            return UserHandler.isValidPassword(this.mUserPassword);
         }
 
         @Override
