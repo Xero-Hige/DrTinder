@@ -397,7 +397,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            this.mActivity = activity;
+            mActivity = activity;
         }
 
 
@@ -414,8 +414,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 return false;
             }
+
             firebaseAuthenticate(mUserEmail, mUserPassword);
-            return mFirebaseLogedIn;
+            return true;
         }
 
         @Override
@@ -431,6 +432,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 return;
+            }
+
+            if (!mFirebaseLogedIn) {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserEmail, mUserPassword)
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to login at FB");
+                                Utility.showMessage("Fallo en Firebase. Contacte al administrador",
+                                        Utility.getViewgroup(mActivity));
+                                return;
+                            }
+
+                            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
+                            firebaseAuthenticate(mUserEmail, mUserPassword);
+                            startApp(this.mActivity);
+                        });
             }
 
             ViewGroup viewgroup = Utility.getViewgroup(mActivity);
