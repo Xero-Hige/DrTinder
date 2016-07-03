@@ -52,7 +52,7 @@ getLocationString
 .. java:method:: public static String getLocationString(Activity activity)
    :outertype: LocationHandler
 
-   Gets location of the device as a string formated as: long;lat
+   Gets location of the device as a string formated as: long,lat
 
    :param activity: Calling activity
    :return: Location as long;lat formated string. If not, some of the result errors listed

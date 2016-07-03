@@ -68,30 +68,6 @@ EXTRA_FRIEND_NAME
 
    Intent extra field: Friend name
 
-EXTRA_USER_ID
-^^^^^^^^^^^^^
-
-.. java:field:: public static final String EXTRA_USER_ID
-   :outertype: ChatSession
-
-   Intent extra field: User id
-
-EXTRA_USER_NAME
-^^^^^^^^^^^^^^^
-
-.. java:field:: public static final String EXTRA_USER_NAME
-   :outertype: ChatSession
-
-   Intent extra field: User name
-
-EXTRA_USER_TOKEN
-^^^^^^^^^^^^^^^^
-
-.. java:field:: public static final String EXTRA_USER_TOKEN
-   :outertype: ChatSession
-
-   Intent extra field: User token
-
 Methods
 -------
 addResponse

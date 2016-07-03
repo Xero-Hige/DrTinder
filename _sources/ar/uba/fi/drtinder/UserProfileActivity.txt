@@ -82,14 +82,6 @@ PROFILE_EXTRA_ACTION
 
    Intent extra field: Activity action
 
-USER_EXTRA_TOKEN
-^^^^^^^^^^^^^^^^
-
-.. java:field:: public static final String USER_EXTRA_TOKEN
-   :outertype: UserProfileActivity
-
-   Intent extra field: User session token
-
 USER_EXTRA_USEREMAIL
 ^^^^^^^^^^^^^^^^^^^^
 

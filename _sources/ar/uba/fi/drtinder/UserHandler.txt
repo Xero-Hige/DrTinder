@@ -8,10 +8,6 @@
 
 .. java:import:: com.google.firebase.auth FirebaseUser
 
-.. java:import:: org.springframework.http HttpAuthentication
-
-.. java:import:: org.springframework.http HttpBasicAuthentication
-
 .. java:import:: org.springframework.http HttpEntity
 
 .. java:import:: org.springframework.http HttpHeaders
@@ -21,6 +17,10 @@
 .. java:import:: org.springframework.http ResponseEntity
 
 .. java:import:: org.springframework.http.converter StringHttpMessageConverter
+
+.. java:import:: org.springframework.web.client HttpClientErrorException
+
+.. java:import:: org.springframework.web.client HttpServerErrorException
 
 .. java:import:: org.springframework.web.client ResourceAccessException
 
