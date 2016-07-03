@@ -59,9 +59,9 @@ public class ChatFragment extends Fragment {
                     }
 
                     for (int i = 0; i < data.size(); i++) {
-                        String name = data.get(i)[0];
-                        String age = data.get(i)[1];
-                        String user = data.get(i)[2];
+                        String name = data.get(i)[1];
+                        String age = data.get(i)[2];
+                        String user = data.get(i)[3];
 
                         View layout = inflater.inflate(R.layout.chat_user_layout_left,
                                 container, false);
@@ -80,11 +80,11 @@ public class ChatFragment extends Fragment {
 
     private void openChat(@Nullable ViewGroup container, String name, String user) {
         assert container != null; //DEBUG Assert
-        Intent menuIntent = new Intent(container.getContext(),
+        Intent chatIntent = new Intent(container.getContext(),
                 ChatSession.class);
-        menuIntent.putExtra("User", name);
-        menuIntent.putExtra("ID", user);
-        startActivity(menuIntent);
+        chatIntent.putExtra(ChatSession.EXTRA_FRIEND_NAME, name);
+        chatIntent.putExtra(ChatSession.EXTRA_FRIEND_ID, user);
+        startActivity(chatIntent);
     }
 
     private ImageView addUserChat(String name, String age, String username, View chatLayout) {
