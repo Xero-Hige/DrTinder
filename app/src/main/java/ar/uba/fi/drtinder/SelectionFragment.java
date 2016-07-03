@@ -48,13 +48,13 @@ import java.util.Random;
  */
 public class SelectionFragment extends Fragment {
 
-    private static final int USER_NAME = 0;
-    private static final int USER_AGE = 1;
-    private static final int USER_ID = 2;
-    private static final int USER_BIO = 3;
-    private static final int USER_INTS = 4;
+    private static final int USER_NAME = 1;
+    private static final int USER_AGE = 2;
+    private static final int USER_ID = 3;
+    private static final int USER_BIO = 5;
+    private static final int USER_INTS = 7;
 
-    private static final int USER_FIELDS = 5;
+    private static final int USER_FIELDS = 10;
 
     //TODO: Remove
     private SwipeDeck mCardStack;

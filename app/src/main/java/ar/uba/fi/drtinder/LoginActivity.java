@@ -66,7 +66,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mUrl;
 
-    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private boolean mFirebaseLogedIn;
     private boolean mFirebaseLoginFinished;
 
@@ -83,6 +83,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     protected void onCreate(Bundle instanceState) {
         super.onCreate(instanceState);
         setContentView(R.layout.activity_login);
+        LocationHandler.getLocationString(this); //Forces to fetch gps info
 
         mFirebaseLoginFinished = true;
         mLoginLatch = new CountDownLatch(0);
@@ -353,7 +354,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             //    return false;
             //}
             //firebaseAuthenticate(mUserEmail, mUserPassword);
-            return UserHandler.isValidPassword(this.mUserEmail);
+            return UserHandler.isValidPassword(this.mUserPassword);
         }
 
         @Override
@@ -396,7 +397,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         UserLoginTask(String email, String password, Activity activity) {
             mUserEmail = email;
             mUserPassword = password;
-            this.mActivity = activity;
+            mActivity = activity;
         }
 
 
@@ -404,14 +405,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Boolean doInBackground(Void... params) {
             mAuthToken = UserHandler.getLoginToken(mUserEmail,
                     mUserPassword, getLocationString());
+            if (mAuthToken == null) {
+                return false;
+            }
             if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
             if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 return false;
             }
+
             firebaseAuthenticate(mUserEmail, mUserPassword);
-            return mFirebaseLogedIn;
+            return true;
         }
 
         @Override
@@ -427,6 +432,22 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 return;
+            }
+
+            if (!mFirebaseLogedIn) {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserEmail, mUserPassword)
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to login at FB");
+                                Utility.showMessage("Fallo en Firebase. Contacte al administrador",
+                                        Utility.getViewgroup(mActivity));
+                                return;
+                            }
+
+                            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
+                            firebaseAuthenticate(mUserEmail, mUserPassword);
+                            startApp(this.mActivity);
+                        });
             }
 
             ViewGroup viewgroup = Utility.getViewgroup(mActivity);

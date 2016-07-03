@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -56,7 +58,7 @@ public final class StringResourcesHandler {
     /**
      * Interest string divider (divide 2 diferent interest groups)
      */
-    public static final String INTEREST_DIVIDER = "\\|\\|";
+    public static final String INTEREST_DIVIDER = "||";
     /**
      * Interest group divider (divide between class and id)
      */
@@ -122,11 +124,21 @@ public final class StringResourcesHandler {
         } catch (HttpServerErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Server error: " + e.getMessage());
             return null;
+        } catch (HttpClientErrorException e) {
+            DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            return null;
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Failed to connect: " + e.getMessage());
             return null;
         }
         DrTinderLogger.writeLog(DrTinderLogger.NET_INFO, "End fetch " + queryUrl);
+
+        if (result == null) {
+            DrTinderLogger.writeLog(DrTinderLogger.WARN, "Empty response from :" + queryUrl);
+            return new LinkedList<>();
+        }
+
+        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Fetch result: \n" + result);
 
         StringReader stringReader = new StringReader(result);
         List<String[]> output = new ArrayList<>();

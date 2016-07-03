@@ -49,21 +49,9 @@ public class ChatSession extends AppCompatActivity {
      */
     public static final String EXTRA_FRIEND_NAME = "friendname";
     /**
-     * Intent extra field: User token
-     */
-    public static final String EXTRA_USER_TOKEN = "token";
-    /**
      * Intent extra field: Friend user id
      */
     public static final String EXTRA_FRIEND_ID = "friendid";
-    /**
-     * Intent extra field: User name
-     */
-    public static final String EXTRA_USER_NAME = "username";
-    /**
-     * Intent extra field: User id
-     */
-    public static final String EXTRA_USER_ID = "userid";
 
     private static final int DATA_FIELDS = 2;
 
@@ -72,7 +60,6 @@ public class ChatSession extends AppCompatActivity {
     private String mYourId;
     private String mFriendId;
     private String mFriendName;
-    private String mToken;
 
     private ChatSession mDis = this;
     private ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -108,8 +95,6 @@ public class ChatSession extends AppCompatActivity {
         Intent intent = getIntent();
         mFriendName = intent.getStringExtra(EXTRA_FRIEND_NAME);
         mFriendId = intent.getStringExtra(EXTRA_FRIEND_ID);
-        mYourId = intent.getStringExtra(EXTRA_USER_ID);
-        mToken = intent.getStringExtra(EXTRA_USER_TOKEN);
 
         this.setTitle(mFriendName);
 
@@ -120,7 +105,7 @@ public class ChatSession extends AppCompatActivity {
 
         ImageView img = (ImageView) findViewById(R.id.backdrop);
         ImageResourcesHandler.fillImageResource(mFriendId, ImageResourcesHandler.RES_USER_IMG,
-                mToken, img, this);
+                UserHandler.getToken(), img, this);
 
         FloatingActionButton scrollDownFB = (FloatingActionButton) this.findViewById(R.id.fab);
         assert scrollDownFB != null; //Debug assert
@@ -157,7 +142,8 @@ public class ChatSession extends AppCompatActivity {
     }
 
     private void loadOldMessages() {
-        StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.USER_CHAT, mToken, data -> {
+        StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.USER_CHAT, UserHandler.getToken()
+                , data -> {
             for (int index = 0; index < data.size(); index++) {
                 String[] messageData = data.get(index);
                 if (messageData.length != DATA_FIELDS) {
@@ -195,7 +181,7 @@ public class ChatSession extends AppCompatActivity {
 
         BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                mToken, imageView, this);
+                UserHandler.getToken(), imageView, this);
 
         TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
         nameTextView.setText(username + ":");

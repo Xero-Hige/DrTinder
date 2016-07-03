@@ -43,13 +43,13 @@ public final class LocationHandler {
     public static final String LOCATION_FAILED = "";
 
 
-    private static String locationString = LOCATION_FAILED;
+    private static String locationString = "0,0";
 
     private LocationHandler() {
     }
 
     /**
-     * Gets location of the device as a string formated as:  long;lat
+     * Gets location of the device as a string formated as:  long,lat
      *
      * @param activity Calling activity
      * @return Location as long;lat formated string. If not, some of the result errors listed
@@ -61,7 +61,7 @@ public final class LocationHandler {
             @Override
             public void onLocationChanged(Location location) {
                 locationString = String.format(Locale.ENGLISH,
-                        "%f;%f", location.getLongitude(), location.getLatitude());
+                        "%f,%f", location.getLongitude(), location.getLatitude());
             }
 
             @Override
@@ -92,6 +92,7 @@ public final class LocationHandler {
         activity.runOnUiThread(() ->
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
                         locationListener));
+        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Loc: " + locationString);
         return locationString;
     }
 }

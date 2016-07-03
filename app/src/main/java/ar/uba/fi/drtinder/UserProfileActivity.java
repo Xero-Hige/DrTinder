@@ -56,10 +56,6 @@ public class UserProfileActivity extends AppCompatActivity {
      * Intent extra field: User email
      */
     public static final String USER_EXTRA_USEREMAIL = "email";
-    /**
-     * Intent extra field: User session token
-     */
-    public static final String USER_EXTRA_TOKEN = "token";
 
     /**
      * Intent extra field: Activity action
@@ -80,14 +76,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private ImageView mProfilePic;
     private String mActivityAction;
-    private String mToken;
 
     private String mEmail;
     private Bitmap mProfileImage = null;
 
-    /**
-     * View
-     */
     private TextView mPasswordView;
     private RadioButton mSexMale;
     private RadioButton mSexFemale;
@@ -123,7 +115,6 @@ public class UserProfileActivity extends AppCompatActivity {
         assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
-        mToken = activityIntent.getStringExtra(USER_EXTRA_TOKEN);
         String mUsername = activityIntent.getStringExtra(USER_EXTRA_USERNAME);
         assert mActivityAction != null; //DEBUG Assert
 
@@ -134,7 +125,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             ImageResourcesHandler.fillImageResource(mUsername,
-                    ImageResourcesHandler.RES_USER_IMG, mToken, mProfilePic, this);
+                    ImageResourcesHandler.RES_USER_IMG, UserHandler.getToken(),
+                    mProfilePic, this.getApplicationContext());
         }
 
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
@@ -162,16 +154,32 @@ public class UserProfileActivity extends AppCompatActivity {
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
         }
-        StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
+        StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, UserHandler.getToken(),
                 data -> {
                     if (data == null) {
                         Utility.showMessage("Error de conexion con el servidor", Utility.getViewgroup(this), "Ok");
                         return;
                     }
-                    String username = data.get(0)[0];
-                    String age = data.get(0)[1];
-                    String sex = data.get(0)[2];
-                    String interest = data.get(0)[3];
+
+                    if (data.size() == 0) {
+                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte", Utility.getViewgroup(this), "Ok");
+                        return;
+                    }
+
+                    String username = "";
+                    String age = "";
+                    String sex = "";
+                    String interest = "";
+                    try {
+                        username = data.get(0)[1];
+                        age = data.get(0)[2];
+                        sex = data.get(0)[5];
+                        interest = data.get(0)[7];
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Userdata doesn't have the required number of fields");
+                        Utility.showMessage("Error en la recepcion de datos", Utility.getViewgroup(this));
+                        //return;
+                    }
 
                     TextView usernameView = (TextView) findViewById(R.id.profUsername);
                     assert usernameView != null; //DEBUG Assert
@@ -183,9 +191,13 @@ public class UserProfileActivity extends AppCompatActivity {
                     mSearchingMale.setChecked(false);
                     mSearchingFemale.setChecked(false);
 
-                    String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
+                    String[] interests = interest.split("\\|\\|");
                     for (String interest1 : interests) {
+                        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Interest: " + interest1);
                         String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
+                        if (params.length < 2) {
+                            continue;
+                        }
                         addInterest(params[0], params[1]);
                     }
 
@@ -203,7 +215,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 Utility.showMessage("Faltan datos del interes a agregar",
                         Utility.getViewgroup(this), "Ok");
             }
-
             addInterest(category, id);
 
             mInterestCategory.setText("");
@@ -225,11 +236,11 @@ public class UserProfileActivity extends AppCompatActivity {
 
         View layout = inflater.inflate(R.layout.interest_lay, Utility.getViewgroup(this), false);
         TextView textView = (TextView) layout.findViewById(R.id.interst_txt);
-        String interestLabel = trimmedCategory + ":\n" + trimmedCategory;
+        String interestLabel = trimmedCategory + ":\n" + trimmedId;
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                ImageResourcesHandler.RES_INTEREST_IMG, mToken, imageView, this);
+                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
         mInterestLLay.addView(layout);
         mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
@@ -333,6 +344,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user at FB: "
                                 + mEmail + " " + password);
                         Utility.showMessage("Fallo al crear el usuario. Reintente mas tarde", viewGroup);
+                        enableButtons();
                         return;
                     }
 
@@ -341,11 +353,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (mProfileImage == null) {
                         mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
                     }
-                    UserHandler.uploadProfilePicture(mProfileImage, mToken);
-                    HashMap<String, String> userdata = getUserdataMap();
-                    UserHandler.signUp(mEmail, password, userdata);
-                    Utility.showMessage("Listo", viewGroup);
-                    finish();
+                    CreateUserTask createTask = new CreateUserTask(this, password);
+                    createTask.execute();
+                    disableButtons();
                 });
     }
 
@@ -367,13 +377,12 @@ public class UserProfileActivity extends AppCompatActivity {
         userdata.put("name", mUserName.getText().toString());
         userdata.put("age", mAge.getText().toString());
         userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
+        userdata.put("localization", LocationHandler.getLocationString(this));
+
 
         String interests = "";
         for (int i = 0; i < mInterestList.size(); i++) {
             interests = interests + mInterestList.get(i);
-            if (i == mInterestList.size() - 1) {
-                continue;
-            }
             interests = interests + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
@@ -381,13 +390,12 @@ public class UserProfileActivity extends AppCompatActivity {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
-
         if (mSearchingFemale.isChecked()) {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
-        interests = interests.substring(0, interests.length() - 3);
+        interests = interests.substring(0, interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
 
         userdata.put("interest", interests);
         return userdata;
@@ -431,9 +439,9 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             if (mProfileImage != null) {
-                UserHandler.uploadProfilePicture(mProfileImage, mToken);
+                UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
             }
-            return UserHandler.updateInfo(mToken, getUserdataMap());
+            return UserHandler.updateInfo(UserHandler.getToken(), getUserdataMap());
         }
 
         @Override
@@ -449,6 +457,40 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
+    private class CreateUserTask extends AsyncTask<Void, Void, Boolean> {
+
+        private Activity mContext;
+        private String mPasswd;
+        private String mResult;
+
+        CreateUserTask(Activity context, String pass) {
+            mContext = context;
+            mPasswd = pass;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            mResult = UserHandler.signUp(mEmail, mPasswd, getUserdataMap());
+            UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
+            return mResult.equals(UserHandler.SIGNUP_SUCCESS);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                if (mResult.equals(UserHandler.SIGNUP_FAILED)) {
+                    Utility.showMessage("Fallo al crear el usuario. Intente mas tarde",
+                            Utility.getViewgroup(mContext), "Ok");
+                    enableButtons();
+                    return;
+                }
+                assert false; //DEBUG: should not reach here
+            }
+            mContext.finish();
+        }
+    }
+
+
     private class DeleteUserTask extends AsyncTask<Void, Void, Boolean> {
 
         private Activity mContext;
@@ -459,7 +501,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            boolean success = UserHandler.deleteProfile(mToken);
+            boolean success = UserHandler.deleteProfile(UserHandler.getToken());
             if (success) {
                 Utility.showMessage("Usuario eliminado", Utility.getViewgroup(mContext), "Ok");
                 try {
@@ -479,7 +521,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 enableButtons();
                 return;
             }
-
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
             mContext.finish();
