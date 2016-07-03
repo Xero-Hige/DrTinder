@@ -62,7 +62,7 @@ void JsonParser::makeUser(Json::Value json_user,User &user){
 }
 
 Json::Value JsonParser::interestsToJson(Interests* interests){
-	Json::Value interests_json;
+	Json::Value interests_json(Json::arrayValue);
 	map<string,vector<string>> inter = interests->allInterests();
 	map<string,vector<string>>::iterator it = inter.begin();
 

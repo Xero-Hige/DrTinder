@@ -62,7 +62,7 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	usersDB->getEntry(USER_CSV_DB + username, currentUserData);
 	LOGG(DEBUG) << "User Taken from DB: "<< currentUserData ;
 	User currentUser;
-	if (! csvParser.makeUser(currentUserData, currentUser) ){
+	if (! csvParser.makeSignupUser(currentUserData, currentUser) ){
 		LOGG(WARNING) << "Bad user format in DB";
 		return false;
 	}
@@ -312,7 +312,7 @@ bool MessageHandler::addLocalization(string localization) {
 	string latitude = localization.substr(0, i);
 	string longitude = localization.substr(i+1, localization.length());
 	if ( !isFloat(latitude) || !isFloat(longitude)){
-		LOGG(DEBUG) << "Localization without floats";
+		LOGG(DEBUG) << "Localization without floats. Latitude: " << latitude << " - longitude: " << longitude;
 		return false;
 	}
 	//TODO: Refactor!
@@ -322,13 +322,15 @@ bool MessageHandler::addLocalization(string localization) {
 	string id = this->getId(), base_user;
 
 	usersDB->getEntry(USER_CSV_DB + username, base_user);
-	csvParser.makeUser(base_user, new_user);
+	csvParser.makeSignupUser(base_user, new_user);
+	LOGG(DEBUG) << "Obteniendo datos de usuario: " << base_user << ";";
 
 	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
 	Json::Value new_localization;
 	new_localization[LATITUDE_KEY] = stof(latitude);
 	new_localization[LONGITUDE_KEY] = stof(longitude);
 	jsonUser[LOCATION_KEY] = new_localization;
+	jsonUser[ID_KEY] = stoi(id);
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
