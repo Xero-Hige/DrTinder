@@ -40,6 +40,22 @@ private:
     bool parseAuthorization(string &user, string &pass);
 
     bool login();
+
+    void listenUserPost();
+
+    void listenUserGet();
+
+    void listenUsersPost();
+
+    void listenUsersGet();
+
+    void listenUsersPut();
+
+    void listenUsersDelete();
+
+    void listenPhotoGet();
+
+    void listenPhotoPost();
 };
 
 

@@ -44,7 +44,7 @@ vector<string> CsvParser::parseLine(string *line){
 void CsvParser::splitInterest(string cell, string &key, string &value){
 	stringstream ss(cell);
 	string temp;
-
+	LOGG(DEBUG) << "Spliting interest " << cell;
 	while (ss.good()){
 		getline(ss, temp, ':');
 
@@ -54,11 +54,16 @@ void CsvParser::splitInterest(string cell, string &key, string &value){
 		}
 		value = temp;
 	}
-
+	LOGG(DEBUG)<< "Splited in "<< key << "," << value;
 }
 
 void CsvParser::makeInterests(string keyValues, Interests &interests){
 	string key,value;
+
+	if (keyValues.back() == '\"') {
+		keyValues.pop_back();
+	}
+
 	stringstream ss(keyValues);
 
 	string cell;

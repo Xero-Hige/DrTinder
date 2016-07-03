@@ -30,9 +30,15 @@ Server::~Server() {
     delete databases->chatDB;
 }
 
+void Server::updateServer(){
+	MessageHandler msg(databases);
+	msg.setSharedLink(linkToShared);
+	msg.updateUsersWithSS();
+}
+
 void Server::run() {
 	if (! databases->usersDB) {
-		//TODO: error
+		LOGG(ERROR) << "DB not set";
 	}
 	mg_mgr_poll(&manager_, DEFAULT_MILISECS_POLL);
 }

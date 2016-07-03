@@ -16,8 +16,8 @@ class MyTest(unittest.TestCase):
 		r = myClient.delete()
 		self.assertEquals(r.status_code,200)
 		r = myClient.delete()
-		#no lo deja hacer nada -> 401 (NOT LOGED IN)
-		self.assertEquals(r.status_code,401)	
+		#token expired -> 498 (NOT LOGED IN)
+		self.assertEquals(r.status_code,498)	
 
 	def test_ChangedPhoto(self):
 		myClient.signup()
@@ -62,6 +62,19 @@ class MyTest(unittest.TestCase):
 		self.assertEqual(r.status_code,200)
 		self.assertNotEqual(r.text.find("NONONON"),-1)
 		myClient.delete()
+
+	def test_getUserOfSS(self):
+		user="asd@asd.com"
+		myClient.signup()
+		myClient.login()
+		r = myClient.getData(user)
+		self.assertEqual(r.status_code,200)
+		myClient.delete()
+
+	def test_loginUserOfSS(self):
+		user="asd@asd.com"
+		r = myClient.login(user,"1234")
+		self.assertEqual(r.status_code,200)
 
 if __name__ == '__main__':
 	unittest.main()
