@@ -221,7 +221,7 @@ bool MessageHandler::updateUser(string user_data) {
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
-	cout << jsonParser.getAsString(data_to_post) << endl;
+	LOGG(DEBUG) << jsonParser.getAsString(data_to_post);
 	LOGG(DEBUG) << "Updating info of " + id ;
 
 	bool changed = ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
@@ -264,12 +264,15 @@ bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
 	string user_id, photo;
 	LOGG(DEBUG)<<"Getting user for " << other_username;
 	makeUsername(other_username);
-	if (!usersDB->getEntry(USER_ID_DB + other_username, user_id)) {
+
+	bool userExists = usersDB->getEntry(USER_ID_DB + other_username, user_id);
+
+	if (! userExists) {
 		LOGG(WARNING)<<"Wanted to get photo of unexistant: " << other_username;
 		return false;
 	}
-	return ssClient->getUserPhoto(this->getId(), photo_64);
 
+	return ssClient->getUserPhoto(user_id, photo_64);
 }
 
 bool MessageHandler::postPhoto(string photo_64) {

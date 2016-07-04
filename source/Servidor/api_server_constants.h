@@ -26,7 +26,7 @@
 
 #define FIREBASE_SERVER_SEND_URL "fcm-xmpp.googleapis.com"
 #define FIREBASE_SERVER_PORT 5236
-#define FIREBASE_JID "project-1952903622709606244.firebaseio.com"
+#define FIREBASE_JID "https://project-1952903622709606244.firebaseio.com"
 
 #define LIKE_USER "user"
 #define LIKE_CANDIDATE "candidate"

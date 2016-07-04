@@ -5,11 +5,11 @@
 #include <string>
 #include <array>
 #include "api_constants_shared.h"
-#include "../libs/restclient-cpp/include/restclient-cpp/connection.h"
-#include "../libs/restclient-cpp/include/restclient-cpp/restclient.h"
 #include "../libs/loger/easylogging++.h"
 #include "../libs/mongoose/mongoose.h"
 #include "Parsers/JsonParser.h"
+#include <restclient-cpp/restclient.h>
+#include <restclient-cpp/connection.h>
 
 
 /*

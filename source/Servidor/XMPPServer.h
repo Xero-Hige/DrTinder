@@ -25,6 +25,8 @@ public:
 
     void setDislikesDB(rocksdb::DB *db);
 
+    void close();
+
 private:
     void handlePresenceReceived(Swift::Presence::ref presence);
 

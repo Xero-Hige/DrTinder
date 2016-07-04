@@ -7,7 +7,7 @@ using namespace boost;
 
 XMPPServer::XMPPServer(NetworkFactories* networkFactories) :
         jid(FIREBASE_JID) {
-    component = new Component(jid, "XMPPServer", networkFactories);
+    component = new Component(jid, "XMPPServerKey", networkFactories);
     component->onConnected.connect(bind(&XMPPServer::handleConnected, this));
     component->onMessageReceived.connect(
             bind(&XMPPServer::handleMessageReceived, this, _1));
@@ -72,6 +72,12 @@ void XMPPServer::setChatDB(rocksdb::DB *db) {
 void XMPPServer::setLikesDB(rocksdb::DB *db) {
     likesDB = db;
 }
+
+void XMPPServer::close() {
+    component->disconnect();
+}
+
+
 
 
 
