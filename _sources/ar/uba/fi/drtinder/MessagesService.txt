@@ -6,6 +6,10 @@
 
 .. java:import:: android.content Intent
 
+.. java:import:: android.graphics Bitmap
+
+.. java:import:: android.graphics BitmapFactory
+
 .. java:import:: android.media RingtoneManager
 
 .. java:import:: android.net Uri
