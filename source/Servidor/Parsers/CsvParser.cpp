@@ -167,7 +167,7 @@ bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	vector<string> modifications = this->parseLine(&user_str);
 	vector<string> parsed = this->parseLine(&user_str);
 
-	if ( modifications.size() > (USER_DATA_FOR_CLIENT_COUNT - PUT_SHUFF)){
+	if ( modifications.size() > (USER_DATA_UPDATE_COUNT)){
 		return false;
 	}
 	//FromOriginal
@@ -178,20 +178,19 @@ bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	string yS = parsedOriginal[LOCY_FULL_IDX];
 
 	//Modifications
-	string name = modifications[NAME_IDX];
-	string age = modifications[AGE_IDX];
+	string name = modifications[NAME_UPDATE_IDX];
+	string age = modifications[AGE_UPDATE_IDX];
 
 	//Modifications shuffled
-	string sex = modifications[SEX_IDX - PUT_SHUFF];
+	string sex = modifications[SEX_UPDATE_IDX];
 	if ( ! isInteger(age) || ! isInteger(idS)){
 		return false;
 	}
-
 	if ( ! isFloat(xS) || ! isFloat(yS)){
 		return false;
 	}
 	Interests interests;
-	this->makeInterests(modifications[INT_IDX - PUT_SHUFF], interests);
+	this->makeInterests(modifications[INT_UPDATE_IDX], interests);
 
 	float x = stof(xS);
 	float y = stof(yS);
@@ -201,7 +200,7 @@ bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	user.setLocation(x, y);
 	user.setId(id);
 	user.setCommonData(mail, alias, name, sex);
-	user.setDescription(modifications[DSC_IDX - PUT_SHUFF]);
+	user.setDescription(parsedOriginal[DSC_FULL_IDX]);
 	user.setAge(stoi(age));
 
 	return true;

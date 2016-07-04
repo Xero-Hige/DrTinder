@@ -176,9 +176,9 @@ void RequestHandler::listenUsersPut() {
     char user_data[1000];
     int parsed = mg_get_http_var(&http_msg->body, BODY_USER, user_data, sizeof(user_data));
     if (parsed <= 0 ) {
-    LOGG(DEBUG) << "No 'User=' in request, recieved: " << http_msg->body.p;
-    sendHttpLine(BAD_REQUEST);
-    return;
+        LOGG(DEBUG) << "No 'User=' in request, recieved: " << http_msg->body.p;
+        sendHttpLine(BAD_REQUEST);
+        return;
     }
     bool updated = msgHandler->updateUser(string(user_data));
     int status = (updated) ? STATUS_OK: BAD_REQUEST;
@@ -198,7 +198,8 @@ void RequestHandler::listenUsersRequest() {
         listenUsersPost();
     }
     if (! login()) {
-    	return; }
+    	return;
+    }
 
     if (is_equal(&http_msg->method, GET_S)) {
     	listenUsersGet();

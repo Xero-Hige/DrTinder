@@ -7,8 +7,9 @@
 
 #include "User.h"
 
-User::User(){
-
+User::User() : id(0), age(18) {
+	location[0] = 0;
+	location[1] = 0;
 }
 
 void User::setInterests(Interests interest){

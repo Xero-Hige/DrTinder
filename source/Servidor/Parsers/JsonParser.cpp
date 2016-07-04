@@ -89,12 +89,11 @@ Json::Value JsonParser::interestsToJson(Interests* interests){
 
 Json::Value JsonParser::userToJson(User *user, bool id){
 	Json::Value user_json;
-	Json::Value location;
+	Json::Value location(Json::objectValue);
 
 	if (id){
 		user_json[ID_KEY] = user->getID();
 	}
-
 	user_json[ALIAS_KEY] = user->getAlias();
 	user_json[NAME_KEY] = user->getName();
 	user_json[MAIL_KEY] = user->getMail();
@@ -102,10 +101,8 @@ Json::Value JsonParser::userToJson(User *user, bool id){
 	user_json[SEX_KEY] = user->getSex();
 	user_json[AGE_KEY] = user->getAge();
 	user_json[INTERESTS_KEY] = interestsToJson(user->getInterests());
-
 	location[LATITUDE_KEY] = user->getX();
 	location[LONGITUDE_KEY] = user->getY();
-
 	user_json[LOCATION_KEY] = location;
 	return user_json;
 }

@@ -202,6 +202,7 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 }
 
 bool MessageHandler::updateUser(string user_data) {
+	LOGG(DEBUG) << "Updating user";
 	CsvParser csvParser;
 	JsonParser jsonParser;
 	User new_user;
@@ -216,8 +217,7 @@ bool MessageHandler::updateUser(string user_data) {
 		LOGG(WARNING) << "Bad format of user data to modify";
 		return false;
 	}
-
-	Json::Value jsonUser = jsonParser.userToJson(&new_user,true);
+	Json::Value jsonUser = jsonParser.userToJson(&new_user, true);
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;

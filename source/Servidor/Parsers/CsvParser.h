@@ -17,6 +17,10 @@
 #include "../ServerUtils.h"
 #include "../../libs/loger/easylogging++.h"
 
+typedef const enum {
+	NAME_UPDATE_IDX, AGE_UPDATE_IDX, SEX_UPDATE_IDX, INT_UPDATE_IDX, USER_DATA_UPDATE_COUNT
+} update_idx_type;
+
 #define ID_FULL_IDX 0
 #define NAME_FULL_IDX 1
 #define AGE_FULL_IDX 2
@@ -36,7 +40,6 @@
 #define DSC_IDX 5
 #define INT_IDX 6
 #define USER_DATA_FOR_CLIENT_COUNT 7
-#define PUT_SHUFF 2
 
 using namespace std;
 
