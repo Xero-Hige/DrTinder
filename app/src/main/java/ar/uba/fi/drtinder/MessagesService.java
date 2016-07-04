@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
@@ -47,8 +49,20 @@ public class MessagesService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
         String message = data.get("message");
         String senderId = data.get("senderId");
+        String receiverId = data.get("receiverId");
 
-        sendNotification(message);
+        if (senderId.equals("DRTINDERMATCH")) {
+            if (receiverId.equals(UserHandler.getUsername())) {
+                sendMatchNotification(message);
+            }
+            return;
+        }
+
+        if (!receiverId.equals(UserHandler.getUsername())) {
+            return;
+        }
+
+        sendChatNotification(message);
 
         if (mSession == null) {
             return;
@@ -57,18 +71,47 @@ public class MessagesService extends FirebaseMessagingService {
         mSession.addResponse(message, senderId);
     }
 
-    private void sendNotification(String message) {
+    private void sendChatNotification(String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setContentTitle("Mensaje en Dr.Tinder")
+                .setSmallIcon(R.drawable.message)
+                .setLargeIcon(bitmap)
+                .setContentTitle("Mensaje en Dr.Tinder!")
                 .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager
+                = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+
+    private void sendMatchNotification(String match) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.like);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.heart)
+                .setLargeIcon(bitmap)
+                .setContentTitle("Tienes un nuevo match!")
+                .setContentText(match + " tambien te dio like. Hablale ahora")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
