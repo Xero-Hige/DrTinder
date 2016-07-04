@@ -199,7 +199,7 @@ public class SelectionFragment extends Fragment {
                 Map<Integer, String> data = mUsersQueue.remove();
 
                 FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder(UserHandler.getUserEmail())
+                        new RemoteMessage.Builder(FirebaseMessaging.getInstance().toString() + "@gcm.googleapis.com")
                                 .setMessageId(" ")
                                 .addData("user", UserHandler.getUsername())
                                 .addData("candidate", data.get(USER_ID))
@@ -219,7 +219,7 @@ public class SelectionFragment extends Fragment {
                 Map<Integer, String> data = mUsersQueue.remove();
 
                 FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder(UserHandler.getUserEmail())
+                        new RemoteMessage.Builder(FirebaseMessaging.getInstance().toString() + "@gcm.googleapis.com")
                                 .setMessageId(" ")
                                 .addData("user", UserHandler.getUsername())
                                 .addData("candidate", data.get(USER_ID))

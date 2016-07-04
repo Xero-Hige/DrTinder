@@ -447,7 +447,7 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) {
-                Utility.showMessage("Fallo al crear el usuario. Intente nuevamente",
+                Utility.showMessage("Fallo al actualizar. Intente nuevamente",
                         Utility.getViewgroup(mContext), "Ok");
                 enableButtons();
                 return;

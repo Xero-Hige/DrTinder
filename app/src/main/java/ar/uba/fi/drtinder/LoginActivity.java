@@ -422,21 +422,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
             if (success) {
                 startApp(this.mActivity);
                 return;
             }
+
             if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
+                showProgress(false);
                 return;
             }
 
             if (!mFirebaseLogedIn) {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserEmail, mUserPassword)
                         .addOnCompleteListener(task -> {
+                            showProgress(false);
                             if (!task.isSuccessful()) {
                                 DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to login at FB");
                                 Utility.showMessage("Fallo en Firebase. Contacte al administrador",
@@ -448,10 +450,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             firebaseAuthenticate(mUserEmail, mUserPassword);
                             startApp(this.mActivity);
                         });
+                return;
             }
 
+            showProgress(false);
             ViewGroup viewgroup = Utility.getViewgroup(mActivity);
             Utility.showMessage("Error de conexion con el servidor", viewgroup, "OK");
+
         }
 
         @Override
