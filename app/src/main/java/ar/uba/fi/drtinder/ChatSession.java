@@ -1,7 +1,6 @@
 package ar.uba.fi.drtinder;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -69,12 +68,12 @@ public class ChatSession extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
             mService = binder.getService();
-            mService.setSession(mDis);
+            MessagesService.setSession(ChatSession.this);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            mService.setSession(null);
+            MessagesService.setSession(null);
         }
     };
 
@@ -189,7 +188,7 @@ public class ChatSession extends AppCompatActivity {
         TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
         msgTextView.setText(message);
 
-        mMessagesLayout.addView(layout);
+        runOnUiThread(() -> mMessagesLayout.addView(layout));
     }
 
     private void addFriendResponse(String message) {
@@ -216,6 +215,7 @@ public class ChatSession extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+        MessagesService.setSession(null);
     }
 
     /**
@@ -228,9 +228,10 @@ public class ChatSession extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, MessagesService.class);
-        startService(intent);
-        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        //Intent intent = new Intent(this, MessagesService.class);
+        //ComponentName a = startService(intent);
+        //bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        MessagesService.setSession(this);
     }
 
     /**
