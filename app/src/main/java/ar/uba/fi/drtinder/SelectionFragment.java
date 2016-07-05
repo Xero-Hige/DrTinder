@@ -136,6 +136,9 @@ public class SelectionFragment extends Fragment {
     private void showActualUserData() {
         Intent detailsIntent = new Intent(getContext(), UserDetailsActivity.class);
         Map<Integer, String> data = mUsersQueue.peek();
+        if (data == null) {
+            return;
+        }
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_NAME, data.get(USER_NAME));
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_AGE, data.get(USER_AGE));
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_ID, data.get(USER_ID));
