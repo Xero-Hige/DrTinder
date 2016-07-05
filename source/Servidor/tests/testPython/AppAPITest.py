@@ -1,8 +1,9 @@
 from Clients.clientApp import ClientApp
 import unittest
+import base64
 
-mail= "pepep123@pas.com"
-passw = "secret"
+mail= "de@hotmail.com"
+passw = "1234"
 
 myClient = ClientApp(mail,passw)
 
@@ -22,11 +23,12 @@ class MyTest(unittest.TestCase):
 	def test_ChangedPhoto(self):
 		myClient.signup()
 		myClient.login()
-		myClient.postPhoto("aasaa")
+		with open("download.jpg", "rb") as image_file:
+			foto_mujer = base64.b64encode(image_file.read())
+
+		myClient.postPhoto(foto_mujer)
 		r = myClient.getPhoto()
-		self.assertTrue(r.text.find("aasaa")	>= 0)
-		r = myClient.delete()
-		self.assertTrue(1)
+		self.assertTrue(r.text.find(foto_mujer)	>= 0)
 
 	def test_CallUnexistantUri(self):
 		myClient.signup()
@@ -54,14 +56,13 @@ class MyTest(unittest.TestCase):
 		myClient.delete()
 
 	def test_ModifiedDataGoodData(self):
-		data = '"NONONON","25","man","Pickachu","sport::tennis"';
+		data = '"NONONON","25","man","sport::tennis"';
 		myClient.signup()
 		myClient.login()
 		myClient.modifyData(data)
 		r = myClient.getData()
 		self.assertEqual(r.status_code,200)
 		self.assertNotEqual(r.text.find("NONONON"),-1)
-		myClient.delete()
 
 	def test_getUserOfSS(self):
 		user="asd@asd.com"

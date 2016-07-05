@@ -189,7 +189,7 @@ TEST(CsvParser, CsvModifyUserFromBase){
 	User user;
 	string parsed, base, fromClient;
 	fromClient =
-			"\"name\",\"10\",\"sex\",\"lookingFor\",\"interest_id1::interest1||interest_id2::interest2\"";
+			"\"name\",\"10\",\"sex\",\"interest_id1::interest1||interest_id2::interest2\"";
 	base = "\"1\",\"Pepe\",\"15\",\"Pepe\",\"aaa@aaa.com\",\"sex\",\"asd\",\"interest_id1::interest1||interest_id2::interest2\","
 			"\"-0.153\",\"1.56345\"";
 	parser.makePutUser(fromClient,base,user);

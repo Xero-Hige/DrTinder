@@ -202,35 +202,39 @@ bool MessageHandler::createUser(string user_data, std::string pass) {
 }
 
 bool MessageHandler::updateUser(string user_data) {
-	LOGG(DEBUG) << "Updating user";
+	LOGG(DEBUG) << "Updating user with: " << user_data;
 	CsvParser csvParser;
 	JsonParser jsonParser;
+	UserParser userParser;
 	User new_user;
-	string id = this->getId(), base_user, desc;
+	string id = this->getId(), base_user, photo;
 
-	if ( ! this->getUser(username, base_user) ){
+	if ( ! this->ssClient->getUser(id, &base_user) ){
 		LOGG(WARNING) << "Wanting to update unexistant user " << username;
 		return false;
 	}
+	//save photo
+	jsonParser.parsing(base_user);
+	photo = jsonParser.getValue(USER_KEY)[PHOTO_KEY].asString();
+
+	//make csv base User
+	userParser.JsonToCsvFull(jsonParser.getValue(USER_KEY),base_user,"");
 
 	if (! csvParser.makePutUser(user_data, base_user, new_user)){
 		LOGG(WARNING) << "Bad format of user data to modify";
 		return false;
 	}
+
 	Json::Value jsonUser = jsonParser.userToJson(&new_user, true);
 	Json::Value data_to_post;
+	jsonUser[PHOTO_KEY]= photo;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
 	LOGG(DEBUG) << jsonParser.getAsString(data_to_post);
 	LOGG(DEBUG) << "Updating info of " + id ;
 
 	bool changed = ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
-	if (changed){
-		desc = new_user.getDescription();
-		this->usersDB->addEntry(USER_LOOKING_DB + username, desc);
-		//save_user = csvParser.userToCsvFull(&new_user);
-		//this->usersDB->addEntry(USER_CSV_DB + username, save_user);
-	}
+	//ya no cambia descripcion
 	return changed;
 }
 
@@ -357,12 +361,18 @@ bool MessageHandler::addLocalization(string localization) {
 	JsonParser jsonParser;
 	UserParser userParser;
 	User new_user;
-	string id = this->getId(), base_user;
+	string id = this->getId(), base_user, photo;
 
-	if (! this->getUser(username, base_user)){
-		LOGG(DEBUG) << "Inexistant user";
+	if ( ! this->ssClient->getUser(id, &base_user) ) {
+		LOGG(WARNING) << "Wanting to login unexistant user " << username;
 		return false;
 	}
+	//save photo
+	jsonParser.parsing(base_user);
+	photo = jsonParser.getValue(USER_KEY)[PHOTO_KEY].asString();
+
+	//make csv base User
+	userParser.JsonToCsvFull(jsonParser.getValue(USER_KEY),base_user,"");
 
 	Json::Value jsonUser;
 	userParser.CsvToJsonFull(base_user,jsonUser,1);
@@ -377,6 +387,7 @@ bool MessageHandler::addLocalization(string localization) {
 	new_localization[LONGITUDE_KEY] = stof(longitude);
 	jsonUser[LOCATION_KEY] = new_localization;
 	jsonUser[ID_KEY] = stoi(id);
+	jsonUser[PHOTO_KEY] = photo;
 	Json::Value data_to_post;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;

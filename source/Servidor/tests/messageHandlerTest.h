@@ -134,7 +134,7 @@ TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){
 	if (complete.size() > 2){
 		complete = complete.substr(0, complete.size() - 2);
 	}
-	modified = "\"Pepe\",\"18\",\"man\",\"Pokemooon\",\"sport::tennis\"";
+	modified = "\"Pepe\",\"18\",\"man\",\"sport::tennis\"";
 	DB* db;
 	DB* dbc;
 	setUpDatabaseTest(&db,US_HAND_TEST_DB);

@@ -200,7 +200,6 @@ bool CsvParser::makePutUser(string user_str, string base_user, User& user){
 	user.setLocation(x, y);
 	user.setId(id);
 	user.setCommonData(mail, alias, name, sex);
-	user.setDescription(parsedOriginal[DSC_FULL_IDX]);
 	user.setAge(stoi(age));
 
 	return true;
