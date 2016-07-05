@@ -111,6 +111,19 @@ public class ChatSession extends AppCompatActivity {
         scrollDownFB.setOnClickListener(listener -> scrollToLast());
     }
 
+    /**
+     * Called when you are no longer visible to the user. You will next receive either onRestart(),
+     * onDestroy(), or nothing, depending on later user activity.
+     * <p>
+     * Derived classes must call through to the super class's implementation of this method.
+     * If they do not, an exception will be thrown.
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        MessagesService.setSession(null);
+    }
+
     private void addSendListener() {
         ImageButton sendButton = (ImageButton) this.findViewById(R.id.send);
         assert sendButton != null; //Debug assert
@@ -124,7 +137,9 @@ public class ChatSession extends AppCompatActivity {
                     if (message.isEmpty()) {
                         return;
                     }
-                    //addPersonalResponse(message);
+
+                    //TODO: Remove
+                    addPersonalResponse(message);
 
                     FirebaseMessaging.getInstance().send(
                             new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
@@ -170,31 +185,6 @@ public class ChatSession extends AppCompatActivity {
         });
     }
 
-    private void addPersonalResponse(String message) {
-        addResponse(R.layout.chat_session_you, "Tu", mYourId, message);
-    }
-
-    private void addResponse(int layoutId, String username, String userId, String message) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View layout = inflater.inflate(layoutId, null);
-
-        BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                UserHandler.getToken(), imageView, this);
-
-        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-        nameTextView.setText(username + ":");
-
-        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-        msgTextView.setText(message);
-
-        runOnUiThread(() -> mMessagesLayout.addView(layout));
-    }
-
-    private void addFriendResponse(String message) {
-        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
-    }
-
     private void scrollToLast() {
         final NestedScrollView scrollview = ((NestedScrollView) findViewById(R.id.messages_lay));
         assert scrollview != null; //Debug assert
@@ -202,20 +192,6 @@ public class ChatSession extends AppCompatActivity {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
-    }
-
-
-    /**
-     * Called when you are no longer visible to the user. You will next receive either onRestart(),
-     * onDestroy(), or nothing, depending on later user activity.
-     * <p>
-     * Derived classes must call through to the super class's implementation of this method.
-     * If they do not, an exception will be thrown.
-     */
-    @Override
-    public void onStop() {
-        super.onStop();
-        MessagesService.setSession(null);
     }
 
     /**
@@ -251,5 +227,30 @@ public class ChatSession extends AppCompatActivity {
         }
         DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
                 + userId + " - " + message);
+    }
+
+    private void addPersonalResponse(String message) {
+        addResponse(R.layout.chat_session_you, "Tu", UserHandler.getUsername(), message);
+    }
+
+    private void addFriendResponse(String message) {
+        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
+    }
+
+    private void addResponse(int layoutId, String username, String userId, String message) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout = inflater.inflate(layoutId, null);
+
+        BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                UserHandler.getToken(), imageView, this);
+
+        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
+        nameTextView.setText(username + ":");
+
+        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
+        msgTextView.setText(message);
+
+        runOnUiThread(() -> mMessagesLayout.addView(layout));
     }
 }
