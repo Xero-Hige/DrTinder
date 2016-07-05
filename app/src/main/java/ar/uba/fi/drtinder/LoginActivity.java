@@ -413,7 +413,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }
 
             firebaseAuthenticate(mUserEmail, mUserPassword);
-            return true;
+            return mFirebaseLogedIn;
         }
 
         @Override
@@ -422,6 +422,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             if (success) {
                 startApp(this.mActivity);
+                return;
+            }
+
+            if (mAuthToken == null) {
+                Utility.showMessage("Error durante el login. Reintente.", Utility.getViewgroup(mActivity));
+                showProgress(false);
                 return;
             }
 

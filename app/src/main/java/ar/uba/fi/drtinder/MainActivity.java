@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     public void onDestroy() {
         super.onDestroy();
         ImageResourcesHandler.clearCache(this);
+        UserHandler.logout();
     }
 
     /**
