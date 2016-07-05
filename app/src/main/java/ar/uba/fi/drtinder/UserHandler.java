@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -74,7 +75,18 @@ public final class UserHandler {
     private static final String AVATAR_URL = "users/photo";
     private static String mToken = ERROR_TOKEN;
 
+    private static AtomicLong mMessageId = new AtomicLong(0);
+
     private UserHandler() {
+    }
+
+    /**
+     * Incremental ID for FB messages
+     *
+     * @return next message ID
+     */
+    public static Long getMessageId() {
+        return mMessageId.getAndIncrement();
     }
 
     /**

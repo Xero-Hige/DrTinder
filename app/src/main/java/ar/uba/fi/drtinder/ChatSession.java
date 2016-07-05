@@ -128,8 +128,8 @@ public class ChatSession extends AppCompatActivity {
                     //addPersonalResponse(message);
 
                     FirebaseMessaging.getInstance().send(
-                            new RemoteMessage.Builder(UserHandler.getUserEmail())
-                                    .setMessageId(" ")
+                            new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
+                                    .setMessageId(UserHandler.getMessageId().toString())
                                     .addData("sender", mYourId)
                                     .addData("receiver", mFriendId)
                                     .addData("message", message)
