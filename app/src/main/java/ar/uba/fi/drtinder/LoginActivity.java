@@ -261,7 +261,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Show a progress spinner, and kick off a background task to
         // perform the user login attempt.
         showProgress(true);
-        mRegisterTask = new RegisterTask(email, password, this);
+        mRegisterTask = new RegisterTask(email, this);
         mRegisterTask.execute((Void) null);
     }
 
@@ -330,19 +330,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private class RegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserEmail;
-        private final String mUserPassword;
         private final Activity mActivity;
 
         /**
          * Creates a new register task
          *
          * @param email    User email
-         * @param password User Password
          * @param activity Calling Activity
          */
-        RegisterTask(String email, String password, Activity activity) {
+        RegisterTask(String email, Activity activity) {
             mUserEmail = email;
-            mUserPassword = password;
             mActivity = activity;
         }
 
@@ -354,7 +351,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             //    return false;
             //}
             //firebaseAuthenticate(mUserEmail, mUserPassword);
-            return UserHandler.isValidPassword(this.mUserPassword);
+            return UserHandler.isValidEmail(this.mUserEmail);
         }
 
         @Override
@@ -370,7 +367,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             } else {
                 if (mUserEmail.equals("")) {
                     mEmailTextView.setError("Email needed");
-                } else if (UserHandler.isValidEmail(mUserEmail)) {
+                } else if (!UserHandler.isValidEmail(mUserEmail)) {
                     mEmailTextView.setError("Invalid email");
                 } else {
                     mEmailTextView.setError("Already in use");
@@ -467,4 +464,3 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
 }
-
