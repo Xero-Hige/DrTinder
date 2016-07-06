@@ -1,4 +1,4 @@
-.. _apiAppServer:
+.. _api:
 
 API
 ===
@@ -12,9 +12,12 @@ Login
 +------------+--------------------------------------------------------------+
 | HTTP VERB  | POST                                                         |
 +------------+--------------------------------------------------------------+
-| PARAMETROS | Headers:                                                     |
-|            | Authorization: username=”mi_username” pass=”mi_contraseña”   |
-|            | Body:                                                        |
+| PARAMETROS | **Headers**                                                  |
+|            |                                                              |
+|            | Authorization: username="mi_username" pass="mi_contraseña"   |
+|            |                                                              |
+|            | **Body**                                                     |
+|            |                                                              |
 |            | localization=0.125,1.25                                      |
 +------------+--------------------------------------------------------------+
 | RESPUESTA  | HTTP 200 | HTTP 401 (login incorrecto)                       |
@@ -29,10 +32,11 @@ Datos usuario
 +------------+-----------------------------------------------------------------------------------------------------+
 | HTTP VERB  | POST                                                                                                |
 +------------+-----------------------------------------------------------------------------------------------------+
-| PARAMETROS | Url-params:                                                                                         |
-|            | token=”<mi_token>”&res_id="aaaaaa.com"                                                              |
+| PARAMETROS | **Url-params**                                                                                      |
+|            |                                                                                                     |
+|            | token="<mi_token>"&res_id="aaaaaa.com"                                                              |
 +------------+-----------------------------------------------------------------------------------------------------+
-| RESPUESTA  | “name”,”25”,”alias”,”aaa@aaa.com,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”  |
+| RESPUESTA  | “name","25","alias","aaa@aaa.com,"man","Me interesan la gente divertida","music::rock||food::meat"  |
 +------------+-----------------------------------------------------------------------------------------------------+
 
 ***************
@@ -44,8 +48,9 @@ Foto de usuario
 +------------+-----------------------------------------+
 | HTTP VERB  | GET                                     |
 +------------+-----------------------------------------+
-| PARAMETROS | Url-params:                             |
-|            | token=”<mi_token>”&res_id="aaaaaa.com"  |
+| PARAMETROS | **Url-params**                          |
+|            |                                         |
+|            | token="<mi_token>"&res_id="aaaaaa.com"  |
 +------------+-----------------------------------------+
 | RESPUESTA  | <photo_64>                              |
 +------------+-----------------------------------------+
@@ -59,8 +64,9 @@ Cambiar foto
 +------------+-----------------------------+
 | HTTP VERB  | POST                        |
 +------------+-----------------------------+
-| PARAMETROS | Url-params:                 |
-|            | token=”<mi_token>”          |
+| PARAMETROS | **Url-params**              |
+|            |                             |
+|            | token="<mi_token>"          |
 +------------+-----------------------------+
 | RESPUESTA  | HTTP 200                    |
 +------------+-----------------------------+
@@ -74,12 +80,15 @@ Nuevos matches
 +------------+-----------------------------------------------------------------------------------------------------------+
 | HTTP VERB  | GET                                                                                                       |
 +------------+-----------------------------------------------------------------------------------------------------------+
-| PARAMETROS | Url-params:                                                                                               |
-|            | token=”<mi_token>”                                                                                        |
+| PARAMETROS | **Url-params**                                                                                            |
+|            |                                                                                                           |
+|            | token="<mi_token>"                                                                                        |
 +------------+-----------------------------------------------------------------------------------------------------------+
-| RESPUESTA  | “1”,“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”\n |
-|            | “2”,“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”\n |
-|            | “3”,“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”\n |
+| RESPUESTA  | “1",“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat"\n |
+|            |                                                                                                           |
+|            | “2",“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat"\n |
+|            |                                                                                                           |
+|            | “3",“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat"\n |
 +------------+-----------------------------------------------------------------------------------------------------------+
 
 ******
@@ -91,9 +100,13 @@ SignUp
 +------------+----------------------------------------------------------------------------------------------------------+
 | HTTP VERB  | POST                                                                                                     |
 +------------+----------------------------------------------------------------------------------------------------------+
-| PARAMETROS | Headers:                                                                                                 |
-|            | Authorization: username=”mi_username” pass=”mi_contraseña” Body:                                         |
-|            | User=“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat” |
+| PARAMETROS | **Headers**                                                                                              |
+|            |                                                                                                          |
+|            | Authorization: username="mi_username" pass="mi_contraseña"                                               |
+|            |                                                                                                          |
+|            | **Body**                                                                                                 |
+|            |                                                                                                          |
+|            | User=“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat" |
 +------------+----------------------------------------------------------------------------------------------------------+
 | RESPUESTA  | HTTP 201                                                                                                 |
 +------------+----------------------------------------------------------------------------------------------------------+
@@ -107,10 +120,13 @@ Modificar Info
 +------------+---------------------------------------------------+
 | HTTP VERB  | PUT                                               |
 +------------+---------------------------------------------------+
-| PARAMETROS | Url-Params:                                       |
-|            | token=”<mi_token>”                                |
-|            | Body:                                             |
-|            | User=“name”,”25”,”man”,”music::rock||food::meat”  | 
+| PARAMETROS | **Url-Params**                                    |
+|            |                                                   |
+|            | token="<mi_token>"                                |
+|            |                                                   |
+|            | **Body**                                          |
+|            |                                                   |
+|            | User=“name","25","man","music::rock||food::meat"  | 
 +------------+---------------------------------------------------+
 | RESPUESTA  | HTTP 200                                          |
 +------------+---------------------------------------------------+
@@ -124,8 +140,9 @@ Delete user
 +------------+-----------------------+
 | HTTP VERB  | DELETE                |
 +------------+-----------------------+
-| PARAMETROS | Url-Params:           |
-|            | token=”<mi_token>”    |
+| PARAMETROS | **Url-Params**        |
+|            |                       |
+|            | token="<mi_token>"    |
 +------------+-----------------------+
 | RESPUESTA  | HTTP 200              |
 +------------+-----------------------+
@@ -139,11 +156,13 @@ Matches concretados
 +------------+-----------------------------------------------------------------------------------------------------------+
 | HTTP VERB  | GET                                                                                                       |
 +------------+-----------------------------------------------------------------------------------------------------------+
-| PARAMETROS | Url-Params:                                                                                               |
-|            | token=”<mi_token>”                                                                                        |
+| PARAMETROS | **Url-Params**                                                                                            |
+|            |                                                                                                           |
+|            | token="<mi_token>"                                                                                        |
 +------------+-----------------------------------------------------------------------------------------------------------+
-| RESPUESTA  | “1”,“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”\n |
-|            | “3”,“name”,”25”,”alias”,”aaa@aaa.com”,”man”,”Me interesan la gente divertida”,”music::rock||food::meat”\n |
+| RESPUESTA  | “1",“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat"\n |
+|            |                                                                                                           |
+|            | “3",“name","25","alias","aaa@aaa.com","man","Me interesan la gente divertida","music::rock||food::meat"\n |
 +------------+-----------------------------------------------------------------------------------------------------------+
 
 
@@ -156,15 +175,19 @@ Bad token Request
 +------------+--------------------------+
 | HTTP VERB  | GET|PUT|POST|DELETE      |
 +------------+--------------------------+
-| PARAMETROS | Headers:                 |
+| PARAMETROS | **Headers**              |
+|            |                          |
 |            | Any                      |
 |            |                          |
-|            | Body:                    |
+|            | **Body**                 |
+|            |                          |
 |            | Any                      |
 |            |                          |
-|            | Url-params:              |
+|            | **Url-params**           |
+|            |                          |
 |            | Any                      |
-|            | token=”<bad_token>”      |
+|            |                          |
+|            | token="<bad_token>"      |
 +------------+--------------------------+
 | RESPUESTA  | HTTP 498                 |
 +------------+--------------------------+
@@ -178,13 +201,16 @@ Bad Url Request
 +------------+-------------------------+
 | HTTP VERB  | GET|PUT|POST|DELETE     |
 +------------+-------------------------+
-| PARAMETROS | Headers:                |
+| PARAMETROS | **Headers**             |
+|            |                         |
 |            | Any                     |
 |            |                         |
-|            | Body:                   |
+|            | **Body**                |
+|            |                         |
 |            | Any                     |
 |            |                         |
-|            | Url-params:             |
+|            | **Url-params**          |
+|            |                         |
 |            | Any                     |
 +------------+-------------------------+
 | RESPUESTA  | HTTP 501                |
