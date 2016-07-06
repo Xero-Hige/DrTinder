@@ -27,17 +27,23 @@ list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users
 
 	for (User* user : *users) {
 		LOGG(INFO) << "Checking if user is a match candidate: " << user->getMail();
-		if(!userInMatches(user, userMatches)){
-			if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
-					&& hasCommonInterest(appUser, user)) {
-				LOGG(INFO) << "Found a match candidate: " << user->getMail();
-				filteredUsers.push_back(user);
+		if(!sameUser(appUser, user)){
+			if(!userInMatches(user, userMatches)){
+				if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)
+						&& hasCommonInterest(appUser, user)) {
+					LOGG(INFO) << "Found a match candidate: " << user->getMail();
+					filteredUsers.push_back(user);
+				}
 			}
 		}
 	}
 
 	return filteredUsers;
 
+}
+
+bool UserMatcher::sameUser(User* appUser, User* user){
+	return (appUser->getID() == user->getID());
 }
 
 bool UserMatcher::userInMatches(User* user, string userMatches){
@@ -78,7 +84,7 @@ bool UserMatcher::isNearby(User* appUser, User* user) {
 	float appUserX = appUser->getX();
 	float appUserY = appUser->getY();
 
-	float distance = sqrt(pow(userX - appUserX,2) + pow(userY - appUserY,2));
+	float distance = sqrt(pow(userX - appUserX, 2) + pow(userY - appUserY, 2));
 
 	return (distance <= MAX_DISTANCE);
 

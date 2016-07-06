@@ -26,6 +26,7 @@ private:
 	const int MAX_DISTANCE = 20;
 	const string SEX_CATEGORY = "sex";
 
+	bool sameUser(User* appUser, User* user);
 	bool isLookingForUserSex(User* appUser, User* user);
 	bool isInAgeRange(User* appUser, User* user);
 	bool isNearby(User* appUser, User* user);
