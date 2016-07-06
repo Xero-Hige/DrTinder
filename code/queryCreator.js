@@ -1,7 +1,7 @@
 module.exports = function (){
 	var queryBuscarUsers = 
 	"SELECT array_to_json(array_agg(row_to_json(users))) " +
-	"FROM (SELECT *, " +               
+	"FROM (SELECT id, alias, name, sex, age, email, " +               
 	"(SELECT row_to_json(d) " +
 	"FROM (SELECT latitude, longitude " +
 	"FROM location_table " +
