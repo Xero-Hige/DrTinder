@@ -97,7 +97,7 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	csvParser.makeUser(currentUserData,currentUser);
 
 	string userMatches;
-	getMatches(userMatches);
+	getAllInteractions(userMatches);
 
 	UserMatcher matcher;
 
@@ -307,6 +307,20 @@ bool MessageHandler::validateToken(std::string user_token) {
 
 }
 
+void MessageHandler::getAllInteractions(std::string& matches) {
+	LOGG(INFO) << "Devolviendo likes/rechazos de " << username;
+	usersDB->createIterator();
+	while (usersDB->validIterator()) {
+		string users, liked, candidate_data;
+
+		usersDB->getActualPair(users, liked);
+		if (liked != "" && match(users, candidate_data)) {
+			matches.append(candidate_data + "\n");
+		}
+		usersDB->advanceIterator();
+	}
+	usersDB->deleteIterator();
+}
 
 void MessageHandler::getMatches(std::string& matches) {
 	LOGG(INFO) << "Devolviendo usuarios matcheados.";

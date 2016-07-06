@@ -24,7 +24,8 @@ UserMatcher::UserMatcher(){
  */
 list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users, string userMatches) {
 	list<User*> filteredUsers;
-
+	LOGG(DEBUG) << "Filtering users.";
+	LOGG(DEBUG) << "Past interactions with: " << userMatches;
 	for (User* user : *users) {
 		LOGG(INFO) << "Checking if user is a match candidate: " << user->getMail();
 		if(!sameUser(appUser, user)){
@@ -47,8 +48,17 @@ bool UserMatcher::sameUser(User* appUser, User* user){
 }
 
 bool UserMatcher::userInMatches(User* user, string userMatches){
-
-	//TODO
+	string user_mail = user->getMail();
+	CsvParser csv;
+	std::istringstream f(userMatches);
+	std::string line;
+	while (std::getline(f, line)) {
+		vector<string> elems = csv.parseLine(&line);
+		if (elems[MAIL_FULL_IDX].compare(user_mail) == 0) {
+			LOGG(DEBUG)<< "Already interacted with " << user->getMail();
+			return true;
+		}
+	}
 	return false;
 }
 

@@ -61,6 +61,8 @@ class MessageHandler {
 
 		void getMatches(std::string& matches);
 
+		void getAllInteractions(std::string& matches);
+
 		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
 		bool getChat(std::string other_username, std::string& chat_history);

@@ -15,7 +15,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 
+#include "../Parsers/CsvParser.h"
 #include "../Interests.h"
 #include "../../libs/loger/easylogging++.h"
 #include "../User.h"
