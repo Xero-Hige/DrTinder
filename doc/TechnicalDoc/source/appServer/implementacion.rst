@@ -6,15 +6,15 @@ Implementacion AppServer
 Este sistema tiene principalmente cuatro partes:
 
 #. Recepción y procesamiento de mensajes HTTP
-#. Conexion al Shared Server
-#. Conexion con FireBase
+#. Conexión al Shared Server
+#. Conexión con FireBase
 #. Almacenamiento de datos
 
 ******************************************
 Recepción y procesamiento de mensajes HTTP
 ******************************************
 
-Para la  conexion se utilizo mongoose web server de Cesanta ( `<https://github.com/cesanta/mongoose>`_ ).
+Para la  conexión se utilizo mongoose web server de Cesanta ( `<https://github.com/cesanta/mongoose>`_ ).
 Mediante este se reciben y procesan. El **RequestHandler** toma el mensaje y decide cómo procesarlo diferenciando la uri a la cual se hizo y con qué método se lo llamó. Luego un **MessageHandler** se ocupa del procesamiento de tal mensaje, almacenando, parseando los datos y llamando al shared server.
 
 **************************
@@ -27,7 +27,8 @@ Se debió crear un CsvParser y JsonParser (libreria utilizada: `jsoncpp <https:/
 *********************
 Conexión con FireBase
 *********************
-//TODO
+
+Para la administración de likes y envio de chats individuales se utilizo fireBase. 
 
 ***********************
 Almacenamiento de Datos
