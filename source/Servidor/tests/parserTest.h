@@ -196,9 +196,9 @@ TEST(CsvParser, CsvModifyUserFromBase){
 	parsed = parser.userToCsvFull(&user);
 	ASSERT_TRUE(user.getAge() == 10);
 	ASSERT_TRUE(user.getX() == -0.153f );
-	ASSERT_TRUE(user.getDescription().compare("lookingFor") == 0 );
 	ASSERT_TRUE(user.getName().compare("name") == 0);
 }
+
 TEST(CsvParser, CsvModifyUserAgeNoInt){
 	CsvParser parser;
 	User user;

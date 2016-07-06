@@ -67,6 +67,7 @@ User createAppUser(){
 	user.setLocation(30.2, 15.5);
 	user.setSex("man");
 	Interests interests;
+	user.setId(5);
 	interests.add("sex", "woman");
 	interests.add("musica", "beatles");
 	interests.add("musica", "acdc");
@@ -78,6 +79,7 @@ User createAppUser(){
 User createAppUserLookingForSameSex(){
 	User user;
 	user.setName("Pablo");
+	user.setId(2);
 	user.setAge(21);
 	user.setLocation(30.2, 15.5);
 	user.setSex("man");
@@ -97,6 +99,7 @@ list<User*> createPossibleMatches(){
 	user1->setAge(22);
 	user1->setLocation(30.2, 15.5);
 	user1->setSex("woman");
+	user1->setId(3);
 	Interests interests1;
 	interests1.add("sex", "man");
 	interests1.add("deportes", "basket");
@@ -106,6 +109,7 @@ list<User*> createPossibleMatches(){
 	User* user2 = new User();
 	user2->setName("Sofia");
 	user2->setAge(20);
+	user2->setId(4);
 	user2->setLocation(28, 16);
 	user2->setSex("woman");
 	Interests interests2;
@@ -117,6 +121,7 @@ list<User*> createPossibleMatches(){
 	User* user3 = new User();
 	user3->setName("Melisa");
 	user3->setAge(30);
+	user3->setId(6);
 	user3->setLocation(30.0, 14.5);
 	user3->setSex("woman");
 	Interests interests3;
@@ -130,6 +135,7 @@ list<User*> createPossibleMatches(){
 	user4->setAge(21);
 	user4->setLocation(30.2, 15.5);
 	user4->setSex("man");
+	user4->setId(7);
 	Interests interests4;
 	interests4.add("sex", "woman");
 	interests4.add("musica", "beatles");
@@ -142,6 +148,7 @@ list<User*> createPossibleMatches(){
 	user5->setAge(22);
 	user5->setLocation(30.2, 15.5);
 	user5->setSex("man");
+	user5->setId(8);
 	Interests interests5;
 	interests5.add("sex", "man");
 	interests5.add("deportes", "basket");
