@@ -8,7 +8,7 @@ Welcome to DrTinder's project documentation!
 
 **Dr. Tinder** is a location-based dating and social discovery service application that facilitates communication between mutually interested users, allowing matched users to chat.
 
-Consist in an :ref:`android`, an App Server and a Shared server.
+Consist in an :ref:`android`, an :ref:`appServer` and a :ref:`sharedServer`.
 
 Index
 =====
@@ -17,24 +17,5 @@ Index
    :maxdepth: 4
 
    android/index
-
-App Server Documentation
-========================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 4
-
    appServer/index
-
-Shared Server Documentation
-===========================
-
-Contents:
-
-.. toctree::
-   :maxdepth: 4
-
    sharedServer/index
-
