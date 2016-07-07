@@ -1,6 +1,6 @@
 #include "Server.h"
 
-#define DEFAULT_MILISECS_POLL 3000
+#define DEFAULT_MILISECS_POLL 500
 
 std::string Server::linkToShared = DEFAULT_SHARED;
 
