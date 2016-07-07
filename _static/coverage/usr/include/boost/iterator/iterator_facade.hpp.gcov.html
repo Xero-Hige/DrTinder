@@ -1,0 +1,950 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/iterator/iterator_facade.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/iterator</a> - iterator_facade.hpp<span style="font-size: 80%;"> (source / <a href="iterator_facade.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">144</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // (C) Copyright David Abrahams 2002.</a>
+<span class="lineNum">       2 </span>            : // (C) Copyright Jeremy Siek    2002.
+<span class="lineNum">       3 </span>            : // (C) Copyright Thomas Witt    2002.
+<span class="lineNum">       4 </span>            : // Distributed under the Boost Software License, Version 1.0. (See
+<span class="lineNum">       5 </span>            : // accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       6 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       7 </span>            : #ifndef BOOST_ITERATOR_FACADE_23022003THW_HPP
+<span class="lineNum">       8 </span>            : #define BOOST_ITERATOR_FACADE_23022003THW_HPP
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #include &lt;boost/iterator.hpp&gt;
+<span class="lineNum">      11 </span>            : #include &lt;boost/iterator/interoperable.hpp&gt;
+<span class="lineNum">      12 </span>            : #include &lt;boost/iterator/iterator_traits.hpp&gt;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;boost/iterator/detail/facade_iterator_category.hpp&gt;
+<span class="lineNum">      15 </span>            : #include &lt;boost/iterator/detail/enable_if.hpp&gt;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : #include &lt;boost/static_assert.hpp&gt;
+<span class="lineNum">      18 </span>            : #include &lt;boost/utility/addressof.hpp&gt;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &lt;boost/type_traits/is_same.hpp&gt;
+<span class="lineNum">      21 </span>            : #include &lt;boost/type_traits/add_const.hpp&gt;
+<span class="lineNum">      22 </span>            : #include &lt;boost/type_traits/add_pointer.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/type_traits/remove_const.hpp&gt;
+<span class="lineNum">      24 </span>            : #include &lt;boost/type_traits/remove_reference.hpp&gt;
+<span class="lineNum">      25 </span>            : #include &lt;boost/type_traits/is_convertible.hpp&gt;
+<span class="lineNum">      26 </span>            : #include &lt;boost/type_traits/is_pod.hpp&gt;
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : #include &lt;boost/mpl/eval_if.hpp&gt;
+<span class="lineNum">      29 </span>            : #include &lt;boost/mpl/if.hpp&gt;
+<span class="lineNum">      30 </span>            : #include &lt;boost/mpl/or.hpp&gt;
+<span class="lineNum">      31 </span>            : #include &lt;boost/mpl/and.hpp&gt;
+<span class="lineNum">      32 </span>            : #include &lt;boost/mpl/not.hpp&gt;
+<span class="lineNum">      33 </span>            : #include &lt;boost/mpl/always.hpp&gt;
+<span class="lineNum">      34 </span>            : #include &lt;boost/mpl/apply.hpp&gt;
+<span class="lineNum">      35 </span>            : #include &lt;boost/mpl/identity.hpp&gt;
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span>            : #include &lt;boost/iterator/detail/config_def.hpp&gt; // this goes last
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : namespace boost
+<span class="lineNum">      40 </span>            : {
+<span class="lineNum">      41 </span>            :   // This forward declaration is required for the friend declaration
+<span class="lineNum">      42 </span>            :   // in iterator_core_access
+<span class="lineNum">      43 </span>            :   template &lt;class I, class V, class TC, class R, class D&gt; class iterator_facade;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            :   namespace detail
+<span class="lineNum">      46 </span>            :   {
+<span class="lineNum">      47 </span>            :     // A binary metafunction class that always returns bool.  VC6
+<span class="lineNum">      48 </span>            :     // ICEs on mpl::always&lt;bool&gt;, probably because of the default
+<span class="lineNum">      49 </span>            :     // parameters.
+<span class="lineNum">      50 </span>            :     struct always_bool2
+<span class="lineNum">      51 </span>            :     {
+<span class="lineNum">      52 </span>            :         template &lt;class T, class U&gt;
+<span class="lineNum">      53 </span>            :         struct apply
+<span class="lineNum">      54 </span>            :         {
+<span class="lineNum">      55 </span>            :             typedef bool type;
+<span class="lineNum">      56 </span>            :         };
+<span class="lineNum">      57 </span>            :     };
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            :     //
+<span class="lineNum">      60 </span>            :     // enable if for use in operator implementation.
+<span class="lineNum">      61 </span>            :     //
+<span class="lineNum">      62 </span>            :     template &lt;
+<span class="lineNum">      63 </span>            :         class Facade1
+<span class="lineNum">      64 </span>            :       , class Facade2
+<span class="lineNum">      65 </span>            :       , class Return
+<span class="lineNum">      66 </span>            :     &gt;
+<span class="lineNum">      67 </span>            :     struct enable_if_interoperable
+<span class="lineNum">      68 </span>            : #if BOOST_WORKAROUND(BOOST_MSVC, &lt;= 1300)
+<span class="lineNum">      69 </span>            :     {
+<span class="lineNum">      70 </span>            :         typedef typename mpl::if_&lt;
+<span class="lineNum">      71 </span>            :             mpl::or_&lt;
+<span class="lineNum">      72 </span>            :                 is_convertible&lt;Facade1, Facade2&gt;
+<span class="lineNum">      73 </span>            :               , is_convertible&lt;Facade2, Facade1&gt;
+<span class="lineNum">      74 </span>            :             &gt;
+<span class="lineNum">      75 </span>            :           , Return
+<span class="lineNum">      76 </span>            :           , int[3]
+<span class="lineNum">      77 </span>            :         &gt;::type type;
+<span class="lineNum">      78 </span>            :     };        
+<span class="lineNum">      79 </span>            : #else
+<span class="lineNum">      80 </span>            :       : ::boost::iterators::enable_if&lt;
+<span class="lineNum">      81 </span>            :            mpl::or_&lt;
+<span class="lineNum">      82 </span>            :                is_convertible&lt;Facade1, Facade2&gt;
+<span class="lineNum">      83 </span>            :              , is_convertible&lt;Facade2, Facade1&gt;
+<span class="lineNum">      84 </span>            :            &gt;
+<span class="lineNum">      85 </span>            :          , Return
+<span class="lineNum">      86 </span>            :         &gt;
+<span class="lineNum">      87 </span>            :     {};
+<span class="lineNum">      88 </span>            : #endif 
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :     //
+<span class="lineNum">      91 </span>            :     // Generates associated types for an iterator_facade with the
+<span class="lineNum">      92 </span>            :     // given parameters.
+<span class="lineNum">      93 </span>            :     //
+<span class="lineNum">      94 </span>            :     template &lt;
+<span class="lineNum">      95 </span>            :         class ValueParam
+<span class="lineNum">      96 </span>            :       , class CategoryOrTraversal
+<span class="lineNum">      97 </span>            :       , class Reference 
+<span class="lineNum">      98 </span>            :       , class Difference
+<span class="lineNum">      99 </span>            :     &gt;
+<span class="lineNum">     100 </span>            :     struct iterator_facade_types
+<span class="lineNum">     101 </span>            :     {
+<span class="lineNum">     102 </span>            :         typedef typename facade_iterator_category&lt;
+<span class="lineNum">     103 </span>            :             CategoryOrTraversal, ValueParam, Reference
+<span class="lineNum">     104 </span>            :         &gt;::type iterator_category;
+<span class="lineNum">     105 </span>            :         
+<span class="lineNum">     106 </span>            :         typedef typename remove_const&lt;ValueParam&gt;::type value_type;
+<span class="lineNum">     107 </span>            :         
+<span class="lineNum">     108 </span>            :         // Not the real associated pointer type
+<span class="lineNum">     109 </span>            :         typedef typename mpl::eval_if&lt;
+<span class="lineNum">     110 </span>            :             boost::detail::iterator_writability_disabled&lt;ValueParam,Reference&gt;
+<span class="lineNum">     111 </span>            :           , add_pointer&lt;const value_type&gt;
+<span class="lineNum">     112 </span>            :           , add_pointer&lt;value_type&gt;
+<span class="lineNum">     113 </span>            :         &gt;::type pointer;
+<span class="lineNum">     114 </span>            :       
+<span class="lineNum">     115 </span>            : # if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)                          \
+<span class="lineNum">     116 </span>            :     &amp;&amp; (BOOST_WORKAROUND(_STLPORT_VERSION, BOOST_TESTED_AT(0x452))              \
+<span class="lineNum">     117 </span>            :         || BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, BOOST_TESTED_AT(310)))     \
+<span class="lineNum">     118 </span>            :     || BOOST_WORKAROUND(BOOST_RWSTD_VER, BOOST_TESTED_AT(0x20101))              \
+<span class="lineNum">     119 </span>            :     || BOOST_WORKAROUND(BOOST_DINKUMWARE_STDLIB, &lt;= 310)
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :         // To interoperate with some broken library/compiler
+<span class="lineNum">     122 </span>            :         // combinations, user-defined iterators must be derived from
+<span class="lineNum">     123 </span>            :         // std::iterator.  It is possible to implement a standard
+<span class="lineNum">     124 </span>            :         // library for broken compilers without this limitation.
+<span class="lineNum">     125 </span>            : #  define BOOST_ITERATOR_FACADE_NEEDS_ITERATOR_BASE 1
+<span class="lineNum">     126 </span>            : 
+<span class="lineNum">     127 </span>            :         typedef
+<span class="lineNum">     128 </span>            :            iterator&lt;iterator_category, value_type, Difference, pointer, Reference&gt;
+<span class="lineNum">     129 </span>            :         base;
+<span class="lineNum">     130 </span>            : # endif
+<span class="lineNum">     131 </span>            :     };
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :     // iterators whose dereference operators reference the same value
+<span class="lineNum">     134 </span>            :     // for all iterators into the same sequence (like many input
+<span class="lineNum">     135 </span>            :     // iterators) need help with their postfix ++: the referenced
+<span class="lineNum">     136 </span>            :     // value must be read and stored away before the increment occurs
+<span class="lineNum">     137 </span>            :     // so that *a++ yields the originally referenced element and not
+<span class="lineNum">     138 </span>            :     // the next one.
+<span class="lineNum">     139 </span>            :     template &lt;class Iterator&gt;
+<span class="lineNum">     140 </span>            :     class postfix_increment_proxy
+<span class="lineNum">     141 </span>            :     {
+<span class="lineNum">     142 </span>            :         typedef typename iterator_value&lt;Iterator&gt;::type value_type;
+<span class="lineNum">     143 </span>            :      public:
+<span class="lineNum">     144 </span>            :         explicit postfix_increment_proxy(Iterator const&amp; x)
+<span class="lineNum">     145 </span>            :           : stored_value(*x)
+<span class="lineNum">     146 </span>            :         {}
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :         // Returning a mutable reference allows nonsense like
+<span class="lineNum">     149 </span>            :         // (*r++).mutate(), but it imposes fewer assumptions about the
+<span class="lineNum">     150 </span>            :         // behavior of the value_type.  In particular, recall that
+<span class="lineNum">     151 </span>            :         // (*r).mutate() is legal if operator* returns by value.
+<span class="lineNum">     152 </span>            :         value_type&amp;
+<span class="lineNum">     153 </span>            :         operator*() const
+<span class="lineNum">     154 </span>            :         {
+<span class="lineNum">     155 </span>            :             return this-&gt;stored_value;
+<span class="lineNum">     156 </span>            :         }
+<span class="lineNum">     157 </span>            :      private:
+<span class="lineNum">     158 </span>            :         mutable value_type stored_value;
+<span class="lineNum">     159 </span>            :     };
+<span class="lineNum">     160 </span>            :     
+<span class="lineNum">     161 </span>            :     //
+<span class="lineNum">     162 </span>            :     // In general, we can't determine that such an iterator isn't
+<span class="lineNum">     163 </span>            :     // writable -- we also need to store a copy of the old iterator so
+<span class="lineNum">     164 </span>            :     // that it can be written into.
+<span class="lineNum">     165 </span>            :     template &lt;class Iterator&gt;
+<span class="lineNum">     166 </span>            :     class writable_postfix_increment_proxy
+<span class="lineNum">     167 </span>            :     {
+<span class="lineNum">     168 </span>            :         typedef typename iterator_value&lt;Iterator&gt;::type value_type;
+<span class="lineNum">     169 </span>            :      public:
+<span class="lineNum">     170 </span>            :         explicit writable_postfix_increment_proxy(Iterator const&amp; x)
+<span class="lineNum">     171 </span>            :           : stored_value(*x)
+<span class="lineNum">     172 </span>            :           , stored_iterator(x)
+<span class="lineNum">     173 </span>            :         {}
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span>            :         // Dereferencing must return a proxy so that both *r++ = o and
+<span class="lineNum">     176 </span>            :         // value_type(*r++) can work.  In this case, *r is the same as
+<span class="lineNum">     177 </span>            :         // *r++, and the conversion operator below is used to ensure
+<span class="lineNum">     178 </span>            :         // readability.
+<span class="lineNum">     179 </span>            :         writable_postfix_increment_proxy const&amp;
+<span class="lineNum">     180 </span>            :         operator*() const
+<span class="lineNum">     181 </span>            :         {
+<span class="lineNum">     182 </span>            :             return *this;
+<span class="lineNum">     183 </span>            :         }
+<span class="lineNum">     184 </span>            : 
+<span class="lineNum">     185 </span>            :         // Provides readability of *r++
+<span class="lineNum">     186 </span>            :         operator value_type&amp;() const
+<span class="lineNum">     187 </span>            :         {
+<span class="lineNum">     188 </span>            :             return stored_value;
+<span class="lineNum">     189 </span>            :         }
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            :         // Provides writability of *r++
+<span class="lineNum">     192 </span>            :         template &lt;class T&gt;
+<span class="lineNum">     193 </span>            :         T const&amp; operator=(T const&amp; x) const
+<span class="lineNum">     194 </span>            :         {
+<span class="lineNum">     195 </span>            :             *this-&gt;stored_iterator = x;
+<span class="lineNum">     196 </span>            :             return x;
+<span class="lineNum">     197 </span>            :         }
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            :         // This overload just in case only non-const objects are writable
+<span class="lineNum">     200 </span>            :         template &lt;class T&gt;
+<span class="lineNum">     201 </span>            :         T&amp; operator=(T&amp; x) const
+<span class="lineNum">     202 </span>            :         {
+<span class="lineNum">     203 </span>            :             *this-&gt;stored_iterator = x;
+<span class="lineNum">     204 </span>            :             return x;
+<span class="lineNum">     205 </span>            :         }
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            :         // Provides X(r++)
+<span class="lineNum">     208 </span>            :         operator Iterator const&amp;() const
+<span class="lineNum">     209 </span>            :         {
+<span class="lineNum">     210 </span>            :             return stored_iterator;
+<span class="lineNum">     211 </span>            :         }
+<span class="lineNum">     212 </span>            :         
+<span class="lineNum">     213 </span>            :      private:
+<span class="lineNum">     214 </span>            :         mutable value_type stored_value;
+<span class="lineNum">     215 </span>            :         Iterator stored_iterator;
+<span class="lineNum">     216 </span>            :     };
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            : # ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            :     template &lt;class Reference, class Value&gt;
+<span class="lineNum">     221 </span>            :     struct is_non_proxy_reference_impl
+<span class="lineNum">     222 </span>            :     {
+<span class="lineNum">     223 </span>            :         static Reference r;
+<span class="lineNum">     224 </span>            :         
+<span class="lineNum">     225 </span>            :         template &lt;class R&gt;
+<span class="lineNum">     226 </span>            :         static typename mpl::if_&lt;
+<span class="lineNum">     227 </span>            :             is_convertible&lt;
+<span class="lineNum">     228 </span>            :                 R const volatile*
+<span class="lineNum">     229 </span>            :               , Value const volatile*
+<span class="lineNum">     230 </span>            :             &gt;
+<span class="lineNum">     231 </span>            :           , char[1]
+<span class="lineNum">     232 </span>            :           , char[2]
+<span class="lineNum">     233 </span>            :         &gt;::type&amp; helper(R const&amp;);
+<span class="lineNum">     234 </span>            :         
+<span class="lineNum">     235 </span>            :         BOOST_STATIC_CONSTANT(bool, value = sizeof(helper(r)) == 1);
+<span class="lineNum">     236 </span>            :     };
+<span class="lineNum">     237 </span>            :         
+<span class="lineNum">     238 </span>            :     template &lt;class Reference, class Value&gt;
+<span class="lineNum">     239 </span>            :     struct is_non_proxy_reference
+<span class="lineNum">     240 </span>            :       : mpl::bool_&lt;
+<span class="lineNum">     241 </span>            :             is_non_proxy_reference_impl&lt;Reference, Value&gt;::value
+<span class="lineNum">     242 </span>            :         &gt;
+<span class="lineNum">     243 </span>            :     {};
+<span class="lineNum">     244 </span>            : # else 
+<span class="lineNum">     245 </span>            :     template &lt;class Reference, class Value&gt;
+<span class="lineNum">     246 </span>            :     struct is_non_proxy_reference
+<span class="lineNum">     247 </span>            :       : is_convertible&lt;
+<span class="lineNum">     248 </span>            :             typename remove_reference&lt;Reference&gt;::type
+<span class="lineNum">     249 </span>            :             const volatile*
+<span class="lineNum">     250 </span>            :           , Value const volatile*
+<span class="lineNum">     251 </span>            :         &gt;
+<span class="lineNum">     252 </span>            :     {};
+<span class="lineNum">     253 </span>            : # endif 
+<span class="lineNum">     254 </span>            :         
+<span class="lineNum">     255 </span>            :     // A metafunction to choose the result type of postfix ++
+<span class="lineNum">     256 </span>            :     //
+<span class="lineNum">     257 </span>            :     // Because the C++98 input iterator requirements say that *r++ has
+<span class="lineNum">     258 </span>            :     // type T (value_type), implementations of some standard
+<span class="lineNum">     259 </span>            :     // algorithms like lexicographical_compare may use constructions
+<span class="lineNum">     260 </span>            :     // like:
+<span class="lineNum">     261 </span>            :     //
+<span class="lineNum">     262 </span>            :     //          *r++ &lt; *s++
+<span class="lineNum">     263 </span>            :     //
+<span class="lineNum">     264 </span>            :     // If *r++ returns a proxy (as required if r is writable but not
+<span class="lineNum">     265 </span>            :     // multipass), this sort of expression will fail unless the proxy
+<span class="lineNum">     266 </span>            :     // supports the operator&lt;.  Since there are any number of such
+<span class="lineNum">     267 </span>            :     // operations, we're not going to try to support them.  Therefore,
+<span class="lineNum">     268 </span>            :     // even if r++ returns a proxy, *r++ will only return a proxy if
+<span class="lineNum">     269 </span>            :     // *r also returns a proxy.
+<span class="lineNum">     270 </span>            :     template &lt;class Iterator, class Value, class Reference, class CategoryOrTraversal&gt;
+<span class="lineNum">     271 </span>            :     struct postfix_increment_result
+<span class="lineNum">     272 </span>            :       : mpl::eval_if&lt;
+<span class="lineNum">     273 </span>            :             mpl::and_&lt;
+<span class="lineNum">     274 </span>            :                 // A proxy is only needed for readable iterators
+<span class="lineNum">     275 </span>            :                 is_convertible&lt;Reference,Value const&amp;&gt;
+<span class="lineNum">     276 </span>            :                 
+<span class="lineNum">     277 </span>            :                 // No multipass iterator can have values that disappear
+<span class="lineNum">     278 </span>            :                 // before positions can be re-visited
+<span class="lineNum">     279 </span>            :               , mpl::not_&lt;
+<span class="lineNum">     280 </span>            :                     is_convertible&lt;
+<span class="lineNum">     281 </span>            :                         typename iterator_category_to_traversal&lt;CategoryOrTraversal&gt;::type
+<span class="lineNum">     282 </span>            :                       , forward_traversal_tag
+<span class="lineNum">     283 </span>            :                     &gt;
+<span class="lineNum">     284 </span>            :                 &gt;
+<span class="lineNum">     285 </span>            :             &gt;
+<span class="lineNum">     286 </span>            :           , mpl::if_&lt;
+<span class="lineNum">     287 </span>            :                 is_non_proxy_reference&lt;Reference,Value&gt;
+<span class="lineNum">     288 </span>            :               , postfix_increment_proxy&lt;Iterator&gt;
+<span class="lineNum">     289 </span>            :               , writable_postfix_increment_proxy&lt;Iterator&gt;
+<span class="lineNum">     290 </span>            :             &gt;
+<span class="lineNum">     291 </span>            :           , mpl::identity&lt;Iterator&gt;
+<span class="lineNum">     292 </span>            :         &gt;
+<span class="lineNum">     293 </span>            :     {};
+<span class="lineNum">     294 </span>            : 
+<span class="lineNum">     295 </span>            :     // operator-&gt;() needs special support for input iterators to strictly meet the
+<span class="lineNum">     296 </span>            :     // standard's requirements. If *i is not a reference type, we must still
+<span class="lineNum">     297 </span>            :     // produce an lvalue to which a pointer can be formed.  We do that by
+<span class="lineNum">     298 </span>            :     // returning a proxy object containing an instance of the reference object.
+<span class="lineNum">     299 </span>            :     template &lt;class Reference, class Pointer&gt;
+<span class="lineNum">     300 </span>            :     struct operator_arrow_dispatch // proxy references
+<span class="lineNum">     301 </span>            :     {
+<span class="lineNum">     302 </span>            :         struct proxy
+<span class="lineNum">     303 </span>            :         {
+<span class="lineNum">     304 </span>            :             explicit proxy(Reference const &amp; x) : m_ref(x) {}
+<span class="lineNum">     305 </span>            :             Reference* operator-&gt;() { return boost::addressof(m_ref); }
+<span class="lineNum">     306 </span>            :             // This function is needed for MWCW and BCC, which won't call
+<span class="lineNum">     307 </span>            :             // operator-&gt; again automatically per 13.3.1.2 para 8
+<span class="lineNum">     308 </span>            :             operator Reference*() { return boost::addressof(m_ref); }
+<span class="lineNum">     309 </span>            :             Reference m_ref;
+<span class="lineNum">     310 </span>            :         };
+<span class="lineNum">     311 </span>            :         typedef proxy result_type;
+<span class="lineNum">     312 </span>            :         static result_type apply(Reference const &amp; x)
+<span class="lineNum">     313 </span>            :         {
+<span class="lineNum">     314 </span>            :             return result_type(x);
+<span class="lineNum">     315 </span>            :         }
+<span class="lineNum">     316 </span>            :     };
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :     template &lt;class T, class Pointer&gt;
+<span class="lineNum">     319 </span>            :     struct operator_arrow_dispatch&lt;T&amp;, Pointer&gt; // &quot;real&quot; references
+<span class="lineNum">     320 </span>            :     {
+<span class="lineNum">     321 </span>            :         typedef Pointer result_type;
+<span class="lineNum">     322 </span>            :         static result_type apply(T&amp; x)
+<span class="lineNum">     323 </span>            :         {
+<span class="lineNum">     324 </span>            :             return boost::addressof(x);
+<span class="lineNum">     325 </span>            :         }
+<span class="lineNum">     326 </span>            :     };
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            : # if BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+<span class="lineNum">     329 </span>            :     // Deal with ETI
+<span class="lineNum">     330 </span>            :     template&lt;&gt;
+<span class="lineNum">     331 </span>            :     struct operator_arrow_dispatch&lt;int, int&gt;
+<span class="lineNum">     332 </span>            :     {
+<span class="lineNum">     333 </span>            :         typedef int result_type;
+<span class="lineNum">     334 </span>            :     };
+<span class="lineNum">     335 </span>            : # endif
+<span class="lineNum">     336 </span>            : 
+<span class="lineNum">     337 </span>            :     // A proxy return type for operator[], needed to deal with
+<span class="lineNum">     338 </span>            :     // iterators that may invalidate referents upon destruction.
+<span class="lineNum">     339 </span>            :     // Consider the temporary iterator in *(a + n)
+<span class="lineNum">     340 </span>            :     template &lt;class Iterator&gt;
+<span class="lineNum">     341 </span>            :     class operator_brackets_proxy
+<span class="lineNum">     342 </span>            :     {
+<span class="lineNum">     343 </span>            :         // Iterator is actually an iterator_facade, so we do not have to
+<span class="lineNum">     344 </span>            :         // go through iterator_traits to access the traits.
+<span class="lineNum">     345 </span>            :         typedef typename Iterator::reference  reference;
+<span class="lineNum">     346 </span>            :         typedef typename Iterator::value_type value_type;
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            :      public:
+<span class="lineNum">     349 </span>            :         operator_brackets_proxy(Iterator const&amp; iter)
+<span class="lineNum">     350 </span>            :           : m_iter(iter)
+<span class="lineNum">     351 </span>            :         {}
+<span class="lineNum">     352 </span>            : 
+<span class="lineNum">     353 </span>            :         operator reference() const
+<span class="lineNum">     354 </span>            :         {
+<span class="lineNum">     355 </span>            :             return *m_iter;
+<span class="lineNum">     356 </span>            :         }
+<span class="lineNum">     357 </span>            : 
+<span class="lineNum">     358 </span>            :         operator_brackets_proxy&amp; operator=(value_type const&amp; val)
+<span class="lineNum">     359 </span>            :         {
+<span class="lineNum">     360 </span>            :             *m_iter = val;
+<span class="lineNum">     361 </span>            :             return *this;
+<span class="lineNum">     362 </span>            :         }
+<span class="lineNum">     363 </span>            : 
+<span class="lineNum">     364 </span>            :      private:
+<span class="lineNum">     365 </span>            :         Iterator m_iter;
+<span class="lineNum">     366 </span>            :     };
+<span class="lineNum">     367 </span>            : 
+<span class="lineNum">     368 </span>            :     // A metafunction that determines whether operator[] must return a
+<span class="lineNum">     369 </span>            :     // proxy, or whether it can simply return a copy of the value_type.
+<span class="lineNum">     370 </span>            :     template &lt;class ValueType, class Reference&gt;
+<span class="lineNum">     371 </span>            :     struct use_operator_brackets_proxy
+<span class="lineNum">     372 </span>            :       : mpl::not_&lt;
+<span class="lineNum">     373 </span>            :             mpl::and_&lt;
+<span class="lineNum">     374 </span>            :                 // Really we want an is_copy_constructible trait here,
+<span class="lineNum">     375 </span>            :                 // but is_POD will have to suffice in the meantime.
+<span class="lineNum">     376 </span>            :                 boost::is_POD&lt;ValueType&gt;
+<span class="lineNum">     377 </span>            :               , iterator_writability_disabled&lt;ValueType,Reference&gt;
+<span class="lineNum">     378 </span>            :             &gt;
+<span class="lineNum">     379 </span>            :         &gt;
+<span class="lineNum">     380 </span>            :     {};
+<span class="lineNum">     381 </span>            :         
+<span class="lineNum">     382 </span>            :     template &lt;class Iterator, class Value, class Reference&gt;
+<span class="lineNum">     383 </span>            :     struct operator_brackets_result
+<span class="lineNum">     384 </span>            :     {
+<span class="lineNum">     385 </span>            :         typedef typename mpl::if_&lt;
+<span class="lineNum">     386 </span>            :             use_operator_brackets_proxy&lt;Value,Reference&gt;
+<span class="lineNum">     387 </span>            :           , operator_brackets_proxy&lt;Iterator&gt;
+<span class="lineNum">     388 </span>            :           , Value
+<span class="lineNum">     389 </span>            :         &gt;::type type;
+<span class="lineNum">     390 </span>            :     };
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            :     template &lt;class Iterator&gt;
+<span class="lineNum">     393 </span>            :     operator_brackets_proxy&lt;Iterator&gt; make_operator_brackets_result(Iterator const&amp; iter, mpl::true_)
+<span class="lineNum">     394 </span>            :     {
+<span class="lineNum">     395 </span>            :         return operator_brackets_proxy&lt;Iterator&gt;(iter);
+<span class="lineNum">     396 </span>            :     }
+<span class="lineNum">     397 </span>            : 
+<span class="lineNum">     398 </span>            :     template &lt;class Iterator&gt;
+<span class="lineNum">     399 </span>            :     typename Iterator::value_type make_operator_brackets_result(Iterator const&amp; iter, mpl::false_)
+<span class="lineNum">     400 </span>            :     {
+<span class="lineNum">     401 </span>            :       return *iter;
+<span class="lineNum">     402 </span>            :     }
+<span class="lineNum">     403 </span>            : 
+<span class="lineNum">     404 </span>            :     struct choose_difference_type
+<span class="lineNum">     405 </span>            :     {
+<span class="lineNum">     406 </span>            :         template &lt;class I1, class I2&gt;
+<span class="lineNum">     407 </span>            :         struct apply
+<span class="lineNum">     408 </span>            :           :
+<span class="lineNum">     409 </span>            : # ifdef BOOST_NO_ONE_WAY_ITERATOR_INTEROP
+<span class="lineNum">     410 </span>            :           iterator_difference&lt;I1&gt;
+<span class="lineNum">     411 </span>            : # elif BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+<span class="lineNum">     412 </span>            :           mpl::if_&lt;
+<span class="lineNum">     413 </span>            :               is_convertible&lt;I2,I1&gt;
+<span class="lineNum">     414 </span>            :             , typename I1::difference_type
+<span class="lineNum">     415 </span>            :             , typename I2::difference_type
+<span class="lineNum">     416 </span>            :           &gt;
+<span class="lineNum">     417 </span>            : # else 
+<span class="lineNum">     418 </span>            :           mpl::eval_if&lt;
+<span class="lineNum">     419 </span>            :               is_convertible&lt;I2,I1&gt;
+<span class="lineNum">     420 </span>            :             , iterator_difference&lt;I1&gt;
+<span class="lineNum">     421 </span>            :             , iterator_difference&lt;I2&gt;
+<span class="lineNum">     422 </span>            :           &gt;
+<span class="lineNum">     423 </span>            : # endif 
+<span class="lineNum">     424 </span>            :         {};
+<span class="lineNum">     425 </span>            : 
+<span class="lineNum">     426 </span>            :     };
+<span class="lineNum">     427 </span>            :   } // namespace detail
+<span class="lineNum">     428 </span>            : 
+<span class="lineNum">     429 </span>            : 
+<span class="lineNum">     430 </span>            :   // Macros which describe the declarations of binary operators
+<span class="lineNum">     431 </span>            : # ifdef BOOST_NO_STRICT_ITERATOR_INTEROPERABILITY
+<span class="lineNum">     432 </span>            : #  define BOOST_ITERATOR_FACADE_INTEROP_HEAD(prefix, op, result_type)       \
+<span class="lineNum">     433 </span>            :     template &lt;                                                              \
+<span class="lineNum">     434 </span>            :         class Derived1, class V1, class TC1, class Reference1, class Difference1 \
+<span class="lineNum">     435 </span>            :       , class Derived2, class V2, class TC2, class Reference2, class Difference2 \
+<span class="lineNum">     436 </span>            :     &gt;                                                                       \
+<span class="lineNum">     437 </span>            :     prefix typename mpl::apply2&lt;result_type,Derived1,Derived2&gt;::type \
+<span class="lineNum">     438 </span>            :     operator op(                                                            \
+<span class="lineNum">     439 </span>            :         iterator_facade&lt;Derived1, V1, TC1, Reference1, Difference1&gt; const&amp; lhs   \
+<span class="lineNum">     440 </span>            :       , iterator_facade&lt;Derived2, V2, TC2, Reference2, Difference2&gt; const&amp; rhs)
+<span class="lineNum">     441 </span>            : # else 
+<span class="lineNum">     442 </span>            : #  define BOOST_ITERATOR_FACADE_INTEROP_HEAD(prefix, op, result_type)   \
+<span class="lineNum">     443 </span>            :     template &lt;                                                          \
+<span class="lineNum">     444 </span>            :         class Derived1, class V1, class TC1, class Reference1, class Difference1 \
+<span class="lineNum">     445 </span>            :       , class Derived2, class V2, class TC2, class Reference2, class Difference2 \
+<span class="lineNum">     446 </span>            :     &gt;                                                                   \
+<span class="lineNum">     447 </span>            :     prefix typename boost::detail::enable_if_interoperable&lt;             \
+<span class="lineNum">     448 </span>            :         Derived1, Derived2                                              \
+<span class="lineNum">     449 </span>            :       , typename mpl::apply2&lt;result_type,Derived1,Derived2&gt;::type       \
+<span class="lineNum">     450 </span>            :     &gt;::type                                                             \
+<span class="lineNum">     451 </span>            :     operator op(                                                        \
+<span class="lineNum">     452 </span>            :         iterator_facade&lt;Derived1, V1, TC1, Reference1, Difference1&gt; const&amp; lhs   \
+<span class="lineNum">     453 </span>            :       , iterator_facade&lt;Derived2, V2, TC2, Reference2, Difference2&gt; const&amp; rhs)
+<span class="lineNum">     454 </span>            : # endif 
+<span class="lineNum">     455 </span>            : 
+<span class="lineNum">     456 </span>            : #  define BOOST_ITERATOR_FACADE_PLUS_HEAD(prefix,args)              \
+<span class="lineNum">     457 </span>            :     template &lt;class Derived, class V, class TC, class R, class D&gt;   \
+<span class="lineNum">     458 </span>            :     prefix Derived operator+ args
+<span class="lineNum">     459 </span>            : 
+<span class="lineNum">     460 </span>            :   //
+<span class="lineNum">     461 </span>            :   // Helper class for granting access to the iterator core interface.
+<span class="lineNum">     462 </span>            :   //
+<span class="lineNum">     463 </span>            :   // The simple core interface is used by iterator_facade. The core
+<span class="lineNum">     464 </span>            :   // interface of a user/library defined iterator type should not be made public
+<span class="lineNum">     465 </span>            :   // so that it does not clutter the public interface. Instead iterator_core_access
+<span class="lineNum">     466 </span>            :   // should be made friend so that iterator_facade can access the core
+<span class="lineNum">     467 </span>            :   // interface through iterator_core_access.
+<span class="lineNum">     468 </span>            :   //
+<span class="lineNum">     469 </span>            :   class iterator_core_access
+<span class="lineNum">     470 </span>            :   {
+<span class="lineNum">     471 </span>            : # if defined(BOOST_NO_MEMBER_TEMPLATE_FRIENDS)                  
+<span class="lineNum">     472 </span>            :       // Tasteless as this may seem, making all members public allows member templates
+<span class="lineNum">     473 </span>            :       // to work in the absence of member template friends.
+<span class="lineNum">     474 </span>            :    public:
+<span class="lineNum">     475 </span>            : # else
+<span class="lineNum">     476 </span>            :       
+<span class="lineNum">     477 </span>            :       template &lt;class I, class V, class TC, class R, class D&gt; friend class iterator_facade;
+<span class="lineNum">     478 </span>            : 
+<span class="lineNum">     479 </span>            : #  define BOOST_ITERATOR_FACADE_RELATION(op)                                \
+<span class="lineNum">     480 </span>            :       BOOST_ITERATOR_FACADE_INTEROP_HEAD(friend,op, boost::detail::always_bool2);
+<span class="lineNum">     481 </span>            : 
+<span class="lineNum">     482 </span>            :       BOOST_ITERATOR_FACADE_RELATION(==)
+<span class="lineNum">     483 </span>            :       BOOST_ITERATOR_FACADE_RELATION(!=)
+<span class="lineNum">     484 </span>            : 
+<span class="lineNum">     485 </span>            :       BOOST_ITERATOR_FACADE_RELATION(&lt;)
+<span class="lineNum">     486 </span>            :       BOOST_ITERATOR_FACADE_RELATION(&gt;)
+<span class="lineNum">     487 </span>            :       BOOST_ITERATOR_FACADE_RELATION(&lt;=)
+<span class="lineNum">     488 </span>            :       BOOST_ITERATOR_FACADE_RELATION(&gt;=)
+<span class="lineNum">     489 </span>            : #  undef BOOST_ITERATOR_FACADE_RELATION
+<span class="lineNum">     490 </span>            : 
+<span class="lineNum">     491 </span>            :       BOOST_ITERATOR_FACADE_INTEROP_HEAD(
+<span class="lineNum">     492 </span>            :           friend, -, boost::detail::choose_difference_type)
+<span class="lineNum">     493 </span>            :       ;
+<span class="lineNum">     494 </span>            : 
+<span class="lineNum">     495 </span>            :       BOOST_ITERATOR_FACADE_PLUS_HEAD(
+<span class="lineNum">     496 </span>            :           friend inline
+<span class="lineNum">     497 </span>            :           , (iterator_facade&lt;Derived, V, TC, R, D&gt; const&amp;
+<span class="lineNum">     498 </span>            :            , typename Derived::difference_type)
+<span class="lineNum">     499 </span>            :       )
+<span class="lineNum">     500 </span>            :       ;
+<span class="lineNum">     501 </span>            : 
+<span class="lineNum">     502 </span>            :       BOOST_ITERATOR_FACADE_PLUS_HEAD(
+<span class="lineNum">     503 </span>            :           friend inline
+<span class="lineNum">     504 </span>            :         , (typename Derived::difference_type
+<span class="lineNum">     505 </span>            :            , iterator_facade&lt;Derived, V, TC, R, D&gt; const&amp;)
+<span class="lineNum">     506 </span>            :       )
+<span class="lineNum">     507 </span>            :       ;
+<span class="lineNum">     508 </span>            : 
+<span class="lineNum">     509 </span>            : # endif
+<a name="510"><span class="lineNum">     510 </span>            : </a>
+<span class="lineNum">     511 </span>            :       template &lt;class Facade&gt;
+<span class="lineNum">     512 </span><span class="lineNoCov">          0 :       static typename Facade::reference dereference(Facade const&amp; f)</span>
+<span class="lineNum">     513 </span>            :       {
+<span class="lineNum">     514 </span><span class="lineNoCov">          0 :           return f.dereference();</span>
+<span class="lineNum">     515 </span>            :       }
+<a name="516"><span class="lineNum">     516 </span>            : </a>
+<span class="lineNum">     517 </span>            :       template &lt;class Facade&gt;
+<span class="lineNum">     518 </span><span class="lineNoCov">          0 :       static void increment(Facade&amp; f)</span>
+<span class="lineNum">     519 </span>            :       {
+<span class="lineNum">     520 </span><span class="lineNoCov">          0 :           f.increment();</span>
+<span class="lineNum">     521 </span><span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     522 </span>            : 
+<span class="lineNum">     523 </span>            :       template &lt;class Facade&gt;
+<span class="lineNum">     524 </span>            :       static void decrement(Facade&amp; f)
+<span class="lineNum">     525 </span>            :       {
+<span class="lineNum">     526 </span>            :           f.decrement();
+<span class="lineNum">     527 </span>            :       }
+<a name="528"><span class="lineNum">     528 </span>            : </a>
+<span class="lineNum">     529 </span>            :       template &lt;class Facade1, class Facade2&gt;
+<span class="lineNum">     530 </span><span class="lineNoCov">          0 :       static bool equal(Facade1 const&amp; f1, Facade2 const&amp; f2, mpl::true_)</span>
+<span class="lineNum">     531 </span>            :       {
+<span class="lineNum">     532 </span><span class="lineNoCov">          0 :           return f1.equal(f2);</span>
+<span class="lineNum">     533 </span>            :       }
+<span class="lineNum">     534 </span>            : 
+<span class="lineNum">     535 </span>            :       template &lt;class Facade1, class Facade2&gt;
+<span class="lineNum">     536 </span>            :       static bool equal(Facade1 const&amp; f1, Facade2 const&amp; f2, mpl::false_)
+<span class="lineNum">     537 </span>            :       {
+<span class="lineNum">     538 </span>            :           return f2.equal(f1);
+<span class="lineNum">     539 </span>            :       }
+<span class="lineNum">     540 </span>            : 
+<span class="lineNum">     541 </span>            :       template &lt;class Facade&gt;
+<span class="lineNum">     542 </span>            :       static void advance(Facade&amp; f, typename Facade::difference_type n)
+<span class="lineNum">     543 </span>            :       {
+<span class="lineNum">     544 </span>            :           f.advance(n);
+<span class="lineNum">     545 </span>            :       }
+<span class="lineNum">     546 </span>            : 
+<span class="lineNum">     547 </span>            :       template &lt;class Facade1, class Facade2&gt;
+<span class="lineNum">     548 </span>            :       static typename Facade1::difference_type distance_from(
+<span class="lineNum">     549 </span>            :           Facade1 const&amp; f1, Facade2 const&amp; f2, mpl::true_)
+<span class="lineNum">     550 </span>            :       {
+<span class="lineNum">     551 </span>            :           return -f1.distance_to(f2);
+<span class="lineNum">     552 </span>            :       }
+<span class="lineNum">     553 </span>            : 
+<span class="lineNum">     554 </span>            :       template &lt;class Facade1, class Facade2&gt;
+<span class="lineNum">     555 </span>            :       static typename Facade2::difference_type distance_from(
+<span class="lineNum">     556 </span>            :           Facade1 const&amp; f1, Facade2 const&amp; f2, mpl::false_)
+<span class="lineNum">     557 </span>            :       {
+<span class="lineNum">     558 </span>            :           return f2.distance_to(f1);
+<span class="lineNum">     559 </span>            :       }
+<span class="lineNum">     560 </span>            : 
+<span class="lineNum">     561 </span>            :       //
+<span class="lineNum">     562 </span>            :       // Curiously Recurring Template interface.
+<span class="lineNum">     563 </span>            :       //
+<span class="lineNum">     564 </span>            :       template &lt;class I, class V, class TC, class R, class D&gt;
+<span class="lineNum">     565 </span>            :       static I&amp; derived(iterator_facade&lt;I,V,TC,R,D&gt;&amp; facade)
+<span class="lineNum">     566 </span>            :       {
+<span class="lineNum">     567 </span>            :           return *static_cast&lt;I*&gt;(&amp;facade);
+<span class="lineNum">     568 </span>            :       }
+<span class="lineNum">     569 </span>            : 
+<span class="lineNum">     570 </span>            :       template &lt;class I, class V, class TC, class R, class D&gt;
+<span class="lineNum">     571 </span>            :       static I const&amp; derived(iterator_facade&lt;I,V,TC,R,D&gt; const&amp; facade)
+<span class="lineNum">     572 </span>            :       {
+<span class="lineNum">     573 </span>            :           return *static_cast&lt;I const*&gt;(&amp;facade);
+<span class="lineNum">     574 </span>            :       }
+<span class="lineNum">     575 </span>            : 
+<span class="lineNum">     576 </span>            :    private:
+<span class="lineNum">     577 </span>            :       // objects of this class are useless
+<span class="lineNum">     578 </span>            :       iterator_core_access(); //undefined
+<span class="lineNum">     579 </span>            :   };
+<span class="lineNum">     580 </span>            : 
+<span class="lineNum">     581 </span>            :   //
+<span class="lineNum">     582 </span>            :   // iterator_facade - use as a public base class for defining new
+<span class="lineNum">     583 </span>            :   // standard-conforming iterators.
+<span class="lineNum">     584 </span>            :   //
+<span class="lineNum">     585 </span>            :   template &lt;
+<span class="lineNum">     586 </span>            :       class Derived             // The derived iterator type being constructed
+<span class="lineNum">     587 </span>            :     , class Value
+<span class="lineNum">     588 </span>            :     , class CategoryOrTraversal
+<span class="lineNum">     589 </span>            :     , class Reference   = Value&amp;
+<a name="590"><span class="lineNum">     590 </span>            :     , class Difference  = std::ptrdiff_t</a>
+<span class="lineNum">     591 </span>            :   &gt;
+<span class="lineNum">     592 </span><span class="lineNoCov">          0 :   class iterator_facade</span>
+<span class="lineNum">     593 </span>            : # ifdef BOOST_ITERATOR_FACADE_NEEDS_ITERATOR_BASE
+<span class="lineNum">     594 </span>            :     : public boost::detail::iterator_facade_types&lt;
+<span class="lineNum">     595 </span>            :          Value, CategoryOrTraversal, Reference, Difference
+<span class="lineNum">     596 </span>            :       &gt;::base
+<span class="lineNum">     597 </span>            : #  undef BOOST_ITERATOR_FACADE_NEEDS_ITERATOR_BASE
+<span class="lineNum">     598 </span>            : # endif
+<span class="lineNum">     599 </span>            :   {
+<span class="lineNum">     600 </span>            :    private:
+<span class="lineNum">     601 </span>            :       //
+<a name="602"><span class="lineNum">     602 </span>            :       // Curiously Recurring Template interface.</a>
+<span class="lineNum">     603 </span>            :       //
+<span class="lineNum">     604 </span><span class="lineNoCov">          0 :       Derived&amp; derived()</span>
+<span class="lineNum">     605 </span>            :       {
+<span class="lineNum">     606 </span><span class="lineNoCov">          0 :           return *static_cast&lt;Derived*&gt;(this);</span>
+<a name="607"><span class="lineNum">     607 </span>            :       }</a>
+<span class="lineNum">     608 </span>            : 
+<span class="lineNum">     609 </span><span class="lineNoCov">          0 :       Derived const&amp; derived() const</span>
+<span class="lineNum">     610 </span>            :       {
+<span class="lineNum">     611 </span><span class="lineNoCov">          0 :           return *static_cast&lt;Derived const*&gt;(this);</span>
+<span class="lineNum">     612 </span>            :       }
+<span class="lineNum">     613 </span>            : 
+<span class="lineNum">     614 </span>            :       typedef boost::detail::iterator_facade_types&lt;
+<span class="lineNum">     615 </span>            :          Value, CategoryOrTraversal, Reference, Difference
+<span class="lineNum">     616 </span>            :       &gt; associated_types;
+<span class="lineNum">     617 </span>            : 
+<span class="lineNum">     618 </span>            :       typedef boost::detail::operator_arrow_dispatch&lt;
+<span class="lineNum">     619 </span>            :           Reference
+<span class="lineNum">     620 </span>            :         , typename associated_types::pointer
+<span class="lineNum">     621 </span>            :       &gt; operator_arrow_dispatch_;
+<span class="lineNum">     622 </span>            : 
+<span class="lineNum">     623 </span>            :    protected:
+<span class="lineNum">     624 </span>            :       // For use by derived classes
+<span class="lineNum">     625 </span>            :       typedef iterator_facade&lt;Derived,Value,CategoryOrTraversal,Reference,Difference&gt; iterator_facade_;
+<span class="lineNum">     626 </span>            :       
+<span class="lineNum">     627 </span>            :    public:
+<span class="lineNum">     628 </span>            : 
+<span class="lineNum">     629 </span>            :       typedef typename associated_types::value_type value_type;
+<span class="lineNum">     630 </span>            :       typedef Reference reference;
+<span class="lineNum">     631 </span>            :       typedef Difference difference_type;
+<span class="lineNum">     632 </span>            : 
+<span class="lineNum">     633 </span>            :       typedef typename operator_arrow_dispatch_::result_type pointer;
+<span class="lineNum">     634 </span>            : 
+<a name="635"><span class="lineNum">     635 </span>            :       typedef typename associated_types::iterator_category iterator_category;</a>
+<span class="lineNum">     636 </span>            : 
+<span class="lineNum">     637 </span><span class="lineNoCov">          0 :       reference operator*() const</span>
+<span class="lineNum">     638 </span>            :       {
+<span class="lineNum">     639 </span><span class="lineNoCov">          0 :           return iterator_core_access::dereference(this-&gt;derived());</span>
+<span class="lineNum">     640 </span>            :       }
+<span class="lineNum">     641 </span>            : 
+<span class="lineNum">     642 </span>            :       pointer operator-&gt;() const
+<span class="lineNum">     643 </span>            :       {
+<span class="lineNum">     644 </span>            :           return operator_arrow_dispatch_::apply(*this-&gt;derived());
+<span class="lineNum">     645 </span>            :       }
+<span class="lineNum">     646 </span>            :         
+<span class="lineNum">     647 </span>            :       typename boost::detail::operator_brackets_result&lt;Derived,Value,reference&gt;::type
+<span class="lineNum">     648 </span>            :       operator[](difference_type n) const
+<span class="lineNum">     649 </span>            :       {
+<span class="lineNum">     650 </span>            :           typedef boost::detail::use_operator_brackets_proxy&lt;Value,Reference&gt; use_proxy;
+<span class="lineNum">     651 </span>            :           
+<span class="lineNum">     652 </span>            :           return boost::detail::make_operator_brackets_result&lt;Derived&gt;(
+<span class="lineNum">     653 </span>            :               this-&gt;derived() + n
+<span class="lineNum">     654 </span>            :             , use_proxy()
+<span class="lineNum">     655 </span>            :           );
+<a name="656"><span class="lineNum">     656 </span>            :       }</a>
+<span class="lineNum">     657 </span>            : 
+<span class="lineNum">     658 </span><span class="lineNoCov">          0 :       Derived&amp; operator++()</span>
+<span class="lineNum">     659 </span>            :       {
+<span class="lineNum">     660 </span><span class="lineNoCov">          0 :           iterator_core_access::increment(this-&gt;derived());</span>
+<span class="lineNum">     661 </span><span class="lineNoCov">          0 :           return this-&gt;derived();</span>
+<span class="lineNum">     662 </span>            :       }
+<span class="lineNum">     663 </span>            : 
+<span class="lineNum">     664 </span>            : # if BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+<span class="lineNum">     665 </span>            :       typename boost::detail::postfix_increment_result&lt;Derived,Value,Reference,CategoryOrTraversal&gt;::type
+<span class="lineNum">     666 </span>            :       operator++(int)
+<span class="lineNum">     667 </span>            :       {
+<span class="lineNum">     668 </span>            :           typename boost::detail::postfix_increment_result&lt;Derived,Value,Reference,CategoryOrTraversal&gt;::type
+<span class="lineNum">     669 </span>            :           tmp(this-&gt;derived());
+<span class="lineNum">     670 </span>            :           ++*this;
+<span class="lineNum">     671 </span>            :           return tmp;
+<span class="lineNum">     672 </span>            :       }
+<span class="lineNum">     673 </span>            : # endif
+<span class="lineNum">     674 </span>            :       
+<span class="lineNum">     675 </span>            :       Derived&amp; operator--()
+<span class="lineNum">     676 </span>            :       {
+<span class="lineNum">     677 </span>            :           iterator_core_access::decrement(this-&gt;derived());
+<span class="lineNum">     678 </span>            :           return this-&gt;derived();
+<span class="lineNum">     679 </span>            :       }
+<span class="lineNum">     680 </span>            : 
+<span class="lineNum">     681 </span>            :       Derived operator--(int)
+<span class="lineNum">     682 </span>            :       {
+<span class="lineNum">     683 </span>            :           Derived tmp(this-&gt;derived());
+<span class="lineNum">     684 </span>            :           --*this;
+<span class="lineNum">     685 </span>            :           return tmp;
+<span class="lineNum">     686 </span>            :       }
+<span class="lineNum">     687 </span>            : 
+<span class="lineNum">     688 </span>            :       Derived&amp; operator+=(difference_type n)
+<span class="lineNum">     689 </span>            :       {
+<span class="lineNum">     690 </span>            :           iterator_core_access::advance(this-&gt;derived(), n);
+<span class="lineNum">     691 </span>            :           return this-&gt;derived();
+<span class="lineNum">     692 </span>            :       }
+<span class="lineNum">     693 </span>            : 
+<span class="lineNum">     694 </span>            :       Derived&amp; operator-=(difference_type n)
+<span class="lineNum">     695 </span>            :       {
+<span class="lineNum">     696 </span>            :           iterator_core_access::advance(this-&gt;derived(), -n);
+<span class="lineNum">     697 </span>            :           return this-&gt;derived();
+<span class="lineNum">     698 </span>            :       }
+<span class="lineNum">     699 </span>            : 
+<span class="lineNum">     700 </span>            :       Derived operator-(difference_type x) const
+<span class="lineNum">     701 </span>            :       {
+<span class="lineNum">     702 </span>            :           Derived result(this-&gt;derived());
+<span class="lineNum">     703 </span>            :           return result -= x;
+<span class="lineNum">     704 </span>            :       }
+<span class="lineNum">     705 </span>            : 
+<span class="lineNum">     706 </span>            : # if BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+<span class="lineNum">     707 </span>            :       // There appears to be a bug which trashes the data of classes
+<span class="lineNum">     708 </span>            :       // derived from iterator_facade when they are assigned unless we
+<span class="lineNum">     709 </span>            :       // define this assignment operator.  This bug is only revealed
+<span class="lineNum">     710 </span>            :       // (so far) in STLPort debug mode, but it's clearly a codegen
+<span class="lineNum">     711 </span>            :       // problem so we apply the workaround for all MSVC6.
+<span class="lineNum">     712 </span>            :       iterator_facade&amp; operator=(iterator_facade const&amp;)
+<span class="lineNum">     713 </span>            :       {
+<span class="lineNum">     714 </span>            :           return *this;
+<span class="lineNum">     715 </span>            :       }
+<span class="lineNum">     716 </span>            : # endif
+<span class="lineNum">     717 </span>            :   };
+<span class="lineNum">     718 </span>            : 
+<span class="lineNum">     719 </span>            : # if !BOOST_WORKAROUND(BOOST_MSVC, &lt; 1300)
+<span class="lineNum">     720 </span>            :   template &lt;class I, class V, class TC, class R, class D&gt;
+<span class="lineNum">     721 </span>            :   inline typename boost::detail::postfix_increment_result&lt;I,V,R,TC&gt;::type
+<span class="lineNum">     722 </span>            :   operator++(
+<span class="lineNum">     723 </span>            :       iterator_facade&lt;I,V,TC,R,D&gt;&amp; i
+<span class="lineNum">     724 </span>            :     , int
+<span class="lineNum">     725 </span>            :   )
+<span class="lineNum">     726 </span>            :   {
+<span class="lineNum">     727 </span>            :       typename boost::detail::postfix_increment_result&lt;I,V,R,TC&gt;::type
+<span class="lineNum">     728 </span>            :           tmp(*static_cast&lt;I*&gt;(&amp;i));
+<span class="lineNum">     729 </span>            :       
+<span class="lineNum">     730 </span>            :       ++i;
+<span class="lineNum">     731 </span>            :       
+<span class="lineNum">     732 </span>            :       return tmp;
+<span class="lineNum">     733 </span>            :   }
+<span class="lineNum">     734 </span>            : # endif 
+<span class="lineNum">     735 </span>            : 
+<span class="lineNum">     736 </span>            :   
+<span class="lineNum">     737 </span>            :   //
+<span class="lineNum">     738 </span>            :   // Comparison operator implementation. The library supplied operators
+<span class="lineNum">     739 </span>            :   // enables the user to provide fully interoperable constant/mutable
+<span class="lineNum">     740 </span>            :   // iterator types. I.e. the library provides all operators
+<span class="lineNum">     741 </span>            :   // for all mutable/constant iterator combinations.
+<span class="lineNum">     742 </span>            :   //
+<span class="lineNum">     743 </span>            :   // Note though that this kind of interoperability for constant/mutable
+<span class="lineNum">     744 </span>            :   // iterators is not required by the standard for container iterators.
+<span class="lineNum">     745 </span>            :   // All the standard asks for is a conversion mutable -&gt; constant.
+<span class="lineNum">     746 </span>            :   // Most standard library implementations nowadays provide fully interoperable
+<span class="lineNum">     747 </span>            :   // iterator implementations, but there are still heavily used implementations
+<span class="lineNum">     748 </span>            :   // that do not provide them. (Actually it's even worse, they do not provide
+<span class="lineNum">     749 </span>            :   // them for only a few iterators.)
+<span class="lineNum">     750 </span>            :   //
+<span class="lineNum">     751 </span>            :   // ?? Maybe a BOOST_ITERATOR_NO_FULL_INTEROPERABILITY macro should
+<span class="lineNum">     752 </span>            :   //    enable the user to turn off mixed type operators
+<span class="lineNum">     753 </span>            :   //
+<span class="lineNum">     754 </span>            :   // The library takes care to provide only the right operator overloads.
+<span class="lineNum">     755 </span>            :   // I.e.
+<span class="lineNum">     756 </span>            :   //
+<span class="lineNum">     757 </span>            :   // bool operator==(Iterator,      Iterator);
+<span class="lineNum">     758 </span>            :   // bool operator==(ConstIterator, Iterator);
+<span class="lineNum">     759 </span>            :   // bool operator==(Iterator,      ConstIterator);
+<span class="lineNum">     760 </span>            :   // bool operator==(ConstIterator, ConstIterator);
+<span class="lineNum">     761 </span>            :   //
+<span class="lineNum">     762 </span>            :   //   ...
+<span class="lineNum">     763 </span>            :   //
+<span class="lineNum">     764 </span>            :   // In order to do so it uses c++ idioms that are not yet widely supported
+<span class="lineNum">     765 </span>            :   // by current compiler releases. The library is designed to degrade gracefully
+<span class="lineNum">     766 </span>            :   // in the face of compiler deficiencies. In general compiler
+<span class="lineNum">     767 </span>            :   // deficiencies result in less strict error checking and more obscure
+<span class="lineNum">     768 </span>            :   // error messages, functionality is not affected.
+<span class="lineNum">     769 </span>            :   //
+<span class="lineNum">     770 </span>            :   // For full operation compiler support for &quot;Substitution Failure Is Not An Error&quot;
+<span class="lineNum">     771 </span>            :   // (aka. enable_if) and boost::is_convertible is required.
+<span class="lineNum">     772 </span>            :   //
+<span class="lineNum">     773 </span>            :   // The following problems occur if support is lacking.
+<span class="lineNum">     774 </span>            :   //
+<span class="lineNum">     775 </span>            :   // Pseudo code
+<span class="lineNum">     776 </span>            :   //
+<span class="lineNum">     777 </span>            :   // ---------------
+<span class="lineNum">     778 </span>            :   // AdaptorA&lt;Iterator1&gt; a1;
+<span class="lineNum">     779 </span>            :   // AdaptorA&lt;Iterator2&gt; a2;
+<span class="lineNum">     780 </span>            :   //
+<span class="lineNum">     781 </span>            :   // // This will result in a no such overload error in full operation
+<span class="lineNum">     782 </span>            :   // // If enable_if or is_convertible is not supported
+<span class="lineNum">     783 </span>            :   // // The instantiation will fail with an error hopefully indicating that
+<span class="lineNum">     784 </span>            :   // // there is no operator== for Iterator1, Iterator2
+<span class="lineNum">     785 </span>            :   // // The same will happen if no enable_if is used to remove
+<span class="lineNum">     786 </span>            :   // // false overloads from the templated conversion constructor
+<span class="lineNum">     787 </span>            :   // // of AdaptorA.
+<span class="lineNum">     788 </span>            :   //
+<span class="lineNum">     789 </span>            :   // a1 == a2;
+<span class="lineNum">     790 </span>            :   // ----------------
+<span class="lineNum">     791 </span>            :   //
+<span class="lineNum">     792 </span>            :   // AdaptorA&lt;Iterator&gt; a;
+<span class="lineNum">     793 </span>            :   // AdaptorB&lt;Iterator&gt; b;
+<span class="lineNum">     794 </span>            :   //
+<span class="lineNum">     795 </span>            :   // // This will result in a no such overload error in full operation
+<span class="lineNum">     796 </span>            :   // // If enable_if is not supported the static assert used
+<span class="lineNum">     797 </span>            :   // // in the operator implementation will fail.
+<span class="lineNum">     798 </span>            :   // // This will accidently work if is_convertible is not supported.
+<span class="lineNum">     799 </span>            :   //
+<span class="lineNum">     800 </span>            :   // a == b;
+<span class="lineNum">     801 </span>            :   // ----------------
+<span class="lineNum">     802 </span>            :   //
+<span class="lineNum">     803 </span>            : 
+<span class="lineNum">     804 </span>            : # ifdef BOOST_NO_ONE_WAY_ITERATOR_INTEROP
+<span class="lineNum">     805 </span>            : #  define BOOST_ITERATOR_CONVERTIBLE(a,b) mpl::true_()
+<span class="lineNum">     806 </span>            : # else
+<span class="lineNum">     807 </span>            : #  define BOOST_ITERATOR_CONVERTIBLE(a,b) is_convertible&lt;a,b&gt;()
+<span class="lineNum">     808 </span>            : # endif
+<span class="lineNum">     809 </span>            : 
+<span class="lineNum">     810 </span>            : # define BOOST_ITERATOR_FACADE_INTEROP(op, result_type, return_prefix, base_op) \
+<span class="lineNum">     811 </span>            :   BOOST_ITERATOR_FACADE_INTEROP_HEAD(inline, op, result_type)                   \
+<span class="lineNum">     812 </span>            :   {                                                                             \
+<span class="lineNum">     813 </span>            :       /* For those compilers that do not support enable_if */                   \
+<span class="lineNum">     814 </span>            :       BOOST_STATIC_ASSERT((                                                     \
+<span class="lineNum">     815 </span>            :           is_interoperable&lt; Derived1, Derived2 &gt;::value                         \
+<span class="lineNum">     816 </span>            :       ));                                                                       \
+<span class="lineNum">     817 </span>            :       return_prefix iterator_core_access::base_op(                              \
+<span class="lineNum">     818 </span>            :           *static_cast&lt;Derived1 const*&gt;(&amp;lhs)                                   \
+<span class="lineNum">     819 </span>            :         , *static_cast&lt;Derived2 const*&gt;(&amp;rhs)                                   \
+<span class="lineNum">     820 </span>            :         , BOOST_ITERATOR_CONVERTIBLE(Derived2,Derived1)                         \
+<span class="lineNum">     821 </span>            :       );                                                                        \
+<span class="lineNum">     822 </span>            :   }
+<span class="lineNum">     823 </span>            : 
+<span class="lineNum">     824 </span>            : # define BOOST_ITERATOR_FACADE_RELATION(op, return_prefix, base_op) \
+<span class="lineNum">     825 </span>            :   BOOST_ITERATOR_FACADE_INTEROP(                                    \
+<span class="lineNum">     826 </span>            :       op                                                            \
+<span class="lineNum">     827 </span>            :     , boost::detail::always_bool2                                   \
+<span class="lineNum">     828 </span>            :     , return_prefix                                                 \
+<span class="lineNum">     829 </span>            :     , base_op                                                       \
+<span class="lineNum">     830 </span>            :   )
+<a name="831"><span class="lineNum">     831 </span>            : </a>
+<span class="lineNum">     832 </span>            :   BOOST_ITERATOR_FACADE_RELATION(==, return, equal)
+<span class="lineNum">     833 </span><span class="lineNoCov">          0 :   BOOST_ITERATOR_FACADE_RELATION(!=, return !, equal)</span>
+<span class="lineNum">     834 </span>            : 
+<span class="lineNum">     835 </span>            :   BOOST_ITERATOR_FACADE_RELATION(&lt;, return 0 &gt;, distance_from)
+<span class="lineNum">     836 </span>            :   BOOST_ITERATOR_FACADE_RELATION(&gt;, return 0 &lt;, distance_from)
+<span class="lineNum">     837 </span>            :   BOOST_ITERATOR_FACADE_RELATION(&lt;=, return 0 &gt;=, distance_from)
+<span class="lineNum">     838 </span>            :   BOOST_ITERATOR_FACADE_RELATION(&gt;=, return 0 &lt;=, distance_from)
+<span class="lineNum">     839 </span>            : # undef BOOST_ITERATOR_FACADE_RELATION
+<span class="lineNum">     840 </span>            : 
+<span class="lineNum">     841 </span>            :   // operator- requires an additional part in the static assertion
+<span class="lineNum">     842 </span>            :   BOOST_ITERATOR_FACADE_INTEROP(
+<span class="lineNum">     843 </span>            :       -
+<span class="lineNum">     844 </span>            :     , boost::detail::choose_difference_type
+<span class="lineNum">     845 </span>            :     , return
+<span class="lineNum">     846 </span>            :     , distance_from
+<span class="lineNum">     847 </span>            :   )
+<span class="lineNum">     848 </span>            : # undef BOOST_ITERATOR_FACADE_INTEROP
+<span class="lineNum">     849 </span>            : # undef BOOST_ITERATOR_FACADE_INTEROP_HEAD
+<span class="lineNum">     850 </span>            : 
+<span class="lineNum">     851 </span>            : # define BOOST_ITERATOR_FACADE_PLUS(args)           \
+<span class="lineNum">     852 </span>            :   BOOST_ITERATOR_FACADE_PLUS_HEAD(inline, args)     \
+<span class="lineNum">     853 </span>            :   {                                                 \
+<span class="lineNum">     854 </span>            :       Derived tmp(static_cast&lt;Derived const&amp;&gt;(i));  \
+<span class="lineNum">     855 </span>            :       return tmp += n;                              \
+<span class="lineNum">     856 </span>            :   }
+<span class="lineNum">     857 </span>            : 
+<span class="lineNum">     858 </span>            : BOOST_ITERATOR_FACADE_PLUS((
+<span class="lineNum">     859 </span>            :   iterator_facade&lt;Derived, V, TC, R, D&gt; const&amp; i
+<span class="lineNum">     860 </span>            :   , typename Derived::difference_type n
+<span class="lineNum">     861 </span>            : ))
+<span class="lineNum">     862 </span>            : 
+<span class="lineNum">     863 </span>            : BOOST_ITERATOR_FACADE_PLUS((
+<span class="lineNum">     864 </span>            :     typename Derived::difference_type n
+<span class="lineNum">     865 </span>            :     , iterator_facade&lt;Derived, V, TC, R, D&gt; const&amp; i
+<span class="lineNum">     866 </span>            : ))
+<span class="lineNum">     867 </span>            : # undef BOOST_ITERATOR_FACADE_PLUS
+<span class="lineNum">     868 </span>            : # undef BOOST_ITERATOR_FACADE_PLUS_HEAD
+<span class="lineNum">     869 </span>            : 
+<span class="lineNum">     870 </span>            : } // namespace boost
+<span class="lineNum">     871 </span>            : 
+<span class="lineNum">     872 </span>            : #include &lt;boost/iterator/detail/config_undef.hpp&gt;
+<span class="lineNum">     873 </span>            : 
+<span class="lineNum">     874 </span>            : #endif // BOOST_ITERATOR_FACADE_23022003THW_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

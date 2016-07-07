@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - /home/tobias/taller2/appServer/DrTinder/source/Servidor/ServerUtils.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">home/tobias/taller2/appServer/DrTinder/source/Servidor</a> - ServerUtils.cpp<span style="font-size: 80%;"> (source / <a href="ServerUtils.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">54</td>
+            <td class="headerCovTableEntry">78</td>
+            <td class="headerCovTableEntryLo">69.2 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">9</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryMed">81.8 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;ServerUtils.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : #define DEFAULT_LOG_CONFG &quot;logCnfgs/default.conf&quot;
+<span class="lineNum">       4 </span>            : #define DEBUG_LOG_CONFG &quot;logCnfgs/debug.conf&quot;
+<span class="lineNum">       5 </span>            : #define DEFAULT_CONFG &quot;server.conf&quot;
+<span class="lineNum">       6 </span>            : #define DEFAULT_PORT &quot;8000&quot;
+<span class="lineNum">       7 </span>            : #define DEFAULT_LOG &quot;default&quot;
+<span class="lineNum">       8 </span>            : #define DEBUG_LOG &quot;debug&quot;
+<span class="lineNum">       9 </span>            : #define DEFAULT_SHARED &quot;http://dr-tinder.herokuapp.com&quot;
+<span class="lineNum">      10 </span>            : #define CONFG_PORT_KEY &quot;port&quot;
+<span class="lineNum">      11 </span>            : #define CONFG_SHARED_KEY &quot;shared&quot;
+<span class="lineNum">      12 </span>            : #define CONFG_LOGFILE_KEY &quot;logfile&quot;
+<span class="lineNum">      13 </span>            : 
+<a name="14"><span class="lineNum">      14 </span>            : using namespace std;</a>
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span><span class="lineNoCov">          0 : void intToString(int number, std::string&amp; result) {</span>
+<span class="lineNum">      17 </span><span class="lineNoCov">          0 :     std::ostringstream convert;</span>
+<span class="lineNum">      18 </span><span class="lineNoCov">          0 :     convert &lt;&lt; number;</span>
+<span class="lineNum">      19 </span><span class="lineNoCov">          0 :     result = convert.str();</span>
+<a name="20"><span class="lineNum">      20 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineCov">        200 : int is_equal(const struct mg_str *s1, const std::string s2) {</span>
+<span class="lineNum">      23 </span><span class="lineCov">        200 :     return mg_vcmp(s1, s2.c_str()) == 0;</span>
+<a name="24"><span class="lineNum">      24 </span>            : }</a>
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 : bool equals(string s1,string s2){</span>
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         return s1.compare(s2) == 0;</span>
+<a name="28"><span class="lineNum">      28 </span>            : }</a>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span><span class="lineCov">         28 : bool isInteger(std::string &amp; s)</span>
+<span class="lineNum">      31 </span>            : {
+<span class="lineNum">      32 </span><span class="lineCov">         28 :    if(s.empty() || ((!isdigit(s[0])) &amp;&amp; (s[0] != '-') &amp;&amp; (s[0] != '+'))) return false ;</span>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            :    char * p ;
+<span class="lineNum">      35 </span><span class="lineCov">         28 :    strtol(s.c_str(), &amp;p, 10) ;</span>
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span><span class="lineCov">         28 :    return (*p == 0) ;</span>
+<a name="38"><span class="lineNum">      38 </span>            : }</a>
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineCov">         40 : bool isFloat( string myString ) {</span>
+<span class="lineNum">      41 </span><span class="lineCov">         40 :     std::istringstream iss(myString);</span>
+<span class="lineNum">      42 </span>            :     float f;
+<span class="lineNum">      43 </span><span class="lineCov">         40 :     iss &gt;&gt; noskipws &gt;&gt; f; // noskipws considers leading whitespace invalid</span>
+<span class="lineNum">      44 </span>            :     // Check the entire string was consumed and if either failbit or badbit is set
+<span class="lineNum">      45 </span><span class="lineCov">         40 :     return iss.eof() &amp;&amp; !iss.fail();</span>
+<a name="46"><span class="lineNum">      46 </span>            : }</a>
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span><span class="lineCov">          3 : void setCnfgValue(JsonParser* parser, string key, string &amp;value_to_set){</span>
+<span class="lineNum">      49 </span><span class="lineCov">          3 :         Json::Value value;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          3 :         value = parser-&gt;getValue(key);</span>
+<span class="lineNum">      51 </span><span class="lineCov">          3 :         if (!value.empty()) {</span>
+<span class="lineNum">      52 </span><span class="lineCov">          3 :                 value_to_set = value.asString();</span>
+<span class="lineNum">      53 </span><span class="lineCov">          3 :         }</span>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineCov">          1 : void readConfigFile(string &amp;port, string &amp;shared, string &amp;logCnfFile){</span>
+<span class="lineNum">      57 </span><span class="lineCov">          1 :         ifstream config(DEFAULT_CONFG);</span>
+<span class="lineNum">      58 </span><span class="lineCov">          1 :         if (config.is_open()){</span>
+<span class="lineNum">      59 </span><span class="lineCov">          1 :                 JsonParser parser;</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :                 string line, buff=&quot;&quot;;</span>
+<span class="lineNum">      61 </span><span class="lineCov">          7 :                 while ( getline (config,line) ){</span>
+<span class="lineNum">      62 </span><span class="lineCov">          5 :                         buff += line;</span>
+<span class="lineNum">      63 </span>            :                 }
+<span class="lineNum">      64 </span><span class="lineCov">          1 :                 if (parser.parsing(buff)){</span>
+<span class="lineNum">      65 </span><span class="lineCov">          1 :                         setCnfgValue(&amp;parser, CONFG_PORT_KEY,port);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          1 :                         setCnfgValue(&amp;parser, CONFG_SHARED_KEY,shared);</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :                         setCnfgValue(&amp;parser, CONFG_LOGFILE_KEY,logCnfFile);</span>
+<span class="lineNum">      68 </span>            :                 }
+<span class="lineNum">      69 </span><span class="lineCov">          2 :                 config.close();</span>
+<span class="lineNum">      70 </span><span class="lineCov">          1 :         }</span>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">        163 : void makeUsername(string &amp;username){</span>
+<span class="lineNum">      74 </span><span class="lineCov">        163 :         char * charsToRemove=&quot;@&quot;;</span>
+<span class="lineNum">      75 </span><span class="lineCov">        326 :         for (unsigned int i = 0; i &lt; strlen(charsToRemove); ++i) {</span>
+<span class="lineNum">      76 </span>            :                 username.erase(
+<span class="lineNum">      77 </span>            :                                 remove(username.begin(), username.end(), charsToRemove[i]),
+<span class="lineNum">      78 </span><span class="lineCov">        163 :                                 username.end());</span>
+<span class="lineNum">      79 </span>            :         }
+<span class="lineNum">      80 </span>            : 
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">        163 : }</span></a>
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineCov">          1 : void configure(int argc, char **argv, string &amp;port, string &amp;shared) {</span>
+<span class="lineNum">      84 </span><span class="lineCov">          2 :         string _port=&quot;&quot;, _shared=&quot;&quot;, _logCnf=&quot;&quot;, logCnfFile=&quot;&quot;;</span>
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :         //primero lee .conf
+<span class="lineNum">      87 </span><span class="lineCov">          1 :         readConfigFile(_port,_shared,logCnfFile);</span>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            :         //sobreescribe con comandos
+<span class="lineNum">      90 </span><span class="lineCov">          1 :         for (int i = 1; i + 1 &lt; argc; i++) {</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :                 string flag = string(argv[i]);</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :                 if (equals(flag,&quot;-p&quot;) || equals(flag,&quot;--port&quot;)) {</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :                         _port = argv[i + 1];</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :                 } else if (equals(flag,&quot;-s&quot;) || equals(flag,&quot;--shared&quot;) ) {</span>
+<span class="lineNum">      95 </span><span class="lineNoCov">          0 :                         _shared = argv[i + 1];</span>
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :                 } else if (equals(flag,&quot;-l&quot;) || equals(flag,&quot;--log&quot;) ) {</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :                         _logCnf = argv[i + 1];</span>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :                 }else if (equals(flag,&quot;-lf&quot;) || equals(flag,&quot;--logfile&quot;)){</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :                         logCnfFile = argv[i + 1];</span>
+<span class="lineNum">     100 </span>            :                 }
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :         //set defaults
+<span class="lineNum">     104 </span><span class="lineCov">          1 :         if (_logCnf.empty()){</span>
+<span class="lineNum">     105 </span><span class="lineCov">          1 :                 _logCnf = DEFAULT_LOG;</span>
+<span class="lineNum">     106 </span>            :         }
+<span class="lineNum">     107 </span>            : 
+<span class="lineNum">     108 </span><span class="lineCov">          1 :         if ( (logCnfFile.empty()) || (_logCnf.compare(DEBUG_LOG) == 0 ) ){</span>
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :                 if (equals(_logCnf, DEBUG_LOG)) {</span>
+<span class="lineNum">     110 </span><span class="lineNoCov">          0 :                         logCnfFile = DEBUG_LOG_CONFG;</span>
+<span class="lineNum">     111 </span>            :                 } else {
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :                         logCnfFile = DEFAULT_LOG_CONFG;</span>
+<span class="lineNum">     113 </span>            :                 }
+<span class="lineNum">     114 </span>            :         }
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            :         //set logger
+<span class="lineNum">     117 </span><span class="lineCov">          2 :         el::Configurations conf(logCnfFile);</span>
+<span class="lineNum">     118 </span><span class="lineCov">          1 :         el::Loggers::reconfigureAllLoggers(conf);</span>
+<span class="lineNum">     119 </span><span class="lineCov">          1 :         el::Loggers::addFlag(el::LoggingFlag::ColoredTerminalOutput);</span>
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span><span class="lineCov">          1 :         LOGG(INFO)&lt;&lt; &quot;Logger took cnfg from: &quot; &lt;&lt; logCnfFile;</span>
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span><span class="lineCov">          1 :         if (_port.empty() || ! isInteger(_port)){</span>
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :                 _port = DEFAULT_PORT;</span>
+<span class="lineNum">     125 </span><span class="lineNoCov">          0 :                 LOGG(INFO) &lt;&lt; &quot;Port set to default&quot;;</span>
+<span class="lineNum">     126 </span>            :         }else{
+<span class="lineNum">     127 </span><span class="lineCov">          1 :                 LOGG(INFO) &lt;&lt; &quot;Server port set to: &quot; &lt;&lt; _port;</span>
+<span class="lineNum">     128 </span>            :         }
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span><span class="lineCov">          1 :         if (_shared.empty()){</span>
+<span class="lineNum">     131 </span><span class="lineNoCov">          0 :                 _shared = DEFAULT_SHARED;</span>
+<span class="lineNum">     132 </span><span class="lineNoCov">          0 :                 LOGG(INFO) &lt;&lt; &quot;Shared server set to defualt&quot;;</span>
+<span class="lineNum">     133 </span>            :         }else{
+<span class="lineNum">     134 </span><span class="lineCov">          1 :                 LOGG(INFO) &lt;&lt; &quot;Shared server link to: &quot; &lt;&lt; _shared;</span>
+<span class="lineNum">     135 </span>            :         }
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span><span class="lineCov">          1 :         port = _port;</span>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">          2 :         shared = _shared;</span></a>
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineCov">          4 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

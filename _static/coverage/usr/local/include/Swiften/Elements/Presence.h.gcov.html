@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/local/include/Swiften/Elements/Presence.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/Swiften/Elements</a> - Presence.h<span style="font-size: 80%;"> (source / <a href="Presence.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2010-2016 Isode Limited.
+<span class="lineNum">       3 </span>            :  * All rights reserved.
+<span class="lineNum">       4 </span>            :  * See the COPYING file for more information.
+<span class="lineNum">       5 </span>            :  */
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #include &lt;Swiften/Base/API.h&gt;
+<span class="lineNum">      12 </span>            : #include &lt;Swiften/Elements/Stanza.h&gt;
+<span class="lineNum">      13 </span>            : #include &lt;Swiften/Elements/StatusShow.h&gt;
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : namespace Swift {
+<span class="lineNum">      16 </span>            :     class SWIFTEN_API Presence : public Stanza {
+<span class="lineNum">      17 </span>            :         public:
+<span class="lineNum">      18 </span>            :             typedef std::shared_ptr&lt;Presence&gt; ref;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            :             enum Type { Available, Error, Probe, Subscribe, Subscribed, Unavailable, Unsubscribe, Unsubscribed };
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            :             Presence();
+<span class="lineNum">      23 </span>            :             Presence(const std::string&amp; status);
+<span class="lineNum">      24 </span>            :             SWIFTEN_DEFAULT_COPY_CONSTRUCTOR(Presence)
+<a name="25"><span class="lineNum">      25 </span>            :             virtual ~Presence();</a>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :             static ref create() {</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :                 return std::make_shared&lt;Presence&gt;();</span>
+<span class="lineNum">      29 </span>            :             }
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            :             static ref create(const std::string&amp; status) {
+<span class="lineNum">      32 </span>            :                 return std::make_shared&lt;Presence&gt;(status);
+<span class="lineNum">      33 </span>            :             }
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            :             static ref create(Presence::ref presence) {
+<span class="lineNum">      36 </span>            :                 return std::make_shared&lt;Presence&gt;(*presence);
+<a name="37"><span class="lineNum">      37 </span>            :             }</a>
+<a name="38"><span class="lineNum">      38 </span>            : </a>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :             Type getType() const { return type_; }</span>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :             void setType(Type type) { type_ = type; }</span>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            :             StatusShow::Type getShow() const {
+<span class="lineNum">      43 </span>            :                 std::shared_ptr&lt;StatusShow&gt; show(getPayload&lt;StatusShow&gt;());
+<span class="lineNum">      44 </span>            :                 if (show) {
+<span class="lineNum">      45 </span>            :                     return show-&gt;getType();
+<span class="lineNum">      46 </span>            :                 }
+<span class="lineNum">      47 </span>            :                 return type_ == Available ? StatusShow::Online : StatusShow::None;
+<span class="lineNum">      48 </span>            :             }
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :             void setShow(const StatusShow::Type &amp;show) {
+<span class="lineNum">      51 </span>            :                 updatePayload(std::make_shared&lt;StatusShow&gt;(show));
+<span class="lineNum">      52 </span>            :             }
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :             std::string getStatus() const;
+<span class="lineNum">      55 </span>            :             void setStatus(const std::string&amp; status);
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :             int getPriority() const;
+<span class="lineNum">      58 </span>            :             void setPriority(int priority);
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :             std::shared_ptr&lt;Presence&gt; clone() const {
+<span class="lineNum">      61 </span>            :                 return std::make_shared&lt;Presence&gt;(*this);
+<span class="lineNum">      62 </span>            :             }
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :             bool isAvailable() const {
+<span class="lineNum">      65 </span>            :                 return type_ == Available;
+<span class="lineNum">      66 </span>            :             }
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :         private:
+<span class="lineNum">      69 </span>            :             Presence::Type type_;
+<span class="lineNum">      70 </span>            :     };
+<span class="lineNum">      71 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

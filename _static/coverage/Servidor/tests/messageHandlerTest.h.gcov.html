@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - Servidor/tests/messageHandlerTest.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Servidor/tests</a> - messageHandlerTest.h<span style="font-size: 80%;"> (source / <a href="messageHandlerTest.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">181</td>
+            <td class="headerCovTableEntry">181</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:38:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * messageHandlerTest.h
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Jun 20, 2016
+<span class="lineNum">       5 </span>            :  *      Author: tobias
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #ifndef SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_
+<span class="lineNum">       9 </span>            : #define SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_
+<span class="lineNum">      10 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      11 </span>            : #include &quot;../MessageHandler.h&quot;
+<span class="lineNum">      12 </span>            : #include &quot;../Parsers/CsvParser.h&quot;
+<span class="lineNum">      13 </span>            : #include &quot;setUpDataBase.h&quot;
+<span class="lineNum">      14 </span>            : #include &quot;gtest/gtest.h&quot;
+<span class="lineNum">      15 </span>            : #include &quot;testDatabaseNames.h&quot;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : using namespace rocksdb;
+<a name="18"><span class="lineNum">      18 </span>            : using namespace std;</a>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">          5 : TEST(MsgHandler,CreateInterests){</span>
+<span class="lineNum">      21 </span>            :         /*Para ver como anda*/
+<span class="lineNum">      22 </span>            :         DB* db;
+<span class="lineNum">      23 </span>            :         DB* dbc;
+<span class="lineNum">      24 </span><span class="lineCov">          1 :         Interests interests;</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :         interests.add(&quot;food&quot;,&quot;meat&quot;);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :         interests.add(&quot;food&quot;,&quot;vegan&quot;);</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 :         interests.add(&quot;sport&quot;,&quot;tennis&quot;);</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :         interests.add(&quot;sport&quot;,&quot;rugby&quot;);</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      31 </span>            :         server_databases_t databases;
+<span class="lineNum">      32 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">      34 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         handler.createInterests(&amp;interests);</span>
+<span class="lineNum">      37 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">      38 </span><span class="lineCov">          2 :         delete dbc;</span>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">          5 : TEST(MsgHandler,CreateTokenAndItsValid){</span>
+<span class="lineNum">      42 </span>            :         DB* db;
+<span class="lineNum">      43 </span>            :         DB* dbc;
+<span class="lineNum">      44 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">      45 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      46 </span>            :         server_databases_t databases;
+<span class="lineNum">      47 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">      48 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">      49 </span><span class="lineCov">          2 :         string user = &quot;aaa@aaa.com&quot;, password = &quot;pepe&quot;;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">      51 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">      52 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">      53 </span><span class="lineCov">          2 :         string token = handler.getToken();</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :         ASSERT_TRUE(handler.validateToken(token));</span>
+<span class="lineNum">      55 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :         delete dbc;</span>
+<span class="lineNum">      57 </span>            : 
+<a name="58"><span class="lineNum">      58 </span>            : }</a>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span><span class="lineCov">          5 : TEST(MsgHandler,CantAuthenticateUserNotCreated){</span>
+<span class="lineNum">      61 </span>            :         DB* db;
+<span class="lineNum">      62 </span>            :         DB* dbc;
+<span class="lineNum">      63 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">      64 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      65 </span>            :         server_databases_t databases;
+<span class="lineNum">      66 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">      68 </span><span class="lineCov">          2 :         string user = &quot;aaa@aaaa.com&quot;, password = &quot;pepe&quot;;</span>
+<span class="lineNum">      69 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">      70 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">      71 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">      72 </span><span class="lineCov">          2 :         ASSERT_FALSE(handler.authenticate(user,password));</span>
+<span class="lineNum">      73 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">      74 </span><span class="lineCov">          2 :         delete dbc;</span>
+<a name="75"><span class="lineNum">      75 </span>            : }</a>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineCov">          5 : TEST(MsgHandler,CreateAuthenticateAddLocalizationAndDeleteUser){</span>
+<span class="lineNum">      78 </span><span class="lineCov">          1 :         CsvParser parse;</span>
+<span class="lineNum">      79 </span><span class="lineCov">          2 :         vector&lt;string&gt; user_data;</span>
+<span class="lineNum">      80 </span><span class="lineCov">          2 :         string mail = &quot;aaaaa@aaa.com&quot;;</span>
+<span class="lineNum">      81 </span><span class="lineCov">          1 :         user_data.resize(USER_DATA_FOR_CLIENT_COUNT);</span>
+<span class="lineNum">      82 </span><span class="lineCov">          1 :         user_data[SEX_IDX] = &quot;man&quot;;</span>
+<span class="lineNum">      83 </span><span class="lineCov">          1 :         user_data[NAME_IDX] = &quot;Juan&quot;;</span>
+<span class="lineNum">      84 </span><span class="lineCov">          1 :         user_data[MAIL_IDX] = mail;</span>
+<span class="lineNum">      85 </span><span class="lineCov">          1 :         user_data[ALIAS_IDX] = &quot;Julepe&quot;;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          1 :         user_data[AGE_IDX] = &quot;18&quot;;</span>
+<span class="lineNum">      87 </span><span class="lineCov">          1 :         user_data[INT_IDX] = &quot;sport::tennis&quot;;</span>
+<span class="lineNum">      88 </span><span class="lineCov">          1 :         user_data[DSC_IDX] = &quot;Quiero ser un maestro pokemon&quot;;</span>
+<span class="lineNum">      89 </span><span class="lineCov">          2 :         string complete = &quot;\&quot;&quot;;</span>
+<span class="lineNum">      90 </span><span class="lineCov">          8 :         for (unsigned int i =0; i &lt; user_data.size(); i++){</span>
+<span class="lineNum">      91 </span><span class="lineCov">          7 :                 complete += user_data[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">      92 </span>            :         }
+<span class="lineNum">      93 </span><span class="lineCov">          1 :         if (complete.size() &gt; 2){</span>
+<span class="lineNum">      94 </span><span class="lineCov">          1 :                 complete = complete.substr(0, complete.size() - 2);</span>
+<span class="lineNum">      95 </span>            :         }
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :         DB* db;
+<span class="lineNum">      98 </span>            :         DB* dbc;
+<span class="lineNum">      99 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">     100 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">     101 </span>            :         server_databases_t databases;
+<span class="lineNum">     102 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">     103 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">     104 </span><span class="lineCov">          2 :         string user = mail, password = &quot;pepe&quot;;</span>
+<span class="lineNum">     105 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">     106 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">     107 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">     108 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.createUser(complete, password));</span>
+<span class="lineNum">     109 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.authenticate(mail,password));</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.addLocalization(&quot;1.5638,-1.2536&quot;));</span>
+<span class="lineNum">     111 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.deleteUser());</span>
+<span class="lineNum">     112 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">     113 </span><span class="lineCov">          2 :         delete dbc;</span>
+<a name="114"><span class="lineNum">     114 </span>            : }</a>
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span><span class="lineCov">          5 : TEST(MsgHandler,CreateUpdatePutPhotoCheckPhotoAndDeleteUser){</span>
+<span class="lineNum">     117 </span><span class="lineCov">          1 :         CsvParser parse;</span>
+<span class="lineNum">     118 </span><span class="lineCov">          2 :         vector&lt;string&gt; user_data;</span>
+<span class="lineNum">     119 </span><span class="lineCov">          2 :         string mail = &quot;asdas@aasdasda.com&quot; , modified;</span>
+<span class="lineNum">     120 </span><span class="lineCov">          1 :         user_data.resize(USER_DATA_FOR_CLIENT_COUNT);</span>
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span><span class="lineCov">          1 :         user_data[SEX_IDX] = &quot;man&quot;;</span>
+<span class="lineNum">     123 </span><span class="lineCov">          1 :         user_data[NAME_IDX] = &quot;Juan&quot;;</span>
+<span class="lineNum">     124 </span><span class="lineCov">          1 :         user_data[MAIL_IDX] = mail;</span>
+<span class="lineNum">     125 </span><span class="lineCov">          1 :         user_data[ALIAS_IDX] = &quot;Julepe&quot;;</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :         user_data[AGE_IDX] = &quot;18&quot;;</span>
+<span class="lineNum">     127 </span><span class="lineCov">          1 :         user_data[INT_IDX] = &quot;sport::tennis&quot;;</span>
+<span class="lineNum">     128 </span><span class="lineCov">          1 :         user_data[DSC_IDX] = &quot;Quiero ser un maestro pokemon&quot;;</span>
+<span class="lineNum">     129 </span><span class="lineCov">          2 :         string complete = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     130 </span>            :         //without photo or id
+<span class="lineNum">     131 </span><span class="lineCov">          8 :         for (unsigned int i =0; i &lt; user_data.size(); i++){</span>
+<span class="lineNum">     132 </span><span class="lineCov">          7 :                 complete += user_data[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     133 </span>            :         }
+<span class="lineNum">     134 </span><span class="lineCov">          1 :         if (complete.size() &gt; 2){</span>
+<span class="lineNum">     135 </span><span class="lineCov">          1 :                 complete = complete.substr(0, complete.size() - 2);</span>
+<span class="lineNum">     136 </span>            :         }
+<span class="lineNum">     137 </span><span class="lineCov">          1 :         modified = &quot;\&quot;Pepe\&quot;,\&quot;18\&quot;,\&quot;man\&quot;,\&quot;sport::tennis\&quot;&quot;;</span>
+<span class="lineNum">     138 </span>            :         DB* db;
+<span class="lineNum">     139 </span>            :         DB* dbc;
+<span class="lineNum">     140 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">     142 </span>            :         server_databases_t databases;
+<span class="lineNum">     143 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">     144 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">     145 </span><span class="lineCov">          2 :         string user = mail, password = &quot;pepe&quot;, photo;</span>
+<span class="lineNum">     146 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">     147 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">     148 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">     149 </span><span class="lineCov">          1 :         cout &lt;&lt; complete.c_str() &lt;&lt; endl;</span>
+<span class="lineNum">     150 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.createUser(complete, password));</span>
+<span class="lineNum">     151 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.postPhoto(&quot;pepe&quot;));</span>
+<span class="lineNum">     152 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.getPhoto(user, photo));</span>
+<span class="lineNum">     153 </span><span class="lineCov">          1 :         ASSERT_TRUE(photo.compare(&quot;pepe&quot;) == 0);</span>
+<span class="lineNum">     154 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.updateUser(modified));</span>
+<span class="lineNum">     155 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.deleteUser());</span>
+<span class="lineNum">     156 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">     157 </span><span class="lineCov">          2 :         delete dbc;</span>
+<a name="158"><span class="lineNum">     158 </span>            : }</a>
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span><span class="lineCov">          5 : TEST(MsgHandler,GetOtherUser){</span>
+<span class="lineNum">     161 </span>            :         //Depends on before Test
+<span class="lineNum">     162 </span><span class="lineCov">          1 :         CsvParser parse;</span>
+<span class="lineNum">     163 </span><span class="lineCov">          2 :         vector&lt;string&gt; user_data;</span>
+<span class="lineNum">     164 </span><span class="lineCov">          2 :         string mail = &quot;bbb@ccc.com&quot;;</span>
+<span class="lineNum">     165 </span><span class="lineCov">          1 :         user_data.resize(USER_DATA_FOR_CLIENT_COUNT);</span>
+<span class="lineNum">     166 </span><span class="lineCov">          1 :         user_data[SEX_IDX] = &quot;man&quot;;</span>
+<span class="lineNum">     167 </span><span class="lineCov">          1 :         user_data[NAME_IDX] = &quot;Juan&quot;;</span>
+<span class="lineNum">     168 </span><span class="lineCov">          1 :         user_data[MAIL_IDX] = mail;</span>
+<span class="lineNum">     169 </span><span class="lineCov">          1 :         user_data[ALIAS_IDX] = &quot;Julepe&quot;;</span>
+<span class="lineNum">     170 </span><span class="lineCov">          1 :         user_data[AGE_IDX] = &quot;18&quot;;</span>
+<span class="lineNum">     171 </span><span class="lineCov">          1 :         user_data[INT_IDX] = &quot;sport::tennis&quot;;</span>
+<span class="lineNum">     172 </span><span class="lineCov">          1 :         user_data[DSC_IDX] = &quot;Quiero ser un maestro pokemon&quot;;</span>
+<span class="lineNum">     173 </span><span class="lineCov">          2 :         string complete = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     174 </span>            :         //without photo or id
+<span class="lineNum">     175 </span><span class="lineCov">          8 :         for (unsigned int i = 0; i &lt; user_data.size(); i++) {</span>
+<span class="lineNum">     176 </span><span class="lineCov">          7 :                 complete += user_data[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     177 </span>            :         }
+<span class="lineNum">     178 </span><span class="lineCov">          1 :         if (complete.size() &gt; 2) {</span>
+<span class="lineNum">     179 </span><span class="lineCov">          1 :                 complete = complete.substr(0, complete.size() - 2);</span>
+<span class="lineNum">     180 </span>            :         }
+<span class="lineNum">     181 </span>            :         DB* db;
+<span class="lineNum">     182 </span>            :         DB* dbc;
+<span class="lineNum">     183 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">     184 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">     185 </span>            :         server_databases_t databases;
+<span class="lineNum">     186 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">     187 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">     188 </span><span class="lineCov">          2 :         string user = mail, password = &quot;pepe&quot;, data;</span>
+<span class="lineNum">     189 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">     190 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">     191 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">     192 </span><span class="lineCov">          2 :         ASSERT_FALSE(handler.getUser(&quot;asdas@aasdasda.com&quot;,data));</span>
+<span class="lineNum">     193 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">     194 </span><span class="lineCov">          2 :         delete dbc;</span>
+<span class="lineNum">     195 </span>            : 
+<a name="196"><span class="lineNum">     196 </span>            : }</a>
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span><span class="lineCov">          5 : TEST(MsgHandler, GetInterestPhotoExistant){</span>
+<span class="lineNum">     199 </span>            :         DB* db;
+<span class="lineNum">     200 </span>            :         DB* dbc;
+<span class="lineNum">     201 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">     202 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">     203 </span>            :         server_databases_t databases;
+<span class="lineNum">     204 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">     205 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">     206 </span><span class="lineCov">          2 :         string user = &quot;bbb@bbb.com&quot;, password = &quot;pepe&quot;, photo;</span>
+<span class="lineNum">     207 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">     208 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">     209 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">     210 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.getInterestPhoto(photo,&quot;sport&quot;));</span>
+<span class="lineNum">     211 </span><span class="lineCov">          1 :         ASSERT_FALSE(handler.getInterestPhoto(photo,&quot;pepe&quot;));</span>
+<span class="lineNum">     212 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">     213 </span><span class="lineCov">          2 :         delete dbc;</span>
+<a name="214"><span class="lineNum">     214 </span>            : }</a>
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span><span class="lineCov">          5 : TEST(MsgHandler,GetMatchesForUser){</span>
+<span class="lineNum">     217 </span><span class="lineCov">          1 :         vector&lt;string&gt; user_data;</span>
+<span class="lineNum">     218 </span><span class="lineCov">          2 :         string mail = &quot;marcelo@prueba.com&quot;;</span>
+<span class="lineNum">     219 </span><span class="lineCov">          1 :         user_data.resize(USER_DATA_FOR_CLIENT_COUNT);</span>
+<span class="lineNum">     220 </span><span class="lineCov">          1 :         user_data[SEX_IDX] = &quot;man&quot;;</span>
+<span class="lineNum">     221 </span><span class="lineCov">          1 :         user_data[NAME_IDX] = &quot;Marcelo&quot;;</span>
+<span class="lineNum">     222 </span><span class="lineCov">          1 :         user_data[MAIL_IDX] = mail;</span>
+<span class="lineNum">     223 </span><span class="lineCov">          1 :         user_data[ALIAS_IDX] = &quot;Marce&quot;;</span>
+<span class="lineNum">     224 </span><span class="lineCov">          1 :         user_data[AGE_IDX] = &quot;21&quot;;</span>
+<span class="lineNum">     225 </span><span class="lineCov">          1 :         user_data[INT_IDX] = &quot;sport::tennis&quot;;</span>
+<span class="lineNum">     226 </span><span class="lineCov">          1 :         user_data[DSC_IDX] = &quot;Quiero ser un maestro pokemon&quot;;</span>
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span><span class="lineCov">          2 :         string complete = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     229 </span><span class="lineCov">          8 :         for (unsigned int i =0; i &lt; user_data.size(); i++){</span>
+<span class="lineNum">     230 </span><span class="lineCov">          7 :                 complete += user_data[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     231 </span>            :         }
+<span class="lineNum">     232 </span><span class="lineCov">          1 :         if (complete.size() &gt; 2){</span>
+<span class="lineNum">     233 </span><span class="lineCov">          1 :                 complete = complete.substr(0, complete.size() - 2);</span>
+<span class="lineNum">     234 </span>            :         }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :         DB* db;
+<span class="lineNum">     237 </span>            :         DB* dbc;
+<span class="lineNum">     238 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,US_HAND_TEST_DB);</span>
+<span class="lineNum">     239 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;dbc,CH_HAND_TEST_DB);</span>
+<span class="lineNum">     240 </span>            :         server_databases_t databases;
+<span class="lineNum">     241 </span><span class="lineCov">          1 :         databases.usersDB = db;</span>
+<span class="lineNum">     242 </span><span class="lineCov">          1 :         databases.chatDB = dbc;</span>
+<span class="lineNum">     243 </span><span class="lineCov">          2 :         string user = mail, password = &quot;pepe&quot;;</span>
+<span class="lineNum">     244 </span><span class="lineCov">          2 :         MessageHandler handler(&amp;databases);</span>
+<span class="lineNum">     245 </span><span class="lineCov">          1 :         handler.setUser(user);</span>
+<span class="lineNum">     246 </span><span class="lineCov">          1 :         handler.setSharedLink(SHARED_SERVER_URL);</span>
+<span class="lineNum">     247 </span><span class="lineCov">          1 :         handler.createUser(complete, password);</span>
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span><span class="lineCov">          2 :         string users;</span>
+<span class="lineNum">     250 </span><span class="lineCov">          1 :         bool result = handler.getUsers(users);</span>
+<span class="lineNum">     251 </span><span class="lineCov">          1 :         LOGG(INFO) &lt;&lt; &quot;IMPRIMIENTDO USERS&quot; &lt;&lt; &quot;\n&quot;;</span>
+<span class="lineNum">     252 </span><span class="lineCov">          1 :         LOGG(INFO) &lt;&lt; users &lt;&lt; &quot;\n&quot;;</span>
+<span class="lineNum">     253 </span><span class="lineCov">          1 :         ASSERT_TRUE(result);</span>
+<span class="lineNum">     254 </span>            :         //elimino para evitar creacion de user en tests consecutivos
+<span class="lineNum">     255 </span><span class="lineCov">          1 :         ASSERT_TRUE(handler.deleteUser());</span>
+<span class="lineNum">     256 </span><span class="lineCov">          1 :         delete db;</span>
+<span class="lineNum">     257 </span><span class="lineCov">          2 :         delete dbc;</span>
+<span class="lineNum">     258 </span>            : }
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span>            : /*TEST(MsgHandler,isUserSet){
+<span class="lineNum">     262 </span>            :         //match
+<span class="lineNum">     263 </span>            :         //getmatches
+<span class="lineNum">     264 </span>            :         //getchat
+<span class="lineNum">     265 </span>            : }*/
+<span class="lineNum">     266 </span>            : 
+<span class="lineNum">     267 </span>            : #endif /* SERVIDOR_TESTS_MESSAGEHANDLERTEST_H_ */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

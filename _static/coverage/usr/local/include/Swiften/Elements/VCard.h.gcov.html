@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/local/include/Swiften/Elements/VCard.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/Swiften/Elements</a> - VCard.h<span style="font-size: 80%;"> (source / <a href="VCard.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2010-2016 Isode Limited.
+<span class="lineNum">       3 </span>            :  * All rights reserved.
+<span class="lineNum">       4 </span>            :  * See the COPYING file for more information.
+<span class="lineNum">       5 </span>            :  */
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      10 </span>            : #include &lt;string&gt;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : #include &lt;boost/date_time/posix_time/ptime.hpp&gt;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;Swiften/Base/API.h&gt;
+<span class="lineNum">      15 </span>            : #include &lt;Swiften/Base/ByteArray.h&gt;
+<span class="lineNum">      16 </span>            : #include &lt;Swiften/Elements/Payload.h&gt;
+<span class="lineNum">      17 </span>            : #include &lt;Swiften/JID/JID.h&gt;
+<a name="18"><span class="lineNum">      18 </span>            : </a>
+<span class="lineNum">      19 </span>            : namespace Swift {
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :     class SWIFTEN_API VCard : public Payload {</span>
+<span class="lineNum">      21 </span>            :         public:
+<a name="22"><span class="lineNum">      22 </span>            :             typedef std::shared_ptr&lt;VCard&gt; ref;</a>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :             struct EMailAddress {</span>
+<span class="lineNum">      25 </span>            :                 EMailAddress() : isHome(false), isWork(false), isInternet(false), isPreferred(false), isX400(false) {
+<span class="lineNum">      26 </span>            :                 }
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            :                 bool isHome;
+<span class="lineNum">      29 </span>            :                 bool isWork;
+<span class="lineNum">      30 </span>            :                 bool isInternet;
+<span class="lineNum">      31 </span>            :                 bool isPreferred;
+<span class="lineNum">      32 </span>            :                 bool isX400;
+<span class="lineNum">      33 </span>            :                 std::string address;
+<a name="34"><span class="lineNum">      34 </span>            :             };</a>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :             struct Telephone {</span>
+<span class="lineNum">      37 </span>            :                 Telephone() : isHome(false), isWork(false), isVoice(false), isFax(false), isPager(false), isMSG(false), isCell(false),
+<span class="lineNum">      38 </span>            :                     isVideo(false), isBBS(false), isModem(false), isISDN(false), isPCS(false), isPreferred(false) {
+<span class="lineNum">      39 </span>            :                 }
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            :                 bool isHome;
+<span class="lineNum">      42 </span>            :                 bool isWork;
+<span class="lineNum">      43 </span>            :                 bool isVoice;
+<span class="lineNum">      44 </span>            :                 bool isFax;
+<span class="lineNum">      45 </span>            :                 bool isPager;
+<span class="lineNum">      46 </span>            :                 bool isMSG;
+<span class="lineNum">      47 </span>            :                 bool isCell;
+<span class="lineNum">      48 </span>            :                 bool isVideo;
+<span class="lineNum">      49 </span>            :                 bool isBBS;
+<span class="lineNum">      50 </span>            :                 bool isModem;
+<span class="lineNum">      51 </span>            :                 bool isISDN;
+<span class="lineNum">      52 </span>            :                 bool isPCS;
+<span class="lineNum">      53 </span>            :                 bool isPreferred;
+<span class="lineNum">      54 </span>            :                 std::string number;
+<span class="lineNum">      55 </span>            :             };
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span>            :             enum DeliveryType {
+<span class="lineNum">      58 </span>            :                 DomesticDelivery,
+<span class="lineNum">      59 </span>            :                 InternationalDelivery,
+<span class="lineNum">      60 </span>            :                 None
+<a name="61"><span class="lineNum">      61 </span>            :             };</a>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :             struct Address {</span>
+<span class="lineNum">      64 </span>            :                 Address() : isHome(false), isWork(false), isPostal(false), isParcel(false), deliveryType(None), isPreferred(false) {
+<span class="lineNum">      65 </span>            :                 }
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            :                 bool isHome;
+<span class="lineNum">      68 </span>            :                 bool isWork;
+<span class="lineNum">      69 </span>            :                 bool isPostal;
+<span class="lineNum">      70 </span>            :                 bool isParcel;
+<span class="lineNum">      71 </span>            :                 DeliveryType deliveryType;
+<span class="lineNum">      72 </span>            :                 bool isPreferred;
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :                 std::string poBox;
+<span class="lineNum">      75 </span>            :                 std::string addressExtension;
+<span class="lineNum">      76 </span>            :                 std::string street;
+<span class="lineNum">      77 </span>            :                 std::string locality;
+<span class="lineNum">      78 </span>            :                 std::string region;
+<span class="lineNum">      79 </span>            :                 std::string postalCode;
+<span class="lineNum">      80 </span>            :                 std::string country;
+<a name="81"><span class="lineNum">      81 </span>            :             };</a>
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :             struct AddressLabel {</span>
+<span class="lineNum">      84 </span>            :                 AddressLabel() : isHome(false), isWork(false), isPostal(false), isParcel(false), deliveryType(None), isPreferred(false) {
+<span class="lineNum">      85 </span>            :                 }
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :                 bool isHome;
+<span class="lineNum">      88 </span>            :                 bool isWork;
+<span class="lineNum">      89 </span>            :                 bool isPostal;
+<span class="lineNum">      90 </span>            :                 bool isParcel;
+<span class="lineNum">      91 </span>            :                 DeliveryType deliveryType;
+<span class="lineNum">      92 </span>            :                 bool isPreferred;
+<span class="lineNum">      93 </span>            :                 std::vector&lt;std::string&gt; lines;
+<a name="94"><span class="lineNum">      94 </span>            :             };</a>
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span><span class="lineNoCov">          0 :             struct Organization {</span>
+<span class="lineNum">      97 </span>            :                 std::string name;
+<span class="lineNum">      98 </span>            :                 std::vector&lt;std::string&gt; units;
+<span class="lineNum">      99 </span>            :             };
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            :             VCard() {}
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            :             void setVersion(const std::string&amp; version) { version_ = version; }
+<span class="lineNum">     104 </span>            :             const std::string&amp; getVersion() const { return version_; }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :             void setFullName(const std::string&amp; fullName) { fullName_ = fullName; }
+<span class="lineNum">     107 </span>            :             const std::string&amp; getFullName() const { return fullName_; }
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            :             void setFamilyName(const std::string&amp; familyName) { familyName_ = familyName; }
+<span class="lineNum">     110 </span>            :             const std::string&amp; getFamilyName() const { return familyName_; }
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :             void setGivenName(const std::string&amp; givenName) { givenName_ = givenName; }
+<span class="lineNum">     113 </span>            :             const std::string&amp; getGivenName() const { return givenName_; }
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span>            :             void setMiddleName(const std::string&amp; middleName) { middleName_ = middleName; }
+<span class="lineNum">     116 </span>            :             const std::string&amp; getMiddleName() const { return middleName_; }
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :             void setPrefix(const std::string&amp; prefix) { prefix_ = prefix; }
+<span class="lineNum">     119 </span>            :             const std::string&amp; getPrefix() const { return prefix_; }
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            :             void setSuffix(const std::string&amp; suffix) { suffix_ = suffix; }
+<span class="lineNum">     122 </span>            :             const std::string&amp; getSuffix() const { return suffix_; }
+<span class="lineNum">     123 </span>            : 
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            :             //void setEMailAddress(const std::string&amp; email) { email_ = email; }
+<span class="lineNum">     126 </span>            :             //const std::string&amp; getEMailAddress() const { return email_; }
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span>            :             void setNickname(const std::string&amp; nick) { nick_ = nick; }
+<span class="lineNum">     129 </span>            :             const std::string&amp; getNickname() const { return nick_; }
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            :             void setPhoto(const ByteArray&amp; photo) { photo_ = photo; }
+<span class="lineNum">     132 </span>            :             const ByteArray&amp; getPhoto() const { return photo_; }
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :             void setPhotoType(const std::string&amp; photoType) { photoType_ = photoType; }
+<span class="lineNum">     135 </span>            :             const std::string&amp; getPhotoType() const { return photoType_; }
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :             const std::string&amp; getUnknownContent() const { return unknownContent_; }
+<span class="lineNum">     138 </span>            :             void addUnknownContent(const std::string&amp; c) {
+<span class="lineNum">     139 </span>            :                 unknownContent_ += c;
+<span class="lineNum">     140 </span>            :             }
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span>            :             const std::vector&lt;EMailAddress&gt;&amp; getEMailAddresses() const {
+<span class="lineNum">     143 </span>            :                 return emailAddresses_;
+<span class="lineNum">     144 </span>            :             }
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            :             void addEMailAddress(const EMailAddress&amp; email) {
+<span class="lineNum">     147 </span>            :                 emailAddresses_.push_back(email);
+<span class="lineNum">     148 </span>            :             }
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            :             void clearEMailAddresses() {
+<span class="lineNum">     151 </span>            :                 emailAddresses_.clear();
+<span class="lineNum">     152 </span>            :             }
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :             EMailAddress getPreferredEMailAddress() const;
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :             void setBirthday(const boost::posix_time::ptime&amp; birthday) {
+<span class="lineNum">     157 </span>            :                 birthday_ = birthday;
+<span class="lineNum">     158 </span>            :             }
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span>            :             const boost::posix_time::ptime&amp; getBirthday() const {
+<span class="lineNum">     161 </span>            :                 return birthday_;
+<span class="lineNum">     162 </span>            :             }
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            :             const std::vector&lt;Telephone&gt;&amp; getTelephones() const {
+<span class="lineNum">     165 </span>            :                 return telephones_;
+<span class="lineNum">     166 </span>            :             }
+<span class="lineNum">     167 </span>            : 
+<span class="lineNum">     168 </span>            :             void addTelephone(const Telephone&amp; phone) {
+<span class="lineNum">     169 </span>            :                 telephones_.push_back(phone);
+<span class="lineNum">     170 </span>            :             }
+<span class="lineNum">     171 </span>            : 
+<span class="lineNum">     172 </span>            :             void clearTelephones() {
+<span class="lineNum">     173 </span>            :                 telephones_.clear();
+<span class="lineNum">     174 </span>            :             }
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            :             const std::vector&lt;Address&gt;&amp; getAddresses() const {
+<span class="lineNum">     177 </span>            :                 return addresses_;
+<span class="lineNum">     178 </span>            :             }
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            :             void addAddress(const Address&amp; address) {
+<span class="lineNum">     181 </span>            :                 addresses_.push_back(address);
+<span class="lineNum">     182 </span>            :             }
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            :             void clearAddresses() {
+<span class="lineNum">     185 </span>            :                 addresses_.clear();
+<span class="lineNum">     186 </span>            :             }
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span>            :             const std::vector&lt;AddressLabel&gt;&amp; getAddressLabels() const {
+<span class="lineNum">     189 </span>            :                 return addressLabels_;
+<span class="lineNum">     190 </span>            :             }
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            :             void addAddressLabel(const AddressLabel&amp; addressLabel) {
+<span class="lineNum">     193 </span>            :                 addressLabels_.push_back(addressLabel);
+<span class="lineNum">     194 </span>            :             }
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            :             void clearAddressLabels() {
+<span class="lineNum">     197 </span>            :                 addressLabels_.clear();
+<span class="lineNum">     198 </span>            :             }
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :             const std::vector&lt;JID&gt;&amp; getJIDs() const {
+<span class="lineNum">     201 </span>            :                 return jids_;
+<span class="lineNum">     202 </span>            :             }
+<span class="lineNum">     203 </span>            : 
+<span class="lineNum">     204 </span>            :             void addJID(const JID&amp; jid) {
+<span class="lineNum">     205 </span>            :                 jids_.push_back(jid);
+<span class="lineNum">     206 </span>            :             }
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            :             void clearJIDs() {
+<span class="lineNum">     209 </span>            :                 jids_.clear();
+<span class="lineNum">     210 </span>            :             }
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span>            :             const std::string&amp; getDescription() const {
+<span class="lineNum">     213 </span>            :                 return description_;
+<span class="lineNum">     214 </span>            :             }
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span>            :             void setDescription(const std::string&amp; description) {
+<span class="lineNum">     217 </span>            :                 this-&gt;description_ = description;
+<span class="lineNum">     218 </span>            :             }
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            :             const std::vector&lt;Organization&gt;&amp; getOrganizations() const {
+<span class="lineNum">     221 </span>            :                 return organizations_;
+<span class="lineNum">     222 </span>            :             }
+<span class="lineNum">     223 </span>            : 
+<span class="lineNum">     224 </span>            :             void addOrganization(const Organization&amp; organization) {
+<span class="lineNum">     225 </span>            :                 organizations_.push_back(organization);
+<span class="lineNum">     226 </span>            :             }
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span>            :             void clearOrganizations() {
+<span class="lineNum">     229 </span>            :                 organizations_.clear();
+<span class="lineNum">     230 </span>            :             }
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :             const std::vector&lt;std::string&gt;&amp; getTitles() const {
+<span class="lineNum">     233 </span>            :                 return titles_;
+<span class="lineNum">     234 </span>            :             }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            :             void addTitle(const std::string&amp; title) {
+<span class="lineNum">     237 </span>            :                 titles_.push_back(title);
+<span class="lineNum">     238 </span>            :             }
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            :             void clearTitles() {
+<span class="lineNum">     241 </span>            :                 titles_.clear();
+<span class="lineNum">     242 </span>            :             }
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            :             const std::vector&lt;std::string&gt;&amp; getRoles() const {
+<span class="lineNum">     245 </span>            :                 return roles_;
+<span class="lineNum">     246 </span>            :             }
+<span class="lineNum">     247 </span>            : 
+<span class="lineNum">     248 </span>            :             void addRole(const std::string&amp; role) {
+<span class="lineNum">     249 </span>            :                 roles_.push_back(role);
+<span class="lineNum">     250 </span>            :             }
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span>            :             void clearRoles() {
+<span class="lineNum">     253 </span>            :                 roles_.clear();
+<span class="lineNum">     254 </span>            :             }
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            :             const std::vector&lt;std::string&gt;&amp; getURLs() const {
+<span class="lineNum">     257 </span>            :                 return urls_;
+<span class="lineNum">     258 </span>            :             }
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            :             void addURL(const std::string&amp; url) {
+<span class="lineNum">     261 </span>            :                 urls_.push_back(url);
+<span class="lineNum">     262 </span>            :             }
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span>            :             void clearURLs() {
+<span class="lineNum">     265 </span>            :                 urls_.clear();
+<span class="lineNum">     266 </span>            :             }
+<span class="lineNum">     267 </span>            : 
+<span class="lineNum">     268 </span>            :             bool isEmpty() const {
+<span class="lineNum">     269 </span>            :                 bool empty = version_.empty() &amp;&amp; fullName_.empty() &amp;&amp; familyName_.empty() &amp;&amp; givenName_.empty() &amp;&amp; middleName_.empty() &amp;&amp; prefix_.empty() &amp;&amp; suffix_.empty();
+<span class="lineNum">     270 </span>            :                 empty &amp;= photo_.empty() &amp;&amp; photoType_.empty() &amp;&amp; nick_.empty();
+<span class="lineNum">     271 </span>            :                 empty &amp;= birthday_.is_not_a_date_time();
+<span class="lineNum">     272 </span>            :                 empty &amp;= unknownContent_.empty();
+<span class="lineNum">     273 </span>            :                 empty &amp;= emailAddresses_.empty() &amp;&amp; telephones_.empty() &amp;&amp; addresses_.empty() &amp;&amp; addressLabels_.empty() &amp;&amp; jids_.empty();
+<span class="lineNum">     274 </span>            :                 empty &amp;= description_.empty() &amp;&amp; organizations_.empty() &amp;&amp; titles_.empty() &amp;&amp; roles_.empty() &amp;&amp; urls_.empty();
+<span class="lineNum">     275 </span>            :                 return empty;
+<span class="lineNum">     276 </span>            :             }
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span>            :         private:
+<span class="lineNum">     279 </span>            :             std::string version_;
+<span class="lineNum">     280 </span>            :             std::string fullName_;
+<span class="lineNum">     281 </span>            :             std::string familyName_;
+<span class="lineNum">     282 </span>            :             std::string givenName_;
+<span class="lineNum">     283 </span>            :             std::string middleName_;
+<span class="lineNum">     284 </span>            :             std::string prefix_;
+<span class="lineNum">     285 </span>            :             std::string suffix_;
+<span class="lineNum">     286 </span>            :             //std::string email_;
+<span class="lineNum">     287 </span>            :             ByteArray photo_;
+<span class="lineNum">     288 </span>            :             std::string photoType_;
+<span class="lineNum">     289 </span>            :             std::string nick_;
+<span class="lineNum">     290 </span>            :             boost::posix_time::ptime birthday_;
+<span class="lineNum">     291 </span>            :             std::string unknownContent_;
+<span class="lineNum">     292 </span>            :             std::vector&lt;EMailAddress&gt; emailAddresses_;
+<span class="lineNum">     293 </span>            :             std::vector&lt;Telephone&gt; telephones_;
+<span class="lineNum">     294 </span>            :             std::vector&lt;Address&gt; addresses_;
+<span class="lineNum">     295 </span>            :             std::vector&lt;AddressLabel&gt; addressLabels_;
+<span class="lineNum">     296 </span>            :             std::vector&lt;JID&gt; jids_;
+<span class="lineNum">     297 </span>            :             std::string description_;
+<span class="lineNum">     298 </span>            :             std::vector&lt;Organization&gt; organizations_;
+<span class="lineNum">     299 </span>            :             std::vector&lt;std::string&gt; titles_;
+<span class="lineNum">     300 </span>            :             std::vector&lt;std::string&gt; roles_;
+<span class="lineNum">     301 </span>            :             std::vector&lt;std::string&gt; urls_;
+<span class="lineNum">     302 </span>            :     };
+<span class="lineNum">     303 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/signals2/detail/result_type_wrapper.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/signals2/detail</a> - result_type_wrapper.hpp<span style="font-size: 80%;"> (source / <a href="result_type_wrapper.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Boost.Signals2 library</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : // Copyright Douglas Gregor 2001-2004.
+<span class="lineNum">       4 </span>            : // Copyright Frank Mori Hess 2007. Use, modification and
+<span class="lineNum">       5 </span>            : // distribution is subject to the Boost Software License, Version
+<span class="lineNum">       6 </span>            : // 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       7 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : // For more information, see http://www.boost.org
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef BOOST_SIGNALS2_RESULT_TYPE_WRAPPER_HPP
+<span class="lineNum">      12 </span>            : #define BOOST_SIGNALS2_RESULT_TYPE_WRAPPER_HPP
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;boost/config.hpp&gt;
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace boost {
+<span class="lineNum">      17 </span>            :   namespace signals2 {
+<span class="lineNum">      18 </span>            :     namespace detail {
+<span class="lineNum">      19 </span>            :       // A placeholder for void on compilers that don't support void returns
+<span class="lineNum">      20 </span>            :       struct void_type {};
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            :       // Replaces void with void_type
+<span class="lineNum">      23 </span>            :       template&lt;typename R&gt;
+<span class="lineNum">      24 </span>            :       struct nonvoid {
+<span class="lineNum">      25 </span>            :         typedef R type;
+<span class="lineNum">      26 </span>            :       };
+<span class="lineNum">      27 </span>            :       template&lt;&gt;
+<span class="lineNum">      28 </span>            :       struct nonvoid&lt;void&gt; {
+<span class="lineNum">      29 </span>            :         typedef void_type type;
+<span class="lineNum">      30 </span>            :       };
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            :       // Replaces void with void_type only if compiler doesn't support void returns
+<span class="lineNum">      33 </span>            :       template&lt;typename R&gt;
+<span class="lineNum">      34 </span>            :       struct result_type_wrapper {
+<span class="lineNum">      35 </span>            :         typedef R type;
+<span class="lineNum">      36 </span>            :       };
+<span class="lineNum">      37 </span>            : #ifdef BOOST_NO_VOID_RETURNS
+<span class="lineNum">      38 </span>            :       template&lt;&gt;
+<span class="lineNum">      39 </span>            :       struct result_type_wrapper&lt;void&gt; {
+<span class="lineNum">      40 </span>            :         typedef void_type type;
+<span class="lineNum">      41 </span>            :       };
+<span class="lineNum">      42 </span>            : #endif
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :       // specialization deals with possible void return from combiners
+<span class="lineNum">      45 </span>            :       template&lt;typename R&gt; class combiner_invoker
+<span class="lineNum">      46 </span>            :       {
+<span class="lineNum">      47 </span>            :       public:
+<span class="lineNum">      48 </span>            :         typedef R result_type;
+<span class="lineNum">      49 </span>            :         template&lt;typename Combiner, typename InputIterator&gt;
+<span class="lineNum">      50 </span>            :           result_type operator()(Combiner &amp;combiner,
+<span class="lineNum">      51 </span>            :           InputIterator first, InputIterator last) const
+<span class="lineNum">      52 </span>            :         {
+<span class="lineNum">      53 </span>            :           return combiner(first, last);
+<span class="lineNum">      54 </span>            :         }
+<span class="lineNum">      55 </span>            :       };
+<span class="lineNum">      56 </span>            :       template&lt;&gt; class combiner_invoker&lt;void&gt;
+<span class="lineNum">      57 </span>            :       {
+<span class="lineNum">      58 </span>            :       public:
+<a name="59"><span class="lineNum">      59 </span>            :         typedef result_type_wrapper&lt;void&gt;::type result_type;</a>
+<span class="lineNum">      60 </span>            :         template&lt;typename Combiner, typename InputIterator&gt;
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :           result_type operator()(Combiner &amp;combiner,</span>
+<span class="lineNum">      62 </span>            :           InputIterator first, InputIterator last) const
+<span class="lineNum">      63 </span>            :         {
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :           combiner(first, last);</span>
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :           return result_type();</span>
+<span class="lineNum">      66 </span>            :         }
+<span class="lineNum">      67 </span>            :       };
+<span class="lineNum">      68 </span>            :     } // end namespace detail
+<span class="lineNum">      69 </span>            :   } // end namespace signals2
+<span class="lineNum">      70 </span>            : } // end namespace boost
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            : #endif // BOOST_SIGNALS2_RESULT_TYPE_WRAPPER_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

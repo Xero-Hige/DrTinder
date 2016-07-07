@@ -14,4 +14,5 @@ Este guardo algunos datos extras que no se encuentran en el :ref:`sharedServer` 
 	implementacion
 	config
 	api
+	coverage
 	

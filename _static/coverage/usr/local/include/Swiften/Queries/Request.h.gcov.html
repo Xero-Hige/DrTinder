@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/local/include/Swiften/Queries/Request.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/local/include/Swiften/Queries</a> - Request.h<span style="font-size: 80%;"> (source / <a href="Request.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * Copyright (c) 2010-2016 Isode Limited.
+<span class="lineNum">       3 </span>            :  * All rights reserved.
+<span class="lineNum">       4 </span>            :  * See the COPYING file for more information.
+<span class="lineNum">       5 </span>            :  */
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span>            : #pragma once
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      10 </span>            : #include &lt;string&gt;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : #include &lt;boost/optional.hpp&gt;
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;Swiften/Base/API.h&gt;
+<span class="lineNum">      15 </span>            : #include &lt;Swiften/Elements/ErrorPayload.h&gt;
+<span class="lineNum">      16 </span>            : #include &lt;Swiften/Elements/IQ.h&gt;
+<span class="lineNum">      17 </span>            : #include &lt;Swiften/Elements/Payload.h&gt;
+<span class="lineNum">      18 </span>            : #include &lt;Swiften/JID/JID.h&gt;
+<span class="lineNum">      19 </span>            : #include &lt;Swiften/Queries/IQHandler.h&gt;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : namespace Swift {
+<span class="lineNum">      22 </span>            :     /**
+<a name="23"><span class="lineNum">      23 </span>            :      * An IQ get/set request query.</a>
+<span class="lineNum">      24 </span>            :      */
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 :     class SWIFTEN_API Request : public IQHandler, public std::enable_shared_from_this&lt;Request&gt; {</span>
+<span class="lineNum">      26 </span>            :         public:
+<span class="lineNum">      27 </span>            :             std::string send();
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            :             const JID&amp; getReceiver() const {
+<span class="lineNum">      30 </span>            :                 return receiver_;
+<span class="lineNum">      31 </span>            :             }
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            :             /**
+<span class="lineNum">      34 </span>            :              * Returns the ID of this request.
+<span class="lineNum">      35 </span>            :              * This will only be set after send() is called.
+<span class="lineNum">      36 </span>            :              */
+<span class="lineNum">      37 </span>            :             const std::string&amp; getID() const {
+<span class="lineNum">      38 </span>            :                 return id_;
+<span class="lineNum">      39 </span>            :             }
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span>            :         protected:
+<span class="lineNum">      43 </span>            :             /**
+<span class="lineNum">      44 </span>            :              * Constructs a request of a certain type to a specific receiver, and attaches the given
+<span class="lineNum">      45 </span>            :              * payload.
+<span class="lineNum">      46 </span>            :              */
+<span class="lineNum">      47 </span>            :             Request(
+<span class="lineNum">      48 </span>            :                     IQ::Type type,
+<span class="lineNum">      49 </span>            :                     const JID&amp; receiver,
+<span class="lineNum">      50 </span>            :                     std::shared_ptr&lt;Payload&gt; payload,
+<span class="lineNum">      51 </span>            :                     IQRouter* router);
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :             /**
+<span class="lineNum">      54 </span>            :              * Constructs a request of a certain type to a specific receiver from a specific sender, and attaches the given
+<span class="lineNum">      55 </span>            :              * payload.
+<span class="lineNum">      56 </span>            :              */
+<span class="lineNum">      57 </span>            :             Request(
+<span class="lineNum">      58 </span>            :                     IQ::Type type,
+<span class="lineNum">      59 </span>            :                     const JID&amp; sender,
+<span class="lineNum">      60 </span>            :                     const JID&amp; receiver,
+<span class="lineNum">      61 </span>            :                     std::shared_ptr&lt;Payload&gt; payload,
+<span class="lineNum">      62 </span>            :                     IQRouter* router);
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :             /**
+<span class="lineNum">      66 </span>            :              * Constructs a request of a certain type to a specific receiver.
+<span class="lineNum">      67 </span>            :              */
+<span class="lineNum">      68 </span>            :             Request(
+<span class="lineNum">      69 </span>            :                     IQ::Type type,
+<span class="lineNum">      70 </span>            :                     const JID&amp; receiver,
+<span class="lineNum">      71 </span>            :                     IQRouter* router);
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            :             /**
+<span class="lineNum">      74 </span>            :              * Constructs a request of a certain type to a specific receiver from a specific sender.
+<span class="lineNum">      75 </span>            :              */
+<span class="lineNum">      76 </span>            :             Request(
+<span class="lineNum">      77 </span>            :                     IQ::Type type,
+<span class="lineNum">      78 </span>            :                     const JID&amp; sender,
+<span class="lineNum">      79 </span>            :                     const JID&amp; receiver,
+<span class="lineNum">      80 </span>            :                     IQRouter* router);
+<a name="81"><span class="lineNum">      81 </span>            : </a>
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :             virtual void setPayload(std::shared_ptr&lt;Payload&gt; payload) {</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :                 payload_ = payload;</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :             }</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :             std::shared_ptr&lt;Payload&gt; getPayload() const {
+<span class="lineNum">      88 </span>            :                 return payload_;
+<span class="lineNum">      89 </span>            :             }
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            :             virtual void handleResponse(std::shared_ptr&lt;Payload&gt;, std::shared_ptr&lt;ErrorPayload&gt;) = 0;
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :         private:
+<span class="lineNum">      94 </span>            :             bool handleIQ(std::shared_ptr&lt;IQ&gt;);
+<span class="lineNum">      95 </span>            :             bool isCorrectSender(const JID&amp; jid);
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :         private:
+<span class="lineNum">      98 </span>            :             IQRouter* router_;
+<span class="lineNum">      99 </span>            :             IQ::Type type_;
+<span class="lineNum">     100 </span>            :             JID sender_;
+<span class="lineNum">     101 </span>            :             JID receiver_;
+<span class="lineNum">     102 </span>            :             std::shared_ptr&lt;Payload&gt; payload_;
+<span class="lineNum">     103 </span>            :             std::string id_;
+<span class="lineNum">     104 </span>            :             bool sent_;
+<span class="lineNum">     105 </span>            :     };
+<span class="lineNum">     106 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

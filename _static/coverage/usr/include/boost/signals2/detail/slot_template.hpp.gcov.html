@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/signals2/detail/slot_template.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/signals2/detail</a> - slot_template.hpp<span style="font-size: 80%;"> (source / <a href="slot_template.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Boost.Signals2 library</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : // Copyright Frank Mori Hess 2007-2008.
+<span class="lineNum">       4 </span>            : // Copyright Timmo Stange 2007.
+<span class="lineNum">       5 </span>            : // Copyright Douglas Gregor 2001-2004. Use, modification and
+<span class="lineNum">       6 </span>            : // distribution is subject to the Boost Software License, Version
+<span class="lineNum">       7 </span>            : // 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       8 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : // For more information, see http://www.boost.org
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : // This file is included iteratively, and should not be protected from multiple inclusion
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">      15 </span>            : #define BOOST_SIGNALS2_NUM_ARGS BOOST_PP_ITERATION()
+<span class="lineNum">      16 </span>            : #else
+<span class="lineNum">      17 </span>            : #define BOOST_SIGNALS2_NUM_ARGS 1
+<span class="lineNum">      18 </span>            : #endif
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : namespace boost
+<span class="lineNum">      22 </span>            : {
+<span class="lineNum">      23 </span>            :   namespace signals2
+<span class="lineNum">      24 </span>            :   {
+<span class="lineNum">      25 </span>            :     template&lt;typename Signature, typename SlotFunction&gt; class slot;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            :     // slot class template.
+<span class="lineNum">      28 </span>            :     template&lt;BOOST_SIGNALS2_SIGNATURE_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS),
+<span class="lineNum">      29 </span>            :       typename SlotFunction = BOOST_SIGNALS2_FUNCTION_N_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      30 </span>            :       class BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<a name="31"><span class="lineNum">      31 </span>            : </a>
+<span class="lineNum">      32 </span>            :     template&lt;BOOST_SIGNALS2_SLOT_TEMPLATE_SPECIALIZATION_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :       class BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) BOOST_SIGNALS2_SLOT_TEMPLATE_SPECIALIZATION</span>
+<span class="lineNum">      34 </span>            :       : public slot_base, public detail::BOOST_SIGNALS2_STD_FUNCTIONAL_BASE(R)
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            :     {
+<span class="lineNum">      37 </span>            :     public:
+<span class="lineNum">      38 </span>            :       template&lt;BOOST_SIGNALS2_PREFIXED_SIGNATURE_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS, Other), typename OtherSlotFunction&gt;
+<span class="lineNum">      39 </span>            :       friend class BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            :       typedef SlotFunction slot_function_type;
+<span class="lineNum">      42 </span>            :       typedef R result_type;
+<span class="lineNum">      43 </span>            :       typedef typename mpl::identity&lt;BOOST_SIGNALS2_SIGNATURE_FUNCTION_TYPE(BOOST_SIGNALS2_NUM_ARGS)&gt;::type signature_type;
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            : // typedef Tn argn_type;
+<span class="lineNum">      48 </span>            : #define BOOST_SIGNALS2_MISC_STATEMENT(z, n, data) \
+<span class="lineNum">      49 </span>            :     typedef BOOST_PP_CAT(T, BOOST_PP_INC(n)) BOOST_PP_CAT(BOOST_PP_CAT(arg, BOOST_PP_INC(n)), _type);
+<span class="lineNum">      50 </span>            :           BOOST_PP_REPEAT(BOOST_SIGNALS2_NUM_ARGS, BOOST_SIGNALS2_MISC_STATEMENT, ~)
+<span class="lineNum">      51 </span>            : #undef BOOST_SIGNALS2_MISC_STATEMENT
+<span class="lineNum">      52 </span>            : #if BOOST_SIGNALS2_NUM_ARGS == 1
+<span class="lineNum">      53 </span>            :       typedef arg1_type argument_type;
+<span class="lineNum">      54 </span>            : #elif BOOST_SIGNALS2_NUM_ARGS == 2
+<span class="lineNum">      55 </span>            :       typedef arg1_type first_argument_type;
+<span class="lineNum">      56 </span>            :       typedef arg2_type second_argument_type;
+<span class="lineNum">      57 </span>            : #endif
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            :       template&lt;unsigned n&gt; class arg : public
+<span class="lineNum">      60 </span>            :         detail::BOOST_SIGNALS2_PREPROCESSED_ARG_N_TYPE_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      61 </span>            :         &lt;n BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      62 </span>            :         BOOST_SIGNALS2_ARGS_TEMPLATE_INSTANTIATION(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      63 </span>            :       {};
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :       BOOST_STATIC_CONSTANT(int, arity = BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span>            : #else // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :       template&lt;unsigned n&gt; class arg
+<span class="lineNum">      70 </span>            :       {
+<span class="lineNum">      71 </span>            :       public:
+<span class="lineNum">      72 </span>            :         typedef typename detail::variadic_arg_type&lt;n, Args...&gt;::type type;
+<span class="lineNum">      73 </span>            :       };
+<span class="lineNum">      74 </span>            :       BOOST_STATIC_CONSTANT(int, arity = sizeof...(Args));
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            : #endif // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<a name="77"><span class="lineNum">      77 </span>            : </a>
+<span class="lineNum">      78 </span>            :       template&lt;typename F&gt;
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)(const F&amp; f)</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :       {</span>
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :         init_slot_function(f);</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">      83 </span>            :       // copy constructors
+<span class="lineNum">      84 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">      85 </span>            :       template&lt;BOOST_SIGNALS2_PREFIXED_SIGNATURE_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS, Other), typename OtherSlotFunction&gt;
+<span class="lineNum">      86 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)(const BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      87 </span>            :         &lt;BOOST_SIGNALS2_PREFIXED_SIGNATURE_TEMPLATE_INSTANTIATION(BOOST_SIGNALS2_NUM_ARGS, Other), OtherSlotFunction&gt; &amp;other_slot):
+<span class="lineNum">      88 </span>            :         slot_base(other_slot), _slot_function(other_slot._slot_function)
+<span class="lineNum">      89 </span>            :       {
+<span class="lineNum">      90 </span>            :       }
+<span class="lineNum">      91 </span>            : #endif
+<span class="lineNum">      92 </span>            :       template&lt;typename Signature, typename OtherSlotFunction&gt;
+<span class="lineNum">      93 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)(const slot&lt;Signature, OtherSlotFunction&gt; &amp;other_slot):
+<span class="lineNum">      94 </span>            :         slot_base(other_slot), _slot_function(other_slot._slot_function)
+<span class="lineNum">      95 </span>            :       {
+<span class="lineNum">      96 </span>            :       }
+<span class="lineNum">      97 </span>            :       // bind syntactic sugar
+<span class="lineNum">      98 </span>            :       BOOST_SIGNALS2_SLOT_N_BINDING_CONSTRUCTORS
+<span class="lineNum">      99 </span>            :       // invocation
+<span class="lineNum">     100 </span>            :       R operator()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS))
+<span class="lineNum">     101 </span>            :       {
+<span class="lineNum">     102 </span>            :         locked_container_type locked_objects = lock();
+<span class="lineNum">     103 </span>            :         return _slot_function(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     104 </span>            :       }
+<span class="lineNum">     105 </span>            :       R operator()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">     106 </span>            :       {
+<span class="lineNum">     107 </span>            :         locked_container_type locked_objects = lock();
+<span class="lineNum">     108 </span>            :         return _slot_function(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     109 </span>            :       }
+<span class="lineNum">     110 </span>            :       // tracking
+<span class="lineNum">     111 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&amp; track(const weak_ptr&lt;void&gt; &amp;tracked)      {
+<span class="lineNum">     112 </span>            :         _tracked_objects.push_back(tracked);
+<span class="lineNum">     113 </span>            :         return *this;
+<span class="lineNum">     114 </span>            :       }
+<span class="lineNum">     115 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&amp; track(const signal_base &amp;signal)
+<span class="lineNum">     116 </span>            :       {
+<span class="lineNum">     117 </span>            :         track_signal(signal);
+<span class="lineNum">     118 </span>            :         return *this;
+<span class="lineNum">     119 </span>            :       }
+<span class="lineNum">     120 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&amp; track(const slot_base &amp;slot)
+<span class="lineNum">     121 </span>            :       {
+<span class="lineNum">     122 </span>            :         tracked_container_type::const_iterator it;
+<span class="lineNum">     123 </span>            :         for(it = slot.tracked_objects().begin(); it != slot.tracked_objects().end(); ++it)
+<span class="lineNum">     124 </span>            :         {
+<span class="lineNum">     125 </span>            :           _tracked_objects.push_back(*it);
+<span class="lineNum">     126 </span>            :         }
+<span class="lineNum">     127 </span>            :         return *this;
+<span class="lineNum">     128 </span>            :       }
+<span class="lineNum">     129 </span>            :       template&lt;typename ForeignWeakPtr&gt;
+<span class="lineNum">     130 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&amp; track_foreign(const ForeignWeakPtr &amp;tracked,
+<span class="lineNum">     131 </span>            :         typename weak_ptr_traits&lt;ForeignWeakPtr&gt;::shared_type * /*SFINAE*/ = 0)
+<span class="lineNum">     132 </span>            :       {
+<span class="lineNum">     133 </span>            :         _tracked_objects.push_back(detail::foreign_void_weak_ptr(tracked));
+<span class="lineNum">     134 </span>            :         return *this;
+<span class="lineNum">     135 </span>            :       }
+<span class="lineNum">     136 </span>            :       template&lt;typename ForeignSharedPtr&gt;
+<span class="lineNum">     137 </span>            :       BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&amp; track_foreign(const ForeignSharedPtr &amp;tracked,
+<span class="lineNum">     138 </span>            :         typename shared_ptr_traits&lt;ForeignSharedPtr&gt;::weak_type * /*SFINAE*/ = 0)
+<span class="lineNum">     139 </span>            :       {
+<span class="lineNum">     140 </span>            :         _tracked_objects.push_back
+<span class="lineNum">     141 </span>            :         (
+<span class="lineNum">     142 </span>            :           detail::foreign_void_weak_ptr
+<span class="lineNum">     143 </span>            :           (
+<span class="lineNum">     144 </span>            :             typename shared_ptr_traits&lt;ForeignSharedPtr&gt;::weak_type(tracked)
+<span class="lineNum">     145 </span>            :           )
+<span class="lineNum">     146 </span>            :         );
+<span class="lineNum">     147 </span>            :         return *this;
+<span class="lineNum">     148 </span>            :       }
+<a name="149"><span class="lineNum">     149 </span>            : </a>
+<span class="lineNum">     150 </span>            :       const slot_function_type&amp; slot_function() const {return _slot_function;}
+<span class="lineNum">     151 </span><span class="lineNoCov">          0 :       slot_function_type&amp; slot_function() {return _slot_function;}</span>
+<a name="152"><span class="lineNum">     152 </span>            :     private:</a>
+<span class="lineNum">     153 </span>            :       template&lt;typename F&gt;
+<span class="lineNum">     154 </span><span class="lineNoCov">          0 :       void init_slot_function(const F&amp; f)</span>
+<span class="lineNum">     155 </span>            :       {
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :         _slot_function = detail::get_invocable_slot(f, detail::tag_type(f));</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         signals2::detail::tracked_objects_visitor visitor(this);</span>
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :         boost::visit_each(visitor, f);</span>
+<span class="lineNum">     159 </span><span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            :       SlotFunction _slot_function;
+<span class="lineNum">     162 </span>            :     };
+<span class="lineNum">     163 </span>            : 
+<span class="lineNum">     164 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     165 </span>            :     namespace detail
+<span class="lineNum">     166 </span>            :     {
+<span class="lineNum">     167 </span>            :       template&lt;unsigned arity, typename Signature, typename SlotFunction&gt;
+<span class="lineNum">     168 </span>            :       class slotN;
+<span class="lineNum">     169 </span>            :       // partial template specialization
+<span class="lineNum">     170 </span>            :       template&lt;typename Signature, typename SlotFunction&gt;
+<span class="lineNum">     171 </span>            :       class slotN&lt;BOOST_SIGNALS2_NUM_ARGS, Signature, SlotFunction&gt;
+<span class="lineNum">     172 </span>            :       {
+<span class="lineNum">     173 </span>            :       public:
+<span class="lineNum">     174 </span>            :         typedef BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&lt;
+<span class="lineNum">     175 </span>            :           BOOST_SIGNALS2_PORTABLE_SIGNATURE(BOOST_SIGNALS2_NUM_ARGS, Signature),
+<span class="lineNum">     176 </span>            :           SlotFunction&gt; type;
+<span class="lineNum">     177 </span>            :       };
+<span class="lineNum">     178 </span>            :     }
+<span class="lineNum">     179 </span>            : #endif
+<span class="lineNum">     180 </span>            :   } // end namespace signals2
+<span class="lineNum">     181 </span>            : } // end namespace boost
+<span class="lineNum">     182 </span>            : 
+<span class="lineNum">     183 </span>            : #undef BOOST_SIGNALS2_NUM_ARGS
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

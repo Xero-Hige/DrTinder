@@ -1,0 +1,370 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - /home/tobias/taller2/appServer/DrTinder/source/Servidor/Parsers/CsvParser.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../../index.html">top level</a> - <a href="index.html">home/tobias/taller2/appServer/DrTinder/source/Servidor/Parsers</a> - CsvParser.cpp<span style="font-size: 80%;"> (source / <a href="CsvParser.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">144</td>
+            <td class="headerCovTableEntry">186</td>
+            <td class="headerCovTableEntryMed">77.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * CsvParser.cpp
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Jun 16, 2016
+<span class="lineNum">       5 </span>            :  *      Author: tobias
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #include &quot;CsvParser.h&quot;
+<span class="lineNum">       9 </span>            : 
+<a name="10"><span class="lineNum">      10 </span>            : using namespace std;</a>
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span><span class="lineCov">         79 : CsvParser::CsvParser() {</span>
+<span class="lineNum">      13 </span>            : 
+<a name="14"><span class="lineNum">      14 </span><span class="lineCov">         79 : }</span></a>
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span><span class="lineCov">         21 : vector&lt;string&gt; CsvParser::parseLine(string *line){</span>
+<span class="lineNum">      17 </span><span class="lineCov">         21 :         vector&lt;string&gt; elements;</span>
+<span class="lineNum">      18 </span><span class="lineCov">         42 :         stringstream ss(*line);</span>
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">         42 :         string cell;</span>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineCov">         21 :         if(line-&gt;empty() || line-&gt;size() &lt;= 2){</span>
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :                 return elements;</span>
+<span class="lineNum">      24 </span>            :         }
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span><span class="lineCov">        219 :     while( ss.good() )</span>
+<span class="lineNum">      27 </span>            :     {
+<span class="lineNum">      28 </span><span class="lineCov">        177 :         getline( ss, cell, ',' );</span>
+<span class="lineNum">      29 </span><span class="lineCov">        177 :         cell = cell.substr(1, cell.length() );</span>
+<span class="lineNum">      30 </span><span class="lineCov">        354 :         while (*cell.rbegin() != '&quot;' &amp;&amp; ss.good() ){</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :                 string other_parts;</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :                 getline( ss, other_parts, ',' );</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :                 cell = cell + other_parts;</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span><span class="lineCov">        177 :         cell = cell.substr( 0 , cell.length() - 1);</span>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineCov">        177 :         elements.push_back(cell);</span>
+<span class="lineNum">      39 </span>            :     }
+<span class="lineNum">      40 </span><span class="lineCov">         21 :     return elements;</span>
+<span class="lineNum">      41 </span>            : 
+<a name="42"><span class="lineNum">      42 </span>            : }</a>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineCov">         31 : void CsvParser::splitInterest(string cell, string &amp;key, string &amp;value){</span>
+<span class="lineNum">      45 </span><span class="lineCov">         31 :         stringstream ss(cell);</span>
+<span class="lineNum">      46 </span><span class="lineCov">         62 :         string temp;</span>
+<span class="lineNum">      47 </span><span class="lineCov">         31 :         LOGG(DEBUG) &lt;&lt; &quot;Spliting interest &quot; &lt;&lt; cell;</span>
+<span class="lineNum">      48 </span><span class="lineCov">        124 :         while (ss.good()){</span>
+<span class="lineNum">      49 </span><span class="lineCov">         62 :                 getline(ss, temp, ':');</span>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineCov">         62 :                 if (ss.peek() == ':'){</span>
+<span class="lineNum">      52 </span><span class="lineCov">         31 :                         ss.ignore();</span>
+<span class="lineNum">      53 </span><span class="lineCov">         31 :                         key = temp;</span>
+<span class="lineNum">      54 </span>            :                 }
+<span class="lineNum">      55 </span><span class="lineCov">         62 :                 value = temp;</span>
+<span class="lineNum">      56 </span>            :         }
+<span class="lineNum">      57 </span><span class="lineCov">         62 :         LOGG(DEBUG)&lt;&lt; &quot;Splited in &quot;&lt;&lt; key &lt;&lt; &quot;,&quot; &lt;&lt; value;</span>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">         31 : }</span></a>
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span><span class="lineCov">         16 : void CsvParser::makeInterests(string keyValues, Interests &amp;interests){</span>
+<span class="lineNum">      61 </span><span class="lineCov">         32 :         string key,value;</span>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">         16 :         if (keyValues.back() == '\&quot;') {</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :                 keyValues.pop_back();</span>
+<span class="lineNum">      65 </span>            :         }
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">         32 :         stringstream ss(keyValues);</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span><span class="lineCov">         32 :         string cell;</span>
+<span class="lineNum">      70 </span><span class="lineCov">         63 :         while (ss.good()) {</span>
+<span class="lineNum">      71 </span><span class="lineCov">         31 :                 getline(ss, cell, '|');</span>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span><span class="lineCov">         31 :                 if (ss.peek() == '|'){</span>
+<span class="lineNum">      74 </span><span class="lineCov">         15 :                         ss.ignore();</span>
+<span class="lineNum">      75 </span>            :                 }
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span><span class="lineCov">         31 :                 this-&gt;splitInterest(cell, key, value);</span>
+<span class="lineNum">      78 </span>            :                 //cout &lt;&lt; key.c_str() &lt;&lt; &quot;,&quot; &lt;&lt; value.c_str() &lt;&lt; endl;
+<span class="lineNum">      79 </span><span class="lineCov">         31 :                 interests.add(key,value);</span>
+<span class="lineNum">      80 </span><span class="lineCov">         16 :         }</span>
+<span class="lineNum">      81 </span>            : 
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">         16 : }</span></a>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">         10 : bool CsvParser::makeUser(string user_str, User &amp;user){</span>
+<span class="lineNum">      85 </span><span class="lineCov">         10 :         vector&lt;string&gt; parsed = this-&gt;parseLine(&amp;user_str);</span>
+<span class="lineNum">      86 </span><span class="lineCov">         20 :         Interests interests;</span>
+<span class="lineNum">      87 </span><span class="lineCov">         10 :         int desf = 0;</span>
+<span class="lineNum">      88 </span><span class="lineCov">         10 :         int count_elem = parsed.size();</span>
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span><span class="lineCov">         10 :         if ( (count_elem &lt; USER_DATA_COUNT - 1) || (count_elem &gt; USER_DATA_COUNT)){</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">      92 </span>            :         }
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span><span class="lineCov">         10 :         if (parsed.size() == USER_DATA_COUNT){</span>
+<span class="lineNum">      95 </span><span class="lineCov">         10 :                 string idS = parsed[ID_FULL_IDX];</span>
+<span class="lineNum">      96 </span><span class="lineCov">         10 :                 if ( ! isInteger(idS)){</span>
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :                         return false;</span>
+<span class="lineNum">      98 </span>            :                 }
+<span class="lineNum">      99 </span><span class="lineCov">         10 :                 int id = stoi(idS);</span>
+<span class="lineNum">     100 </span><span class="lineCov">         10 :                 user.setId(id);</span>
+<span class="lineNum">     101 </span><span class="lineCov">         10 :                 desf = 1;</span>
+<span class="lineNum">     102 </span>            :         }else{
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                 LOGG(WARNING) &lt;&lt; &quot;Parsing user without ID&quot;;</span>
+<span class="lineNum">     104 </span>            :         }
+<span class="lineNum">     105 </span><span class="lineCov">         20 :         string xS = parsed[LOCX_FULL_IDX - 1 + desf];</span>
+<span class="lineNum">     106 </span><span class="lineCov">         20 :         string yS = parsed[LOCY_FULL_IDX - 1 + desf];</span>
+<span class="lineNum">     107 </span><span class="lineCov">         20 :         string age = parsed[AGE_IDX + desf];</span>
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span><span class="lineCov">         10 :         if (! isFloat(xS) || ! isFloat(yS) || ! isInteger(age)){</span>
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     112 </span>            :         }
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineCov">         20 :         string name = parsed[NAME_IDX + desf];</span>
+<span class="lineNum">     115 </span><span class="lineCov">         20 :         string alias = parsed[ALIAS_IDX + desf];</span>
+<span class="lineNum">     116 </span><span class="lineCov">         20 :         string sex = parsed[SEX_IDX + desf];</span>
+<span class="lineNum">     117 </span><span class="lineCov">         20 :         string mail = parsed[MAIL_IDX + desf];</span>
+<span class="lineNum">     118 </span><span class="lineCov">         10 :         float x =stof(xS);</span>
+<span class="lineNum">     119 </span><span class="lineCov">         10 :         float y =stof(yS);</span>
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span><span class="lineCov">         10 :         user.setCommonData(mail,alias,name,sex);</span>
+<span class="lineNum">     122 </span><span class="lineCov">         10 :         user.setLocation(x,y);</span>
+<span class="lineNum">     123 </span><span class="lineCov">         10 :         user.setAge(stoi(age));</span>
+<span class="lineNum">     124 </span><span class="lineCov">         10 :         user.setDescription(parsed[DSC_IDX + desf]);</span>
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span><span class="lineCov">         10 :         this-&gt;makeInterests(parsed[INT_IDX + desf], interests);</span>
+<span class="lineNum">     127 </span><span class="lineCov">         10 :         user.setInterests(interests);</span>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">         20 :         return true;</span>
+<span class="lineNum">     130 </span>            : 
+<a name="131"><span class="lineNum">     131 </span>            : }</a>
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span><span class="lineCov">          5 : bool CsvParser::makeSignupUser(string user_str,User &amp;user){</span>
+<span class="lineNum">     134 </span><span class="lineCov">          5 :         vector&lt;string&gt; parsed = this-&gt;parseLine(&amp;user_str);</span>
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">          5 :         if (parsed.size() != USER_DATA_FOR_CLIENT_COUNT){</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     138 </span>            :         }
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineCov">         10 :         Interests interests;</span>
+<span class="lineNum">     141 </span><span class="lineCov">         10 :         string age = parsed[AGE_IDX];</span>
+<span class="lineNum">     142 </span><span class="lineCov">         10 :         string name = parsed[NAME_IDX];</span>
+<span class="lineNum">     143 </span><span class="lineCov">         10 :         string alias = parsed[ALIAS_IDX];</span>
+<span class="lineNum">     144 </span><span class="lineCov">         10 :         string sex = parsed[SEX_IDX];</span>
+<span class="lineNum">     145 </span><span class="lineCov">         10 :         string mail = parsed[MAIL_IDX];</span>
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span><span class="lineCov">          5 :         if (! isInteger(age)){</span>
+<span class="lineNum">     148 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     149 </span>            :         }
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span><span class="lineCov">          5 :         user.setCommonData(mail, alias, name, sex);</span>
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            :         //defualt location
+<span class="lineNum">     154 </span><span class="lineCov">          5 :         user.setLocation(0, 0);</span>
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span><span class="lineCov">          5 :         user.setAge(stoi(age));</span>
+<span class="lineNum">     158 </span><span class="lineCov">          5 :         user.setDescription(parsed[DSC_IDX]);</span>
+<span class="lineNum">     159 </span>            : 
+<span class="lineNum">     160 </span><span class="lineCov">          5 :         this-&gt;makeInterests(parsed[INT_IDX], interests);</span>
+<span class="lineNum">     161 </span><span class="lineCov">          5 :         user.setInterests(interests);</span>
+<span class="lineNum">     162 </span><span class="lineCov">         10 :         return true;</span>
+<a name="163"><span class="lineNum">     163 </span>            : }</a>
+<span class="lineNum">     164 </span>            : 
+<span class="lineNum">     165 </span><span class="lineCov">          2 : bool CsvParser::makePutUser(string user_str, string base_user, User&amp; user){</span>
+<span class="lineNum">     166 </span><span class="lineCov">          2 :         vector&lt;string&gt; parsedOriginal = this-&gt;parseLine(&amp;base_user);</span>
+<span class="lineNum">     167 </span><span class="lineCov">          4 :         vector&lt;string&gt; modifications = this-&gt;parseLine(&amp;user_str);</span>
+<span class="lineNum">     168 </span><span class="lineCov">          4 :         vector&lt;string&gt; parsed = this-&gt;parseLine(&amp;user_str);</span>
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">          2 :         if ( modifications.size() &gt; (USER_DATA_UPDATE_COUNT)){</span>
+<span class="lineNum">     171 </span><span class="lineCov">          1 :                 return false;</span>
+<span class="lineNum">     172 </span>            :         }
+<span class="lineNum">     173 </span>            :         //FromOriginal
+<span class="lineNum">     174 </span><span class="lineCov">          2 :         string idS = parsedOriginal[ID_FULL_IDX];</span>
+<span class="lineNum">     175 </span><span class="lineCov">          2 :         string alias = parsedOriginal[ALIAS_FULL_IDX];</span>
+<span class="lineNum">     176 </span><span class="lineCov">          2 :         string mail = parsedOriginal[MAIL_FULL_IDX];</span>
+<span class="lineNum">     177 </span><span class="lineCov">          2 :         string xS = parsedOriginal[LOCX_FULL_IDX];</span>
+<span class="lineNum">     178 </span><span class="lineCov">          2 :         string yS = parsedOriginal[LOCY_FULL_IDX];</span>
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            :         //Modifications
+<span class="lineNum">     181 </span><span class="lineCov">          2 :         string name = modifications[NAME_UPDATE_IDX];</span>
+<span class="lineNum">     182 </span><span class="lineCov">          2 :         string age = modifications[AGE_UPDATE_IDX];</span>
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            :         //Modifications shuffled
+<span class="lineNum">     185 </span><span class="lineCov">          2 :         string sex = modifications[SEX_UPDATE_IDX];</span>
+<span class="lineNum">     186 </span><span class="lineCov">          1 :         if ( ! isInteger(age) || ! isInteger(idS)){</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     188 </span>            :         }
+<span class="lineNum">     189 </span><span class="lineCov">          1 :         if ( ! isFloat(xS) || ! isFloat(yS)){</span>
+<span class="lineNum">     190 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     191 </span>            :         }
+<span class="lineNum">     192 </span><span class="lineCov">          2 :         Interests interests;</span>
+<span class="lineNum">     193 </span><span class="lineCov">          1 :         this-&gt;makeInterests(modifications[INT_UPDATE_IDX], interests);</span>
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span><span class="lineCov">          1 :         float x = stof(xS);</span>
+<span class="lineNum">     196 </span><span class="lineCov">          1 :         float y = stof(yS);</span>
+<span class="lineNum">     197 </span><span class="lineCov">          1 :         int id = stoi(idS);</span>
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span><span class="lineCov">          1 :         user.setInterests(interests);</span>
+<span class="lineNum">     200 </span><span class="lineCov">          1 :         user.setLocation(x, y);</span>
+<span class="lineNum">     201 </span><span class="lineCov">          1 :         user.setId(id);</span>
+<span class="lineNum">     202 </span><span class="lineCov">          1 :         user.setCommonData(mail, alias, name, sex);</span>
+<span class="lineNum">     203 </span><span class="lineCov">          1 :         user.setAge(stoi(age));</span>
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span><span class="lineCov">          3 :         return true;</span>
+<a name="206"><span class="lineNum">     206 </span>            : }</a>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span><span class="lineCov">         21 : string CsvParser::userToCsvFull(User *user){</span>
+<span class="lineNum">     209 </span><span class="lineCov">        231 :         string user_str[USER_DATA_COUNT];</span>
+<span class="lineNum">     210 </span><span class="lineCov">         21 :         string parsed = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     211 </span>            : 
+<span class="lineNum">     212 </span><span class="lineCov">         21 :         user_str[NAME_FULL_IDX] = user-&gt;getName();</span>
+<span class="lineNum">     213 </span><span class="lineCov">         21 :         user_str[MAIL_FULL_IDX]= user-&gt;getMail();</span>
+<span class="lineNum">     214 </span><span class="lineCov">         21 :         user_str[ALIAS_FULL_IDX] = user-&gt;getAlias();</span>
+<span class="lineNum">     215 </span><span class="lineCov">         21 :         user_str[SEX_FULL_IDX] = user-&gt;getSex();</span>
+<span class="lineNum">     216 </span><span class="lineCov">         21 :         user_str[AGE_FULL_IDX] = to_string(user-&gt;getAge());</span>
+<span class="lineNum">     217 </span><span class="lineCov">         21 :         user_str[ID_FULL_IDX] = to_string(user-&gt;getID());</span>
+<span class="lineNum">     218 </span><span class="lineCov">         21 :         user_str[DSC_FULL_IDX] = user-&gt;getDescription();</span>
+<span class="lineNum">     219 </span><span class="lineCov">         21 :         user_str[LOCX_FULL_IDX] = to_string(user-&gt;getX());</span>
+<span class="lineNum">     220 </span><span class="lineCov">         21 :         user_str[LOCY_FULL_IDX] = to_string(user-&gt;getY());</span>
+<span class="lineNum">     221 </span><span class="lineCov">         21 :         user_str[INT_FULL_IDX] = this-&gt;interestToCsv(user-&gt;getInterests());</span>
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span><span class="lineCov">        231 :         for (int i = 0; i &lt; USER_DATA_COUNT; i++){</span>
+<span class="lineNum">     224 </span><span class="lineCov">        210 :                 parsed+= user_str[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     225 </span>            :         }
+<span class="lineNum">     226 </span><span class="lineCov">         21 :         parsed = parsed.substr(0,parsed.length() - 2);</span>
+<span class="lineNum">     227 </span>            : 
+<span class="lineNum">     228 </span><span class="lineCov">        231 :         return parsed;</span>
+<a name="229"><span class="lineNum">     229 </span>            : }</a>
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 : string CsvParser::userToCsvForClient(User *user, bool with_id){</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :         int addId = 0;</span>
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         if (with_id){</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :                 addId = 1;</span>
+<span class="lineNum">     236 </span>            :         }
+<span class="lineNum">     237 </span>            : 
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :         string user_str[USER_DATA_FOR_CLIENT_COUNT + addId];</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         string parsed = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     240 </span>            : 
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         user_str[NAME_IDX + addId] = user-&gt;getName();</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :         user_str[MAIL_IDX + addId]= user-&gt;getMail();</span>
+<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         user_str[ALIAS_IDX + addId] = user-&gt;getAlias();</span>
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         user_str[SEX_IDX + addId] = user-&gt;getSex();</span>
+<span class="lineNum">     245 </span><span class="lineNoCov">          0 :         user_str[AGE_IDX + addId] = to_string(user-&gt;getAge());</span>
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         user_str[DSC_IDX + addId] = user-&gt;getDescription();</span>
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         user_str[INT_IDX + addId] = this-&gt;interestToCsv(user-&gt;getInterests());</span>
+<span class="lineNum">     248 </span>            : 
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :         if (with_id)</span>
+<span class="lineNum">     250 </span><span class="lineNoCov">          0 :                 user_str[ID_FULL_IDX] = to_string(user-&gt;getID());</span>
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :         for (int i = 0; i &lt; USER_DATA_FOR_CLIENT_COUNT + addId; i++){</span>
+<span class="lineNum">     253 </span><span class="lineNoCov">          0 :                 parsed+= user_str[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     254 </span>            :         }
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :         parsed = parsed.substr(0,parsed.length() - 2);</span>
+<span class="lineNum">     256 </span>            : 
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :         return parsed;</span>
+<a name="258"><span class="lineNum">     258 </span>            : }</a>
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span><span class="lineCov">         21 : string CsvParser::interestToCsv(Interests * interests){</span>
+<span class="lineNum">     261 </span><span class="lineCov">         21 :         string str = &quot;&quot;;</span>
+<span class="lineNum">     262 </span><span class="lineCov">         42 :         map&lt;string,vector&lt;string&gt;&gt; inter = interests-&gt;allInterests();</span>
+<span class="lineNum">     263 </span><span class="lineCov">         21 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = inter.begin();</span>
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span><span class="lineCov">         62 :         for(; it != inter.end(); ++it){</span>
+<span class="lineNum">     266 </span><span class="lineCov">         41 :                 string key = it-&gt;first;</span>
+<span class="lineNum">     267 </span><span class="lineCov">         82 :                 for (unsigned int i = 0; i &lt; it-&gt;second.size(); i++){</span>
+<span class="lineNum">     268 </span><span class="lineCov">         41 :                         string value = it-&gt;second[i];</span>
+<span class="lineNum">     269 </span><span class="lineCov">         41 :                         str += key + &quot;::&quot; + value + &quot;||&quot;;</span>
+<span class="lineNum">     270 </span><span class="lineCov">         41 :                 }</span>
+<span class="lineNum">     271 </span><span class="lineCov">         41 :         }</span>
+<span class="lineNum">     272 </span>            : 
+<span class="lineNum">     273 </span><span class="lineCov">         21 :         str = str.substr(0, str.length() - 2 );</span>
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span><span class="lineCov">         42 :         return str;</span>
+<a name="276"><span class="lineNum">     276 </span>            : }</a>
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 : void CsvParser::removeId(string &amp;data){</span>
+<span class="lineNum">     279 </span><span class="lineNoCov">          0 :         vector&lt;string&gt; parsed = this-&gt;parseLine(&amp;data);</span>
+<span class="lineNum">     280 </span><span class="lineNoCov">          0 :         string user_str;</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :         parsed.erase(parsed.begin() + ID_FULL_IDX);</span>
+<span class="lineNum">     282 </span>            : 
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :         user_str = &quot;\&quot;&quot;;</span>
+<span class="lineNum">     284 </span><span class="lineNoCov">          0 :         for (unsigned int i = 0; i &lt; parsed.size(); i++){</span>
+<span class="lineNum">     285 </span><span class="lineNoCov">          0 :                 user_str+= parsed[i] + &quot;\&quot;,\&quot;&quot;;</span>
+<span class="lineNum">     286 </span>            :                 }
+<span class="lineNum">     287 </span><span class="lineNoCov">          0 :         data = user_str.substr(0,user_str.length() - 2);</span>
+<span class="lineNum">     288 </span>            : 
+<span class="lineNum">     289 </span>            : 
+<a name="290"><span class="lineNum">     290 </span><span class="lineNoCov">          0 : }</span></a>
+<a name="291"><span class="lineNum">     291 </span>            : </a>
+<span class="lineNum">     292 </span><span class="lineCov">         79 : CsvParser::~CsvParser() {</span>
+<span class="lineNum">     293 </span><span class="lineCov">         82 : }</span>
+<span class="lineNum">     294 </span>            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

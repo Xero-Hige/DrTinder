@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/variant/detail/apply_visitor_unary.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/variant/detail</a> - apply_visitor_unary.hpp<span style="font-size: 80%;"> (source / <a href="apply_visitor_unary.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : //-----------------------------------------------------------------------------</a>
+<span class="lineNum">       2 </span>            : // boost variant/detail/apply_visitor_unary.hpp header file
+<span class="lineNum">       3 </span>            : // See http://www.boost.org for updates, documentation, and revision history.
+<span class="lineNum">       4 </span>            : //-----------------------------------------------------------------------------
+<span class="lineNum">       5 </span>            : //
+<span class="lineNum">       6 </span>            : // Copyright (c) 2002-2003
+<span class="lineNum">       7 </span>            : // Eric Friedman
+<span class="lineNum">       8 </span>            : //
+<span class="lineNum">       9 </span>            : // Distributed under the Boost Software License, Version 1.0. (See
+<span class="lineNum">      10 </span>            : // accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">      11 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : #ifndef BOOST_VARIANT_DETAIL_APPLY_VISITOR_UNARY_HPP
+<span class="lineNum">      14 </span>            : #define BOOST_VARIANT_DETAIL_APPLY_VISITOR_UNARY_HPP
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #include &quot;boost/config.hpp&quot;
+<span class="lineNum">      17 </span>            : #include &quot;boost/detail/workaround.hpp&quot;
+<span class="lineNum">      18 </span>            : #include &quot;boost/variant/detail/generic_result_type.hpp&quot;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #if BOOST_WORKAROUND(__EDG__, BOOST_TESTED_AT(302))
+<span class="lineNum">      21 </span>            : #include &quot;boost/utility/enable_if.hpp&quot;
+<span class="lineNum">      22 </span>            : #include &quot;boost/mpl/not.hpp&quot;
+<span class="lineNum">      23 </span>            : #include &quot;boost/type_traits/is_const.hpp&quot;
+<span class="lineNum">      24 </span>            : #endif
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : namespace boost {
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : //////////////////////////////////////////////////////////////////////////
+<span class="lineNum">      29 </span>            : // function template apply_visitor(visitor, visitable)
+<span class="lineNum">      30 </span>            : //
+<span class="lineNum">      31 </span>            : // Visits visitable with visitor.
+<span class="lineNum">      32 </span>            : //
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            : //
+<span class="lineNum">      35 </span>            : // nonconst-visitor version:
+<span class="lineNum">      36 </span>            : //
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #if !BOOST_WORKAROUND(__EDG__, BOOST_TESTED_AT(302))
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : #   define BOOST_VARIANT_AUX_APPLY_VISITOR_NON_CONST_RESULT_TYPE(V) \
+<span class="lineNum">      41 </span>            :     BOOST_VARIANT_AUX_GENERIC_RESULT_TYPE(typename V::result_type) \
+<span class="lineNum">      42 </span>            :     /**/
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            : #else // EDG-based compilers
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            : #   define BOOST_VARIANT_AUX_APPLY_VISITOR_NON_CONST_RESULT_TYPE(V) \
+<span class="lineNum">      47 </span>            :     typename enable_if&lt; \
+<span class="lineNum">      48 </span>            :           mpl::not_&lt; is_const&lt; V &gt; &gt; \
+<span class="lineNum">      49 </span>            :         , BOOST_VARIANT_AUX_GENERIC_RESULT_TYPE(typename V::result_type) \
+<span class="lineNum">      50 </span>            :         &gt;::type \
+<span class="lineNum">      51 </span>            :     /**/
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            : #endif // EDG-based compilers workaround
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            : template &lt;typename Visitor, typename Visitable&gt;
+<span class="lineNum">      56 </span>            : inline
+<span class="lineNum">      57 </span>            :     BOOST_VARIANT_AUX_APPLY_VISITOR_NON_CONST_RESULT_TYPE(Visitor)
+<span class="lineNum">      58 </span>            : apply_visitor(Visitor&amp; visitor, Visitable&amp; visitable)
+<span class="lineNum">      59 </span>            : {
+<span class="lineNum">      60 </span>            :     return visitable.apply_visitor(visitor);
+<span class="lineNum">      61 </span>            : }
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            : #undef BOOST_VARIANT_AUX_APPLY_VISITOR_NON_CONST_RESULT_TYPE
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            : //
+<span class="lineNum">      66 </span>            : // const-visitor version:
+<span class="lineNum">      67 </span>            : //
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : #if !BOOST_WORKAROUND(BOOST_MSVC, &lt;= 1300)
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            : template &lt;typename Visitor, typename Visitable&gt;
+<a name="72"><span class="lineNum">      72 </span>            : inline</a>
+<span class="lineNum">      73 </span>            :     BOOST_VARIANT_AUX_GENERIC_RESULT_TYPE(typename Visitor::result_type)
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 : apply_visitor(const Visitor&amp; visitor, Visitable&amp; visitable)</span>
+<span class="lineNum">      75 </span>            : {
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :     return visitable.apply_visitor(visitor);</span>
+<span class="lineNum">      77 </span>            : }
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            : #endif // MSVC7 and below exclusion
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            : } // namespace boost
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : #endif // BOOST_VARIANT_DETAIL_APPLY_VISITOR_UNARY_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

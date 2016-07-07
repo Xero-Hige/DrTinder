@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - boost/signals2/detail/signals_common.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">boost/signals2/detail</a> - signals_common.hpp<span style="font-size: 80%;"> (source / <a href="signals_common.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Boost.Signals library</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : // Copyright Douglas Gregor 2001-2004.
+<span class="lineNum">       4 </span>            : // Copyright Frank Mori Hess 2007. Use, modification and
+<span class="lineNum">       5 </span>            : // distribution is subject to the Boost Software License, Version
+<span class="lineNum">       6 </span>            : // 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       7 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : // For more information, see http://www.boost.org
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef BOOST_SIGNALS2_SIGNALS_COMMON_HPP
+<span class="lineNum">      12 </span>            : #define BOOST_SIGNALS2_SIGNALS_COMMON_HPP
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;boost/mpl/bool.hpp&gt;
+<span class="lineNum">      15 </span>            : #include &lt;boost/mpl/if.hpp&gt;
+<span class="lineNum">      16 </span>            : #include &lt;boost/ref.hpp&gt;
+<span class="lineNum">      17 </span>            : #include &lt;boost/signals2/signal_base.hpp&gt;
+<span class="lineNum">      18 </span>            : #include &lt;boost/type_traits/is_base_of.hpp&gt;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : namespace boost {
+<span class="lineNum">      21 </span>            :   namespace signals2 {
+<span class="lineNum">      22 </span>            :     namespace detail {
+<span class="lineNum">      23 </span>            :       // Determine if the given type T is a signal
+<span class="lineNum">      24 </span>            :       template&lt;typename T&gt;
+<span class="lineNum">      25 </span>            :       class is_signal: public mpl::bool_&lt;is_base_of&lt;signal_base, T&gt;::value&gt;
+<span class="lineNum">      26 </span>            :       {};
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            :       // A slot can be a signal, a reference to a function object, or a
+<span class="lineNum">      29 </span>            :       // function object.
+<span class="lineNum">      30 </span>            :       struct signal_tag {};
+<span class="lineNum">      31 </span>            :       struct reference_tag {};
+<span class="lineNum">      32 </span>            :       struct value_tag {};
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span>            :       // Classify the given slot as a signal, a reference-to-slot, or a
+<span class="lineNum">      35 </span>            :       // standard slot
+<span class="lineNum">      36 </span>            :       template&lt;typename S&gt;
+<span class="lineNum">      37 </span>            :       class get_slot_tag {
+<span class="lineNum">      38 </span>            :         typedef typename mpl::if_&lt;is_signal&lt;S&gt;,
+<span class="lineNum">      39 </span>            :           signal_tag, value_tag&gt;::type signal_or_value;
+<span class="lineNum">      40 </span>            :       public:
+<span class="lineNum">      41 </span>            :         typedef typename mpl::if_&lt;is_reference_wrapper&lt;S&gt;,
+<span class="lineNum">      42 </span>            :                             reference_tag,
+<span class="lineNum">      43 </span>            :                             signal_or_value&gt;::type type;
+<span class="lineNum">      44 </span>            :       };
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :       // Get the slot so that it can be copied
+<span class="lineNum">      47 </span>            :       template&lt;typename F&gt;
+<span class="lineNum">      48 </span>            :       typename F::weak_signal_type
+<span class="lineNum">      49 </span>            :       get_invocable_slot(const F &amp;signal, signal_tag)
+<span class="lineNum">      50 </span>            :       { return typename F::weak_signal_type(signal); }
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            :       template&lt;typename F&gt;
+<span class="lineNum">      53 </span>            :       const F&amp;
+<span class="lineNum">      54 </span>            :       get_invocable_slot(const F&amp; f, reference_tag)
+<span class="lineNum">      55 </span>            :       { return f; }
+<span class="lineNum">      56 </span>            : 
+<a name="57"><span class="lineNum">      57 </span>            :       template&lt;typename F&gt;</a>
+<span class="lineNum">      58 </span>            :       const F&amp;
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :       get_invocable_slot(const F&amp; f, value_tag)</span>
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :       { return f; }</span>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :       // Determines the type of the slot - is it a signal, a reference to a
+<span class="lineNum">      63 </span>            :       // slot or just a normal slot.
+<a name="64"><span class="lineNum">      64 </span>            :       template&lt;typename F&gt;</a>
+<span class="lineNum">      65 </span>            :       typename get_slot_tag&lt;F&gt;::type
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :       tag_type(const F&amp;)</span>
+<span class="lineNum">      67 </span>            :       {
+<span class="lineNum">      68 </span>            :         typedef typename get_slot_tag&lt;F&gt;::type
+<span class="lineNum">      69 </span>            :           the_tag_type;
+<span class="lineNum">      70 </span>            :         the_tag_type tag = the_tag_type();
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         return tag;</span>
+<span class="lineNum">      72 </span>            :       }
+<span class="lineNum">      73 </span>            :     } // end namespace detail
+<span class="lineNum">      74 </span>            :   } // end namespace signals2
+<span class="lineNum">      75 </span>            : } // end namespace boost
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            : #endif // BOOST_SIGNALS2_SIGNALS_COMMON_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

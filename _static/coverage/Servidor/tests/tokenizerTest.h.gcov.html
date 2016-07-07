@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - Servidor/tests/tokenizerTest.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Servidor/tests</a> - tokenizerTest.h<span style="font-size: 80%;"> (source / <a href="tokenizerTest.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntry">32</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:38:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * tokenizerTest.h
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Jun 3, 2016
+<span class="lineNum">       5 </span>            :  *      Author: tobias
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #ifndef TOKENIZERTEST_H_
+<span class="lineNum">       9 </span>            : #define TOKENIZERTEST_H_
+<span class="lineNum">      10 </span>            : #include &quot;gtest/gtest.h&quot;
+<span class="lineNum">      11 </span>            : #include &quot;../Tokenizer.h&quot;
+<span class="lineNum">      12 </span>            : #include &quot;setUpDataBase.h&quot;
+<span class="lineNum">      13 </span>            : using namespace rocksdb;
+<span class="lineNum">      14 </span>            : using namespace std;
+<span class="lineNum">      15 </span>            : 
+<a name="16"><span class="lineNum">      16 </span>            : #define TEST_TOKEN_DB &quot;TestUserDB&quot;</a>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineCov">          5 : TEST(Tokenizer,CreatesTokenizerCheckIfExpiresInmediately){</span>
+<span class="lineNum">      19 </span>            :         DB* db;
+<span class="lineNum">      20 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,TEST_TOKEN_DB);</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :         DatabaseManager dbManager(db);</span>
+<span class="lineNum">      22 </span><span class="lineCov">          2 :         Tokenizer tokenizer(&amp;dbManager);</span>
+<span class="lineNum">      23 </span><span class="lineCov">          2 :         std::string token = tokenizer.newToken(&quot;aaa@aaa.com&quot;,&quot;asdasd&quot;);</span>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :         EXPECT_FALSE(tokenizer.hasExpired(token));</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :         tokenizer.remove(token);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          2 :         delete db;</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            :  //Test lleva tiempo, por eso lo comento
+<span class="lineNum">      30 </span>            : /*TEST(Tokenizer,CreatesTokenizerWaitForItToExpire){
+<span class="lineNum">      31 </span>            :         DB* db;
+<span class="lineNum">      32 </span>            :         setUpDatabaseTest(&amp;db,TEST_TOKEN_DB);
+<span class="lineNum">      33 </span>            :         DatabaseManager dbManager(db);
+<span class="lineNum">      34 </span>            :         Tokenizer tokenizer(&amp;dbManager);
+<span class="lineNum">      35 </span>            :         std::string token = tokenizer.newToken(&quot;aaa@aaa.com&quot;,&quot;asdasd&quot;);
+<span class="lineNum">      36 </span>            :         sleep( (EXPIRATION_TIME + 1) );
+<span class="lineNum">      37 </span>            :         ASSERT_TRUE(tokenizer.hasExpired(token));
+<span class="lineNum">      38 </span>            :         delete db;
+<a name="39"><span class="lineNum">      39 </span>            : }*/</a>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">          5 : TEST(Tokenizer,CreatesAndRemoveTokenItExpires){</span>
+<span class="lineNum">      42 </span>            :         DB* db;
+<span class="lineNum">      43 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,TEST_TOKEN_DB);</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :         DatabaseManager dbManager(db);</span>
+<span class="lineNum">      45 </span><span class="lineCov">          2 :         Tokenizer tokenizer(&amp;dbManager);</span>
+<span class="lineNum">      46 </span><span class="lineCov">          2 :         std::string token = tokenizer.newToken(&quot;aaa@aaa.com&quot;,&quot;asdasd&quot;);</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :         tokenizer.remove(token);</span>
+<span class="lineNum">      48 </span><span class="lineCov">          2 :         ASSERT_TRUE(tokenizer.hasExpired(token));</span>
+<span class="lineNum">      49 </span><span class="lineCov">          2 :         delete db;</span>
+<a name="50"><span class="lineNum">      50 </span>            : }</a>
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span><span class="lineCov">          5 : TEST(Tokenizer, CreatesManyTokensCheckExistanceOfAll){</span>
+<span class="lineNum">      53 </span>            :         DB* db;
+<span class="lineNum">      54 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;db,TEST_TOKEN_DB);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          1 :         DatabaseManager dbManager(db);</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :         Tokenizer tokenizer(&amp;dbManager);</span>
+<span class="lineNum">      57 </span><span class="lineCov">          2 :         std::string token = tokenizer.newToken(&quot;aaa@aaa.com&quot;,&quot;asdasd&quot;);</span>
+<span class="lineNum">      58 </span><span class="lineCov">          2 :         std::string token1 = tokenizer.newToken(&quot;bbb@bbb.com&quot;,&quot;asdasd&quot;);</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :         std::string token2 = tokenizer.newToken(&quot;ccc@ccc.com&quot;,&quot;asdasd&quot;);</span>
+<span class="lineNum">      60 </span><span class="lineCov">          1 :         EXPECT_FALSE(tokenizer.hasExpired(token));</span>
+<span class="lineNum">      61 </span><span class="lineCov">          1 :         EXPECT_FALSE(tokenizer.hasExpired(token1));</span>
+<span class="lineNum">      62 </span><span class="lineCov">          1 :         EXPECT_FALSE(tokenizer.hasExpired(token2));</span>
+<span class="lineNum">      63 </span><span class="lineCov">          1 :         tokenizer.remove(token);</span>
+<span class="lineNum">      64 </span><span class="lineCov">          1 :         tokenizer.remove(token1);</span>
+<span class="lineNum">      65 </span><span class="lineCov">          1 :         tokenizer.remove(token2);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          2 :         delete db;</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : #endif /* TOKENIZERTEST_H_ */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

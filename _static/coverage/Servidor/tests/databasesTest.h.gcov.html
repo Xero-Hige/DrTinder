@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - Servidor/tests/databasesTest.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Servidor/tests</a> - databasesTest.h<span style="font-size: 80%;"> (source / <a href="databasesTest.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">48</td>
+            <td class="headerCovTableEntry">49</td>
+            <td class="headerCovTableEntryHi">98.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:38:23</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * databasesTest.h
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Jun 27, 2016
+<span class="lineNum">       5 </span>            :  *      Author: tobias
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #ifndef SERVIDOR_TESTS_DATABASESTEST_H_
+<span class="lineNum">       9 </span>            : #define SERVIDOR_TESTS_DATABASESTEST_H_
+<span class="lineNum">      10 </span>            : #include &quot;setUpDataBase.h&quot;
+<span class="lineNum">      11 </span>            : #include &quot;testDatabaseNames.h&quot;
+<span class="lineNum">      12 </span>            : #include &quot;../DatabaseManager.h&quot;
+<span class="lineNum">      13 </span>            : #include &quot;../ChatDatabaseManager.h&quot;
+<span class="lineNum">      14 </span>            : #include &quot;../LikesDatabaseManager.h&quot;
+<span class="lineNum">      15 </span>            : #include &quot;gtest/gtest.h&quot;
+<span class="lineNum">      16 </span>            : using namespace rocksdb;
+<a name="17"><span class="lineNum">      17 </span>            : using namespace std;</a>
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span><span class="lineCov">          5 : TEST(DBManager,iterateCreateIterateItsValid){</span>
+<span class="lineNum">      20 </span>            :         DB * database;
+<span class="lineNum">      21 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;database,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      22 </span><span class="lineCov">          1 :         DatabaseManager mgr(database);</span>
+<span class="lineNum">      23 </span><span class="lineCov">          2 :         string key1=&quot;asdq&quot;,key2=&quot;asd13&quot;,key3=&quot;asd123&quot;;</span>
+<span class="lineNum">      24 </span><span class="lineCov">          2 :         string value=&quot;asd&quot;;</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :         mgr.addEntry(key1,value);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :         mgr.addEntry(key1,value);</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 :         mgr.addEntry(key1,value);</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :         mgr.createIterator();</span>
+<span class="lineNum">      29 </span><span class="lineCov">          2 :         ASSERT_TRUE(mgr.validIterator());</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :         mgr.deleteIterator();</span>
+<span class="lineNum">      31 </span><span class="lineCov">          2 :         delete database;</span>
+<a name="32"><span class="lineNum">      32 </span>            : }</a>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineCov">          5 : TEST(DBManager,iterateDBHasActualPair){</span>
+<span class="lineNum">      35 </span>            :         DB * database;
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;database,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      37 </span><span class="lineCov">          1 :         DatabaseManager mgr(database);</span>
+<span class="lineNum">      38 </span><span class="lineCov">          2 :         string key1=&quot;asdq&quot;,key2=&quot;asd13&quot;,key3=&quot;asd123&quot;;</span>
+<span class="lineNum">      39 </span><span class="lineCov">          2 :         string value = &quot;asd&quot;;</span>
+<span class="lineNum">      40 </span><span class="lineCov">          2 :         string key_tmp, value_tmp;</span>
+<span class="lineNum">      41 </span><span class="lineCov">          1 :         bool found = false;</span>
+<span class="lineNum">      42 </span><span class="lineCov">          1 :         mgr.addEntry(key1, value);</span>
+<span class="lineNum">      43 </span><span class="lineCov">          1 :         mgr.addEntry(key2, value);</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :         mgr.addEntry(key3, value);</span>
+<span class="lineNum">      45 </span><span class="lineCov">          1 :         mgr.createIterator();</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         do{</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :                 mgr.getActualPair(key_tmp,value_tmp);</span>
+<span class="lineNum">      48 </span><span class="lineCov">          1 :                 if ((key3.compare(key_tmp) == 0) &amp;&amp; (value_tmp.compare(value_tmp) == 0)){</span>
+<span class="lineNum">      49 </span><span class="lineCov">          1 :                         found = true;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          1 :                         break;</span>
+<span class="lineNum">      51 </span>            :                 }
+<span class="lineNum">      52 </span>            :         }while (mgr.advanceIterator());
+<span class="lineNum">      53 </span><span class="lineCov">          1 :         mgr.deleteIterator();</span>
+<span class="lineNum">      54 </span><span class="lineCov">          2 :         ASSERT_TRUE(found);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          2 :         delete database;</span>
+<a name="56"><span class="lineNum">      56 </span>            : }</a>
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">          5 : TEST(CHDBManager,messageHistoryAdd){</span>
+<span class="lineNum">      59 </span>            :         DB * database;
+<span class="lineNum">      60 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;database,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      61 </span><span class="lineCov">          1 :         ChatDatabaseManager mgr(database);</span>
+<span class="lineNum">      62 </span><span class="lineCov">          2 :         string msg = &quot;holaaa&quot;;</span>
+<span class="lineNum">      63 </span><span class="lineCov">          2 :         string sender = &quot;pepe@aa.com&quot;;</span>
+<span class="lineNum">      64 </span><span class="lineCov">          2 :         string to = &quot;aaa@aa.com&quot;;</span>
+<span class="lineNum">      65 </span><span class="lineCov">          2 :         string chat;</span>
+<span class="lineNum">      66 </span><span class="lineCov">          1 :         mgr.saveMessage(msg,sender,to);</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :         mgr.getHistory(sender,to,chat);</span>
+<span class="lineNum">      68 </span><span class="lineCov">          2 :         ASSERT_TRUE( chat.find(msg)!= std::string::npos );</span>
+<span class="lineNum">      69 </span><span class="lineCov">          2 :         delete database;</span>
+<a name="70"><span class="lineNum">      70 </span>            : }</a>
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineCov">          5 : TEST(LKDBManager,matches){</span>
+<span class="lineNum">      73 </span>            :         DB * database;
+<span class="lineNum">      74 </span><span class="lineCov">          1 :         setUpDatabaseTest(&amp;database,CH_HAND_TEST_DB);</span>
+<span class="lineNum">      75 </span><span class="lineCov">          1 :         LikesDatabaseManager mgr(database);</span>
+<span class="lineNum">      76 </span><span class="lineCov">          2 :         string user1 = &quot;aa@aa.com&quot;;</span>
+<span class="lineNum">      77 </span><span class="lineCov">          2 :         string user2 = &quot;bb@bb.com&quot;;</span>
+<span class="lineNum">      78 </span><span class="lineCov">          2 :         ASSERT_FALSE(mgr.matches(user1,user2));</span>
+<span class="lineNum">      79 </span><span class="lineCov">          2 :         delete database;</span>
+<span class="lineNum">      80 </span>            : }
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : #endif /* SERVIDOR_TESTS_DATABASESTEST_H_ */
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
