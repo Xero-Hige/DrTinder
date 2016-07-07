@@ -48,7 +48,7 @@
                                                 android:id="@+id/messages_lay"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:background="@color/cardview_light_background"
+                                                android:background="@drawable/back"
                                                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                                                 tools:context="ar.uba.fi.drtinder.ChatSession"
                                                 tools:showIn="@layout/activity_chat_session">
