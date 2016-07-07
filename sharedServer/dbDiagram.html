@@ -31,7 +31,8 @@
 
   
     <link rel="top" title="DrTinder 1.0.0 documentation" href="../index.html"/>
-        <link rel="prev" title="App Server API" href="../appServer/api.html"/> 
+        <link rel="up" title="SharedServer" href="index.html"/>
+        <link rel="prev" title="User Manual - Shared Server" href="userManual.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -84,10 +85,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android Client</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../appServer/api.html">App Server API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appServer/index.html">AppServer</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Shared Server DB Model</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">SharedServer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="documentation.html">Documentacion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userManual.html">User Manual - Shared Server</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Shared Server DB Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#definicion">Definicion</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -118,6 +127,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
+          <li><a href="index.html">SharedServer</a> &raquo;</li>
+      
     <li>Shared Server DB Model</li>
       <li class="wy-breadcrumbs-aside">
         
@@ -133,8 +144,58 @@
            <div itemprop="articleBody">
             
   <div class="section" id="shared-server-db-model">
-<h1>Shared Server DB Model<a class="headerlink" href="#shared-server-db-model" title="Permalink to this headline">¶</a></h1>
+<span id="dbdiagram"></span><h1>Shared Server DB Model<a class="headerlink" href="#shared-server-db-model" title="Permalink to this headline">¶</a></h1>
 <img alt="../_images/db.png" src="../_images/db.png" />
+<div class="section" id="definicion">
+<h2>Definicion<a class="headerlink" href="#definicion" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-plpgsql"><div class="highlight"><pre><span></span>DROP DATABASE IF EXISTS tinder;
+CREATE DATABASE tinder WITH  CONNECTION LIMIT = -1;
+\c tinder
+CREATE TYPE sexo AS ENUM (&#39;man&#39;, &#39;woman&#39;);
+
+CREATE TABLE users_table(
+        id  serial PRIMARY KEY,
+        alias  varchar(20),
+        name   varchar(20),
+        email  varchar(30) UNIQUE,
+        sex    sexo,
+        age    integer,
+        photo_profile  text
+);
+
+CREATE TABLE location_table(
+        id integer UNIQUE references users_table(id),
+        latitude double precision DEFAULT 0,
+        longitude double precision DEFAULT 0
+);
+
+CREATE TABLE interest_table(
+        category varchar(20),
+        value varchar(20),
+        PRIMARY KEY (category,value)
+);
+
+
+INSERT INTO interest_table (category,value)
+VALUES (&#39;sex&#39;,&#39;man&#39;),
+        (&#39;sex&#39;,&#39;woman&#39;),
+        (&#39;music&#39;,&#39;rock&#39;),
+        (&#39;sport&#39;,&#39;tennis&#39;),
+        (&#39;outdoors&#39;,&#39;running&#39;),
+        (&#39;travel&#39;,&#39;beach&#39;),
+        (&#39;food&#39;,&#39;meat&#39;),
+        (&#39;music/band&#39;,&#39;pearl jam&#39;);
+
+
+CREATE TABLE users_interest(
+        id integer references users_table(id),
+        category varchar(20),
+        value varchar(20),
+        FOREIGN KEY (category, value) REFERENCES interest_table (category, value)
+);
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -145,7 +206,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../appServer/api.html" class="btn btn-neutral" title="App Server API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="userManual.html" class="btn btn-neutral" title="User Manual - Shared Server" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -155,7 +216,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 04, 2016.
+      Last updated on Jul 07, 2016.
 
     </p>
   </div>

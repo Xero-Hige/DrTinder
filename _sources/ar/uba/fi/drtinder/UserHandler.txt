@@ -34,6 +34,8 @@
 
 .. java:import:: java.util Map
 
+.. java:import:: java.util.concurrent.atomic AtomicLong
+
 .. java:import:: au.com.bytecode.opencsv CSVWriter
 
 UserHandler
@@ -114,6 +116,16 @@ getLoginToken
    :param location: User location
    :return: Token string. If error, one of the listed error tokens
 
+getMessageId
+^^^^^^^^^^^^
+
+.. java:method:: public static Long getMessageId()
+   :outertype: UserHandler
+
+   Incremental ID for FB messages
+
+   :return: next message ID
+
 getToken
 ^^^^^^^^
 
@@ -143,6 +155,17 @@ getUsername
    Gets logged user username (id)
 
    :return: Logged user username
+
+getUsernameFrom
+^^^^^^^^^^^^^^^
+
+.. java:method:: public static String getUsernameFrom(String email)
+   :outertype: UserHandler
+
+   Returns the standard username from an email
+
+   :param email: user Email
+   :return: username
 
 isLoggedIn
 ^^^^^^^^^^

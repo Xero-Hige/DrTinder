@@ -1,7 +1,5 @@
 .. java:import:: android.content ComponentName
 
-.. java:import:: android.content Context
-
 .. java:import:: android.content Intent
 
 .. java:import:: android.content ServiceConnection

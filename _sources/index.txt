@@ -24,9 +24,9 @@ App Server Documentation
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   appServer/api
+   appServer/index
 
 Shared Server Documentation
 ===========================
@@ -34,6 +34,7 @@ Shared Server Documentation
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   sharedServer/dbDiagram
+   sharedServer/index
+

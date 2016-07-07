@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>App Server API &mdash; DrTinder 1.0.0 documentation</title>
+  <title>API &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -31,8 +31,9 @@
 
   
     <link rel="top" title="DrTinder 1.0.0 documentation" href="../index.html"/>
-        <link rel="next" title="Shared Server DB Model" href="../sharedServer/dbDiagram.html"/>
-        <link rel="prev" title="User Manual" href="../android/userManual.html"/> 
+        <link rel="up" title="AppServer" href="index.html"/>
+        <link rel="next" title="SharedServer" href="../sharedServer/index.html"/>
+        <link rel="prev" title="Configuracion AppServer" href="config.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,10 +86,30 @@
 <li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android Client</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">App Server API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">AppServer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Docker.html">Docker build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildSinDocker.html">Build AppServer sin Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implementacion.html">Implementacion AppServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuracion AppServer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#login">Login</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datos-usuario">Datos usuario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#foto-de-usuario">Foto de usuario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cambiar-foto">Cambiar foto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuevos-matches">Nuevos matches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signup">SignUp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modificar-info">Modificar Info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#delete-user">Delete user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matches-concretados">Matches concretados</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bad-token-request">Bad token Request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bad-url-request">Bad Url Request</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../sharedServer/dbDiagram.html">Shared Server DB Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">SharedServer</a></li>
 </ul>
 
             
@@ -119,7 +140,9 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>App Server API</li>
+          <li><a href="index.html">AppServer</a> &raquo;</li>
+      
+    <li>API</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -133,159 +156,303 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="app-server-api">
-<h1>App Server API<a class="headerlink" href="#app-server-api" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="api">
+<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="login">
+<h2>Login<a class="headerlink" href="#login" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="5%" />
-<col width="15%" />
-<col width="15%" />
-<col width="23%" />
-<col width="7%" />
-<col width="3%" />
-<col width="18%" />
-<col width="14%" />
+<col width="16%" />
+<col width="84%" />
 </colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="4">Request</th>
-<th class="head" colspan="3">Response</th>
-<th class="head">Función</th>
-</tr>
-</thead>
 <tbody valign="top">
-<tr class="row-even"><td>Method</td>
-<td>URL</td>
-<td>Header</td>
-<td>Body</td>
-<td>Header</td>
-<td>Código</td>
-<td>Body</td>
-<td>&nbsp;</td>
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/user</td>
 </tr>
-<tr class="row-odd"><td rowspan="2">POST</td>
-<td rowspan="2">&lt;server&gt;/user</td>
-<td rowspan="2">Authorization := username=”mi_nombre” pass=”mi_contraseña”</td>
-<td rowspan="2">localization=&#8221;latitud,longitud&#8221;</td>
-<td rowspan="2">&nbsp;</td>
-<td>HTTP 200</td>
-<td>&nbsp;</td>
-<td>Login</td>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
 </tr>
-<tr class="row-even"><td>HTTP 401</td>
-<td>&nbsp;</td>
-<td>Login fallido. Posteriormente cierra la conexión</td>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Headers</strong></p>
+<p>Authorization: username=&#8221;mi_username&#8221; pass=&#8221;mi_contraseña&#8221;</p>
+<p><strong>Body</strong></p>
+<p class="last">localization=0.125,1.25</p>
+</td>
 </tr>
-<tr class="row-odd"><td>GET</td>
-<td>&lt;server&gt;/user/token/id</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>token</td>
-<td>Obtener token de conexión</td>
-</tr>
-<tr class="row-even"><td>GET</td>
-<td>&lt;server&gt;/user?token=”mi_token”&amp;res_id=&#8221;un_nombre&#8221;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>name, alias, etc [1]</td>
-<td>Obtener datos usuario menos la foto</td>
-</tr>
-<tr class="row-odd"><td>GET</td>
-<td>&lt;server&gt;/users/photo?token=”mi_token”&amp;res_id=&#8221;un_nombre&#8221;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Content-type:=&#8221;image&#8221;</td>
-<td>&nbsp;</td>
-<td>Photo_64</td>
-<td>Obtener la foto del usuario</td>
-</tr>
-<tr class="row-even"><td>POST</td>
-<td>&lt;server&gt;/users/photo?token=”mi_token”</td>
-<td>&nbsp;</td>
-<td>Photo_64</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Cambiar foto usuario</td>
-</tr>
-<tr class="row-odd"><td>GET</td>
-<td>&lt;server&gt;/users?token=”mi_token”</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Content-type := “text/csv”</td>
-<td>&nbsp;</td>
-<td>id1, name1, alias1,...
-id2, name2, alias2,...
-...
-idn, namen, aliasn,</td>
-<td>Obtener datos de los posibles matches</td>
-</tr>
-<tr class="row-even"><td>GET</td>
-<td>&lt;server&gt;/chats?token=”mi_token”</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Content-type := “text/csv”</td>
-<td>&nbsp;</td>
-<td>id1, name1, alias1,...
-id2, name2, alias2,...
-...
-idn, namen, aliasn,</td>
-<td>Obtener datos de los matches (los que si matchearon)</td>
-</tr>
-<tr class="row-odd"><td>GET</td>
-<td>&lt;server&gt;/chats?token=”mi_token”&amp;res_id=&#8221;friend_id&#8221;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Content-type := “text/csv”</td>
-<td>&nbsp;</td>
-<td>&lt;id&gt;,&lt;message&gt;&lt;id&gt;,&lt;message&gt;</td>
-<td>Obtener el chat con un usuario</td>
-</tr>
-<tr class="row-even"><td>GET</td>
-<td>&lt;server&gt;/interest?token=”mi_token”&amp;res_id=&#8221;mi_id_interest&#8221;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Content-type := “image”</td>
-<td>&nbsp;</td>
-<td>Photo_64</td>
-<td>Obtener la imagen del interes</td>
-</tr>
-<tr class="row-odd"><td rowspan="2">POST</td>
-<td rowspan="2">&lt;server&gt;/users</td>
-<td rowspan="2">Authorization := username=”mi_nombre” pass=”mi_contraseña”</td>
-<td rowspan="2">User=name,age,alias,email,sex,lookingFor,interest_id1::interest1||interest_id2::inte [2]</td>
-<td rowspan="2">&nbsp;</td>
-<td>HTTP 201</td>
-<td>&nbsp;</td>
-<td>SignUp. User es variable. Success</td>
-</tr>
-<tr class="row-even"><td>HTTP 401</td>
-<td>&nbsp;</td>
-<td>SignUp. User es variable. Error por otro existente</td>
-</tr>
-<tr class="row-odd"><td>PUT</td>
-<td>&lt;server&gt;/users?token=”mi_token”</td>
-<td>&nbsp;</td>
-<td>User=name,age,sex,lookingFor,interest_id1::interest1||interest_id2::interest2</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Update info usuario. User es variable</td>
-</tr>
-<tr class="row-even"><td>DELETE</td>
-<td>&lt;server&gt;/users?token=”mi_token”</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Eliminar user</td>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 200 | HTTP 401 (login incorrecto)</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="datos-usuario">
+<h2>Datos usuario<a class="headerlink" href="#datos-usuario" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/user</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;&amp;res_id=&#8221;aaaaaa.com&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="foto-de-usuario">
+<h2>Foto de usuario<a class="headerlink" href="#foto-de-usuario" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users/photo</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;&amp;res_id=&#8221;aaaaaa.com&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>&lt;photo_64&gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cambiar-foto">
+<h2>Cambiar foto<a class="headerlink" href="#cambiar-foto" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users/photo</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 200</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nuevos-matches">
+<h2>Nuevos matches<a class="headerlink" href="#nuevos-matches" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+<p>“2&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="signup">
+<h2>SignUp<a class="headerlink" href="#signup" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Headers</strong></p>
+<p>Authorization: username=&#8221;mi_username&#8221; pass=&#8221;mi_contraseña&#8221;</p>
+<p><strong>Body</strong></p>
+<p class="last">User=“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 201</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="modificar-info">
+<h2>Modificar Info<a class="headerlink" href="#modificar-info" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>PUT</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-Params</strong></p>
+<p>token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<p><strong>Body</strong></p>
+<p class="last">User=“name&#8221;,&#8221;25&#8221;,&#8221;man&#8221;,&#8221;music::rock||food::meat&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 200</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="delete-user">
+<h2>Delete user<a class="headerlink" href="#delete-user" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/users</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>DELETE</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-Params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 200</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="matches-concretados">
+<h2>Matches concretados<a class="headerlink" href="#matches-concretados" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/chats</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-Params</strong></p>
+<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bad-token-request">
+<h2>Bad token Request<a class="headerlink" href="#bad-token-request" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/good/url</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET|PUT|POST|DELETE</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Headers</strong></p>
+<p>Any</p>
+<p><strong>Body</strong></p>
+<p>Any</p>
+<p><strong>Url-params</strong></p>
+<p>Any</p>
+<p class="last">token=&#8221;&lt;bad_token&gt;&#8221;</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 498</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="bad-url-request">
+<h2>Bad Url Request<a class="headerlink" href="#bad-url-request" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/bad/url</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET|PUT|POST|DELETE</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Headers</strong></p>
+<p>Any</p>
+<p><strong>Body</strong></p>
+<p>Any</p>
+<p><strong>Url-params</strong></p>
+<p class="last">Any</p>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 501</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -295,10 +462,10 @@ idn, namen, aliasn,</td>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../sharedServer/dbDiagram.html" class="btn btn-neutral float-right" title="Shared Server DB Model" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../sharedServer/index.html" class="btn btn-neutral float-right" title="SharedServer" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../android/userManual.html" class="btn btn-neutral" title="User Manual" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="config.html" class="btn btn-neutral" title="Configuracion AppServer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -308,7 +475,7 @@ idn, namen, aliasn,</td>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 04, 2016.
+      Last updated on Jul 07, 2016.
 
     </p>
   </div>

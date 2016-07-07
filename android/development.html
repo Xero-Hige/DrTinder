@@ -107,10 +107,10 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../appServer/api.html">App Server API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appServer/index.html">AppServer</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../sharedServer/dbDiagram.html">Shared Server DB Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">SharedServer</a></li>
 </ul>
 
             
@@ -159,10 +159,10 @@
             
   <div class="section" id="project-development">
 <span id="dev"></span><h1>Project Development<a class="headerlink" href="#project-development" title="Permalink to this headline">¶</a></h1>
-<p><strong>Dr. Tinder</strong> is an opensource project under <strong>GPL3 licence</strong>. Under the licence, is posible to generate derivated non-privative works. Also you can contribute to the project, all you need is a <a class="reference external" href="https://github.com/">Github</a> account and a <a class="reference external" href="https://es.wikipedia.org/wiki/Git">Git</a> client.</p>
+<p><strong>Dr. Tinder</strong> is an opensource project under <strong>GPL3 licence</strong>. Under the licence, is possible to generate derived non-privative works. Also you can contribute to the project, all you need is a <a class="reference external" href="https://github.com/">Github</a> account and a <a class="reference external" href="https://es.wikipedia.org/wiki/Git">Git</a> client.</p>
 <div class="section" id="development-environment">
 <h2>Development Environment<a class="headerlink" href="#development-environment" title="Permalink to this headline">¶</a></h2>
-<p><strong>Dr. Tinder</strong> was developed entirely in <em>Android Studio</em>. We highly recomend <em>Android studio</em> as IDE for further develop. It can be downloaded from <a class="reference external" href="https://developer.android.com/studio/index.html">here</a>.</p>
+<p><strong>Dr. Tinder</strong> was developed entirely in <em>Android Studio</em>. We highly recommend <em>Android studio</em> as IDE for further develop. It can be downloaded from <a class="reference external" href="https://developer.android.com/studio/index.html">here</a>.</p>
 <p>Anyway, you could use any IDE with which you feel comfortable. <strong>Dr. Tinder</strong> has an automated build system thanks to <a class="reference external" href="http://gradle.org/">Gradle build tool</a> (Build script and gradle wrapper included).</p>
 </div>
 <div class="section" id="architecture">
@@ -202,8 +202,8 @@
 </div>
 <div class="section" id="data-policy">
 <h2>Data Policy<a class="headerlink" href="#data-policy" title="Permalink to this headline">¶</a></h2>
-<p><strong>Dr. Tinder</strong> stores no user data. Every information is fetched from the server dinamicaly and stored in RAM during the app execution. Even if data transfer rates are low, the data payload is small enought. If there is no network connection, the</p>
-<p>The images are cached locally to improve network ussage in some cases, for example in the chats where if there where no cache, the same image would be fetch multiple times, slowing down the app. This cache is forced to clean up all chaced files in local storage when the main actictivity closes.</p>
+<p><strong>Dr. Tinder</strong> stores no user data. Every information is fetched from the server dynamically and stored in RAM during the app execution. Even if data transfer rates are low, the data payload is small enough. If there is no network connection, the app can&#8217;t send likes or messages, so there is no need to maintain data to work offline.</p>
+<p>The images are cached locally to improve network usage in some cases, for example in the chats where if there where no cache, the same image would be fetch multiple times, slowing down the app. This cache is forced to clean up all cached files in local storage when the main activity closes.</p>
 </div>
 <div class="section" id="errors-display">
 <h2>Errors Display<a class="headerlink" href="#errors-display" title="Permalink to this headline">¶</a></h2>
@@ -390,7 +390,7 @@ public void onDestroy() {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 04, 2016.
+      Last updated on Jul 07, 2016.
 
     </p>
   </div>

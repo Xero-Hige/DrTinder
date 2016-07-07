@@ -104,10 +104,10 @@
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../appServer/api.html">App Server API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../appServer/index.html">AppServer</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../sharedServer/dbDiagram.html">Shared Server DB Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sharedServer/index.html">SharedServer</a></li>
 </ul>
 
             
@@ -266,6 +266,23 @@ static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/
 </dd></dl>
 
 </div>
+<div class="section" id="getmessageid">
+<h3>getMessageId<a class="headerlink" href="#getmessageid" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.UserHandler.getMessageId()">
+public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Long.html" title="java.lang.Long">Long</a> <code class="descname">getMessageId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.getMessageId()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental ID for FB messages</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">next message ID</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="gettoken">
 <h3>getToken<a class="headerlink" href="#gettoken" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
@@ -311,6 +328,29 @@ public static <a class="reference external" href="http://docs.oracle.com/javase/
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Logged user username</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="getusernamefrom">
+<h3>getUsernameFrom<a class="headerlink" href="#getusernamefrom" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.UserHandler.getUsernameFrom(String)">
+public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">getUsernameFrom</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> email</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.getUsernameFrom(String)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the standard username from an email</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>email</strong> &#8211; user Email</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">username</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -482,7 +522,7 @@ public static void <code class="descname">uploadProfilePicture</code><span class
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 04, 2016.
+      Last updated on Jul 07, 2016.
 
     </p>
   </div>

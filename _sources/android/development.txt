@@ -4,14 +4,14 @@
 Project Development
 ===================
 
-**Dr. Tinder** is an opensource project under **GPL3 licence**. Under the licence, is posible to generate derivated non-privative works. Also you can contribute to the project, all you need is a `Github <https://github.com/>`_ account and a `Git <https://es.wikipedia.org/wiki/Git>`_ client.
+**Dr. Tinder** is an opensource project under **GPL3 licence**. Under the licence, is possible to generate derived non-privative works. Also you can contribute to the project, all you need is a `Github <https://github.com/>`_ account and a `Git <https://es.wikipedia.org/wiki/Git>`_ client.
 
 
 ***********************
 Development Environment
 ***********************
 
-**Dr. Tinder** was developed entirely in *Android Studio*. We highly recomend *Android studio* as IDE for further develop. It can be downloaded from `here <https://developer.android.com/studio/index.html>`_.
+**Dr. Tinder** was developed entirely in *Android Studio*. We highly recommend *Android studio* as IDE for further develop. It can be downloaded from `here <https://developer.android.com/studio/index.html>`_.
 
 Anyway, you could use any IDE with which you feel comfortable. **Dr. Tinder** has an automated build system thanks to `Gradle build tool <http://gradle.org/>`_ (Build script and gradle wrapper included).
 
@@ -51,9 +51,9 @@ User Data Handler also provides a store place of the common user data (which is 
 Data Policy
 ***********
 
-**Dr. Tinder** stores no user data. Every information is fetched from the server dinamicaly and stored in RAM during the app execution. Even if data transfer rates are low, the data payload is small enought. If there is no network connection, the
+**Dr. Tinder** stores no user data. Every information is fetched from the server dynamically and stored in RAM during the app execution. Even if data transfer rates are low, the data payload is small enough. If there is no network connection, the app can't send likes or messages, so there is no need to maintain data to work offline.
 
-The images are cached locally to improve network ussage in some cases, for example in the chats where if there where no cache, the same image would be fetch multiple times, slowing down the app. This cache is forced to clean up all chaced files in local storage when the main actictivity closes.
+The images are cached locally to improve network usage in some cases, for example in the chats where if there where no cache, the same image would be fetch multiple times, slowing down the app. This cache is forced to clean up all cached files in local storage when the main activity closes.
 
 **************
 Errors Display

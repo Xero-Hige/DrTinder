@@ -49,10 +49,10 @@ onMessageReceived
 setSession
 ^^^^^^^^^^
 
-.. java:method:: public void setSession(ChatSession mSession)
+.. java:method:: public static void setSession(ChatSession session)
    :outertype: MessagesService
 
    Set the associated chat session that needs to be notified
 
-   :param mSession: Chat session to notify
+   :param session: Chat session to notify
 

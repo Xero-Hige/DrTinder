@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Build AppServer sin Docker &mdash; DrTinder 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="DrTinder 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="AppServer" href="index.html"/>
+        <link rel="next" title="Implementacion AppServer" href="implementacion.html"/>
+        <link rel="prev" title="Docker build" href="Docker.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DrTinder
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android Client</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">AppServer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Docker.html">Docker build</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Build AppServer sin Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#coverage">Coverage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="implementacion.html">Implementacion AppServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuracion AppServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">SharedServer</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">DrTinder</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">AppServer</a> &raquo;</li>
+      
+    <li>Build AppServer sin Docker</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/appServer/buildSinDocker.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-appserver-sin-docker">
+<h1>Build AppServer sin Docker<a class="headerlink" href="#build-appserver-sin-docker" title="Permalink to this headline">¶</a></h1>
+<p>Para buildear el server es necesario tener instalado todas las librerías mencionadas en la implementación y CMake (<em>version mayor o igual a 2.8</em>). Para ello clone el repositorio y ejecute los siguientes comandos:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>apt-get update
+apt-get install -y  autoconf cmake curl  g++  libbz2-dev  libcurl4-openssl-dev  libgflags-dev   libsnappy-dev libssl-dev libtool make openssl python zlib1g-dev
+git submodule init
+git submodule update
+</pre></div>
+</div>
+<p>DrTinder/source/libs/rocksdb:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>make install
+</pre></div>
+</div>
+<p>DrTinder/source/libs/jsoncpp:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python amalgamate.py
+</pre></div>
+</div>
+<p>DrTinder/source/libs/googletest :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .
+make install
+</pre></div>
+</div>
+<p>DrTinder/source/libs/restclient-cpp:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./autogen.sh
+./configure
+make install
+</pre></div>
+</div>
+<p>DrTinder/source/libs/swift:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./scons <span class="nv">SWIFTEN_INSTALLDIR</span><span class="o">=</span>/usr/local /usr/local
+apt-get install -y libboost-all-dev
+</pre></div>
+</div>
+<p>Luego de instalados para buildear test y servers:</p>
+<p>DrTinder/source/Server:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake .
+make
+</pre></div>
+</div>
+<div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>Para los tests se utilizaron librerias de python (<strong>unittest</strong> y <strong>requests</strong>) como de c++ (<a class="reference external" href="https://github.com/google/googletest">gtest</a> ).
+Los tests de python apuntan a verificar el correcto procesamiento de los requests que se le pueden hacer al server y los de c++ a probar la funcionalidad particular de las clases creadas(unit test).
+Para poder llevar una medida de lo que abarcan estos tests se utilizó gcov para medir el coverage. Tambien se utilizo lcov ( <a class="reference external" href="https://github.com/linux-test-project/lcov">https://github.com/linux-test-project/lcov</a> ) para poder visualizar el coverage de mejor forma.</p>
+<div class="section" id="coverage">
+<h3>Coverage<a class="headerlink" href="#coverage" title="Permalink to this headline">¶</a></h3>
+<p>Para visualizar el coverage debe primero buildear los tests y el server en modo Debug, para ello debe correr primero:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Debug
+make
+</pre></div>
+</div>
+<p>Luego corra los tests con :</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>./Test
+</pre></div>
+</div>
+<p>Después levante el server y dejelo corriendo en una terminal. Abra otra terminal y ejecute los test de Python ( DrTinder/source/Servidor/tests/testPythonAppApiTest.py ).</p>
+<p>Luego cierre el server escribiendo <em>quit</em> en su respectiva terminal. Una vez cerrado corra <em>./coverage.sh</em>. Este script dejará en la carpeta coverage unos archivos entre los cuales se encuentra un <em>index.html</em> que muestra el nivel de coverage de los distintos archivos.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="implementacion.html" class="btn btn-neutral float-right" title="Implementacion AppServer" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Docker.html" class="btn btn-neutral" title="Docker build" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Gaston Alberto Martinez.
+      Last updated on Jul 07, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

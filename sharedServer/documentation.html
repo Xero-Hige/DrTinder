@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Documentacion &mdash; DrTinder 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="DrTinder 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="SharedServer" href="index.html"/>
+        <link rel="next" title="User Manual - Shared Server" href="userManual.html"/>
+        <link rel="prev" title="SharedServer" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DrTinder
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../android/index.html">Android Client</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appServer/index.html">AppServer</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">SharedServer</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Documentacion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instalacion-local">Instalación local</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#instalacion-de-node">Instalación de node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instalacion-del-npm">Instalación del npm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instalacion-de-postgres">Instalación de postgres</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creacion-rol-y-db">Creación Rol y DB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuracion-env">Configuracion (.env)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#puesta-en-marcha">Puesta en marcha</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="userManual.html">User Manual - Shared Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbDiagram.html">Shared Server DB Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">DrTinder</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">SharedServer</a> &raquo;</li>
+      
+    <li>Documentacion</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/sharedServer/documentation.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="documentacion">
+<span id="document-shared"></span><h1>Documentacion<a class="headerlink" href="#documentacion" title="Permalink to this headline">¶</a></h1>
+<p>El shared server se encuentra actualmente en <strong>heroku</strong>. Para seguir manteniéndolo solo hay que pushear al repositorio, este deployea automáticamente el server en heroku.</p>
+<p>Su desarrollo fue realizado con <strong>nodejs</strong> para correr un servidor con el paquete express que respondiera a una API determinada para crear, modificar y eliminar usuarios y crear intereses. Al mandar y recibir información en formato JSON se utilizaron los paquetes de <strong>body-parser</strong> y <strong>jsonschema</strong> para poder recibir la información en las respuestas HTTP y poder validar su formato.</p>
+<p>A su vez este server cuenta con una conexión a una base de datos implementada con PostgreSql, por lo que utiliza el paquete de <strong>pg</strong>.</p>
+<p>A su vez dispone de una interfaz gráfica para la administración de los usuarios, esta está implementada con html, javascript y css como sitio web y para su construcción se usan los paquete de node <strong>ejs</strong>.</p>
+<div class="section" id="instalacion-local">
+<h2>Instalación local<a class="headerlink" href="#instalacion-local" title="Permalink to this headline">¶</a></h2>
+<p>Para poder correr localmente el shared server, es decir desde un puerto local y una base de datos local es necesario tener instalado node, npm y postgres. Primero hay que correr el comando:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get update
+</pre></div>
+</div>
+<div class="section" id="instalacion-de-node">
+<h3>Instalación de node<a class="headerlink" href="#instalacion-de-node" title="Permalink to this headline">¶</a></h3>
+<p>Para instalar corra el comando:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install nodejs
+</pre></div>
+</div>
+<p>Para asegurarse que se instaló corra:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>node --version
+</pre></div>
+</div>
+<p>Si indica que:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>-bash: /usr/sbin/node: No such file or directory
+</pre></div>
+</div>
+<p>Corra:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo ln -s <span class="sb">`</span>which nodejs<span class="sb">`</span> /usr/bin/node
+</pre></div>
+</div>
+</div>
+<div class="section" id="instalacion-del-npm">
+<h3>Instalación del npm<a class="headerlink" href="#instalacion-del-npm" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install npm
+</pre></div>
+</div>
+</div>
+<div class="section" id="instalacion-de-postgres">
+<h3>Instalación de postgres<a class="headerlink" href="#instalacion-de-postgres" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt-get install postgresql postgresql-contrib
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="creacion-rol-y-db">
+<h2>Creación Rol y DB<a class="headerlink" href="#creacion-rol-y-db" title="Permalink to this headline">¶</a></h2>
+<p>Primero para tener la base de datos local es necesario ejecutar el archivo createDB.sql, para ello debe ejecutar lo siguiente siendo <em>&lt;usrid&gt;</em> su nombre de usuario. Estara creando un rol y podrá ejecutar el último comando desde su terminal.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo -i -u postgres
+psql -s -d -P &lt;usrid&gt;  <span class="c1">#prompt para setear pass</span>
+createdb &lt;usrid&gt;
+<span class="nb">exit</span>
+</pre></div>
+</div>
+<p>Por último ejecute(una vez creado el rol puede correr este comando para reiniciar la base de datos):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>psql -f createDB.sql
+</pre></div>
+</div>
+<p>La definición de la base de datos la puede ver en <a class="reference internal" href="dbDiagram.html#dbdiagram"><span>Shared Server DB Model</span></a>.</p>
+</div>
+<div class="section" id="configuracion-env">
+<h2>Configuracion (.env)<a class="headerlink" href="#configuracion-env" title="Permalink to this headline">¶</a></h2>
+<p>Para poder correr localmente el shared server se debe escribir un archivo .env que solo contenga en formato “key=value” el puerto(PORT) y la url(DATABASE_URL) a la base de datos de Postgres. Para levantar este archivo y setear las variables se utiliza el paquete  node-env-file. Un ejemplo de archivo sería:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">PORT</span> <span class="o">=</span> 8000
+<span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://user:pass@localhost:5432/dbname
+</pre></div>
+</div>
+<p>La composición de la url de la base de datos es la siguiente:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>postgres:://&lt;userid&gt;:&lt;pass&gt;@localhost:5432/tinder
+</pre></div>
+</div>
+<p>Donde <em>&lt;userid&gt;</em> y <em>&lt;pass&gt;</em> corresponden al rol creado.</p>
+</div>
+<div class="section" id="puesta-en-marcha">
+<h2>Puesta en marcha<a class="headerlink" href="#puesta-en-marcha" title="Permalink to this headline">¶</a></h2>
+<p>Primero asegurarse que estén instalado los paquetes:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>npm install
+</pre></div>
+</div>
+<p>Luego, localizado en la carpeta del proyecto ejecutar:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>node index.js -l
+</pre></div>
+</div>
+<p>O tambien:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>node index.js --local
+</pre></div>
+</div>
+<p>La aplicación se puede cerrar con un SIGINT, el mismo al recibir esta señal cierra el servidor y luego termina con código 0.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="userManual.html" class="btn btn-neutral float-right" title="User Manual - Shared Server" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="SharedServer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Gaston Alberto Martinez.
+      Last updated on Jul 07, 2016.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
