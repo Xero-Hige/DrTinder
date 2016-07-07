@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/asio/detail/socket_ops.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/asio/detail</a> - socket_ops.hpp<span style="font-size: 80%;"> (source / <a href="socket_ops.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : //</a>
+<span class="lineNum">       2 </span>            : // detail/socket_ops.hpp
+<span class="lineNum">       3 </span>            : // ~~~~~~~~~~~~~~~~~~~~~
+<span class="lineNum">       4 </span>            : //
+<span class="lineNum">       5 </span>            : // Copyright (c) 2003-2013 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+<span class="lineNum">       6 </span>            : //
+<span class="lineNum">       7 </span>            : // Distributed under the Boost Software License, Version 1.0. (See accompanying
+<span class="lineNum">       8 </span>            : // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       9 </span>            : //
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef BOOST_ASIO_DETAIL_SOCKET_OPS_HPP
+<span class="lineNum">      12 </span>            : #define BOOST_ASIO_DETAIL_SOCKET_OPS_HPP
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #if defined(_MSC_VER) &amp;&amp; (_MSC_VER &gt;= 1200)
+<span class="lineNum">      15 </span>            : # pragma once
+<span class="lineNum">      16 </span>            : #endif // defined(_MSC_VER) &amp;&amp; (_MSC_VER &gt;= 1200)
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : #include &lt;boost/asio/detail/config.hpp&gt;
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &lt;boost/system/error_code.hpp&gt;
+<span class="lineNum">      21 </span>            : #include &lt;boost/asio/detail/shared_ptr.hpp&gt;
+<span class="lineNum">      22 </span>            : #include &lt;boost/asio/detail/socket_types.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/asio/detail/weak_ptr.hpp&gt;
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : #include &lt;boost/asio/detail/push_options.hpp&gt;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : namespace boost {
+<span class="lineNum">      28 </span>            : namespace asio {
+<span class="lineNum">      29 </span>            : namespace detail {
+<span class="lineNum">      30 </span>            : namespace socket_ops {
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : // Socket state bits.
+<span class="lineNum">      33 </span>            : enum
+<span class="lineNum">      34 </span>            : {
+<span class="lineNum">      35 </span>            :   // The user wants a non-blocking socket.
+<span class="lineNum">      36 </span>            :   user_set_non_blocking = 1,
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            :   // The socket has been set non-blocking.
+<span class="lineNum">      39 </span>            :   internal_non_blocking = 2,
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            :   // Helper &quot;state&quot; used to determine whether the socket is non-blocking.
+<span class="lineNum">      42 </span>            :   non_blocking = user_set_non_blocking | internal_non_blocking,
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :   // User wants connection_aborted errors, which are disabled by default.
+<span class="lineNum">      45 </span>            :   enable_connection_aborted = 4,
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :   // The user set the linger option. Needs to be checked when closing.
+<span class="lineNum">      48 </span>            :   user_set_linger = 8,
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            :   // The socket is stream-oriented.
+<span class="lineNum">      51 </span>            :   stream_oriented = 16,
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :   // The socket is datagram-oriented.
+<span class="lineNum">      54 </span>            :   datagram_oriented = 32,
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :   // The socket may have been dup()-ed.
+<span class="lineNum">      57 </span>            :   possible_dup = 64
+<span class="lineNum">      58 </span>            : };
+<span class="lineNum">      59 </span>            : 
+<a name="60"><span class="lineNum">      60 </span>            : typedef unsigned char state_type;</a>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 : struct noop_deleter { void operator()(void*) {} };</span>
+<span class="lineNum">      63 </span>            : typedef shared_ptr&lt;void&gt; shared_cancel_token_type;
+<span class="lineNum">      64 </span>            : typedef weak_ptr&lt;void&gt; weak_cancel_token_type;
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            : BOOST_ASIO_DECL socket_type accept(socket_type s, socket_addr_type* addr,
+<span class="lineNum">      67 </span>            :     std::size_t* addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            : BOOST_ASIO_DECL socket_type sync_accept(socket_type s,
+<span class="lineNum">      70 </span>            :     state_type state, socket_addr_type* addr,
+<span class="lineNum">      71 </span>            :     std::size_t* addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            : #if defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            : BOOST_ASIO_DECL void complete_iocp_accept(socket_type s,
+<span class="lineNum">      76 </span>            :     void* output_buffer, DWORD address_length,
+<span class="lineNum">      77 </span>            :     socket_addr_type* addr, std::size_t* addrlen,
+<span class="lineNum">      78 </span>            :     socket_type new_socket, boost::system::error_code&amp; ec);
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            : #else // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            : BOOST_ASIO_DECL bool non_blocking_accept(socket_type s,
+<span class="lineNum">      83 </span>            :     state_type state, socket_addr_type* addr, std::size_t* addrlen,
+<span class="lineNum">      84 </span>            :     boost::system::error_code&amp; ec, socket_type&amp; new_socket);
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            : #endif // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            : BOOST_ASIO_DECL int bind(socket_type s, const socket_addr_type* addr,
+<span class="lineNum">      89 </span>            :     std::size_t addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            : BOOST_ASIO_DECL int close(socket_type s, state_type&amp; state,
+<span class="lineNum">      92 </span>            :     bool destruction, boost::system::error_code&amp; ec);
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            : BOOST_ASIO_DECL bool set_user_non_blocking(socket_type s,
+<span class="lineNum">      95 </span>            :     state_type&amp; state, bool value, boost::system::error_code&amp; ec);
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            : BOOST_ASIO_DECL bool set_internal_non_blocking(socket_type s,
+<span class="lineNum">      98 </span>            :     state_type&amp; state, bool value, boost::system::error_code&amp; ec);
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span>            : BOOST_ASIO_DECL int shutdown(socket_type s,
+<span class="lineNum">     101 </span>            :     int what, boost::system::error_code&amp; ec);
+<span class="lineNum">     102 </span>            : 
+<span class="lineNum">     103 </span>            : BOOST_ASIO_DECL int connect(socket_type s, const socket_addr_type* addr,
+<span class="lineNum">     104 </span>            :     std::size_t addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            : BOOST_ASIO_DECL void sync_connect(socket_type s, const socket_addr_type* addr,
+<span class="lineNum">     107 </span>            :     std::size_t addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            : BOOST_ASIO_DECL bool non_blocking_connect(socket_type s,
+<span class="lineNum">     110 </span>            :     const socket_addr_type* addr, std::size_t addrlen,
+<span class="lineNum">     111 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     112 </span>            : 
+<span class="lineNum">     113 </span>            : BOOST_ASIO_DECL int socketpair(int af, int type, int protocol,
+<span class="lineNum">     114 </span>            :     socket_type sv[2], boost::system::error_code&amp; ec);
+<span class="lineNum">     115 </span>            : 
+<span class="lineNum">     116 </span>            : BOOST_ASIO_DECL bool sockatmark(socket_type s, boost::system::error_code&amp; ec);
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            : BOOST_ASIO_DECL size_t available(socket_type s, boost::system::error_code&amp; ec);
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            : BOOST_ASIO_DECL int listen(socket_type s,
+<span class="lineNum">     121 </span>            :     int backlog, boost::system::error_code&amp; ec);
+<span class="lineNum">     122 </span>            : 
+<span class="lineNum">     123 </span>            : #if defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+<span class="lineNum">     124 </span>            : typedef WSABUF buf;
+<span class="lineNum">     125 </span>            : #else // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+<span class="lineNum">     126 </span>            : typedef iovec buf;
+<span class="lineNum">     127 </span>            : #endif // defined(BOOST_ASIO_WINDOWS) || defined(__CYGWIN__)
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span>            : BOOST_ASIO_DECL void init_buf(buf&amp; b, void* data, size_t size);
+<span class="lineNum">     130 </span>            : 
+<span class="lineNum">     131 </span>            : BOOST_ASIO_DECL void init_buf(buf&amp; b, const void* data, size_t size);
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            : BOOST_ASIO_DECL signed_size_type recv(socket_type s, buf* bufs,
+<span class="lineNum">     134 </span>            :     size_t count, int flags, boost::system::error_code&amp; ec);
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span>            : BOOST_ASIO_DECL size_t sync_recv(socket_type s, state_type state, buf* bufs,
+<span class="lineNum">     137 </span>            :     size_t count, int flags, bool all_empty, boost::system::error_code&amp; ec);
+<span class="lineNum">     138 </span>            : 
+<span class="lineNum">     139 </span>            : #if defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     140 </span>            : 
+<span class="lineNum">     141 </span>            : BOOST_ASIO_DECL void complete_iocp_recv(state_type state,
+<span class="lineNum">     142 </span>            :     const weak_cancel_token_type&amp; cancel_token, bool all_empty,
+<span class="lineNum">     143 </span>            :     boost::system::error_code&amp; ec, size_t bytes_transferred);
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span>            : #else // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     146 </span>            : 
+<span class="lineNum">     147 </span>            : BOOST_ASIO_DECL bool non_blocking_recv(socket_type s,
+<span class="lineNum">     148 </span>            :     buf* bufs, size_t count, int flags, bool is_stream,
+<span class="lineNum">     149 </span>            :     boost::system::error_code&amp; ec, size_t&amp; bytes_transferred);
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : #endif // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     152 </span>            : 
+<span class="lineNum">     153 </span>            : BOOST_ASIO_DECL signed_size_type recvfrom(socket_type s, buf* bufs,
+<span class="lineNum">     154 </span>            :     size_t count, int flags, socket_addr_type* addr,
+<span class="lineNum">     155 </span>            :     std::size_t* addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span>            : BOOST_ASIO_DECL size_t sync_recvfrom(socket_type s, state_type state,
+<span class="lineNum">     158 </span>            :     buf* bufs, size_t count, int flags, socket_addr_type* addr,
+<span class="lineNum">     159 </span>            :     std::size_t* addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span>            : #if defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            : BOOST_ASIO_DECL void complete_iocp_recvfrom(
+<span class="lineNum">     164 </span>            :     const weak_cancel_token_type&amp; cancel_token,
+<span class="lineNum">     165 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            : #else // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            : BOOST_ASIO_DECL bool non_blocking_recvfrom(socket_type s,
+<span class="lineNum">     170 </span>            :     buf* bufs, size_t count, int flags,
+<span class="lineNum">     171 </span>            :     socket_addr_type* addr, std::size_t* addrlen,
+<span class="lineNum">     172 </span>            :     boost::system::error_code&amp; ec, size_t&amp; bytes_transferred);
+<span class="lineNum">     173 </span>            : 
+<span class="lineNum">     174 </span>            : #endif // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     175 </span>            : 
+<span class="lineNum">     176 </span>            : BOOST_ASIO_DECL signed_size_type recvmsg(socket_type s, buf* bufs,
+<span class="lineNum">     177 </span>            :     size_t count, int in_flags, int&amp; out_flags,
+<span class="lineNum">     178 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span>            : BOOST_ASIO_DECL size_t sync_recvmsg(socket_type s, state_type state,
+<span class="lineNum">     181 </span>            :     buf* bufs, size_t count, int in_flags, int&amp; out_flags,
+<span class="lineNum">     182 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : #if defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     185 </span>            : 
+<span class="lineNum">     186 </span>            : BOOST_ASIO_DECL void complete_iocp_recvmsg(
+<span class="lineNum">     187 </span>            :     const weak_cancel_token_type&amp; cancel_token,
+<span class="lineNum">     188 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     189 </span>            : 
+<span class="lineNum">     190 </span>            : #else // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     191 </span>            : 
+<span class="lineNum">     192 </span>            : BOOST_ASIO_DECL bool non_blocking_recvmsg(socket_type s,
+<span class="lineNum">     193 </span>            :     buf* bufs, size_t count, int in_flags, int&amp; out_flags,
+<span class="lineNum">     194 </span>            :     boost::system::error_code&amp; ec, size_t&amp; bytes_transferred);
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span>            : #endif // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     197 </span>            : 
+<span class="lineNum">     198 </span>            : BOOST_ASIO_DECL signed_size_type send(socket_type s, const buf* bufs,
+<span class="lineNum">     199 </span>            :     size_t count, int flags, boost::system::error_code&amp; ec);
+<span class="lineNum">     200 </span>            : 
+<span class="lineNum">     201 </span>            : BOOST_ASIO_DECL size_t sync_send(socket_type s, state_type state,
+<span class="lineNum">     202 </span>            :     const buf* bufs, size_t count, int flags,
+<span class="lineNum">     203 </span>            :     bool all_empty, boost::system::error_code&amp; ec);
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            : #if defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     206 </span>            : 
+<span class="lineNum">     207 </span>            : BOOST_ASIO_DECL void complete_iocp_send(
+<span class="lineNum">     208 </span>            :     const weak_cancel_token_type&amp; cancel_token,
+<span class="lineNum">     209 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            : #else // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            : BOOST_ASIO_DECL bool non_blocking_send(socket_type s,
+<span class="lineNum">     214 </span>            :     const buf* bufs, size_t count, int flags,
+<span class="lineNum">     215 </span>            :     boost::system::error_code&amp; ec, size_t&amp; bytes_transferred);
+<span class="lineNum">     216 </span>            : 
+<span class="lineNum">     217 </span>            : #endif // defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            : BOOST_ASIO_DECL signed_size_type sendto(socket_type s, const buf* bufs,
+<span class="lineNum">     220 </span>            :     size_t count, int flags, const socket_addr_type* addr,
+<span class="lineNum">     221 </span>            :     std::size_t addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span>            : BOOST_ASIO_DECL size_t sync_sendto(socket_type s, state_type state,
+<span class="lineNum">     224 </span>            :     const buf* bufs, size_t count, int flags, const socket_addr_type* addr,
+<span class="lineNum">     225 </span>            :     std::size_t addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            : #if !defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     228 </span>            : 
+<span class="lineNum">     229 </span>            : BOOST_ASIO_DECL bool non_blocking_sendto(socket_type s,
+<span class="lineNum">     230 </span>            :     const buf* bufs, size_t count, int flags,
+<span class="lineNum">     231 </span>            :     const socket_addr_type* addr, std::size_t addrlen,
+<span class="lineNum">     232 </span>            :     boost::system::error_code&amp; ec, size_t&amp; bytes_transferred);
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span>            : #endif // !defined(BOOST_ASIO_HAS_IOCP)
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span>            : BOOST_ASIO_DECL socket_type socket(int af, int type, int protocol,
+<span class="lineNum">     237 </span>            :     boost::system::error_code&amp; ec);
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span>            : BOOST_ASIO_DECL int setsockopt(socket_type s, state_type&amp; state,
+<span class="lineNum">     240 </span>            :     int level, int optname, const void* optval,
+<span class="lineNum">     241 </span>            :     std::size_t optlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     242 </span>            : 
+<span class="lineNum">     243 </span>            : BOOST_ASIO_DECL int getsockopt(socket_type s, state_type state,
+<span class="lineNum">     244 </span>            :     int level, int optname, void* optval,
+<span class="lineNum">     245 </span>            :     size_t* optlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span>            : BOOST_ASIO_DECL int getpeername(socket_type s, socket_addr_type* addr,
+<span class="lineNum">     248 </span>            :     std::size_t* addrlen, bool cached, boost::system::error_code&amp; ec);
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            : BOOST_ASIO_DECL int getsockname(socket_type s, socket_addr_type* addr,
+<span class="lineNum">     251 </span>            :     std::size_t* addrlen, boost::system::error_code&amp; ec);
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : BOOST_ASIO_DECL int ioctl(socket_type s, state_type&amp; state,
+<span class="lineNum">     254 </span>            :     int cmd, ioctl_arg_type* arg, boost::system::error_code&amp; ec);
+<span class="lineNum">     255 </span>            : 
+<span class="lineNum">     256 </span>            : BOOST_ASIO_DECL int select(int nfds, fd_set* readfds, fd_set* writefds,
+<span class="lineNum">     257 </span>            :     fd_set* exceptfds, timeval* timeout, boost::system::error_code&amp; ec);
+<span class="lineNum">     258 </span>            : 
+<span class="lineNum">     259 </span>            : BOOST_ASIO_DECL int poll_read(socket_type s,
+<span class="lineNum">     260 </span>            :     state_type state, boost::system::error_code&amp; ec);
+<span class="lineNum">     261 </span>            : 
+<span class="lineNum">     262 </span>            : BOOST_ASIO_DECL int poll_write(socket_type s,
+<span class="lineNum">     263 </span>            :     state_type state, boost::system::error_code&amp; ec);
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            : BOOST_ASIO_DECL int poll_connect(socket_type s, boost::system::error_code&amp; ec);
+<span class="lineNum">     266 </span>            : 
+<span class="lineNum">     267 </span>            : BOOST_ASIO_DECL const char* inet_ntop(int af, const void* src, char* dest,
+<span class="lineNum">     268 </span>            :     size_t length, unsigned long scope_id, boost::system::error_code&amp; ec);
+<span class="lineNum">     269 </span>            : 
+<span class="lineNum">     270 </span>            : BOOST_ASIO_DECL int inet_pton(int af, const char* src, void* dest,
+<span class="lineNum">     271 </span>            :     unsigned long* scope_id, boost::system::error_code&amp; ec);
+<span class="lineNum">     272 </span>            : 
+<span class="lineNum">     273 </span>            : BOOST_ASIO_DECL int gethostname(char* name,
+<span class="lineNum">     274 </span>            :     int namelen, boost::system::error_code&amp; ec);
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            : BOOST_ASIO_DECL boost::system::error_code getaddrinfo(const char* host,
+<span class="lineNum">     277 </span>            :     const char* service, const addrinfo_type&amp; hints,
+<span class="lineNum">     278 </span>            :     addrinfo_type** result, boost::system::error_code&amp; ec);
+<span class="lineNum">     279 </span>            : 
+<span class="lineNum">     280 </span>            : BOOST_ASIO_DECL boost::system::error_code background_getaddrinfo(
+<span class="lineNum">     281 </span>            :     const weak_cancel_token_type&amp; cancel_token, const char* host,
+<span class="lineNum">     282 </span>            :     const char* service, const addrinfo_type&amp; hints,
+<span class="lineNum">     283 </span>            :     addrinfo_type** result, boost::system::error_code&amp; ec);
+<span class="lineNum">     284 </span>            : 
+<span class="lineNum">     285 </span>            : BOOST_ASIO_DECL void freeaddrinfo(addrinfo_type* ai);
+<span class="lineNum">     286 </span>            : 
+<span class="lineNum">     287 </span>            : BOOST_ASIO_DECL boost::system::error_code getnameinfo(
+<span class="lineNum">     288 </span>            :     const socket_addr_type* addr, std::size_t addrlen,
+<span class="lineNum">     289 </span>            :     char* host, std::size_t hostlen, char* serv,
+<span class="lineNum">     290 </span>            :     std::size_t servlen, int flags, boost::system::error_code&amp; ec);
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            : BOOST_ASIO_DECL boost::system::error_code sync_getnameinfo(
+<span class="lineNum">     293 </span>            :     const socket_addr_type* addr, std::size_t addrlen,
+<span class="lineNum">     294 </span>            :     char* host, std::size_t hostlen, char* serv,
+<span class="lineNum">     295 </span>            :     std::size_t servlen, int sock_type, boost::system::error_code&amp; ec);
+<span class="lineNum">     296 </span>            : 
+<span class="lineNum">     297 </span>            : BOOST_ASIO_DECL boost::system::error_code background_getnameinfo(
+<span class="lineNum">     298 </span>            :     const weak_cancel_token_type&amp; cancel_token,
+<span class="lineNum">     299 </span>            :     const socket_addr_type* addr, std::size_t addrlen,
+<span class="lineNum">     300 </span>            :     char* host, std::size_t hostlen, char* serv,
+<span class="lineNum">     301 </span>            :     std::size_t servlen, int sock_type, boost::system::error_code&amp; ec);
+<span class="lineNum">     302 </span>            : 
+<span class="lineNum">     303 </span>            : BOOST_ASIO_DECL u_long_type network_to_host_long(u_long_type value);
+<span class="lineNum">     304 </span>            : 
+<span class="lineNum">     305 </span>            : BOOST_ASIO_DECL u_long_type host_to_network_long(u_long_type value);
+<span class="lineNum">     306 </span>            : 
+<span class="lineNum">     307 </span>            : BOOST_ASIO_DECL u_short_type network_to_host_short(u_short_type value);
+<span class="lineNum">     308 </span>            : 
+<span class="lineNum">     309 </span>            : BOOST_ASIO_DECL u_short_type host_to_network_short(u_short_type value);
+<span class="lineNum">     310 </span>            : 
+<span class="lineNum">     311 </span>            : } // namespace socket_ops
+<span class="lineNum">     312 </span>            : } // namespace detail
+<span class="lineNum">     313 </span>            : } // namespace asio
+<span class="lineNum">     314 </span>            : } // namespace boost
+<span class="lineNum">     315 </span>            : 
+<span class="lineNum">     316 </span>            : #include &lt;boost/asio/detail/pop_options.hpp&gt;
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            : #if defined(BOOST_ASIO_HEADER_ONLY)
+<span class="lineNum">     319 </span>            : # include &lt;boost/asio/detail/impl/socket_ops.ipp&gt;
+<span class="lineNum">     320 </span>            : #endif // defined(BOOST_ASIO_HEADER_ONLY)
+<span class="lineNum">     321 </span>            : 
+<span class="lineNum">     322 </span>            : #endif // BOOST_ASIO_DETAIL_SOCKET_OPS_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

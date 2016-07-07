@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - boost/signals2/connection.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">boost/signals2</a> - connection.hpp<span style="font-size: 80%;"> (source / <a href="connection.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">51</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :   boost::signals2::connection provides a handle to a signal/slot connection.
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            :   Author: Frank Mori Hess &lt;fmhess@users.sourceforge.net&gt;
+<span class="lineNum">       5 </span>            :   Begin: 2007-01-23
+<span class="lineNum">       6 </span>            : */
+<span class="lineNum">       7 </span>            : // Copyright Frank Mori Hess 2007-2008.
+<span class="lineNum">       8 </span>            : // Distributed under the Boost Software License, Version
+<span class="lineNum">       9 </span>            : // 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">      10 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : // See http://www.boost.org/libs/signals2 for library home page.
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #ifndef BOOST_SIGNALS2_CONNECTION_HPP
+<span class="lineNum">      15 </span>            : #define BOOST_SIGNALS2_CONNECTION_HPP
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : #include &lt;boost/function.hpp&gt;
+<span class="lineNum">      18 </span>            : #include &lt;boost/mpl/bool.hpp&gt;
+<span class="lineNum">      19 </span>            : #include &lt;boost/noncopyable.hpp&gt;
+<span class="lineNum">      20 </span>            : #include &lt;boost/shared_ptr.hpp&gt;
+<span class="lineNum">      21 </span>            : #include &lt;boost/signals2/detail/null_output_iterator.hpp&gt;
+<span class="lineNum">      22 </span>            : #include &lt;boost/signals2/detail/unique_lock.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/signals2/slot.hpp&gt;
+<span class="lineNum">      24 </span>            : #include &lt;boost/weak_ptr.hpp&gt;
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : namespace boost
+<span class="lineNum">      27 </span>            : {
+<span class="lineNum">      28 </span>            :   namespace signals2
+<span class="lineNum">      29 </span>            :   {
+<span class="lineNum">      30 </span>            :     extern inline void null_deleter(const void*) {}
+<span class="lineNum">      31 </span>            :     namespace detail
+<span class="lineNum">      32 </span>            :     {
+<span class="lineNum">      33 </span>            :       class connection_body_base
+<a name="34"><span class="lineNum">      34 </span>            :       {</a>
+<span class="lineNum">      35 </span>            :       public:
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         connection_body_base():</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :           _connected(true)</span>
+<a name="38"><span class="lineNum">      38 </span>            :         {</a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :         virtual ~connection_body_base() {}</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         void disconnect()</span>
+<span class="lineNum">      42 </span>            :         {
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :           unique_lock&lt;connection_body_base&gt; local_lock(*this);</span>
+<a name="44"><span class="lineNum">      44 </span><span class="lineNoCov">          0 :           nolock_disconnect();</span></a>
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :         void nolock_disconnect()</span>
+<span class="lineNum">      47 </span>            :         {
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :           _connected = false;</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      50 </span>            :         virtual bool connected() const = 0;
+<span class="lineNum">      51 </span>            :         shared_ptr&lt;void&gt; get_blocker()
+<span class="lineNum">      52 </span>            :         {
+<span class="lineNum">      53 </span>            :           unique_lock&lt;connection_body_base&gt; local_lock(*this);
+<span class="lineNum">      54 </span>            :           shared_ptr&lt;void&gt; blocker = _weak_blocker.lock();
+<span class="lineNum">      55 </span>            :           if(blocker == shared_ptr&lt;void&gt;())
+<span class="lineNum">      56 </span>            :           {
+<span class="lineNum">      57 </span>            :             blocker.reset(this, &amp;null_deleter);
+<span class="lineNum">      58 </span>            :             _weak_blocker = blocker;
+<span class="lineNum">      59 </span>            :           }
+<a name="60"><span class="lineNum">      60 </span>            :           return blocker;</a>
+<span class="lineNum">      61 </span>            :         }
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :         bool blocked() const</span>
+<span class="lineNum">      63 </span>            :         {
+<a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :           return !_weak_blocker.expired();</span></a>
+<span class="lineNum">      65 </span>            :         }
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         bool nolock_nograb_blocked() const</span>
+<span class="lineNum">      67 </span>            :         {
+<a name="68"><span class="lineNum">      68 </span><span class="lineNoCov">          0 :           return nolock_nograb_connected() == false || blocked();</span></a>
+<span class="lineNum">      69 </span>            :         }
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         bool nolock_nograb_connected() const {return _connected;}</span>
+<span class="lineNum">      71 </span>            :         // expose part of Lockable concept of mutex
+<span class="lineNum">      72 </span>            :         virtual void lock() = 0;
+<span class="lineNum">      73 </span>            :         virtual void unlock() = 0;
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :       protected:
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :         mutable bool _connected;
+<span class="lineNum">      78 </span>            :         weak_ptr&lt;void&gt; _weak_blocker;
+<span class="lineNum">      79 </span>            :       };
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :       template&lt;typename GroupKey, typename SlotType, typename Mutex&gt;
+<span class="lineNum">      82 </span>            :       class connection_body: public connection_body_base
+<span class="lineNum">      83 </span>            :       {
+<a name="84"><span class="lineNum">      84 </span>            :       public:</a>
+<span class="lineNum">      85 </span>            :         typedef Mutex mutex_type;
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :         connection_body(const SlotType &amp;slot_in):</span>
+<span class="lineNum">      87 </span><span class="lineNoCov">          0 :           slot(slot_in)</span>
+<a name="88"><span class="lineNum">      88 </span>            :         {</a>
+<a name="89"><span class="lineNum">      89 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         virtual ~connection_body() {}</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         virtual bool connected() const</span>
+<span class="lineNum">      92 </span>            :         {
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :           unique_lock&lt;mutex_type&gt; local_lock(_mutex);</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :           nolock_grab_tracked_objects(detail::null_output_iterator());</span>
+<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :           return nolock_nograb_connected();</span></a>
+<a name="96"><span class="lineNum">      96 </span>            :         }</a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineNoCov">          0 :         const GroupKey&amp; group_key() const {return _group_key;}</span></a>
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :         void set_group_key(const GroupKey &amp;key) {_group_key = key;}</span>
+<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         bool nolock_slot_expired() const</span>
+<span class="lineNum">     100 </span>            :         {
+<span class="lineNum">     101 </span><span class="lineNoCov">          0 :           bool expired = slot.expired();</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :           if(expired == true)</span>
+<span class="lineNum">     103 </span>            :           {
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :             _connected = false;</span>
+<span class="lineNum">     105 </span>            :           }
+<span class="lineNum">     106 </span><span class="lineNoCov">          0 :           return expired;</span>
+<a name="107"><span class="lineNum">     107 </span>            :         }</a>
+<span class="lineNum">     108 </span>            :         template&lt;typename OutputIterator&gt;
+<span class="lineNum">     109 </span><span class="lineNoCov">          0 :           void nolock_grab_tracked_objects(OutputIterator inserter) const</span>
+<span class="lineNum">     110 </span>            :         {
+<span class="lineNum">     111 </span><span class="lineNoCov">          0 :           slot_base::tracked_container_type::const_iterator it;</span>
+<span class="lineNum">     112 </span><span class="lineNoCov">          0 :           for(it = slot.tracked_objects().begin();</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :             it != slot.tracked_objects().end();</span>
+<span class="lineNum">     114 </span>            :             ++it)
+<span class="lineNum">     115 </span>            :           {
+<span class="lineNum">     116 </span>            :             void_shared_ptr_variant locked_object
+<span class="lineNum">     117 </span>            :             (
+<span class="lineNum">     118 </span>            :               apply_visitor
+<span class="lineNum">     119 </span>            :               (
+<span class="lineNum">     120 </span>            :                 detail::lock_weak_ptr_visitor(),
+<span class="lineNum">     121 </span>            :                 *it
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :               )</span>
+<span class="lineNum">     123 </span><span class="lineNoCov">          0 :             );</span>
+<span class="lineNum">     124 </span><span class="lineNoCov">          0 :             if(apply_visitor(detail::expired_weak_ptr_visitor(), *it))</span>
+<span class="lineNum">     125 </span>            :             {
+<span class="lineNum">     126 </span><span class="lineNoCov">          0 :               _connected = false;</span>
+<span class="lineNum">     127 </span><span class="lineNoCov">          0 :               return;</span>
+<span class="lineNum">     128 </span>            :             }
+<span class="lineNum">     129 </span><span class="lineNoCov">          0 :             *inserter++ = locked_object;</span>
+<span class="lineNum">     130 </span>            :           }
+<a name="131"><span class="lineNum">     131 </span>            :         }</a>
+<span class="lineNum">     132 </span>            :         // expose Lockable concept of mutex
+<span class="lineNum">     133 </span><span class="lineNoCov">          0 :         virtual void lock()</span>
+<span class="lineNum">     134 </span>            :         {
+<a name="135"><span class="lineNum">     135 </span><span class="lineNoCov">          0 :           _mutex.lock();</span></a>
+<span class="lineNum">     136 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :         virtual void unlock()</span>
+<span class="lineNum">     138 </span>            :         {
+<span class="lineNum">     139 </span><span class="lineNoCov">          0 :           _mutex.unlock();</span>
+<span class="lineNum">     140 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     141 </span>            :         SlotType slot;
+<span class="lineNum">     142 </span>            :       private:
+<span class="lineNum">     143 </span>            :         mutable mutex_type _mutex;
+<span class="lineNum">     144 </span>            :         GroupKey _group_key;
+<span class="lineNum">     145 </span>            :       };
+<span class="lineNum">     146 </span>            :     }
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span>            :     class shared_connection_block;
+<span class="lineNum">     149 </span>            : 
+<span class="lineNum">     150 </span>            :     class connection
+<span class="lineNum">     151 </span>            :     {
+<span class="lineNum">     152 </span>            :     public:
+<span class="lineNum">     153 </span>            :       friend class shared_connection_block;
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span>            :       connection() {}
+<a name="156"><span class="lineNum">     156 </span>            :       connection(const connection &amp;other): _weak_connection_body(other._weak_connection_body)</a>
+<span class="lineNum">     157 </span>            :       {}
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :       connection(const boost::weak_ptr&lt;detail::connection_body_base&gt; &amp;connectionBody):</span>
+<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :         _weak_connection_body(connectionBody)</span></a>
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :       {}</span>
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :       ~connection() {}</span>
+<span class="lineNum">     162 </span>            :       void disconnect() const
+<span class="lineNum">     163 </span>            :       {
+<span class="lineNum">     164 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; connectionBody(_weak_connection_body.lock());
+<span class="lineNum">     165 </span>            :         if(connectionBody == 0) return;
+<span class="lineNum">     166 </span>            :         connectionBody-&gt;disconnect();
+<span class="lineNum">     167 </span>            :       }
+<span class="lineNum">     168 </span>            :       bool connected() const
+<span class="lineNum">     169 </span>            :       {
+<span class="lineNum">     170 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; connectionBody(_weak_connection_body.lock());
+<span class="lineNum">     171 </span>            :         if(connectionBody == 0) return false;
+<span class="lineNum">     172 </span>            :         return connectionBody-&gt;connected();
+<span class="lineNum">     173 </span>            :       }
+<span class="lineNum">     174 </span>            :       bool blocked() const
+<span class="lineNum">     175 </span>            :       {
+<span class="lineNum">     176 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; connectionBody(_weak_connection_body.lock());
+<span class="lineNum">     177 </span>            :         if(connectionBody == 0) return true;
+<span class="lineNum">     178 </span>            :         return connectionBody-&gt;blocked();
+<span class="lineNum">     179 </span>            :       }
+<span class="lineNum">     180 </span>            :       bool operator==(const connection&amp; other) const
+<span class="lineNum">     181 </span>            :       {
+<span class="lineNum">     182 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; connectionBody(_weak_connection_body.lock());
+<span class="lineNum">     183 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; otherConnectionBody(other._weak_connection_body.lock());
+<span class="lineNum">     184 </span>            :         return connectionBody == otherConnectionBody;
+<span class="lineNum">     185 </span>            :       }
+<span class="lineNum">     186 </span>            :       bool operator!=(const connection&amp; other) const
+<span class="lineNum">     187 </span>            :       {
+<span class="lineNum">     188 </span>            :         return !(*this == other);
+<span class="lineNum">     189 </span>            :       }
+<span class="lineNum">     190 </span>            :       bool operator&lt;(const connection&amp; other) const
+<span class="lineNum">     191 </span>            :       {
+<span class="lineNum">     192 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; connectionBody(_weak_connection_body.lock());
+<span class="lineNum">     193 </span>            :         boost::shared_ptr&lt;detail::connection_body_base&gt; otherConnectionBody(other._weak_connection_body.lock());
+<span class="lineNum">     194 </span>            :         return connectionBody &lt; otherConnectionBody;
+<span class="lineNum">     195 </span>            :       }
+<span class="lineNum">     196 </span>            :       void swap(connection &amp;other)
+<span class="lineNum">     197 </span>            :       {
+<span class="lineNum">     198 </span>            :         using std::swap;
+<span class="lineNum">     199 </span>            :         swap(_weak_connection_body, other._weak_connection_body);
+<span class="lineNum">     200 </span>            :       }
+<span class="lineNum">     201 </span>            :     protected:
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span>            :       boost::weak_ptr&lt;detail::connection_body_base&gt; _weak_connection_body;
+<span class="lineNum">     204 </span>            :     };
+<span class="lineNum">     205 </span>            :     inline void swap(connection &amp;conn1, connection &amp;conn2)
+<span class="lineNum">     206 </span>            :     {
+<span class="lineNum">     207 </span>            :       conn1.swap(conn2);
+<span class="lineNum">     208 </span>            :     }
+<span class="lineNum">     209 </span>            : 
+<span class="lineNum">     210 </span>            :     class scoped_connection: public connection
+<span class="lineNum">     211 </span>            :     {
+<span class="lineNum">     212 </span>            :     public:
+<span class="lineNum">     213 </span>            :       scoped_connection() {}
+<span class="lineNum">     214 </span>            :       scoped_connection(const connection &amp;other):
+<span class="lineNum">     215 </span>            :         connection(other)
+<span class="lineNum">     216 </span>            :       {}
+<span class="lineNum">     217 </span>            :       ~scoped_connection()
+<span class="lineNum">     218 </span>            :       {
+<span class="lineNum">     219 </span>            :         disconnect();
+<span class="lineNum">     220 </span>            :       }
+<span class="lineNum">     221 </span>            :       scoped_connection&amp; operator=(const connection &amp;rhs)
+<span class="lineNum">     222 </span>            :       {
+<span class="lineNum">     223 </span>            :         disconnect();
+<span class="lineNum">     224 </span>            :         connection::operator=(rhs);
+<span class="lineNum">     225 </span>            :         return *this;
+<span class="lineNum">     226 </span>            :       }
+<span class="lineNum">     227 </span>            :       connection release()
+<span class="lineNum">     228 </span>            :       {
+<span class="lineNum">     229 </span>            :         connection conn(_weak_connection_body);
+<span class="lineNum">     230 </span>            :         _weak_connection_body.reset();
+<span class="lineNum">     231 </span>            :         return conn;
+<span class="lineNum">     232 </span>            :       }
+<span class="lineNum">     233 </span>            :     private:
+<span class="lineNum">     234 </span>            :       scoped_connection(const scoped_connection &amp;other);
+<span class="lineNum">     235 </span>            :       scoped_connection&amp; operator=(const scoped_connection &amp;rhs);
+<span class="lineNum">     236 </span>            :     };
+<span class="lineNum">     237 </span>            :     // Sun 5.9 compiler doesn't find the swap for base connection class when
+<span class="lineNum">     238 </span>            :     // arguments are scoped_connection, so we provide this explicitly.
+<span class="lineNum">     239 </span>            :     inline void swap(scoped_connection &amp;conn1, scoped_connection &amp;conn2)
+<span class="lineNum">     240 </span>            :     {
+<span class="lineNum">     241 </span>            :       conn1.swap(conn2);
+<span class="lineNum">     242 </span>            :     }
+<span class="lineNum">     243 </span>            :   }
+<span class="lineNum">     244 </span>            : }
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            : #endif  // BOOST_SIGNALS2_CONNECTION_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

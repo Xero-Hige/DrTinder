@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - /home/tobias/taller2/appServer/DrTinder/source/Servidor/Tokenizer.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">home/tobias/taller2/appServer/DrTinder/source/Servidor</a> - Tokenizer.cpp<span style="font-size: 80%;"> (source / <a href="Tokenizer.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">58</td>
+            <td class="headerCovTableEntry">59</td>
+            <td class="headerCovTableEntryHi">98.3 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :  * Tokenizer.cpp
+<span class="lineNum">       3 </span>            :  *
+<span class="lineNum">       4 </span>            :  *  Created on: Jun 3, 2016
+<span class="lineNum">       5 </span>            :  *      Author: tobias
+<span class="lineNum">       6 </span>            :  */
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : #include &quot;Tokenizer.h&quot;
+<span class="lineNum">       9 </span>            : 
+<a name="10"><span class="lineNum">      10 </span>            : using namespace std;</a>
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span><span class="lineCov">        163 : Tokenizer::Tokenizer(DatabaseManager *database) {</span>
+<span class="lineNum">      13 </span><span class="lineCov">        163 :         this-&gt;database = database;</span>
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineCov">        163 : }</span>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<span class="lineNum">      17 </span>            : //format year,month,day,hours,min,sec
+<span class="lineNum">      18 </span><span class="lineCov">         18 : bool Tokenizer::timeStampExpired(std::string timeStamp){</span>
+<span class="lineNum">      19 </span><span class="lineCov">         18 :         vector&lt;string&gt; times;</span>
+<span class="lineNum">      20 </span><span class="lineCov">         18 :         time_t now = time(NULL);</span>
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span><span class="lineCov">         36 :         stringstream ss(timeStamp);</span>
+<span class="lineNum">      23 </span><span class="lineCov">         36 :         string cell;</span>
+<span class="lineNum">      24 </span><span class="lineCov">        144 :         while (ss.good()) {</span>
+<span class="lineNum">      25 </span><span class="lineCov">        108 :                 getline(ss, cell, ',');</span>
+<span class="lineNum">      26 </span><span class="lineCov">        108 :                 times.push_back(cell);</span>
+<span class="lineNum">      27 </span>            :         }
+<span class="lineNum">      28 </span><span class="lineCov">         18 :         if (times.size() != TS_COUNT){</span>
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :                 LOGG(WARNING) &lt;&lt; &quot;Extra data in timeStamp of token&quot;;</span>
+<span class="lineNum">      30 </span>            :         }
+<span class="lineNum">      31 </span><span class="lineCov">         18 :         struct tm _then = {0};</span>
+<span class="lineNum">      32 </span><span class="lineCov">         18 :         _then.tm_hour = stoi(times[TS_HOUR]) ;</span>
+<span class="lineNum">      33 </span><span class="lineCov">         18 :         _then.tm_min = stoi(times[TS_MIN]);</span>
+<span class="lineNum">      34 </span><span class="lineCov">         18 :         _then.tm_sec = stoi(times[TS_SEC]);</span>
+<span class="lineNum">      35 </span><span class="lineCov">         18 :         _then.tm_year = stoi(times[TS_YEAR]);</span>
+<span class="lineNum">      36 </span><span class="lineCov">         18 :         _then.tm_mon = stoi(times[TS_MON]);</span>
+<span class="lineNum">      37 </span><span class="lineCov">         18 :         _then.tm_mday = stoi(times[TS_DAY]);</span>
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span><span class="lineCov">         18 :         double elapsedTime = difftime(now, mktime(&amp;_then));</span>
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span><span class="lineCov">         36 :         return elapsedTime &gt; (double)EXPIRATION_TIME;</span>
+<span class="lineNum">      42 </span>            : 
+<a name="43"><span class="lineNum">      43 </span>            : }</a>
+<span class="lineNum">      44 </span>            : 
+<span class="lineNum">      45 </span><span class="lineCov">         14 : std::string Tokenizer::getNowTimeStamp(){</span>
+<span class="lineNum">      46 </span><span class="lineCov">         14 :         time_t now = time(NULL);</span>
+<span class="lineNum">      47 </span><span class="lineCov">         14 :         struct tm * gmt = localtime(&amp;now);</span>
+<span class="lineNum">      48 </span><span class="lineCov">         28 :         std::string year, month, day, hours, min, sec;</span>
+<span class="lineNum">      49 </span><span class="lineCov">         14 :         year = to_string(gmt-&gt;tm_year);</span>
+<span class="lineNum">      50 </span><span class="lineCov">         14 :         month = to_string(gmt-&gt;tm_mon);</span>
+<span class="lineNum">      51 </span><span class="lineCov">         14 :         day = to_string(gmt-&gt;tm_mday);</span>
+<span class="lineNum">      52 </span><span class="lineCov">         14 :         hours = to_string(gmt-&gt;tm_hour);</span>
+<span class="lineNum">      53 </span><span class="lineCov">         14 :         min = to_string(gmt-&gt;tm_min);</span>
+<span class="lineNum">      54 </span><span class="lineCov">         14 :         sec = to_string(gmt-&gt;tm_sec);</span>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineCov">         14 :         std::string timeStamp = year + &quot;,&quot; + month + &quot;,&quot;;</span>
+<span class="lineNum">      57 </span><span class="lineCov">         14 :         timeStamp += day + &quot;,&quot; + hours + &quot;,&quot; + min + &quot;,&quot;;</span>
+<span class="lineNum">      58 </span><span class="lineCov">         14 :         timeStamp += sec;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         28 :         return timeStamp;</span>
+<a name="60"><span class="lineNum">      60 </span>            : }</a>
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineCov">         14 : std::string Tokenizer::newToken(std::string mail, std::string pass){</span>
+<span class="lineNum">      63 </span>            :         //hash
+<span class="lineNum">      64 </span>            :     unsigned char digest[16];
+<span class="lineNum">      65 </span><span class="lineCov">         14 :     string timeStamp = getNowTimeStamp();</span>
+<span class="lineNum">      66 </span>            : 
+<span class="lineNum">      67 </span><span class="lineCov">         28 :         std::string toHash = mail + pass + timeStamp;</span>
+<span class="lineNum">      68 </span><span class="lineCov">         14 :     const char* string = toHash.c_str();</span>
+<span class="lineNum">      69 </span><span class="lineCov">         14 :     const unsigned char* unsignedString = (unsigned char*) string;</span>
+<span class="lineNum">      70 </span>            :     //cout &lt;&lt; &quot;string length: &quot; &lt;&lt; strlen(string) &lt;&lt; endl;
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :         MD5_CTX ctx;
+<span class="lineNum">      73 </span><span class="lineCov">         14 :         MD5_Init(&amp;ctx);</span>
+<span class="lineNum">      74 </span><span class="lineCov">         14 :         MD5_Update(&amp;ctx, unsignedString, strlen(string));</span>
+<span class="lineNum">      75 </span><span class="lineCov">         14 :         MD5_Final(digest, &amp;ctx);</span>
+<span class="lineNum">      76 </span>            : 
+<span class="lineNum">      77 </span>            :         char mdString[33];
+<span class="lineNum">      78 </span><span class="lineCov">        238 :         for (int i = 0; i &lt; 16; i++)</span>
+<span class="lineNum">      79 </span><span class="lineCov">        224 :         sprintf(&amp;mdString[i*2], &quot;%02x&quot;, (unsigned int)digest[i]);</span>
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :         //cout &lt;&lt; &quot;md5 digest: &quot; &lt;&lt; mdString &lt;&lt; endl;
+<span class="lineNum">      82 </span><span class="lineCov">         14 :         std::string hashed(mdString);</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span><span class="lineCov">         14 :         database-&gt;addEntry(TOKENIZER_PREFIX + hashed, timeStamp);</span>
+<span class="lineNum">      85 </span><span class="lineCov">         28 :         return hashed;</span>
+<span class="lineNum">      86 </span>            : 
+<a name="87"><span class="lineNum">      87 </span>            : }</a>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">         26 : bool Tokenizer::hasExpired(std::string token){</span>
+<span class="lineNum">      90 </span><span class="lineCov">         26 :         std::string timeStamp;</span>
+<span class="lineNum">      91 </span><span class="lineCov">         26 :         if (database-&gt;getEntry(TOKENIZER_PREFIX + token,timeStamp)){</span>
+<span class="lineNum">      92 </span><span class="lineCov">         18 :                 return this-&gt;timeStampExpired(timeStamp);</span>
+<span class="lineNum">      93 </span>            :         }
+<span class="lineNum">      94 </span><span class="lineCov">          8 :         return true;</span>
+<span class="lineNum">      95 </span>            : 
+<a name="96"><span class="lineNum">      96 </span>            : }</a>
+<span class="lineNum">      97 </span>            : 
+<span class="lineNum">      98 </span><span class="lineCov">          8 : void Tokenizer::remove(std::string token){</span>
+<span class="lineNum">      99 </span><span class="lineCov">          8 :         this-&gt;database-&gt;deleteEntry(TOKENIZER_PREFIX + token);</span>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">          8 : }</span></a>
+<span class="lineNum">     101 </span>            : 
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        322 : Tokenizer::~Tokenizer() {</span></a>
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span><span class="lineCov">        325 : }</span>
+<span class="lineNum">     105 </span>            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

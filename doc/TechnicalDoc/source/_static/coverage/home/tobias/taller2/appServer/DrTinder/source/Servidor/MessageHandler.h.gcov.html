@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - /home/tobias/taller2/appServer/DrTinder/source/Servidor/MessageHandler.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../../../index.html">top level</a> - <a href="index.html">home/tobias/taller2/appServer/DrTinder/source/Servidor</a> - MessageHandler.h<span style="font-size: 80%;"> (source / <a href="MessageHandler.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryMed">75.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #ifndef PARSER_H</a>
+<span class="lineNum">       2 </span>            : #define PARSER_H
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : #include &lt;string&gt;
+<span class="lineNum">       5 </span>            : #include &quot;DatabaseManager.h&quot;
+<span class="lineNum">       6 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">       7 </span>            : #include &quot;api_constants_client.h&quot;
+<span class="lineNum">       8 </span>            : #include &quot;SharedServerClient.h&quot;
+<span class="lineNum">       9 </span>            : #include &quot;api_server_constants.h&quot;
+<span class="lineNum">      10 </span>            : #include &lt;stdexcept&gt;
+<span class="lineNum">      11 </span>            : #include &lt;vector&gt;
+<span class="lineNum">      12 </span>            : #include &quot;Tokenizer.h&quot;
+<span class="lineNum">      13 </span>            : #include &quot;Parsers/UserParser.h&quot;
+<span class="lineNum">      14 </span>            : #include &quot;Parsers/CsvParser.h&quot;
+<span class="lineNum">      15 </span>            : #include &quot;Parsers/JsonParser.h&quot;
+<span class="lineNum">      16 </span>            : #include &quot;../libs/loger/easylogging++.h&quot;
+<span class="lineNum">      17 </span>            : #include &quot;./matches/UserMatcher.h&quot;
+<span class="lineNum">      18 </span>            : #include &quot;ChatDatabaseManager.h&quot;
+<span class="lineNum">      19 </span>            : #include &quot;ServerUtils.h&quot;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span>            : #include &lt;cstdbool&gt;
+<span class="lineNum">      22 </span>            : #include &lt;list&gt;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : #include &quot;../libs/jsoncpp/dist/json/json.h&quot;
+<span class="lineNum">      25 </span>            : #include &quot;User.h&quot;
+<span class="lineNum">      26 </span>            : #include &quot;./matches/UserMatcher.h&quot;
+<span class="lineNum">      27 </span>            : #include &quot;LikesDatabaseManager.h&quot;
+<a name="28"><span class="lineNum">      28 </span>            : </a>
+<span class="lineNum">      29 </span>            : #define DEFAULT_PASS &quot;123456&quot;
+<span class="lineNum">      30 </span><span class="lineCov">         12 : class ExistentUserException : public exception {</span>
+<span class="lineNum">      31 </span>            : };
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : typedef  struct _server_databases_t {
+<span class="lineNum">      34 </span>            :         rocksdb::DB *usersDB;
+<span class="lineNum">      35 </span>            :         rocksdb::DB *chatDB;
+<span class="lineNum">      36 </span>            :         rocksdb::DB *likesDB;
+<span class="lineNum">      37 </span>            : } server_databases_t;
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            : /* Handler for incomming requests. */
+<span class="lineNum">      40 </span>            : class MessageHandler {
+<span class="lineNum">      41 </span>            :         public:
+<span class="lineNum">      42 </span>            :                 /* Create new handler with pDatabase as usersDB. */
+<span class="lineNum">      43 </span>            :                 MessageHandler(server_databases_t* databases);
+<span class="lineNum">      44 </span>            :                 /* Destroy handler. */
+<span class="lineNum">      45 </span>            :                 ~MessageHandler();
+<span class="lineNum">      46 </span>            :                 bool isUserSet();
+<span class="lineNum">      47 </span>            :                 void setUser(string name);
+<span class="lineNum">      48 </span>            :                 /* Set initialized usersDB. */
+<span class="lineNum">      49 </span>            :                 void setUsersDB(DatabaseManager* usersDB);
+<span class="lineNum">      50 </span>            :                 bool validateToken(std::string user_token);
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            :                 bool authenticate(std::string username, std::string password);
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            :                 bool createUser(std::string user_data, std::string pass);
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            :                 bool getUsers(std::string&amp; resultMsg);
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :                 bool updateUser(std::string user_data);
+<span class="lineNum">      59 </span>            : 
+<span class="lineNum">      60 </span>            :                 bool deleteUser();
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :                 void getMatches(std::string&amp; matches);
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :                 void getAllInteractions(std::string&amp; matches);
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :                 bool getInterestPhoto(std::string&amp; photo_64, std::string id_interest);
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span>            :                 bool getChat(std::string other_username, std::string&amp; chat_history);
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :                 bool getPhoto(string username, string &amp;photo_64);
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span>            :                 bool postPhoto(std::string photo_64);
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :                 std::string getToken();
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :                 bool addLocalization(std::string localization);
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :                 bool getUser(std::string username, std::string &amp;user_data);
+<span class="lineNum">      79 </span>            : 
+<span class="lineNum">      80 </span>            :                 void setSharedLink(std::string linkToShared);
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span>            :                 void createInterests(Interests* interests);
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :                 void saveUserInDB(std::string userJson, string pass);
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :                 void updateUsersWithSS();
+<span class="lineNum">      87 </span>            : protected:
+<span class="lineNum">      88 </span>            :                 /* Authenticate user and password in message. Saves INCORRECT_LOGIN
+<span class="lineNum">      89 </span>            :                 or CORRECT_LOGIN in resultMsg. */
+<span class="lineNum">      90 </span>            :                 /* Returns first substring of message until SEPARATOR. */
+<span class="lineNum">      91 </span>            :                 std::string divideMessage(std::string&amp; message);
+<span class="lineNum">      92 </span>            : 
+<span class="lineNum">      93 </span>            :                 bool postLogin(std::string user_name, std::string token, std::string&amp; resultMsg);
+<span class="lineNum">      94 </span>            :                 bool postSignUp(std::string data, std::string&amp; resultMsg);
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :                 std::string getId();
+<span class="lineNum">      98 </span>            :         private:
+<span class="lineNum">      99 </span>            :                 DatabaseManager * usersDB;
+<span class="lineNum">     100 </span>            :                 ChatDatabaseManager * chatDB;
+<span class="lineNum">     101 </span>            :                 LikesDatabaseManager * likesDB;
+<span class="lineNum">     102 </span>            :                 SharedServerClient * ssClient;
+<span class="lineNum">     103 </span>            :                 Tokenizer* tokenizer;
+<span class="lineNum">     104 </span>            :                 std::string username;
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :         bool match(string &amp;users, string &amp;candidate_data);
+<span class="lineNum">     107 </span>            : };
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            : #endif // PARSER_H
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

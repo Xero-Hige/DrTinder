@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage_total.info - /usr/include/boost/multi_index/detail/scope_guard.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../../index.html">top level</a> - <a href="index.html">usr/include/boost/multi_index/detail</a> - scope_guard.hpp<span style="font-size: 80%;"> (source / <a href="scope_guard.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage_total.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:34:36</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /* Copyright 2003-2011 Joaquin M Lopez Munoz.</a>
+<span class="lineNum">       2 </span>            :  * Distributed under the Boost Software License, Version 1.0.
+<span class="lineNum">       3 </span>            :  * (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       4 </span>            :  * http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       5 </span>            :  *
+<span class="lineNum">       6 </span>            :  * See http://www.boost.org/libs/multi_index for library home page.
+<span class="lineNum">       7 </span>            :  */
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #ifndef BOOST_MULTI_INDEX_DETAIL_SCOPE_GUARD_HPP
+<span class="lineNum">      10 </span>            : #define BOOST_MULTI_INDEX_DETAIL_SCOPE_GUARD_HPP
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : #if defined(_MSC_VER)&amp;&amp;(_MSC_VER&gt;=1200)
+<span class="lineNum">      13 </span>            : #pragma once
+<span class="lineNum">      14 </span>            : #endif
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #include &lt;boost/detail/no_exceptions_support.hpp&gt;
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : namespace boost{
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : namespace multi_index{
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : namespace detail{
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : /* Until some official version of the ScopeGuard idiom makes it into Boost,
+<span class="lineNum">      25 </span>            :  * we locally define our own. This is a merely reformated version of
+<span class="lineNum">      26 </span>            :  * ScopeGuard.h as defined in:
+<span class="lineNum">      27 </span>            :  *   Alexandrescu, A., Marginean, P.:&quot;Generic&lt;Programming&gt;: Change the Way You
+<span class="lineNum">      28 </span>            :  *     Write Exception-Safe Code - Forever&quot;, C/C++ Users Jornal, Dec 2000,
+<span class="lineNum">      29 </span>            :  *     http://www.drdobbs.com/184403758
+<span class="lineNum">      30 </span>            :  * with the following modifications:
+<span class="lineNum">      31 </span>            :  *   - General pretty formatting (pretty to my taste at least.)
+<span class="lineNum">      32 </span>            :  *   - Naming style changed to standard C++ library requirements.
+<span class="lineNum">      33 </span>            :  *   - Added scope_guard_impl4 and obj_scope_guard_impl3, (Boost.MultiIndex
+<span class="lineNum">      34 </span>            :  *     needs them). A better design would provide guards for many more
+<span class="lineNum">      35 </span>            :  *     arguments through the Boost Preprocessor Library.
+<span class="lineNum">      36 </span>            :  *   - Added scope_guard_impl_base::touch (see below.)
+<span class="lineNum">      37 </span>            :  *   - Removed RefHolder and ByRef, whose functionality is provided
+<span class="lineNum">      38 </span>            :  *     already by Boost.Ref.
+<span class="lineNum">      39 </span>            :  *   - Removed static make_guard's and make_obj_guard's, so that the code
+<span class="lineNum">      40 </span>            :  *     will work even if BOOST_NO_MEMBER_TEMPLATES is defined. This forces
+<span class="lineNum">      41 </span>            :  *     us to move some private ctors to public, though.
+<span class="lineNum">      42 </span>            :  *
+<span class="lineNum">      43 </span>            :  * NB: CodeWarrior Pro 8 seems to have problems looking up safe_execute
+<span class="lineNum">      44 </span>            :  * without an explicit qualification.
+<span class="lineNum">      45 </span>            :  * 
+<span class="lineNum">      46 </span>            :  * We also define the following variants of the idiom:
+<span class="lineNum">      47 </span>            :  * 
+<span class="lineNum">      48 </span>            :  *   - make_guard_if_c&lt;bool&gt;( ... )
+<span class="lineNum">      49 </span>            :  *   - make_guard_if&lt;IntegralConstant&gt;( ... )
+<span class="lineNum">      50 </span>            :  *   - make_obj_guard_if_c&lt;bool&gt;( ... )
+<span class="lineNum">      51 </span>            :  *   - make_obj_guard_if&lt;IntegralConstant&gt;( ... )
+<span class="lineNum">      52 </span>            :  * which may be used with a compile-time constant to yield
+<span class="lineNum">      53 </span>            :  * a &quot;null_guard&quot; if the boolean compile-time parameter is false,
+<span class="lineNum">      54 </span>            :  * or conversely, the guard is only constructed if the constant is true.
+<span class="lineNum">      55 </span>            :  * This is useful to avoid extra tagging, because the returned
+<span class="lineNum">      56 </span>            :  * null_guard can be optimzed comlpetely away by the compiler.
+<span class="lineNum">      57 </span>            :  */
+<span class="lineNum">      58 </span>            : 
+<span class="lineNum">      59 </span>            : class scope_guard_impl_base
+<a name="60"><span class="lineNum">      60 </span>            : {</a>
+<a name="61"><span class="lineNum">      61 </span>            : public:</a>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :   scope_guard_impl_base():dismissed_(false){}</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :   void dismiss()const{dismissed_=true;}</span>
+<span class="lineNum">      64 </span>            : 
+<span class="lineNum">      65 </span>            :   /* This helps prevent some &quot;unused variable&quot; warnings under, for instance,
+<span class="lineNum">      66 </span>            :    * GCC 3.2.
+<span class="lineNum">      67 </span>            :    */
+<span class="lineNum">      68 </span>            :   void touch()const{}
+<a name="69"><span class="lineNum">      69 </span>            : </a>
+<span class="lineNum">      70 </span>            : protected:
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :   ~scope_guard_impl_base(){}</span>
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            :   scope_guard_impl_base(const scope_guard_impl_base&amp; other):
+<span class="lineNum">      74 </span>            :     dismissed_(other.dismissed_)
+<span class="lineNum">      75 </span>            :   {
+<span class="lineNum">      76 </span>            :     other.dismiss();
+<span class="lineNum">      77 </span>            :   }
+<a name="78"><span class="lineNum">      78 </span>            : </a>
+<span class="lineNum">      79 </span>            :   template&lt;typename J&gt;
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :   static void safe_execute(J&amp; j){</span>
+<span class="lineNum">      81 </span>            :     BOOST_TRY{
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :       if(!j.dismissed_)j.execute();</span>
+<span class="lineNum">      83 </span>            :     }
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     BOOST_CATCH(...){}</span>
+<span class="lineNum">      85 </span>            :     BOOST_CATCH_END
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :   }</span>
+<span class="lineNum">      87 </span>            :   
+<span class="lineNum">      88 </span>            :   mutable bool dismissed_;
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            : private:
+<span class="lineNum">      91 </span>            :   scope_guard_impl_base&amp; operator=(const scope_guard_impl_base&amp;);
+<span class="lineNum">      92 </span>            : };
+<span class="lineNum">      93 </span>            : 
+<span class="lineNum">      94 </span>            : typedef const scope_guard_impl_base&amp; scope_guard;
+<span class="lineNum">      95 </span>            : 
+<span class="lineNum">      96 </span>            : struct null_guard : public scope_guard_impl_base
+<span class="lineNum">      97 </span>            : {
+<span class="lineNum">      98 </span>            :     template&lt; class T1 &gt;
+<span class="lineNum">      99 </span>            :     null_guard( const T1&amp; )
+<span class="lineNum">     100 </span>            :     { }
+<span class="lineNum">     101 </span>            : 
+<span class="lineNum">     102 </span>            :     template&lt; class T1, class T2 &gt;
+<span class="lineNum">     103 </span>            :     null_guard( const T1&amp;, const T2&amp; )
+<span class="lineNum">     104 </span>            :     { }
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :     template&lt; class T1, class T2, class T3 &gt;
+<span class="lineNum">     107 </span>            :     null_guard( const T1&amp;, const T2&amp;, const T3&amp; )
+<span class="lineNum">     108 </span>            :     { }
+<span class="lineNum">     109 </span>            : 
+<span class="lineNum">     110 </span>            :     template&lt; class T1, class T2, class T3, class T4 &gt;
+<span class="lineNum">     111 </span>            :     null_guard( const T1&amp;, const T2&amp;, const T3&amp;, const T4&amp; )
+<span class="lineNum">     112 </span>            :     { }
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :     template&lt; class T1, class T2, class T3, class T4, class T5 &gt;
+<span class="lineNum">     115 </span>            :     null_guard( const T1&amp;, const T2&amp;, const T3&amp;, const T4&amp;, const T5&amp; )
+<span class="lineNum">     116 </span>            :     { }
+<span class="lineNum">     117 </span>            : };
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span>            : template&lt; bool cond, class T &gt;
+<span class="lineNum">     120 </span>            : struct null_guard_return
+<span class="lineNum">     121 </span>            : {
+<span class="lineNum">     122 </span>            :     typedef typename boost::mpl::if_c&lt;cond,T,null_guard&gt;::type type;
+<span class="lineNum">     123 </span>            : };
+<span class="lineNum">     124 </span>            : 
+<span class="lineNum">     125 </span>            : template&lt;typename F&gt;
+<span class="lineNum">     126 </span>            : class scope_guard_impl0:public scope_guard_impl_base
+<span class="lineNum">     127 </span>            : {
+<span class="lineNum">     128 </span>            : public:
+<span class="lineNum">     129 </span>            :   scope_guard_impl0(F fun):fun_(fun){}
+<span class="lineNum">     130 </span>            :   ~scope_guard_impl0(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     131 </span>            :   void execute(){fun_();}
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            : protected:
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :   F fun_;
+<span class="lineNum">     136 </span>            : };
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            : template&lt;typename F&gt; 
+<span class="lineNum">     139 </span>            : inline scope_guard_impl0&lt;F&gt; make_guard(F fun)
+<span class="lineNum">     140 </span>            : {
+<span class="lineNum">     141 </span>            :   return scope_guard_impl0&lt;F&gt;(fun);
+<span class="lineNum">     142 </span>            : }
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            : template&lt;bool cond, typename F&gt; 
+<span class="lineNum">     145 </span>            : inline typename null_guard_return&lt;cond,scope_guard_impl0&lt;F&gt; &gt;::type  
+<span class="lineNum">     146 </span>            : make_guard_if_c(F fun)
+<span class="lineNum">     147 </span>            : {
+<span class="lineNum">     148 </span>            :   return typename null_guard_return&lt;cond,scope_guard_impl0&lt;F&gt; &gt;::type(fun);
+<span class="lineNum">     149 </span>            : }
+<span class="lineNum">     150 </span>            : 
+<span class="lineNum">     151 </span>            : template&lt;typename C, typename F&gt; 
+<span class="lineNum">     152 </span>            : inline typename null_guard_return&lt;C::value,scope_guard_impl0&lt;F&gt; &gt;::type  
+<span class="lineNum">     153 </span>            : make_guard_if(F fun)
+<span class="lineNum">     154 </span>            : {
+<span class="lineNum">     155 </span>            :   return make_guard_if&lt;C::value&gt;(fun);
+<span class="lineNum">     156 </span>            : }
+<span class="lineNum">     157 </span>            : 
+<span class="lineNum">     158 </span>            : template&lt;typename F,typename P1&gt;
+<span class="lineNum">     159 </span>            : class scope_guard_impl1:public scope_guard_impl_base
+<span class="lineNum">     160 </span>            : {
+<span class="lineNum">     161 </span>            : public:
+<span class="lineNum">     162 </span>            :   scope_guard_impl1(F fun,P1 p1):fun_(fun),p1_(p1){}
+<span class="lineNum">     163 </span>            :   ~scope_guard_impl1(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     164 </span>            :   void execute(){fun_(p1_);}
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span>            : protected:
+<span class="lineNum">     167 </span>            :   F        fun_;
+<span class="lineNum">     168 </span>            :   const P1 p1_;
+<span class="lineNum">     169 </span>            : };
+<span class="lineNum">     170 </span>            : 
+<span class="lineNum">     171 </span>            : template&lt;typename F,typename P1&gt; 
+<span class="lineNum">     172 </span>            : inline scope_guard_impl1&lt;F,P1&gt; make_guard(F fun,P1 p1)
+<span class="lineNum">     173 </span>            : {
+<span class="lineNum">     174 </span>            :   return scope_guard_impl1&lt;F,P1&gt;(fun,p1);
+<span class="lineNum">     175 </span>            : }
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            : template&lt;bool cond, typename F,typename P1&gt; 
+<span class="lineNum">     178 </span>            : inline typename null_guard_return&lt;cond,scope_guard_impl1&lt;F,P1&gt; &gt;::type 
+<span class="lineNum">     179 </span>            : make_guard_if_c(F fun,P1 p1)
+<span class="lineNum">     180 </span>            : {
+<span class="lineNum">     181 </span>            :   return typename null_guard_return&lt;cond,scope_guard_impl1&lt;F,P1&gt; &gt;::type(fun,p1);
+<span class="lineNum">     182 </span>            : }
+<span class="lineNum">     183 </span>            : 
+<span class="lineNum">     184 </span>            : template&lt;typename C, typename F,typename P1&gt; 
+<span class="lineNum">     185 </span>            : inline typename null_guard_return&lt;C::value,scope_guard_impl1&lt;F,P1&gt; &gt;::type 
+<span class="lineNum">     186 </span>            : make_guard_if(F fun,P1 p1)
+<span class="lineNum">     187 </span>            : {
+<span class="lineNum">     188 </span>            :   return make_guard_if_c&lt;C::value&gt;(fun,p1);
+<span class="lineNum">     189 </span>            : }
+<span class="lineNum">     190 </span>            : 
+<span class="lineNum">     191 </span>            : template&lt;typename F,typename P1,typename P2&gt;
+<span class="lineNum">     192 </span>            : class scope_guard_impl2:public scope_guard_impl_base
+<span class="lineNum">     193 </span>            : {
+<span class="lineNum">     194 </span>            : public:
+<span class="lineNum">     195 </span>            :   scope_guard_impl2(F fun,P1 p1,P2 p2):fun_(fun),p1_(p1),p2_(p2){}
+<span class="lineNum">     196 </span>            :   ~scope_guard_impl2(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     197 </span>            :   void execute(){fun_(p1_,p2_);}
+<span class="lineNum">     198 </span>            : 
+<span class="lineNum">     199 </span>            : protected:
+<span class="lineNum">     200 </span>            :   F        fun_;
+<span class="lineNum">     201 </span>            :   const P1 p1_;
+<span class="lineNum">     202 </span>            :   const P2 p2_;
+<span class="lineNum">     203 </span>            : };
+<span class="lineNum">     204 </span>            : 
+<span class="lineNum">     205 </span>            : template&lt;typename F,typename P1,typename P2&gt;
+<span class="lineNum">     206 </span>            : inline scope_guard_impl2&lt;F,P1,P2&gt; make_guard(F fun,P1 p1,P2 p2)
+<span class="lineNum">     207 </span>            : {
+<span class="lineNum">     208 </span>            :   return scope_guard_impl2&lt;F,P1,P2&gt;(fun,p1,p2);
+<span class="lineNum">     209 </span>            : }
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            : template&lt;bool cond, typename F,typename P1,typename P2&gt;
+<span class="lineNum">     212 </span>            : inline typename null_guard_return&lt;cond,scope_guard_impl2&lt;F,P1,P2&gt; &gt;::type
+<span class="lineNum">     213 </span>            : make_guard_if_c(F fun,P1 p1,P2 p2)
+<span class="lineNum">     214 </span>            : {
+<span class="lineNum">     215 </span>            :   return typename null_guard_return&lt;cond,scope_guard_impl2&lt;F,P1,P2&gt; &gt;::type(fun,p1,p2);
+<span class="lineNum">     216 </span>            : }
+<span class="lineNum">     217 </span>            : 
+<span class="lineNum">     218 </span>            : template&lt;typename C, typename F,typename P1,typename P2&gt;
+<span class="lineNum">     219 </span>            : inline typename null_guard_return&lt;C::value,scope_guard_impl2&lt;F,P1,P2&gt; &gt;::type
+<span class="lineNum">     220 </span>            : make_guard_if(F fun,P1 p1,P2 p2)
+<span class="lineNum">     221 </span>            : {
+<span class="lineNum">     222 </span>            :   return make_guard_if_c&lt;C::value&gt;(fun,p1,p2);
+<span class="lineNum">     223 </span>            : }
+<span class="lineNum">     224 </span>            : 
+<span class="lineNum">     225 </span>            : template&lt;typename F,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     226 </span>            : class scope_guard_impl3:public scope_guard_impl_base
+<span class="lineNum">     227 </span>            : {
+<span class="lineNum">     228 </span>            : public:
+<span class="lineNum">     229 </span>            :   scope_guard_impl3(F fun,P1 p1,P2 p2,P3 p3):fun_(fun),p1_(p1),p2_(p2),p3_(p3){}
+<span class="lineNum">     230 </span>            :   ~scope_guard_impl3(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     231 </span>            :   void execute(){fun_(p1_,p2_,p3_);}
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span>            : protected:
+<span class="lineNum">     234 </span>            :   F        fun_;
+<span class="lineNum">     235 </span>            :   const P1 p1_;
+<span class="lineNum">     236 </span>            :   const P2 p2_;
+<span class="lineNum">     237 </span>            :   const P3 p3_;
+<span class="lineNum">     238 </span>            : };
+<span class="lineNum">     239 </span>            : 
+<span class="lineNum">     240 </span>            : template&lt;typename F,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     241 </span>            : inline scope_guard_impl3&lt;F,P1,P2,P3&gt; make_guard(F fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     242 </span>            : {
+<span class="lineNum">     243 </span>            :   return scope_guard_impl3&lt;F,P1,P2,P3&gt;(fun,p1,p2,p3);
+<span class="lineNum">     244 </span>            : }
+<span class="lineNum">     245 </span>            : 
+<span class="lineNum">     246 </span>            : template&lt;bool cond,typename F,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     247 </span>            : inline typename null_guard_return&lt;cond,scope_guard_impl3&lt;F,P1,P2,P3&gt; &gt;::type 
+<span class="lineNum">     248 </span>            : make_guard_if_c(F fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     249 </span>            : {
+<span class="lineNum">     250 </span>            :   return typename null_guard_return&lt;cond,scope_guard_impl3&lt;F,P1,P2,P3&gt; &gt;::type(fun,p1,p2,p3);
+<span class="lineNum">     251 </span>            : }
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            : template&lt;typename C,typename F,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     254 </span>            : inline typename null_guard_return&lt; C::value,scope_guard_impl3&lt;F,P1,P2,P3&gt; &gt;::type 
+<span class="lineNum">     255 </span>            : make_guard_if(F fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     256 </span>            : {
+<span class="lineNum">     257 </span>            :   return make_guard_if_c&lt;C::value&gt;(fun,p1,p2,p3);
+<span class="lineNum">     258 </span>            : }
+<span class="lineNum">     259 </span>            : 
+<span class="lineNum">     260 </span>            : template&lt;typename F,typename P1,typename P2,typename P3,typename P4&gt;
+<span class="lineNum">     261 </span>            : class scope_guard_impl4:public scope_guard_impl_base
+<span class="lineNum">     262 </span>            : {
+<span class="lineNum">     263 </span>            : public:
+<span class="lineNum">     264 </span>            :   scope_guard_impl4(F fun,P1 p1,P2 p2,P3 p3,P4 p4):
+<span class="lineNum">     265 </span>            :     fun_(fun),p1_(p1),p2_(p2),p3_(p3),p4_(p4){}
+<span class="lineNum">     266 </span>            :   ~scope_guard_impl4(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     267 </span>            :   void execute(){fun_(p1_,p2_,p3_,p4_);}
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span>            : protected:
+<span class="lineNum">     270 </span>            :   F        fun_;
+<span class="lineNum">     271 </span>            :   const P1 p1_;
+<span class="lineNum">     272 </span>            :   const P2 p2_;
+<span class="lineNum">     273 </span>            :   const P3 p3_;
+<span class="lineNum">     274 </span>            :   const P4 p4_;
+<span class="lineNum">     275 </span>            : };
+<span class="lineNum">     276 </span>            : 
+<span class="lineNum">     277 </span>            : template&lt;typename F,typename P1,typename P2,typename P3,typename P4&gt;
+<span class="lineNum">     278 </span>            : inline scope_guard_impl4&lt;F,P1,P2,P3,P4&gt; make_guard(
+<span class="lineNum">     279 </span>            :   F fun,P1 p1,P2 p2,P3 p3,P4 p4)
+<span class="lineNum">     280 </span>            : {
+<span class="lineNum">     281 </span>            :   return scope_guard_impl4&lt;F,P1,P2,P3,P4&gt;(fun,p1,p2,p3,p4);
+<span class="lineNum">     282 </span>            : }
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span>            : template&lt;bool cond, typename F,typename P1,typename P2,typename P3,typename P4&gt;
+<span class="lineNum">     285 </span>            : inline typename null_guard_return&lt;cond,scope_guard_impl4&lt;F,P1,P2,P3,P4&gt; &gt;::type 
+<span class="lineNum">     286 </span>            : make_guard_if_c(
+<span class="lineNum">     287 </span>            :   F fun,P1 p1,P2 p2,P3 p3,P4 p4)
+<span class="lineNum">     288 </span>            : {
+<span class="lineNum">     289 </span>            :   return typename null_guard_return&lt;cond,scope_guard_impl4&lt;F,P1,P2,P3,P4&gt; &gt;::type(fun,p1,p2,p3,p4);
+<span class="lineNum">     290 </span>            : }
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            : template&lt;typename C, typename F,typename P1,typename P2,typename P3,typename P4&gt;
+<span class="lineNum">     293 </span>            : inline typename null_guard_return&lt;C::value,scope_guard_impl4&lt;F,P1,P2,P3,P4&gt; &gt;::type 
+<span class="lineNum">     294 </span>            : make_guard_if(
+<span class="lineNum">     295 </span>            :   F fun,P1 p1,P2 p2,P3 p3,P4 p4)
+<span class="lineNum">     296 </span>            : {
+<span class="lineNum">     297 </span>            :   return make_guard_if_c&lt;C::value&gt;(fun,p1,p2,p3,p4);
+<span class="lineNum">     298 </span>            : }
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span>            : template&lt;class Obj,typename MemFun&gt;
+<span class="lineNum">     301 </span>            : class obj_scope_guard_impl0:public scope_guard_impl_base
+<span class="lineNum">     302 </span>            : {
+<span class="lineNum">     303 </span>            : public:
+<span class="lineNum">     304 </span>            :   obj_scope_guard_impl0(Obj&amp; obj,MemFun mem_fun):obj_(obj),mem_fun_(mem_fun){}
+<span class="lineNum">     305 </span>            :   ~obj_scope_guard_impl0(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     306 </span>            :   void execute(){(obj_.*mem_fun_)();}
+<span class="lineNum">     307 </span>            : 
+<span class="lineNum">     308 </span>            : protected:
+<span class="lineNum">     309 </span>            :   Obj&amp;   obj_;
+<span class="lineNum">     310 </span>            :   MemFun mem_fun_;
+<span class="lineNum">     311 </span>            : };
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            : template&lt;class Obj,typename MemFun&gt;
+<span class="lineNum">     314 </span>            : inline obj_scope_guard_impl0&lt;Obj,MemFun&gt; make_obj_guard(Obj&amp; obj,MemFun mem_fun)
+<span class="lineNum">     315 </span>            : {
+<span class="lineNum">     316 </span>            :   return obj_scope_guard_impl0&lt;Obj,MemFun&gt;(obj,mem_fun);
+<span class="lineNum">     317 </span>            : }
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            : template&lt;bool cond, class Obj,typename MemFun&gt;
+<span class="lineNum">     320 </span>            : inline typename null_guard_return&lt;cond,obj_scope_guard_impl0&lt;Obj,MemFun&gt; &gt;::type 
+<span class="lineNum">     321 </span>            : make_obj_guard_if_c(Obj&amp; obj,MemFun mem_fun)
+<span class="lineNum">     322 </span>            : {
+<span class="lineNum">     323 </span>            :   return typename null_guard_return&lt;cond,obj_scope_guard_impl0&lt;Obj,MemFun&gt; &gt;::type(obj,mem_fun);
+<span class="lineNum">     324 </span>            : }
+<span class="lineNum">     325 </span>            : 
+<span class="lineNum">     326 </span>            : template&lt;typename C, class Obj,typename MemFun&gt;
+<span class="lineNum">     327 </span>            : inline typename null_guard_return&lt;C::value,obj_scope_guard_impl0&lt;Obj,MemFun&gt; &gt;::type 
+<span class="lineNum">     328 </span>            : make_obj_guard_if(Obj&amp; obj,MemFun mem_fun)
+<span class="lineNum">     329 </span>            : {
+<span class="lineNum">     330 </span>            :   return make_obj_guard_if_c&lt;C::value&gt;(obj,mem_fun);
+<span class="lineNum">     331 </span>            : }
+<span class="lineNum">     332 </span>            : 
+<span class="lineNum">     333 </span>            : template&lt;class Obj,typename MemFun,typename P1&gt;
+<span class="lineNum">     334 </span>            : class obj_scope_guard_impl1:public scope_guard_impl_base
+<span class="lineNum">     335 </span>            : {
+<span class="lineNum">     336 </span>            : public:
+<span class="lineNum">     337 </span>            :   obj_scope_guard_impl1(Obj&amp; obj,MemFun mem_fun,P1 p1):
+<span class="lineNum">     338 </span>            :     obj_(obj),mem_fun_(mem_fun),p1_(p1){}
+<span class="lineNum">     339 </span>            :   ~obj_scope_guard_impl1(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     340 </span>            :   void execute(){(obj_.*mem_fun_)(p1_);}
+<span class="lineNum">     341 </span>            : 
+<span class="lineNum">     342 </span>            : protected:
+<span class="lineNum">     343 </span>            :   Obj&amp;     obj_;
+<span class="lineNum">     344 </span>            :   MemFun   mem_fun_;
+<span class="lineNum">     345 </span>            :   const P1 p1_;
+<span class="lineNum">     346 </span>            : };
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            : template&lt;class Obj,typename MemFun,typename P1&gt;
+<span class="lineNum">     349 </span>            : inline obj_scope_guard_impl1&lt;Obj,MemFun,P1&gt; make_obj_guard(
+<span class="lineNum">     350 </span>            :   Obj&amp; obj,MemFun mem_fun,P1 p1)
+<span class="lineNum">     351 </span>            : {
+<span class="lineNum">     352 </span>            :   return obj_scope_guard_impl1&lt;Obj,MemFun,P1&gt;(obj,mem_fun,p1);
+<span class="lineNum">     353 </span>            : }
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span>            : template&lt;bool cond, class Obj,typename MemFun,typename P1&gt;
+<span class="lineNum">     356 </span>            : inline typename null_guard_return&lt;cond,obj_scope_guard_impl1&lt;Obj,MemFun,P1&gt; &gt;::type 
+<span class="lineNum">     357 </span>            : make_obj_guard_if_c(  Obj&amp; obj,MemFun mem_fun,P1 p1)
+<span class="lineNum">     358 </span>            : {
+<span class="lineNum">     359 </span>            :   return typename null_guard_return&lt;cond,obj_scope_guard_impl1&lt;Obj,MemFun,P1&gt; &gt;::type(obj,mem_fun,p1);
+<span class="lineNum">     360 </span>            : }
+<span class="lineNum">     361 </span>            : 
+<span class="lineNum">     362 </span>            : template&lt;typename C, class Obj,typename MemFun,typename P1&gt;
+<span class="lineNum">     363 </span>            : inline typename null_guard_return&lt;C::value,obj_scope_guard_impl1&lt;Obj,MemFun,P1&gt; &gt;::type 
+<span class="lineNum">     364 </span>            : make_obj_guard_if( Obj&amp; obj,MemFun mem_fun,P1 p1)
+<span class="lineNum">     365 </span>            : {
+<span class="lineNum">     366 </span>            :   return make_obj_guard_if_c&lt;C::value&gt;(obj,mem_fun,p1);
+<span class="lineNum">     367 </span>            : }
+<span class="lineNum">     368 </span>            : 
+<span class="lineNum">     369 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2&gt;
+<span class="lineNum">     370 </span>            : class obj_scope_guard_impl2:public scope_guard_impl_base
+<a name="371"><span class="lineNum">     371 </span>            : {</a>
+<span class="lineNum">     372 </span>            : public:
+<span class="lineNum">     373 </span><span class="lineNoCov">          0 :   obj_scope_guard_impl2(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2):</span>
+<a name="374"><span class="lineNum">     374 </span><span class="lineNoCov">          0 :     obj_(obj),mem_fun_(mem_fun),p1_(p1),p2_(p2)</span></a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineNoCov">          0 :   {}</span></a>
+<span class="lineNum">     376 </span><span class="lineNoCov">          0 :   ~obj_scope_guard_impl2(){scope_guard_impl_base::safe_execute(*this);}</span>
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :   void execute(){(obj_.*mem_fun_)(p1_,p2_);}</span>
+<span class="lineNum">     378 </span>            : 
+<span class="lineNum">     379 </span>            : protected:
+<span class="lineNum">     380 </span>            :   Obj&amp;     obj_;
+<span class="lineNum">     381 </span>            :   MemFun   mem_fun_;
+<span class="lineNum">     382 </span>            :   const P1 p1_;
+<span class="lineNum">     383 </span>            :   const P2 p2_;
+<span class="lineNum">     384 </span>            : };
+<span class="lineNum">     385 </span>            : 
+<a name="386"><span class="lineNum">     386 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2&gt;</a>
+<span class="lineNum">     387 </span>            : inline obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt;
+<span class="lineNum">     388 </span><span class="lineNoCov">          0 : make_obj_guard(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2)</span>
+<span class="lineNum">     389 </span>            : {
+<span class="lineNum">     390 </span><span class="lineNoCov">          0 :   return obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt;(obj,mem_fun,p1,p2);</span>
+<span class="lineNum">     391 </span>            : }
+<span class="lineNum">     392 </span>            : 
+<span class="lineNum">     393 </span>            : template&lt;bool cond, class Obj,typename MemFun,typename P1,typename P2&gt;
+<span class="lineNum">     394 </span>            : inline typename null_guard_return&lt;cond,obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt; &gt;::type
+<span class="lineNum">     395 </span>            : make_obj_guard_if_c(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2)
+<span class="lineNum">     396 </span>            : {
+<span class="lineNum">     397 </span>            :   return typename null_guard_return&lt;cond,obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt; &gt;::type(obj,mem_fun,p1,p2);
+<span class="lineNum">     398 </span>            : }
+<span class="lineNum">     399 </span>            : 
+<span class="lineNum">     400 </span>            : template&lt;typename C, class Obj,typename MemFun,typename P1,typename P2&gt;
+<span class="lineNum">     401 </span>            : inline typename null_guard_return&lt;C::value,obj_scope_guard_impl2&lt;Obj,MemFun,P1,P2&gt; &gt;::type
+<span class="lineNum">     402 </span>            : make_obj_guard_if(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2)
+<span class="lineNum">     403 </span>            : {
+<span class="lineNum">     404 </span>            :   return make_obj_guard_if_c&lt;C::value&gt;(obj,mem_fun,p1,p2);
+<span class="lineNum">     405 </span>            : }
+<span class="lineNum">     406 </span>            : 
+<span class="lineNum">     407 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     408 </span>            : class obj_scope_guard_impl3:public scope_guard_impl_base
+<span class="lineNum">     409 </span>            : {
+<span class="lineNum">     410 </span>            : public:
+<span class="lineNum">     411 </span>            :   obj_scope_guard_impl3(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2,P3 p3):
+<span class="lineNum">     412 </span>            :     obj_(obj),mem_fun_(mem_fun),p1_(p1),p2_(p2),p3_(p3)
+<span class="lineNum">     413 </span>            :   {}
+<span class="lineNum">     414 </span>            :   ~obj_scope_guard_impl3(){scope_guard_impl_base::safe_execute(*this);}
+<span class="lineNum">     415 </span>            :   void execute(){(obj_.*mem_fun_)(p1_,p2_,p3_);}
+<span class="lineNum">     416 </span>            : 
+<span class="lineNum">     417 </span>            : protected:
+<span class="lineNum">     418 </span>            :   Obj&amp;     obj_;
+<span class="lineNum">     419 </span>            :   MemFun   mem_fun_;
+<span class="lineNum">     420 </span>            :   const P1 p1_;
+<span class="lineNum">     421 </span>            :   const P2 p2_;
+<span class="lineNum">     422 </span>            :   const P3 p3_;
+<span class="lineNum">     423 </span>            : };
+<span class="lineNum">     424 </span>            : 
+<span class="lineNum">     425 </span>            : template&lt;class Obj,typename MemFun,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     426 </span>            : inline obj_scope_guard_impl3&lt;Obj,MemFun,P1,P2,P3&gt;
+<span class="lineNum">     427 </span>            : make_obj_guard(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     428 </span>            : {
+<span class="lineNum">     429 </span>            :   return obj_scope_guard_impl3&lt;Obj,MemFun,P1,P2,P3&gt;(obj,mem_fun,p1,p2,p3);
+<span class="lineNum">     430 </span>            : }
+<span class="lineNum">     431 </span>            : 
+<span class="lineNum">     432 </span>            : template&lt;bool cond, class Obj,typename MemFun,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     433 </span>            : inline typename null_guard_return&lt;cond,obj_scope_guard_impl3&lt;Obj,MemFun,P1,P2,P3&gt; &gt;::type
+<span class="lineNum">     434 </span>            : make_obj_guard_if_c(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     435 </span>            : {
+<span class="lineNum">     436 </span>            :   return typename null_guard_return&lt;cond,obj_scope_guard_impl3&lt;Obj,MemFun,P1,P2,P3&gt; &gt;::type(obj,mem_fun,p1,p2,p3);
+<span class="lineNum">     437 </span>            : }
+<span class="lineNum">     438 </span>            : 
+<span class="lineNum">     439 </span>            : template&lt;typename C, class Obj,typename MemFun,typename P1,typename P2,typename P3&gt;
+<span class="lineNum">     440 </span>            : inline typename null_guard_return&lt;C::value,obj_scope_guard_impl3&lt;Obj,MemFun,P1,P2,P3&gt; &gt;::type
+<span class="lineNum">     441 </span>            : make_obj_guard_if(Obj&amp; obj,MemFun mem_fun,P1 p1,P2 p2,P3 p3)
+<span class="lineNum">     442 </span>            : {
+<span class="lineNum">     443 </span>            :   return make_obj_guard_if_c&lt;C::value&gt;(obj,mem_fun,p1,p2,p3);
+<span class="lineNum">     444 </span>            : }
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span>            : } /* namespace multi_index::detail */
+<span class="lineNum">     447 </span>            : 
+<span class="lineNum">     448 </span>            : } /* namespace multi_index */
+<span class="lineNum">     449 </span>            : 
+<span class="lineNum">     450 </span>            : } /* namespace boost */
+<span class="lineNum">     451 </span>            : 
+<span class="lineNum">     452 </span>            : #endif
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

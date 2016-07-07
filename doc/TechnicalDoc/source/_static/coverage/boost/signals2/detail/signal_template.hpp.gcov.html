@@ -1,0 +1,912 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - boost/signals2/detail/signal_template.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">boost/signals2/detail</a> - signal_template.hpp<span style="font-size: 80%;"> (source / <a href="signal_template.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">99</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">327</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : /*</a>
+<span class="lineNum">       2 </span>            :   Template for Signa1, Signal2, ... classes that support signals
+<span class="lineNum">       3 </span>            :   with 1, 2, ... parameters
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            :   Begin: 2007-01-23
+<span class="lineNum">       6 </span>            : */
+<span class="lineNum">       7 </span>            : // Copyright Frank Mori Hess 2007-2008
+<span class="lineNum">       8 </span>            : //
+<span class="lineNum">       9 </span>            : // Use, modification and
+<span class="lineNum">      10 </span>            : // distribution is subject to the Boost Software License, Version
+<span class="lineNum">      11 </span>            : // 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">      12 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : // This file is included iteratively, and should not be protected from multiple inclusion
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">      17 </span>            : #define BOOST_SIGNALS2_NUM_ARGS BOOST_PP_ITERATION()
+<span class="lineNum">      18 </span>            : #else
+<span class="lineNum">      19 </span>            : #define BOOST_SIGNALS2_NUM_ARGS 1
+<span class="lineNum">      20 </span>            : #endif
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : // R, T1, T2, ..., TN, Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex
+<span class="lineNum">      23 </span>            : #define BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION \
+<span class="lineNum">      24 </span>            :   BOOST_SIGNALS2_SIGNATURE_TEMPLATE_INSTANTIATION(BOOST_SIGNALS2_NUM_ARGS), \
+<span class="lineNum">      25 </span>            :   Combiner, Group, GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : namespace boost
+<span class="lineNum">      28 </span>            : {
+<span class="lineNum">      29 </span>            :   namespace signals2
+<span class="lineNum">      30 </span>            :   {
+<span class="lineNum">      31 </span>            :     namespace detail
+<span class="lineNum">      32 </span>            :     {
+<span class="lineNum">      33 </span>            :       // helper for bound_extended_slot_function that handles specialization for void return
+<span class="lineNum">      34 </span>            :       template&lt;typename R&gt;
+<span class="lineNum">      35 </span>            :         class BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_INVOKER_N(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      36 </span>            :       {
+<span class="lineNum">      37 </span>            :       public:
+<span class="lineNum">      38 </span>            :         typedef R result_type;
+<span class="lineNum">      39 </span>            :         template&lt;typename ExtendedSlotFunction BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      40 </span>            :           BOOST_SIGNALS2_ARGS_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      41 </span>            :           result_type operator()(ExtendedSlotFunction &amp;func, const connection &amp;conn
+<span class="lineNum">      42 </span>            :             BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      43 </span>            :             BOOST_SIGNALS2_FULL_REF_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">      44 </span>            :         {
+<span class="lineNum">      45 </span>            :           return func(conn BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      46 </span>            :             BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">      47 </span>            :         }
+<span class="lineNum">      48 </span>            :       };
+<span class="lineNum">      49 </span>            : #ifdef BOOST_NO_VOID_RETURNS
+<span class="lineNum">      50 </span>            :       template&lt;&gt;
+<span class="lineNum">      51 </span>            :         class BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_INVOKER_N(BOOST_SIGNALS2_NUM_ARGS)&lt;void&gt;
+<span class="lineNum">      52 </span>            :       {
+<span class="lineNum">      53 </span>            :       public:
+<span class="lineNum">      54 </span>            :         typedef result_type_wrapper&lt;void&gt;::type result_type;
+<span class="lineNum">      55 </span>            :         template&lt;typename ExtendedSlotFunction BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      56 </span>            :           BOOST_SIGNALS2_ARGS_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      57 </span>            :           result_type operator()(ExtendedSlotFunction &amp;func, const connection &amp;conn
+<span class="lineNum">      58 </span>            :             BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      59 </span>            :             BOOST_SIGNALS2_FULL_REF_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">      60 </span>            :         {
+<span class="lineNum">      61 </span>            :           func(conn BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      62 </span>            :             BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">      63 </span>            :           return result_type();
+<span class="lineNum">      64 </span>            :         }
+<span class="lineNum">      65 </span>            :       };
+<span class="lineNum">      66 </span>            : #endif
+<span class="lineNum">      67 </span>            : // wrapper around an signalN::extended_slot_function which binds the
+<span class="lineNum">      68 </span>            : // connection argument so it looks like a normal
+<span class="lineNum">      69 </span>            : // signalN::slot_function
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :       template&lt;typename ExtendedSlotFunction&gt;
+<span class="lineNum">      72 </span>            :         class BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_N(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      73 </span>            :       {
+<span class="lineNum">      74 </span>            :       public:
+<span class="lineNum">      75 </span>            :         typedef typename result_type_wrapper&lt;typename ExtendedSlotFunction::result_type&gt;::type result_type;
+<span class="lineNum">      76 </span>            :         BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_N(BOOST_SIGNALS2_NUM_ARGS)(const ExtendedSlotFunction &amp;fun):
+<span class="lineNum">      77 </span>            :           _fun(fun), _connection(new connection)
+<span class="lineNum">      78 </span>            :         {}
+<span class="lineNum">      79 </span>            :         void set_connection(const connection &amp;conn)
+<span class="lineNum">      80 </span>            :         {
+<span class="lineNum">      81 </span>            :           *_connection = conn;
+<span class="lineNum">      82 </span>            :         }
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            : #if BOOST_SIGNALS2_NUM_ARGS &gt; 0
+<span class="lineNum">      85 </span>            :         template&lt;BOOST_SIGNALS2_ARGS_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      86 </span>            : #endif // BOOST_SIGNALS2_NUM_ARGS &gt; 0
+<span class="lineNum">      87 </span>            :           result_type operator()(BOOST_SIGNALS2_FULL_REF_ARGS(BOOST_SIGNALS2_NUM_ARGS))
+<span class="lineNum">      88 </span>            :         {
+<span class="lineNum">      89 </span>            :           return BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_INVOKER_N(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      90 </span>            :             &lt;typename ExtendedSlotFunction::result_type&gt;()
+<span class="lineNum">      91 </span>            :             (_fun, *_connection BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">      92 </span>            :               BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">      93 </span>            :         }
+<span class="lineNum">      94 </span>            :         // const overload
+<span class="lineNum">      95 </span>            : #if BOOST_SIGNALS2_NUM_ARGS &gt; 0
+<span class="lineNum">      96 </span>            :         template&lt;BOOST_SIGNALS2_ARGS_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">      97 </span>            : #endif // BOOST_SIGNALS2_NUM_ARGS &gt; 0
+<span class="lineNum">      98 </span>            :           result_type operator()(BOOST_SIGNALS2_FULL_REF_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">      99 </span>            :         {
+<span class="lineNum">     100 </span>            :           return BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_INVOKER_N(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     101 </span>            :             &lt;typename ExtendedSlotFunction::result_type&gt;()
+<span class="lineNum">     102 </span>            :             (_fun, *_connection BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     103 </span>            :               BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     104 </span>            :         }
+<span class="lineNum">     105 </span>            :         template&lt;typename T&gt;
+<span class="lineNum">     106 </span>            :           bool operator==(const T &amp;other) const
+<span class="lineNum">     107 </span>            :         {
+<span class="lineNum">     108 </span>            :           return _fun == other;
+<span class="lineNum">     109 </span>            :         }
+<span class="lineNum">     110 </span>            :       private:
+<span class="lineNum">     111 </span>            :         BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_N(BOOST_SIGNALS2_NUM_ARGS)()
+<span class="lineNum">     112 </span>            :         {}
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :         ExtendedSlotFunction _fun;
+<span class="lineNum">     115 </span>            :         boost::shared_ptr&lt;connection&gt; _connection;
+<span class="lineNum">     116 </span>            :       };
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :       template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     119 </span>            :         class BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<a name="120"><span class="lineNum">     120 </span>            : </a>
+<span class="lineNum">     121 </span>            :       template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     122 </span><span class="lineNoCov">          0 :       class BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION</span>
+<span class="lineNum">     123 </span>            :       {
+<span class="lineNum">     124 </span>            :       public:
+<span class="lineNum">     125 </span>            :         typedef SlotFunction slot_function_type;
+<span class="lineNum">     126 </span>            :         // typedef slotN&lt;Signature, SlotFunction&gt; slot_type;
+<span class="lineNum">     127 </span>            :         typedef BOOST_SIGNALS2_SLOT_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     128 </span>            :           &lt;BOOST_SIGNALS2_SIGNATURE_TEMPLATE_INSTANTIATION(BOOST_SIGNALS2_NUM_ARGS),
+<span class="lineNum">     129 </span>            :           slot_function_type&gt; slot_type;
+<span class="lineNum">     130 </span>            :         typedef ExtendedSlotFunction extended_slot_function_type;
+<span class="lineNum">     131 </span>            :         // typedef slotN+1&lt;R, const connection &amp;, T1, T2, ..., TN, extended_slot_function_type&gt; extended_slot_type;
+<span class="lineNum">     132 </span>            :         typedef BOOST_SIGNALS2_EXTENDED_SLOT_TYPE(BOOST_SIGNALS2_NUM_ARGS) extended_slot_type;
+<span class="lineNum">     133 </span>            :         typedef typename nonvoid&lt;typename slot_function_type::result_type&gt;::type nonvoid_slot_result_type;
+<span class="lineNum">     134 </span>            :       private:
+<span class="lineNum">     135 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     136 </span>            :         class slot_invoker;
+<span class="lineNum">     137 </span>            : #else // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     138 </span>            :         typedef variadic_slot_invoker&lt;nonvoid_slot_result_type, Args...&gt; slot_invoker;
+<span class="lineNum">     139 </span>            : #endif // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     140 </span>            :         typedef slot_call_iterator_cache&lt;nonvoid_slot_result_type, slot_invoker&gt; slot_call_iterator_cache_type;
+<span class="lineNum">     141 </span>            :         typedef typename group_key&lt;Group&gt;::type group_key_type;
+<span class="lineNum">     142 </span>            :         typedef shared_ptr&lt;connection_body&lt;group_key_type, slot_type, Mutex&gt; &gt; connection_body_type;
+<span class="lineNum">     143 </span>            :         typedef grouped_list&lt;Group, GroupCompare, connection_body_type&gt; connection_list_type;
+<span class="lineNum">     144 </span>            :         typedef BOOST_SIGNALS2_BOUND_EXTENDED_SLOT_FUNCTION_N(BOOST_SIGNALS2_NUM_ARGS)&lt;extended_slot_function_type&gt;
+<span class="lineNum">     145 </span>            :           bound_extended_slot_function_type;
+<span class="lineNum">     146 </span>            :       public:
+<span class="lineNum">     147 </span>            :         typedef Combiner combiner_type;
+<span class="lineNum">     148 </span>            :         typedef typename result_type_wrapper&lt;typename combiner_type::result_type&gt;::type result_type;
+<span class="lineNum">     149 </span>            :         typedef Group group_type;
+<span class="lineNum">     150 </span>            :         typedef GroupCompare group_compare_type;
+<span class="lineNum">     151 </span>            :         typedef typename detail::slot_call_iterator_t&lt;slot_invoker,
+<span class="lineNum">     152 </span>            :           typename connection_list_type::iterator, connection_body&lt;group_key_type, slot_type, Mutex&gt; &gt; slot_call_iterator;
+<span class="lineNum">     153 </span>            : 
+<span class="lineNum">     154 </span>            :         BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)(const combiner_type &amp;combiner_arg,
+<span class="lineNum">     155 </span>            :           const group_compare_type &amp;group_compare):
+<span class="lineNum">     156 </span>            :           _shared_state(new invocation_state(connection_list_type(group_compare), combiner_arg)),
+<span class="lineNum">     157 </span>            :           _garbage_collector_it(_shared_state-&gt;connection_bodies().end())
+<a name="158"><span class="lineNum">     158 </span>            :         {}</a>
+<span class="lineNum">     159 </span>            :         // connect slot
+<span class="lineNum">     160 </span><span class="lineNoCov">          0 :         connection connect(const slot_type &amp;slot, connect_position position = at_back)</span>
+<span class="lineNum">     161 </span>            :         {
+<span class="lineNum">     162 </span><span class="lineNoCov">          0 :           unique_lock&lt;mutex_type&gt; lock(_mutex);</span>
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :           return nolock_connect(slot, position);</span>
+<span class="lineNum">     164 </span>            :         }
+<span class="lineNum">     165 </span>            :         connection connect(const group_type &amp;group,
+<span class="lineNum">     166 </span>            :           const slot_type &amp;slot, connect_position position = at_back)
+<span class="lineNum">     167 </span>            :         {
+<span class="lineNum">     168 </span>            :           unique_lock&lt;Mutex&gt; lock(_mutex);
+<span class="lineNum">     169 </span>            :           return nolock_connect(group, slot, position);
+<span class="lineNum">     170 </span>            :         }
+<span class="lineNum">     171 </span>            :         // connect extended slot
+<span class="lineNum">     172 </span>            :         connection connect_extended(const extended_slot_type &amp;ext_slot, connect_position position = at_back)
+<span class="lineNum">     173 </span>            :         {
+<span class="lineNum">     174 </span>            :           unique_lock&lt;mutex_type&gt; lock(_mutex);
+<span class="lineNum">     175 </span>            :           bound_extended_slot_function_type bound_slot(ext_slot.slot_function());
+<span class="lineNum">     176 </span>            :           slot_type slot = replace_slot_function&lt;slot_type&gt;(ext_slot, bound_slot);
+<span class="lineNum">     177 </span>            :           connection conn = nolock_connect(slot, position);
+<span class="lineNum">     178 </span>            :           bound_slot.set_connection(conn);
+<span class="lineNum">     179 </span>            :           return conn;
+<span class="lineNum">     180 </span>            :         }
+<span class="lineNum">     181 </span>            :         connection connect_extended(const group_type &amp;group,
+<span class="lineNum">     182 </span>            :           const extended_slot_type &amp;ext_slot, connect_position position = at_back)
+<span class="lineNum">     183 </span>            :         {
+<span class="lineNum">     184 </span>            :           unique_lock&lt;Mutex&gt; lock(_mutex);
+<span class="lineNum">     185 </span>            :           bound_extended_slot_function_type bound_slot(ext_slot.slot_function());
+<span class="lineNum">     186 </span>            :           slot_type slot = replace_slot_function&lt;slot_type&gt;(ext_slot, bound_slot);
+<span class="lineNum">     187 </span>            :           connection conn = nolock_connect(group, slot, position);
+<span class="lineNum">     188 </span>            :           bound_slot.set_connection(conn);
+<span class="lineNum">     189 </span>            :           return conn;
+<a name="190"><span class="lineNum">     190 </span>            :         }</a>
+<span class="lineNum">     191 </span>            :         // disconnect slot(s)
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         void disconnect_all_slots()</span>
+<span class="lineNum">     193 </span>            :         {
+<span class="lineNum">     194 </span>            :           shared_ptr&lt;invocation_state&gt; local_state =
+<span class="lineNum">     195 </span><span class="lineNoCov">          0 :             get_readable_state();</span>
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 :           typename connection_list_type::iterator it;</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :           for(it = local_state-&gt;connection_bodies().begin();</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :             it != local_state-&gt;connection_bodies().end(); ++it)</span>
+<span class="lineNum">     199 </span>            :           {
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :             (*it)-&gt;disconnect();</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :           }</span>
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     203 </span>            :         void disconnect(const group_type &amp;group)
+<span class="lineNum">     204 </span>            :         {
+<span class="lineNum">     205 </span>            :           shared_ptr&lt;invocation_state&gt; local_state =
+<span class="lineNum">     206 </span>            :             get_readable_state();
+<span class="lineNum">     207 </span>            :           group_key_type group_key(grouped_slots, group);
+<span class="lineNum">     208 </span>            :           typename connection_list_type::iterator it;
+<span class="lineNum">     209 </span>            :           typename connection_list_type::iterator end_it =
+<span class="lineNum">     210 </span>            :             local_state-&gt;connection_bodies().upper_bound(group_key);
+<span class="lineNum">     211 </span>            :           for(it = local_state-&gt;connection_bodies().lower_bound(group_key);
+<span class="lineNum">     212 </span>            :             it != end_it; ++it)
+<span class="lineNum">     213 </span>            :           {
+<span class="lineNum">     214 </span>            :             (*it)-&gt;disconnect();
+<span class="lineNum">     215 </span>            :           }
+<span class="lineNum">     216 </span>            :         }
+<span class="lineNum">     217 </span>            :         template &lt;typename T&gt;
+<span class="lineNum">     218 </span>            :         void disconnect(const T &amp;slot)
+<span class="lineNum">     219 </span>            :         {
+<span class="lineNum">     220 </span>            :           typedef mpl::bool_&lt;(is_convertible&lt;T, group_type&gt;::value)&gt; is_group;
+<span class="lineNum">     221 </span>            :           do_disconnect(slot, is_group());
+<a name="222"><span class="lineNum">     222 </span>            :         }</a>
+<span class="lineNum">     223 </span>            :         // emit signal
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS))</span>
+<span class="lineNum">     225 </span>            :         {
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :           shared_ptr&lt;invocation_state&gt; local_state;</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :           typename connection_list_type::iterator it;</span>
+<span class="lineNum">     228 </span>            :           {
+<span class="lineNum">     229 </span><span class="lineNoCov">          0 :             unique_lock&lt;mutex_type&gt; list_lock(_mutex);</span>
+<span class="lineNum">     230 </span>            :             // only clean up if it is safe to do so
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :             if(_shared_state.unique())</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :               nolock_cleanup_connections(false, 1);</span>
+<span class="lineNum">     233 </span>            :             /* Make a local copy of _shared_state while holding mutex, so we are
+<span class="lineNum">     234 </span>            :             thread safe against the combiner or connection list getting modified
+<span class="lineNum">     235 </span>            :             during invocation. */
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :             local_state = _shared_state;</span>
+<span class="lineNum">     237 </span>            :           }
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :           slot_invoker invoker = slot_invoker(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :           slot_call_iterator_cache_type cache(invoker);</span>
+<span class="lineNum">     240 </span><span class="lineNoCov">          0 :           invocation_janitor janitor(cache, *this, &amp;local_state-&gt;connection_bodies());</span>
+<span class="lineNum">     241 </span>            :           return detail::combiner_invoker&lt;typename combiner_type::result_type&gt;()
+<span class="lineNum">     242 </span>            :             (
+<span class="lineNum">     243 </span>            :               local_state-&gt;combiner(),
+<span class="lineNum">     244 </span>            :               slot_call_iterator(local_state-&gt;connection_bodies().begin(), local_state-&gt;connection_bodies().end(), cache),
+<span class="lineNum">     245 </span>            :               slot_call_iterator(local_state-&gt;connection_bodies().end(), local_state-&gt;connection_bodies().end(), cache)
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :             );</span>
+<span class="lineNum">     247 </span>            :         }
+<span class="lineNum">     248 </span>            :         result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">     249 </span>            :         {
+<span class="lineNum">     250 </span>            :           shared_ptr&lt;invocation_state&gt; local_state;
+<span class="lineNum">     251 </span>            :           typename connection_list_type::iterator it;
+<span class="lineNum">     252 </span>            :           {
+<span class="lineNum">     253 </span>            :             unique_lock&lt;mutex_type&gt; list_lock(_mutex);
+<span class="lineNum">     254 </span>            :             // only clean up if it is safe to do so
+<span class="lineNum">     255 </span>            :             if(_shared_state.unique())
+<span class="lineNum">     256 </span>            :               nolock_cleanup_connections(false, 1);
+<span class="lineNum">     257 </span>            :             /* Make a local copy of _shared_state while holding mutex, so we are
+<span class="lineNum">     258 </span>            :             thread safe against the combiner or connection list getting modified
+<span class="lineNum">     259 </span>            :             during invocation. */
+<span class="lineNum">     260 </span>            :             local_state = _shared_state;
+<span class="lineNum">     261 </span>            :           }
+<span class="lineNum">     262 </span>            :           slot_invoker invoker = slot_invoker(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     263 </span>            :           slot_call_iterator_cache_type cache(invoker);
+<span class="lineNum">     264 </span>            :           invocation_janitor janitor(cache, *this, &amp;local_state-&gt;connection_bodies());
+<span class="lineNum">     265 </span>            :           return detail::combiner_invoker&lt;typename combiner_type::result_type&gt;()
+<span class="lineNum">     266 </span>            :             (
+<span class="lineNum">     267 </span>            :               local_state-&gt;combiner(),
+<span class="lineNum">     268 </span>            :               slot_call_iterator(local_state-&gt;connection_bodies().begin(), local_state-&gt;connection_bodies().end(), cache),
+<span class="lineNum">     269 </span>            :               slot_call_iterator(local_state-&gt;connection_bodies().end(), local_state-&gt;connection_bodies().end(), cache)
+<span class="lineNum">     270 </span>            :             );
+<span class="lineNum">     271 </span>            :         }
+<span class="lineNum">     272 </span>            :         std::size_t num_slots() const
+<span class="lineNum">     273 </span>            :         {
+<span class="lineNum">     274 </span>            :           shared_ptr&lt;invocation_state&gt; local_state =
+<span class="lineNum">     275 </span>            :             get_readable_state();
+<span class="lineNum">     276 </span>            :           typename connection_list_type::iterator it;
+<span class="lineNum">     277 </span>            :           std::size_t count = 0;
+<span class="lineNum">     278 </span>            :           for(it = local_state-&gt;connection_bodies().begin();
+<span class="lineNum">     279 </span>            :             it != local_state-&gt;connection_bodies().end(); ++it)
+<span class="lineNum">     280 </span>            :           {
+<span class="lineNum">     281 </span>            :             if((*it)-&gt;connected()) ++count;
+<span class="lineNum">     282 </span>            :           }
+<span class="lineNum">     283 </span>            :           return count;
+<span class="lineNum">     284 </span>            :         }
+<span class="lineNum">     285 </span>            :         bool empty() const
+<span class="lineNum">     286 </span>            :         {
+<span class="lineNum">     287 </span>            :           shared_ptr&lt;invocation_state&gt; local_state =
+<span class="lineNum">     288 </span>            :             get_readable_state();
+<span class="lineNum">     289 </span>            :           typename connection_list_type::iterator it;
+<span class="lineNum">     290 </span>            :           for(it = local_state-&gt;connection_bodies().begin();
+<span class="lineNum">     291 </span>            :             it != local_state-&gt;connection_bodies().end(); ++it)
+<span class="lineNum">     292 </span>            :           {
+<span class="lineNum">     293 </span>            :             if((*it)-&gt;connected()) return false;
+<span class="lineNum">     294 </span>            :           }
+<span class="lineNum">     295 </span>            :           return true;
+<span class="lineNum">     296 </span>            :         }
+<span class="lineNum">     297 </span>            :         combiner_type combiner() const
+<span class="lineNum">     298 </span>            :         {
+<span class="lineNum">     299 </span>            :           unique_lock&lt;mutex_type&gt; lock(_mutex);
+<span class="lineNum">     300 </span>            :           return _shared_state-&gt;combiner();
+<span class="lineNum">     301 </span>            :         }
+<span class="lineNum">     302 </span>            :         void set_combiner(const combiner_type &amp;combiner_arg)
+<span class="lineNum">     303 </span>            :         {
+<span class="lineNum">     304 </span>            :           unique_lock&lt;mutex_type&gt; lock(_mutex);
+<span class="lineNum">     305 </span>            :           if(_shared_state.unique())
+<span class="lineNum">     306 </span>            :             _shared_state-&gt;combiner() = combiner_arg;
+<span class="lineNum">     307 </span>            :           else
+<span class="lineNum">     308 </span>            :             _shared_state.reset(new invocation_state(*_shared_state, combiner_arg));
+<span class="lineNum">     309 </span>            :         }
+<span class="lineNum">     310 </span>            :       private:
+<span class="lineNum">     311 </span>            :         typedef Mutex mutex_type;
+<span class="lineNum">     312 </span>            : 
+<span class="lineNum">     313 </span>            :         // slot_invoker is passed to slot_call_iterator_t to run slots
+<span class="lineNum">     314 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     315 </span>            :         class slot_invoker
+<span class="lineNum">     316 </span>            :         {
+<span class="lineNum">     317 </span>            :         public:
+<span class="lineNum">     318 </span>            :           typedef nonvoid_slot_result_type result_type;
+<span class="lineNum">     319 </span>            : // typename add_reference&lt;Tn&gt;::type
+<span class="lineNum">     320 </span>            : #define BOOST_SIGNALS2_ADD_REF_TYPE(z, n, data) \
+<span class="lineNum">     321 </span>            :   typename add_reference&lt;BOOST_PP_CAT(T, BOOST_PP_INC(n))&gt;::type
+<span class="lineNum">     322 </span>            : // typename add_reference&lt;Tn&gt;::type argn
+<span class="lineNum">     323 </span>            : #define BOOST_SIGNALS2_ADD_REF_ARG(z, n, data) \
+<span class="lineNum">     324 </span>            :   BOOST_SIGNALS2_ADD_REF_TYPE(~, n, ~) \
+<span class="lineNum">     325 </span>            :   BOOST_SIGNALS2_SIGNATURE_ARG_NAME(~, n, ~)
+<span class="lineNum">     326 </span>            : // typename add_reference&lt;T1&gt;::type arg1, typename add_reference&lt;T2&gt;::type arg2, ..., typename add_reference&lt;Tn&gt;::type argn
+<span class="lineNum">     327 </span>            : #define BOOST_SIGNALS2_ADD_REF_ARGS(arity) \
+<span class="lineNum">     328 </span>            :   BOOST_PP_ENUM(arity, BOOST_SIGNALS2_ADD_REF_ARG, ~)
+<span class="lineNum">     329 </span>            :           slot_invoker(BOOST_SIGNALS2_ADD_REF_ARGS(BOOST_SIGNALS2_NUM_ARGS)) BOOST_PP_EXPR_IF(BOOST_SIGNALS2_NUM_ARGS, :)
+<span class="lineNum">     330 </span>            : #undef BOOST_SIGNALS2_ADD_REF_ARGS
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            : // m_argn
+<span class="lineNum">     333 </span>            : #define BOOST_SIGNALS2_M_ARG_NAME(z, n, data) BOOST_PP_CAT(m_arg, BOOST_PP_INC(n))
+<span class="lineNum">     334 </span>            : // m_argn ( argn )
+<span class="lineNum">     335 </span>            : #define BOOST_SIGNALS2_MISC_STATEMENT(z, n, data) \
+<span class="lineNum">     336 </span>            :   BOOST_SIGNALS2_M_ARG_NAME(~, n, ~) ( BOOST_SIGNALS2_SIGNATURE_ARG_NAME(~, n, ~) )
+<span class="lineNum">     337 </span>            : // m_arg1(arg1), m_arg2(arg2), ..., m_argn(argn)
+<span class="lineNum">     338 </span>            :             BOOST_PP_ENUM(BOOST_SIGNALS2_NUM_ARGS, BOOST_SIGNALS2_MISC_STATEMENT, ~)
+<span class="lineNum">     339 </span>            : #undef BOOST_SIGNALS2_MISC_STATEMENT
+<span class="lineNum">     340 </span>            :           {}
+<span class="lineNum">     341 </span>            :           result_type operator ()(const connection_body_type &amp;connectionBody) const
+<span class="lineNum">     342 </span>            :           {
+<span class="lineNum">     343 </span>            :             result_type *resolver = 0;
+<span class="lineNum">     344 </span>            :             return m_invoke(connectionBody,
+<span class="lineNum">     345 </span>            :               resolver);
+<span class="lineNum">     346 </span>            :           }
+<span class="lineNum">     347 </span>            :         private:
+<span class="lineNum">     348 </span>            :           // declare assignment operator private since this class might have reference or const members
+<span class="lineNum">     349 </span>            :           slot_invoker &amp; operator=(const slot_invoker &amp;);
+<span class="lineNum">     350 </span>            : 
+<span class="lineNum">     351 </span>            : #define BOOST_SIGNALS2_ADD_REF_M_ARG_STATEMENT(z, n, data) \
+<span class="lineNum">     352 </span>            :   BOOST_SIGNALS2_ADD_REF_TYPE(~, n, ~) BOOST_SIGNALS2_M_ARG_NAME(~, n, ~) ;
+<span class="lineNum">     353 </span>            :           BOOST_PP_REPEAT(BOOST_SIGNALS2_NUM_ARGS, BOOST_SIGNALS2_ADD_REF_M_ARG_STATEMENT, ~)
+<span class="lineNum">     354 </span>            : #undef BOOST_SIGNALS2_ADD_REF_M_ARG_STATEMENT
+<span class="lineNum">     355 </span>            : #undef BOOST_SIGNALS2_ADD_REF_ARG
+<span class="lineNum">     356 </span>            : #undef BOOST_SIGNALS2_ADD_REF_TYPE
+<span class="lineNum">     357 </span>            : 
+<span class="lineNum">     358 </span>            : // m_arg1, m_arg2, ..., m_argn
+<span class="lineNum">     359 </span>            : #define BOOST_SIGNALS2_M_ARG_NAMES(arity) BOOST_PP_ENUM(arity, BOOST_SIGNALS2_M_ARG_NAME, ~)
+<span class="lineNum">     360 </span>            :           result_type m_invoke(const connection_body_type &amp;connectionBody,
+<span class="lineNum">     361 </span>            :             const void_type *) const
+<span class="lineNum">     362 </span>            :           {
+<span class="lineNum">     363 </span>            :             connectionBody-&gt;slot.slot_function()(BOOST_SIGNALS2_M_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     364 </span>            :             return void_type();
+<span class="lineNum">     365 </span>            :           }
+<span class="lineNum">     366 </span>            :           result_type m_invoke(const connection_body_type &amp;connectionBody, ...) const
+<span class="lineNum">     367 </span>            :           {
+<span class="lineNum">     368 </span>            :             return connectionBody-&gt;slot.slot_function()(BOOST_SIGNALS2_M_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     369 </span>            :           }
+<span class="lineNum">     370 </span>            :         };
+<span class="lineNum">     371 </span>            : #undef BOOST_SIGNALS2_M_ARG_NAMES
+<span class="lineNum">     372 </span>            : #undef BOOST_SIGNALS2_M_ARG_NAME
+<span class="lineNum">     373 </span>            : 
+<span class="lineNum">     374 </span>            : #endif // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<a name="375"><span class="lineNum">     375 </span>            :         // a struct used to optimize (minimize) the number of shared_ptrs that need to be created</a>
+<span class="lineNum">     376 </span>            :         // inside operator()
+<span class="lineNum">     377 </span><span class="lineNoCov">          0 :         class invocation_state</span>
+<span class="lineNum">     378 </span>            :         {
+<span class="lineNum">     379 </span>            :         public:
+<span class="lineNum">     380 </span>            :           invocation_state(const connection_list_type &amp;connections_in,
+<span class="lineNum">     381 </span>            :             const combiner_type &amp;combiner_in): _connection_bodies(new connection_list_type(connections_in)),
+<a name="382"><span class="lineNum">     382 </span>            :             _combiner(new combiner_type(combiner_in))</a>
+<span class="lineNum">     383 </span>            :           {}
+<span class="lineNum">     384 </span><span class="lineNoCov">          0 :           invocation_state(const invocation_state &amp;other, const connection_list_type &amp;connections_in):</span>
+<span class="lineNum">     385 </span>            :             _connection_bodies(new connection_list_type(connections_in)),
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :             _combiner(other._combiner)</span>
+<span class="lineNum">     387 </span><span class="lineNoCov">          0 :           {}</span>
+<span class="lineNum">     388 </span>            :           invocation_state(const invocation_state &amp;other, const combiner_type &amp;combiner_in):
+<span class="lineNum">     389 </span>            :             _connection_bodies(other._connection_bodies),
+<a name="390"><span class="lineNum">     390 </span>            :             _combiner(new combiner_type(combiner_in))</a>
+<span class="lineNum">     391 </span>            :           {}
+<a name="392"><span class="lineNum">     392 </span><span class="lineNoCov">          0 :           connection_list_type &amp; connection_bodies() { return *_connection_bodies; }</span></a>
+<span class="lineNum">     393 </span>            :           const connection_list_type &amp; connection_bodies() const { return *_connection_bodies; }
+<span class="lineNum">     394 </span><span class="lineNoCov">          0 :           combiner_type &amp; combiner() { return *_combiner; }</span>
+<span class="lineNum">     395 </span>            :           const combiner_type &amp; combiner() const { return *_combiner; }
+<span class="lineNum">     396 </span>            :         private:
+<span class="lineNum">     397 </span>            :           invocation_state(const invocation_state &amp;);
+<span class="lineNum">     398 </span>            : 
+<span class="lineNum">     399 </span>            :           shared_ptr&lt;connection_list_type&gt; _connection_bodies;
+<span class="lineNum">     400 </span>            :           shared_ptr&lt;combiner_type&gt; _combiner;
+<span class="lineNum">     401 </span>            :         };
+<span class="lineNum">     402 </span>            :         // Destructor of invocation_janitor does some cleanup when a signal invocation completes.
+<span class="lineNum">     403 </span>            :         // Code can't be put directly in signal's operator() due to complications from void return types.
+<span class="lineNum">     404 </span>            :         class invocation_janitor
+<span class="lineNum">     405 </span>            :         {
+<a name="406"><span class="lineNum">     406 </span>            :         public:</a>
+<span class="lineNum">     407 </span>            :           typedef BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) signal_type;
+<span class="lineNum">     408 </span><span class="lineNoCov">          0 :           invocation_janitor</span>
+<span class="lineNum">     409 </span>            :           (
+<span class="lineNum">     410 </span>            :             const slot_call_iterator_cache_type &amp;cache,
+<span class="lineNum">     411 </span>            :             const signal_type &amp;sig,
+<span class="lineNum">     412 </span>            :             const connection_list_type *connection_bodies
+<a name="413"><span class="lineNum">     413 </span><span class="lineNoCov">          0 :           ):_cache(cache), _sig(sig), _connection_bodies(connection_bodies)</span></a>
+<span class="lineNum">     414 </span><span class="lineNoCov">          0 :           {}</span>
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 :           ~invocation_janitor()</span>
+<span class="lineNum">     416 </span>            :           {
+<span class="lineNum">     417 </span>            :             // force a full cleanup of disconnected slots if there are too many
+<span class="lineNum">     418 </span><span class="lineNoCov">          0 :             if(_cache.disconnected_slot_count &gt; _cache.connected_slot_count)</span>
+<span class="lineNum">     419 </span>            :             {
+<span class="lineNum">     420 </span><span class="lineNoCov">          0 :               _sig.force_cleanup_connections(_connection_bodies);</span>
+<span class="lineNum">     421 </span>            :             }
+<span class="lineNum">     422 </span><span class="lineNoCov">          0 :           }</span>
+<span class="lineNum">     423 </span>            :         private:
+<span class="lineNum">     424 </span>            :           const slot_call_iterator_cache_type &amp;_cache;
+<span class="lineNum">     425 </span>            :           const signal_type &amp;_sig;
+<span class="lineNum">     426 </span>            :           const connection_list_type *_connection_bodies;
+<span class="lineNum">     427 </span>            :         };
+<a name="428"><span class="lineNum">     428 </span>            : </a>
+<span class="lineNum">     429 </span>            :         // clean up disconnected connections
+<span class="lineNum">     430 </span><span class="lineNoCov">          0 :         void nolock_cleanup_connections_from(bool grab_tracked,</span>
+<span class="lineNum">     431 </span>            :           const typename connection_list_type::iterator &amp;begin, unsigned count = 0) const
+<span class="lineNum">     432 </span>            :         {
+<span class="lineNum">     433 </span><span class="lineNoCov">          0 :           BOOST_ASSERT(_shared_state.unique());</span>
+<span class="lineNum">     434 </span><span class="lineNoCov">          0 :           typename connection_list_type::iterator it;</span>
+<span class="lineNum">     435 </span>            :           unsigned i;
+<span class="lineNum">     436 </span><span class="lineNoCov">          0 :           for(it = begin, i = 0;</span>
+<span class="lineNum">     437 </span><span class="lineNoCov">          0 :             it != _shared_state-&gt;connection_bodies().end() &amp;&amp; (count == 0 || i &lt; count);</span>
+<span class="lineNum">     438 </span>            :             ++i)
+<span class="lineNum">     439 </span>            :           {
+<span class="lineNum">     440 </span>            :             bool connected;
+<span class="lineNum">     441 </span>            :             {
+<span class="lineNum">     442 </span><span class="lineNoCov">          0 :               unique_lock&lt;connection_body_base&gt; lock(**it);</span>
+<span class="lineNum">     443 </span><span class="lineNoCov">          0 :               if(grab_tracked)</span>
+<span class="lineNum">     444 </span><span class="lineNoCov">          0 :                 (*it)-&gt;nolock_slot_expired();</span>
+<span class="lineNum">     445 </span><span class="lineNoCov">          0 :               connected = (*it)-&gt;nolock_nograb_connected();</span>
+<span class="lineNum">     446 </span>            :             }// scoped lock destructs here, safe to erase now
+<span class="lineNum">     447 </span><span class="lineNoCov">          0 :             if(connected == false)</span>
+<span class="lineNum">     448 </span>            :             {
+<span class="lineNum">     449 </span><span class="lineNoCov">          0 :               it = _shared_state-&gt;connection_bodies().erase((*it)-&gt;group_key(), it);</span>
+<span class="lineNum">     450 </span>            :             }else
+<span class="lineNum">     451 </span>            :             {
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 :               ++it;</span>
+<span class="lineNum">     453 </span>            :             }
+<span class="lineNum">     454 </span>            :           }
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :           _garbage_collector_it = it;</span>
+<a name="456"><span class="lineNum">     456 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     457 </span>            :         // clean up a few connections in constant time
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :         void nolock_cleanup_connections(bool grab_tracked, unsigned count) const</span>
+<span class="lineNum">     459 </span>            :         {
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :           BOOST_ASSERT(_shared_state.unique());</span>
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :           typename connection_list_type::iterator begin;</span>
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 :           if(_garbage_collector_it == _shared_state-&gt;connection_bodies().end())</span>
+<span class="lineNum">     463 </span>            :           {
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :             begin = _shared_state-&gt;connection_bodies().begin();</span>
+<span class="lineNum">     465 </span>            :           }else
+<span class="lineNum">     466 </span>            :           {
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :             begin = _garbage_collector_it;</span>
+<span class="lineNum">     468 </span>            :           }
+<span class="lineNum">     469 </span><span class="lineNoCov">          0 :           nolock_cleanup_connections_from(grab_tracked, begin, count);</span>
+<span class="lineNum">     470 </span><span class="lineNoCov">          0 :         }</span>
+<a name="471"><span class="lineNum">     471 </span>            :         /* Make a new copy of the slot list if it is currently being read somewhere else</a>
+<span class="lineNum">     472 </span>            :         */
+<span class="lineNum">     473 </span><span class="lineNoCov">          0 :         void nolock_force_unique_connection_list()</span>
+<span class="lineNum">     474 </span>            :         {
+<span class="lineNum">     475 </span><span class="lineNoCov">          0 :           if(_shared_state.unique() == false)</span>
+<span class="lineNum">     476 </span>            :           {
+<span class="lineNum">     477 </span><span class="lineNoCov">          0 :             _shared_state.reset(new invocation_state(*_shared_state, _shared_state-&gt;connection_bodies()));</span>
+<span class="lineNum">     478 </span><span class="lineNoCov">          0 :             nolock_cleanup_connections_from(true, _shared_state-&gt;connection_bodies().begin());</span>
+<span class="lineNum">     479 </span>            :           }else
+<span class="lineNum">     480 </span>            :           {
+<span class="lineNum">     481 </span>            :             /* We need to try and check more than just 1 connection here to avoid corner
+<span class="lineNum">     482 </span>            :             cases where certain repeated connect/disconnect patterns cause the slot
+<span class="lineNum">     483 </span>            :             list to grow without limit. */
+<span class="lineNum">     484 </span><span class="lineNoCov">          0 :             nolock_cleanup_connections(true, 2);</span>
+<span class="lineNum">     485 </span>            :           }
+<a name="486"><span class="lineNum">     486 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     487 </span>            :         // force a full cleanup of the connection list
+<span class="lineNum">     488 </span><span class="lineNoCov">          0 :         void force_cleanup_connections(const connection_list_type *connection_bodies) const</span>
+<span class="lineNum">     489 </span>            :         {
+<span class="lineNum">     490 </span><span class="lineNoCov">          0 :           unique_lock&lt;mutex_type&gt; list_lock(_mutex);</span>
+<span class="lineNum">     491 </span>            :           // if the connection list passed in as a parameter is no longer in use,
+<span class="lineNum">     492 </span>            :           // we don't need to do any cleanup.
+<span class="lineNum">     493 </span><span class="lineNoCov">          0 :           if(&amp;_shared_state-&gt;connection_bodies() != connection_bodies)</span>
+<span class="lineNum">     494 </span>            :           {
+<span class="lineNum">     495 </span><span class="lineNoCov">          0 :             return;</span>
+<span class="lineNum">     496 </span>            :           }
+<span class="lineNum">     497 </span><span class="lineNoCov">          0 :           if(_shared_state.unique() == false)</span>
+<span class="lineNum">     498 </span>            :           {
+<span class="lineNum">     499 </span><span class="lineNoCov">          0 :             _shared_state.reset(new invocation_state(*_shared_state, _shared_state-&gt;connection_bodies()));</span>
+<span class="lineNum">     500 </span>            :           }
+<a name="501"><span class="lineNum">     501 </span><span class="lineNoCov">          0 :           nolock_cleanup_connections_from(false, _shared_state-&gt;connection_bodies().begin());</span></a>
+<span class="lineNum">     502 </span>            :         }
+<span class="lineNum">     503 </span><span class="lineNoCov">          0 :         shared_ptr&lt;invocation_state&gt; get_readable_state() const</span>
+<span class="lineNum">     504 </span>            :         {
+<span class="lineNum">     505 </span><span class="lineNoCov">          0 :           unique_lock&lt;mutex_type&gt; list_lock(_mutex);</span>
+<a name="506"><span class="lineNum">     506 </span><span class="lineNoCov">          0 :           return _shared_state;</span></a>
+<span class="lineNum">     507 </span>            :         }
+<span class="lineNum">     508 </span><span class="lineNoCov">          0 :         connection_body_type create_new_connection(const slot_type &amp;slot)</span>
+<span class="lineNum">     509 </span>            :         {
+<span class="lineNum">     510 </span><span class="lineNoCov">          0 :           nolock_force_unique_connection_list();</span>
+<span class="lineNum">     511 </span><span class="lineNoCov">          0 :           return connection_body_type(new connection_body&lt;group_key_type, slot_type, Mutex&gt;(slot));</span>
+<span class="lineNum">     512 </span>            :         }
+<span class="lineNum">     513 </span>            :         void do_disconnect(const group_type &amp;group, mpl::bool_&lt;true&gt; /* is_group */)
+<span class="lineNum">     514 </span>            :         {
+<span class="lineNum">     515 </span>            :           disconnect(group);
+<span class="lineNum">     516 </span>            :         }
+<span class="lineNum">     517 </span>            :         template&lt;typename T&gt;
+<span class="lineNum">     518 </span>            :         void do_disconnect(const T &amp;slot, mpl::bool_&lt;false&gt; /* is_group */)
+<span class="lineNum">     519 </span>            :         {
+<span class="lineNum">     520 </span>            :           shared_ptr&lt;invocation_state&gt; local_state =
+<span class="lineNum">     521 </span>            :             get_readable_state();
+<span class="lineNum">     522 </span>            :           typename connection_list_type::iterator it;
+<span class="lineNum">     523 </span>            :           for(it = local_state-&gt;connection_bodies().begin();
+<span class="lineNum">     524 </span>            :             it != local_state-&gt;connection_bodies().end(); ++it)
+<span class="lineNum">     525 </span>            :           {
+<span class="lineNum">     526 </span>            :             unique_lock&lt;connection_body_base&gt; lock(**it);
+<span class="lineNum">     527 </span>            :             if((*it)-&gt;slot.slot_function() == slot)
+<span class="lineNum">     528 </span>            :             {
+<span class="lineNum">     529 </span>            :               (*it)-&gt;nolock_disconnect();
+<span class="lineNum">     530 </span>            :             }else
+<span class="lineNum">     531 </span>            :             {
+<span class="lineNum">     532 </span>            :               // check for wrapped extended slot
+<span class="lineNum">     533 </span>            :               bound_extended_slot_function_type *fp;
+<span class="lineNum">     534 </span>            :               fp = (*it)-&gt;slot.slot_function().template target&lt;bound_extended_slot_function_type&gt;();
+<span class="lineNum">     535 </span>            :               if(fp &amp;&amp; *fp == slot)
+<span class="lineNum">     536 </span>            :               {
+<span class="lineNum">     537 </span>            :                 (*it)-&gt;nolock_disconnect();
+<span class="lineNum">     538 </span>            :               }
+<span class="lineNum">     539 </span>            :             }
+<span class="lineNum">     540 </span>            :           }
+<a name="541"><span class="lineNum">     541 </span>            :         }</a>
+<span class="lineNum">     542 </span>            :         // connect slot
+<span class="lineNum">     543 </span><span class="lineNoCov">          0 :         connection nolock_connect(const slot_type &amp;slot, connect_position position)</span>
+<span class="lineNum">     544 </span>            :         {
+<span class="lineNum">     545 </span>            :           connection_body_type newConnectionBody =
+<span class="lineNum">     546 </span><span class="lineNoCov">          0 :             create_new_connection(slot);</span>
+<span class="lineNum">     547 </span><span class="lineNoCov">          0 :           group_key_type group_key;</span>
+<span class="lineNum">     548 </span><span class="lineNoCov">          0 :           if(position == at_back)</span>
+<span class="lineNum">     549 </span>            :           {
+<span class="lineNum">     550 </span><span class="lineNoCov">          0 :             group_key.first = back_ungrouped_slots;</span>
+<span class="lineNum">     551 </span><span class="lineNoCov">          0 :             _shared_state-&gt;connection_bodies().push_back(group_key, newConnectionBody);</span>
+<span class="lineNum">     552 </span>            :           }else
+<span class="lineNum">     553 </span>            :           {
+<span class="lineNum">     554 </span><span class="lineNoCov">          0 :             group_key.first = front_ungrouped_slots;</span>
+<span class="lineNum">     555 </span><span class="lineNoCov">          0 :             _shared_state-&gt;connection_bodies().push_front(group_key, newConnectionBody);</span>
+<span class="lineNum">     556 </span>            :           }
+<span class="lineNum">     557 </span><span class="lineNoCov">          0 :           newConnectionBody-&gt;set_group_key(group_key);</span>
+<span class="lineNum">     558 </span><span class="lineNoCov">          0 :           return connection(newConnectionBody);</span>
+<span class="lineNum">     559 </span>            :         }
+<span class="lineNum">     560 </span>            :         connection nolock_connect(const group_type &amp;group,
+<span class="lineNum">     561 </span>            :           const slot_type &amp;slot, connect_position position)
+<span class="lineNum">     562 </span>            :         {
+<span class="lineNum">     563 </span>            :           connection_body_type newConnectionBody =
+<span class="lineNum">     564 </span>            :             create_new_connection(slot);
+<span class="lineNum">     565 </span>            :           // update map to first connection body in group if needed
+<span class="lineNum">     566 </span>            :           group_key_type group_key(grouped_slots, group);
+<span class="lineNum">     567 </span>            :           newConnectionBody-&gt;set_group_key(group_key);
+<span class="lineNum">     568 </span>            :           if(position == at_back)
+<span class="lineNum">     569 </span>            :           {
+<span class="lineNum">     570 </span>            :             _shared_state-&gt;connection_bodies().push_back(group_key, newConnectionBody);
+<span class="lineNum">     571 </span>            :           }else  // at_front
+<span class="lineNum">     572 </span>            :           {
+<span class="lineNum">     573 </span>            :             _shared_state-&gt;connection_bodies().push_front(group_key, newConnectionBody);
+<span class="lineNum">     574 </span>            :           }
+<span class="lineNum">     575 </span>            :           return connection(newConnectionBody);
+<span class="lineNum">     576 </span>            :         }
+<span class="lineNum">     577 </span>            : 
+<span class="lineNum">     578 </span>            :         // _shared_state is mutable so we can do force_cleanup_connections during a const invocation
+<span class="lineNum">     579 </span>            :         mutable shared_ptr&lt;invocation_state&gt; _shared_state;
+<span class="lineNum">     580 </span>            :         mutable typename connection_list_type::iterator _garbage_collector_it;
+<span class="lineNum">     581 </span>            :         // connection list mutex must never be locked when attempting a blocking lock on a slot,
+<span class="lineNum">     582 </span>            :         // or you could deadlock.
+<span class="lineNum">     583 </span>            :         mutable mutex_type _mutex;
+<span class="lineNum">     584 </span>            :       };
+<span class="lineNum">     585 </span>            : 
+<span class="lineNum">     586 </span>            :       template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     587 </span>            :         class BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">     588 </span>            :     }
+<span class="lineNum">     589 </span>            : 
+<span class="lineNum">     590 </span>            :     template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_DEFAULTED_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     591 </span>            :       class BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">     592 </span>            : 
+<span class="lineNum">     593 </span>            :     template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     594 </span>            :     class BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     595 </span>            :       BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION: public signal_base,
+<span class="lineNum">     596 </span>            :       public detail::BOOST_SIGNALS2_STD_FUNCTIONAL_BASE
+<span class="lineNum">     597 </span>            :         (typename detail::result_type_wrapper&lt;typename Combiner::result_type&gt;::type)
+<span class="lineNum">     598 </span>            :     {
+<span class="lineNum">     599 </span>            :       typedef detail::BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     600 </span>            :         &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; impl_class;
+<span class="lineNum">     601 </span>            :     public:
+<span class="lineNum">     602 </span>            :       typedef detail::BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     603 </span>            :         &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; weak_signal_type;
+<span class="lineNum">     604 </span>            :       friend class detail::BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     605 </span>            :         &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt;;
+<span class="lineNum">     606 </span>            : 
+<span class="lineNum">     607 </span>            :       typedef SlotFunction slot_function_type;
+<span class="lineNum">     608 </span>            :       // typedef slotN&lt;Signature, SlotFunction&gt; slot_type;
+<span class="lineNum">     609 </span>            :       typedef typename impl_class::slot_type slot_type;
+<span class="lineNum">     610 </span>            :       typedef typename impl_class::extended_slot_function_type extended_slot_function_type;
+<span class="lineNum">     611 </span>            :       typedef typename impl_class::extended_slot_type extended_slot_type;
+<span class="lineNum">     612 </span>            :       typedef typename slot_function_type::result_type slot_result_type;
+<span class="lineNum">     613 </span>            :       typedef Combiner combiner_type;
+<span class="lineNum">     614 </span>            :       typedef typename impl_class::result_type result_type;
+<span class="lineNum">     615 </span>            :       typedef Group group_type;
+<span class="lineNum">     616 </span>            :       typedef GroupCompare group_compare_type;
+<span class="lineNum">     617 </span>            :       typedef typename impl_class::slot_call_iterator
+<span class="lineNum">     618 </span>            :         slot_call_iterator;
+<span class="lineNum">     619 </span>            :       typedef typename mpl::identity&lt;BOOST_SIGNALS2_SIGNATURE_FUNCTION_TYPE(BOOST_SIGNALS2_NUM_ARGS)&gt;::type signature_type;
+<span class="lineNum">     620 </span>            : 
+<span class="lineNum">     621 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     622 </span>            : 
+<span class="lineNum">     623 </span>            : // typedef Tn argn_type;
+<span class="lineNum">     624 </span>            : #define BOOST_SIGNALS2_MISC_STATEMENT(z, n, data) \
+<span class="lineNum">     625 </span>            :   typedef BOOST_PP_CAT(T, BOOST_PP_INC(n)) BOOST_PP_CAT(BOOST_PP_CAT(arg, BOOST_PP_INC(n)), _type);
+<span class="lineNum">     626 </span>            :       BOOST_PP_REPEAT(BOOST_SIGNALS2_NUM_ARGS, BOOST_SIGNALS2_MISC_STATEMENT, ~)
+<span class="lineNum">     627 </span>            : #undef BOOST_SIGNALS2_MISC_STATEMENT
+<span class="lineNum">     628 </span>            : #if BOOST_SIGNALS2_NUM_ARGS == 1
+<span class="lineNum">     629 </span>            :       typedef arg1_type argument_type;
+<span class="lineNum">     630 </span>            : #elif BOOST_SIGNALS2_NUM_ARGS == 2
+<span class="lineNum">     631 </span>            :       typedef arg1_type first_argument_type;
+<span class="lineNum">     632 </span>            :       typedef arg2_type second_argument_type;
+<span class="lineNum">     633 </span>            : #endif
+<span class="lineNum">     634 </span>            : 
+<span class="lineNum">     635 </span>            :       template&lt;unsigned n&gt; class arg : public
+<span class="lineNum">     636 </span>            :         detail::BOOST_SIGNALS2_PREPROCESSED_ARG_N_TYPE_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     637 </span>            :         &lt;n BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     638 </span>            :         BOOST_SIGNALS2_ARGS_TEMPLATE_INSTANTIATION(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     639 </span>            :       {};
+<span class="lineNum">     640 </span>            : 
+<span class="lineNum">     641 </span>            :       BOOST_STATIC_CONSTANT(int, arity = BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">     642 </span>            : 
+<span class="lineNum">     643 </span>            : #else // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     644 </span>            : 
+<span class="lineNum">     645 </span>            :       template&lt;unsigned n&gt; class arg
+<span class="lineNum">     646 </span>            :       {
+<span class="lineNum">     647 </span>            :       public:
+<span class="lineNum">     648 </span>            :         typedef typename detail::variadic_arg_type&lt;n, Args...&gt;::type type;
+<span class="lineNum">     649 </span>            :       };
+<span class="lineNum">     650 </span>            :       BOOST_STATIC_CONSTANT(int, arity = sizeof...(Args));
+<span class="lineNum">     651 </span>            : 
+<span class="lineNum">     652 </span>            : #endif // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     653 </span>            : 
+<span class="lineNum">     654 </span>            :       BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)(const combiner_type &amp;combiner_arg = combiner_type(),
+<span class="lineNum">     655 </span>            :         const group_compare_type &amp;group_compare = group_compare_type()):
+<a name="656"><span class="lineNum">     656 </span>            :         _pimpl(new impl_class(combiner_arg, group_compare))</a>
+<span class="lineNum">     657 </span>            :       {};
+<span class="lineNum">     658 </span><span class="lineNoCov">          0 :       virtual ~BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)()</span>
+<span class="lineNum">     659 </span>            :       {
+<a name="660"><span class="lineNum">     660 </span><span class="lineNoCov">          0 :         disconnect_all_slots();</span></a>
+<span class="lineNum">     661 </span><span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     662 </span><span class="lineNoCov">          0 :       connection connect(const slot_type &amp;slot, connect_position position = at_back)</span>
+<span class="lineNum">     663 </span>            :       {
+<span class="lineNum">     664 </span><span class="lineNoCov">          0 :         return (*_pimpl).connect(slot, position);</span>
+<span class="lineNum">     665 </span>            :       }
+<span class="lineNum">     666 </span>            :       connection connect(const group_type &amp;group,
+<span class="lineNum">     667 </span>            :         const slot_type &amp;slot, connect_position position = at_back)
+<span class="lineNum">     668 </span>            :       {
+<span class="lineNum">     669 </span>            :         return (*_pimpl).connect(group, slot, position);
+<span class="lineNum">     670 </span>            :       }
+<span class="lineNum">     671 </span>            :       connection connect_extended(const extended_slot_type &amp;slot, connect_position position = at_back)
+<span class="lineNum">     672 </span>            :       {
+<span class="lineNum">     673 </span>            :         return (*_pimpl).connect_extended(slot, position);
+<span class="lineNum">     674 </span>            :       }
+<span class="lineNum">     675 </span>            :       connection connect_extended(const group_type &amp;group,
+<span class="lineNum">     676 </span>            :         const extended_slot_type &amp;slot, connect_position position = at_back)
+<span class="lineNum">     677 </span>            :       {
+<a name="678"><span class="lineNum">     678 </span>            :         return (*_pimpl).connect_extended(group, slot, position);</a>
+<span class="lineNum">     679 </span>            :       }
+<span class="lineNum">     680 </span><span class="lineNoCov">          0 :       void disconnect_all_slots()</span>
+<span class="lineNum">     681 </span>            :       {
+<span class="lineNum">     682 </span><span class="lineNoCov">          0 :         (*_pimpl).disconnect_all_slots();</span>
+<span class="lineNum">     683 </span><span class="lineNoCov">          0 :       }</span>
+<span class="lineNum">     684 </span>            :       void disconnect(const group_type &amp;group)
+<span class="lineNum">     685 </span>            :       {
+<span class="lineNum">     686 </span>            :         (*_pimpl).disconnect(group);
+<span class="lineNum">     687 </span>            :       }
+<span class="lineNum">     688 </span>            :       template &lt;typename T&gt;
+<span class="lineNum">     689 </span>            :       void disconnect(const T &amp;slot)
+<span class="lineNum">     690 </span>            :       {
+<a name="691"><span class="lineNum">     691 </span>            :         (*_pimpl).disconnect(slot);</a>
+<span class="lineNum">     692 </span>            :       }
+<span class="lineNum">     693 </span><span class="lineNoCov">          0 :       result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS))</span>
+<span class="lineNum">     694 </span>            :       {
+<span class="lineNum">     695 </span><span class="lineNoCov">          0 :         return (*_pimpl)(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));</span>
+<span class="lineNum">     696 </span>            :       }
+<span class="lineNum">     697 </span>            :       result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">     698 </span>            :       {
+<span class="lineNum">     699 </span>            :         return (*_pimpl)(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     700 </span>            :       }
+<span class="lineNum">     701 </span>            :       std::size_t num_slots() const
+<span class="lineNum">     702 </span>            :       {
+<span class="lineNum">     703 </span>            :         return (*_pimpl).num_slots();
+<span class="lineNum">     704 </span>            :       }
+<span class="lineNum">     705 </span>            :       bool empty() const
+<span class="lineNum">     706 </span>            :       {
+<span class="lineNum">     707 </span>            :         return (*_pimpl).empty();
+<span class="lineNum">     708 </span>            :       }
+<span class="lineNum">     709 </span>            :       combiner_type combiner() const
+<span class="lineNum">     710 </span>            :       {
+<span class="lineNum">     711 </span>            :         return (*_pimpl).combiner();
+<span class="lineNum">     712 </span>            :       }
+<span class="lineNum">     713 </span>            :       void set_combiner(const combiner_type &amp;combiner_arg)
+<span class="lineNum">     714 </span>            :       {
+<span class="lineNum">     715 </span>            :         return (*_pimpl).set_combiner(combiner_arg);
+<span class="lineNum">     716 </span>            :       }
+<span class="lineNum">     717 </span>            :       void swap(BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) &amp; other)
+<span class="lineNum">     718 </span>            :       {
+<span class="lineNum">     719 </span>            :         using std::swap;
+<span class="lineNum">     720 </span>            :         swap(_pimpl, other._pimpl);
+<a name="721"><span class="lineNum">     721 </span>            :       }</a>
+<span class="lineNum">     722 </span>            :     protected:
+<span class="lineNum">     723 </span><span class="lineNoCov">          0 :       virtual shared_ptr&lt;void&gt; lock_pimpl() const</span>
+<span class="lineNum">     724 </span>            :       {
+<span class="lineNum">     725 </span><span class="lineNoCov">          0 :         return _pimpl;</span>
+<span class="lineNum">     726 </span>            :       }
+<span class="lineNum">     727 </span>            :     private:
+<span class="lineNum">     728 </span>            :       shared_ptr&lt;impl_class&gt;
+<span class="lineNum">     729 </span>            :         _pimpl;
+<span class="lineNum">     730 </span>            :     };
+<span class="lineNum">     731 </span>            : 
+<span class="lineNum">     732 </span>            : #ifdef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     733 </span>            :     // free swap function for signalN classes, findable by ADL
+<span class="lineNum">     734 </span>            :     template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     735 </span>            :       void swap(
+<span class="lineNum">     736 </span>            :         BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; &amp;sig1,
+<span class="lineNum">     737 </span>            :         BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS) &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; &amp;sig2 )
+<span class="lineNum">     738 </span>            :     {
+<span class="lineNum">     739 </span>            :       sig1.swap(sig2);
+<span class="lineNum">     740 </span>            :     };
+<span class="lineNum">     741 </span>            : #endif
+<span class="lineNum">     742 </span>            : 
+<span class="lineNum">     743 </span>            :     namespace detail
+<span class="lineNum">     744 </span>            :     {
+<span class="lineNum">     745 </span>            :       // wrapper class for storing other signals as slots with automatic lifetime tracking
+<span class="lineNum">     746 </span>            :       template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     747 </span>            :         class BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS);
+<span class="lineNum">     748 </span>            : 
+<span class="lineNum">     749 </span>            :       template&lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION_DECL(BOOST_SIGNALS2_NUM_ARGS)&gt;
+<span class="lineNum">     750 </span>            :         class BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     751 </span>            :         BOOST_SIGNALS2_SIGNAL_TEMPLATE_SPECIALIZATION
+<span class="lineNum">     752 </span>            :       {
+<span class="lineNum">     753 </span>            :       public:
+<span class="lineNum">     754 </span>            :         typedef typename BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     755 </span>            :           &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt;::result_type
+<span class="lineNum">     756 </span>            :           result_type;
+<span class="lineNum">     757 </span>            : 
+<span class="lineNum">     758 </span>            :         BOOST_SIGNALS2_WEAK_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     759 </span>            :           (const BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     760 </span>            :           &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt;
+<span class="lineNum">     761 </span>            :           &amp;signal):
+<span class="lineNum">     762 </span>            :           _weak_pimpl(signal._pimpl)
+<span class="lineNum">     763 </span>            :         {}
+<span class="lineNum">     764 </span>            :         result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS))
+<span class="lineNum">     765 </span>            :         {
+<span class="lineNum">     766 </span>            :           shared_ptr&lt;detail::BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     767 </span>            :             &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; &gt;
+<span class="lineNum">     768 </span>            :             shared_pimpl(_weak_pimpl.lock());
+<span class="lineNum">     769 </span>            :           if(shared_pimpl == 0) boost::throw_exception(expired_slot());
+<span class="lineNum">     770 </span>            :           return (*shared_pimpl)(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     771 </span>            :         }
+<span class="lineNum">     772 </span>            :         result_type operator ()(BOOST_SIGNALS2_SIGNATURE_FULL_ARGS(BOOST_SIGNALS2_NUM_ARGS)) const
+<span class="lineNum">     773 </span>            :         {
+<span class="lineNum">     774 </span>            :           shared_ptr&lt;detail::BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     775 </span>            :             &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; &gt;
+<span class="lineNum">     776 </span>            :             shared_pimpl(_weak_pimpl.lock());
+<span class="lineNum">     777 </span>            :           if(shared_pimpl == 0) boost::throw_exception(expired_slot());
+<span class="lineNum">     778 </span>            :           return (*shared_pimpl)(BOOST_SIGNALS2_SIGNATURE_ARG_NAMES(BOOST_SIGNALS2_NUM_ARGS));
+<span class="lineNum">     779 </span>            :         }
+<span class="lineNum">     780 </span>            :       private:
+<span class="lineNum">     781 </span>            :         boost::weak_ptr&lt;detail::BOOST_SIGNALS2_SIGNAL_IMPL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)
+<span class="lineNum">     782 </span>            :           &lt;BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION&gt; &gt; _weak_pimpl;
+<span class="lineNum">     783 </span>            :       };
+<span class="lineNum">     784 </span>            : 
+<span class="lineNum">     785 </span>            : #ifndef BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     786 </span>            :       template&lt;int arity, typename Signature&gt;
+<span class="lineNum">     787 </span>            :         class extended_signature: public variadic_extended_signature&lt;Signature&gt;
+<span class="lineNum">     788 </span>            :       {};
+<span class="lineNum">     789 </span>            : #else // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     790 </span>            :       template&lt;int arity, typename Signature&gt;
+<span class="lineNum">     791 </span>            :         class extended_signature;
+<span class="lineNum">     792 </span>            :       // partial template specialization
+<span class="lineNum">     793 </span>            :       template&lt;typename Signature&gt;
+<span class="lineNum">     794 </span>            :         class extended_signature&lt;BOOST_SIGNALS2_NUM_ARGS, Signature&gt;
+<span class="lineNum">     795 </span>            :       {
+<span class="lineNum">     796 </span>            :       public:
+<span class="lineNum">     797 </span>            : // typename function_traits&lt;Signature&gt;::result_type (
+<span class="lineNum">     798 </span>            : // const boost::signals2::connection &amp;,
+<span class="lineNum">     799 </span>            : // typename function_traits&lt;Signature&gt;::arg1_type,
+<span class="lineNum">     800 </span>            : // typename function_traits&lt;Signature&gt;::arg2_type,
+<span class="lineNum">     801 </span>            : // ...,
+<span class="lineNum">     802 </span>            : // typename function_traits&lt;Signature&gt;::argn_type)
+<span class="lineNum">     803 </span>            : #define BOOST_SIGNALS2_EXT_SIGNATURE(arity, Signature) \
+<span class="lineNum">     804 </span>            :   typename function_traits&lt;Signature&gt;::result_type ( \
+<span class="lineNum">     805 </span>            :   const boost::signals2::connection &amp; BOOST_SIGNALS2_PP_COMMA_IF(BOOST_SIGNALS2_NUM_ARGS) \
+<span class="lineNum">     806 </span>            :   BOOST_PP_ENUM(arity, BOOST_SIGNALS2_SIGNATURE_TO_ARGN_TYPE, Signature) )
+<span class="lineNum">     807 </span>            :         typedef function&lt;BOOST_SIGNALS2_EXT_SIGNATURE(BOOST_SIGNALS2_NUM_ARGS, Signature)&gt; function_type;
+<span class="lineNum">     808 </span>            : #undef BOOST_SIGNALS2_EXT_SIGNATURE
+<span class="lineNum">     809 </span>            :       };
+<span class="lineNum">     810 </span>            : 
+<span class="lineNum">     811 </span>            :       template&lt;unsigned arity, typename Signature, typename Combiner,
+<span class="lineNum">     812 </span>            :         typename Group, typename GroupCompare, typename SlotFunction,
+<span class="lineNum">     813 </span>            :         typename ExtendedSlotFunction, typename Mutex&gt;
+<span class="lineNum">     814 </span>            :       class signalN;
+<span class="lineNum">     815 </span>            :       // partial template specialization
+<span class="lineNum">     816 </span>            :       template&lt;typename Signature, typename Combiner, typename Group,
+<span class="lineNum">     817 </span>            :         typename GroupCompare, typename SlotFunction,
+<span class="lineNum">     818 </span>            :         typename ExtendedSlotFunction, typename Mutex&gt;
+<span class="lineNum">     819 </span>            :       class signalN&lt;BOOST_SIGNALS2_NUM_ARGS, Signature, Combiner, Group,
+<span class="lineNum">     820 </span>            :         GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex&gt;
+<span class="lineNum">     821 </span>            :       {
+<span class="lineNum">     822 </span>            :       public:
+<span class="lineNum">     823 </span>            :         typedef BOOST_SIGNALS2_SIGNAL_CLASS_NAME(BOOST_SIGNALS2_NUM_ARGS)&lt;
+<span class="lineNum">     824 </span>            :           BOOST_SIGNALS2_PORTABLE_SIGNATURE(BOOST_SIGNALS2_NUM_ARGS, Signature),
+<span class="lineNum">     825 </span>            :           Combiner, Group,
+<span class="lineNum">     826 </span>            :           GroupCompare, SlotFunction, ExtendedSlotFunction, Mutex&gt; type;
+<span class="lineNum">     827 </span>            :       };
+<span class="lineNum">     828 </span>            : 
+<span class="lineNum">     829 </span>            : #endif // BOOST_NO_CXX11_VARIADIC_TEMPLATES
+<span class="lineNum">     830 </span>            : 
+<span class="lineNum">     831 </span>            :     } // namespace detail
+<span class="lineNum">     832 </span>            :   } // namespace signals2
+<span class="lineNum">     833 </span>            : } // namespace boost
+<span class="lineNum">     834 </span>            : 
+<span class="lineNum">     835 </span>            : #undef BOOST_SIGNALS2_NUM_ARGS
+<span class="lineNum">     836 </span>            : #undef BOOST_SIGNALS2_SIGNAL_TEMPLATE_INSTANTIATION
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

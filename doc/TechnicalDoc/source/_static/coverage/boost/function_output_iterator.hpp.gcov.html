@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - boost/function_output_iterator.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">boost</a> - function_output_iterator.hpp<span style="font-size: 80%;"> (source / <a href="function_output_iterator.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // (C) Copyright Jeremy Siek 2001.</a>
+<span class="lineNum">       2 </span>            : // Distributed under the Boost Software License, Version 1.0. (See
+<span class="lineNum">       3 </span>            : // accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       4 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : // Revision History:
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : // 27 Feb 2001   Jeremy Siek
+<span class="lineNum">       9 </span>            : //      Initial checkin.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #ifndef BOOST_FUNCTION_OUTPUT_ITERATOR_HPP
+<span class="lineNum">      12 </span>            : #define BOOST_FUNCTION_OUTPUT_ITERATOR_HPP
+<span class="lineNum">      13 </span>            : 
+<span class="lineNum">      14 </span>            : #include &lt;iterator&gt;
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : namespace boost {
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :   template &lt;class UnaryFunction&gt;
+<span class="lineNum">      19 </span>            :   class function_output_iterator {
+<span class="lineNum">      20 </span>            :     typedef function_output_iterator self;
+<span class="lineNum">      21 </span>            :   public:
+<span class="lineNum">      22 </span>            :     typedef std::output_iterator_tag iterator_category;
+<span class="lineNum">      23 </span>            :     typedef void                value_type;
+<span class="lineNum">      24 </span>            :     typedef void                difference_type;
+<span class="lineNum">      25 </span>            :     typedef void                pointer;
+<a name="26"><span class="lineNum">      26 </span>            :     typedef void                reference;</a>
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :     explicit function_output_iterator() {}</span>
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :     explicit function_output_iterator(const UnaryFunction&amp; f)
+<span class="lineNum">      31 </span>            :       : m_f(f) {}
+<a name="32"><span class="lineNum">      32 </span>            : </a>
+<a name="33"><span class="lineNum">      33 </span>            :     struct output_proxy {</a>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :       output_proxy(UnaryFunction&amp; f) : m_f(f) { }</span>
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :       template &lt;class T&gt; output_proxy&amp; operator=(const T&amp; value) {</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         m_f(value); </span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :         return *this; </span>
+<span class="lineNum">      38 </span>            :       }
+<a name="39"><span class="lineNum">      39 </span>            :       UnaryFunction&amp; m_f;</a>
+<span class="lineNum">      40 </span>            :     };
+<a name="41"><span class="lineNum">      41 </span><span class="lineNoCov">          0 :     output_proxy operator*() { return output_proxy(m_f); }</span></a>
+<span class="lineNum">      42 </span>            :     self&amp; operator++() { return *this; } 
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     self&amp; operator++(int) { return *this; }</span>
+<span class="lineNum">      44 </span>            :   private:
+<span class="lineNum">      45 </span>            :     UnaryFunction m_f;
+<span class="lineNum">      46 </span>            :   };
+<span class="lineNum">      47 </span>            : 
+<span class="lineNum">      48 </span>            :   template &lt;class UnaryFunction&gt;
+<span class="lineNum">      49 </span>            :   inline function_output_iterator&lt;UnaryFunction&gt;
+<span class="lineNum">      50 </span>            :   make_function_output_iterator(const UnaryFunction&amp; f = UnaryFunction()) {
+<span class="lineNum">      51 </span>            :     return function_output_iterator&lt;UnaryFunction&gt;(f);
+<span class="lineNum">      52 </span>            :   }
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : } // namespace boost
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span>            : #endif // BOOST_FUNCTION_OUTPUT_ITERATOR_HPP
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

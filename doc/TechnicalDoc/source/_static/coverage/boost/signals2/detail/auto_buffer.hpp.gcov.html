@@ -1,0 +1,1214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage2.info - boost/signals2/detail/auto_buffer.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">boost/signals2/detail</a> - auto_buffer.hpp<span style="font-size: 80%;"> (source / <a href="auto_buffer.hpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage2.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">122</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2016-07-07 11:32:41</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Copyright Thorsten Ottosen, 2009.</a>
+<span class="lineNum">       2 </span>            : // Distributed under the Boost Software License, Version 1.0. (See
+<span class="lineNum">       3 </span>            : // accompanying file LICENSE_1_0.txt or copy at
+<span class="lineNum">       4 </span>            : // http://www.boost.org/LICENSE_1_0.txt)
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : #ifndef BOOST_SIGNALS2_DETAIL_AUTO_BUFFER_HPP_25_02_2009
+<span class="lineNum">       7 </span>            : #define BOOST_SIGNALS2_DETAIL_AUTO_BUFFER_HPP_25_02_2009
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            : #include &lt;boost/detail/workaround.hpp&gt;
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : #if defined(_MSC_VER) &amp;&amp; (_MSC_VER &gt;= 1200)
+<span class="lineNum">      12 </span>            : # pragma once
+<span class="lineNum">      13 </span>            : #endif
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            : #if BOOST_WORKAROUND(BOOST_MSVC, &gt;= 1400)
+<span class="lineNum">      16 </span>            : #pragma warning(push)
+<span class="lineNum">      17 </span>            : #pragma warning(disable:4996)
+<span class="lineNum">      18 </span>            : #endif
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : #include &lt;boost/assert.hpp&gt;
+<span class="lineNum">      21 </span>            : #include &lt;boost/iterator/reverse_iterator.hpp&gt;
+<span class="lineNum">      22 </span>            : #include &lt;boost/iterator/iterator_traits.hpp&gt;
+<span class="lineNum">      23 </span>            : #include &lt;boost/mpl/if.hpp&gt;
+<span class="lineNum">      24 </span>            : #include &lt;boost/multi_index/detail/scope_guard.hpp&gt;
+<span class="lineNum">      25 </span>            : #include &lt;boost/swap.hpp&gt;
+<span class="lineNum">      26 </span>            : #include &lt;boost/throw_exception.hpp&gt;
+<span class="lineNum">      27 </span>            : #include &lt;boost/type_traits/aligned_storage.hpp&gt;
+<span class="lineNum">      28 </span>            : #include &lt;boost/type_traits/alignment_of.hpp&gt;
+<span class="lineNum">      29 </span>            : #include &lt;boost/type_traits/has_nothrow_copy.hpp&gt;
+<span class="lineNum">      30 </span>            : #include &lt;boost/type_traits/has_nothrow_assign.hpp&gt;
+<span class="lineNum">      31 </span>            : #include &lt;boost/type_traits/has_trivial_assign.hpp&gt;
+<span class="lineNum">      32 </span>            : #include &lt;boost/type_traits/has_trivial_constructor.hpp&gt;
+<span class="lineNum">      33 </span>            : #include &lt;boost/type_traits/has_trivial_destructor.hpp&gt;
+<span class="lineNum">      34 </span>            : #include &lt;algorithm&gt;
+<span class="lineNum">      35 </span>            : #include &lt;cstring&gt;
+<span class="lineNum">      36 </span>            : #include &lt;iterator&gt;
+<span class="lineNum">      37 </span>            : #include &lt;memory&gt;
+<span class="lineNum">      38 </span>            : #include &lt;stdexcept&gt;
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : namespace boost
+<span class="lineNum">      41 </span>            : {
+<span class="lineNum">      42 </span>            : namespace signals2
+<span class="lineNum">      43 </span>            : {
+<span class="lineNum">      44 </span>            : namespace detail
+<span class="lineNum">      45 </span>            : {
+<span class="lineNum">      46 </span>            :     //
+<span class="lineNum">      47 </span>            :     // Policies for creating the stack buffer.
+<span class="lineNum">      48 </span>            :     //
+<span class="lineNum">      49 </span>            :     template&lt; unsigned N &gt;
+<span class="lineNum">      50 </span>            :     struct store_n_objects
+<span class="lineNum">      51 </span>            :     {
+<span class="lineNum">      52 </span>            :         BOOST_STATIC_CONSTANT( unsigned, value = N );
+<span class="lineNum">      53 </span>            :     };
+<span class="lineNum">      54 </span>            : 
+<span class="lineNum">      55 </span>            :     template&lt; unsigned N &gt;
+<span class="lineNum">      56 </span>            :     struct store_n_bytes
+<span class="lineNum">      57 </span>            :     {
+<span class="lineNum">      58 </span>            :         BOOST_STATIC_CONSTANT( unsigned, value = N );
+<span class="lineNum">      59 </span>            :     };
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :     namespace auto_buffer_detail
+<span class="lineNum">      62 </span>            :     {
+<span class="lineNum">      63 </span>            :         template&lt; class Policy, class T &gt;
+<span class="lineNum">      64 </span>            :         struct compute_buffer_size
+<span class="lineNum">      65 </span>            :         {
+<span class="lineNum">      66 </span>            :             BOOST_STATIC_CONSTANT( unsigned, value = Policy::value * sizeof(T) );
+<span class="lineNum">      67 </span>            :         };
+<span class="lineNum">      68 </span>            : 
+<span class="lineNum">      69 </span>            :         template&lt; unsigned N, class T &gt;
+<span class="lineNum">      70 </span>            :         struct compute_buffer_size&lt; store_n_bytes&lt;N&gt;, T &gt;
+<span class="lineNum">      71 </span>            :         {
+<span class="lineNum">      72 </span>            :             BOOST_STATIC_CONSTANT( unsigned, value = N );
+<span class="lineNum">      73 </span>            :         };
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :         template&lt; class Policy, class T &gt;
+<span class="lineNum">      76 </span>            :         struct compute_buffer_objects
+<span class="lineNum">      77 </span>            :         {
+<span class="lineNum">      78 </span>            :             BOOST_STATIC_CONSTANT( unsigned, value = Policy::value );
+<span class="lineNum">      79 </span>            :         };
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :         template&lt; unsigned N, class T &gt;
+<span class="lineNum">      82 </span>            :         struct compute_buffer_objects&lt; store_n_bytes&lt;N&gt;, T &gt;
+<span class="lineNum">      83 </span>            :         {
+<span class="lineNum">      84 </span>            :             BOOST_STATIC_CONSTANT( unsigned, value = N / sizeof(T) );
+<span class="lineNum">      85 </span>            :         };
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     struct default_grow_policy
+<a name="89"><span class="lineNum">      89 </span>            :     {</a>
+<span class="lineNum">      90 </span>            :         template&lt; class SizeType &gt;
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :         static SizeType new_capacity( SizeType capacity )</span>
+<span class="lineNum">      92 </span>            :         {
+<span class="lineNum">      93 </span>            :             //
+<span class="lineNum">      94 </span>            :             // @remark: we grow the capacity quite agressively.
+<span class="lineNum">      95 </span>            :             //          this is justified since we aim to minimize
+<span class="lineNum">      96 </span>            :             //          heap-allocations, and because we mostly use
+<span class="lineNum">      97 </span>            :             //          the buffer locally.
+<span class="lineNum">      98 </span><span class="lineNoCov">          0 :             return capacity * 4u;</span>
+<span class="lineNum">      99 </span>            :         }
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span>            :         template&lt; class SizeType &gt;
+<span class="lineNum">     102 </span>            :         static bool should_shrink( SizeType size, SizeType capacity )
+<span class="lineNum">     103 </span>            :         {
+<span class="lineNum">     104 </span>            :             //
+<span class="lineNum">     105 </span>            :             // @remark: when defining a new grow policy, one might
+<span class="lineNum">     106 </span>            :             //          choose that if the waated space is less
+<span class="lineNum">     107 </span>            :             //          than a certain percentage, then it is of
+<span class="lineNum">     108 </span>            :             //          little use to shrink.
+<span class="lineNum">     109 </span>            :             //
+<span class="lineNum">     110 </span>            :             return true;
+<span class="lineNum">     111 </span>            :         }
+<span class="lineNum">     112 </span>            :     };
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :     template&lt; class T,
+<span class="lineNum">     115 </span>            :               class StackBufferPolicy = store_n_objects&lt;256&gt;,
+<span class="lineNum">     116 </span>            :               class GrowPolicy        = default_grow_policy,
+<span class="lineNum">     117 </span>            :               class Allocator         = std::allocator&lt;T&gt; &gt;
+<span class="lineNum">     118 </span>            :     class auto_buffer;
+<span class="lineNum">     119 </span>            : 
+<span class="lineNum">     120 </span>            : 
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            :     template
+<span class="lineNum">     123 </span>            :     &lt;
+<span class="lineNum">     124 </span>            :         class T,
+<span class="lineNum">     125 </span>            :         class StackBufferPolicy,
+<span class="lineNum">     126 </span>            :         class GrowPolicy,
+<span class="lineNum">     127 </span>            :         class Allocator
+<span class="lineNum">     128 </span>            :     &gt;
+<span class="lineNum">     129 </span>            :     class auto_buffer : Allocator
+<span class="lineNum">     130 </span>            :     {
+<span class="lineNum">     131 </span>            :     private:
+<span class="lineNum">     132 </span>            :         enum { N = auto_buffer_detail::
+<span class="lineNum">     133 </span>            :                    compute_buffer_objects&lt;StackBufferPolicy,T&gt;::value };
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span>            :         BOOST_STATIC_CONSTANT( bool, is_stack_buffer_empty = N == 0u );
+<span class="lineNum">     136 </span>            : 
+<span class="lineNum">     137 </span>            :         typedef auto_buffer&lt;T, store_n_objects&lt;0&gt;, GrowPolicy, Allocator&gt;
+<span class="lineNum">     138 </span>            :                                                          local_buffer;
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span>            :     public:
+<span class="lineNum">     141 </span>            :         typedef Allocator                                allocator_type;
+<span class="lineNum">     142 </span>            :         typedef T                                        value_type;
+<span class="lineNum">     143 </span>            :         typedef typename Allocator::size_type            size_type;
+<span class="lineNum">     144 </span>            :         typedef typename Allocator::difference_type      difference_type;
+<span class="lineNum">     145 </span>            :         typedef T*                                       pointer;
+<span class="lineNum">     146 </span>            :         typedef typename Allocator::pointer              allocator_pointer;
+<span class="lineNum">     147 </span>            :         typedef const T*                                 const_pointer;
+<span class="lineNum">     148 </span>            :         typedef T&amp;                                       reference;
+<span class="lineNum">     149 </span>            :         typedef const T&amp;                                 const_reference;
+<span class="lineNum">     150 </span>            :         typedef pointer                                  iterator;
+<span class="lineNum">     151 </span>            :         typedef const_pointer                            const_iterator;
+<span class="lineNum">     152 </span>            :         typedef boost::reverse_iterator&lt;iterator&gt;        reverse_iterator;
+<span class="lineNum">     153 </span>            :         typedef boost::reverse_iterator&lt;const_iterator&gt;  const_reverse_iterator;
+<span class="lineNum">     154 </span>            :         typedef typename boost::mpl::if_c&lt; boost::has_trivial_assign&lt;T&gt;::value
+<span class="lineNum">     155 </span>            :                                            &amp;&amp; sizeof(T) &lt;= sizeof(long double),
+<span class="lineNum">     156 </span>            :                                           const value_type,
+<span class="lineNum">     157 </span>            :                                           const_reference &gt;::type
+<span class="lineNum">     158 </span>            :                                                       optimized_const_reference;
+<a name="159"><span class="lineNum">     159 </span>            :     private:</a>
+<span class="lineNum">     160 </span>            : 
+<span class="lineNum">     161 </span><span class="lineNoCov">          0 :         pointer allocate( size_type capacity_arg )</span>
+<span class="lineNum">     162 </span>            :         {
+<span class="lineNum">     163 </span><span class="lineNoCov">          0 :             if( capacity_arg &gt; N )</span>
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :                 return &amp;*get_allocator().allocate( capacity_arg );</span>
+<span class="lineNum">     165 </span>            :             else
+<span class="lineNum">     166 </span><span class="lineNoCov">          0 :                 return static_cast&lt;T*&gt;( members_.address() );</span>
+<a name="167"><span class="lineNum">     167 </span>            :         }</a>
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span><span class="lineNoCov">          0 :         void deallocate( pointer where, size_type capacity_arg )</span>
+<span class="lineNum">     170 </span>            :         {
+<span class="lineNum">     171 </span><span class="lineNoCov">          0 :             if( capacity_arg &lt;= N )</span>
+<span class="lineNum">     172 </span><span class="lineNoCov">          0 :                 return;</span>
+<span class="lineNum">     173 </span><span class="lineNoCov">          0 :             get_allocator().deallocate( allocator_pointer(where), capacity_arg );</span>
+<span class="lineNum">     174 </span>            :         }
+<a name="175"><span class="lineNum">     175 </span>            : </a>
+<span class="lineNum">     176 </span>            :         template&lt; class I &gt;
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :         static void copy_impl( I begin, I end, pointer where, std::random_access_iterator_tag )</span>
+<span class="lineNum">     178 </span>            :         {
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :             copy_rai( begin, end, where, boost::has_trivial_assign&lt;T&gt;() );</span>
+<span class="lineNum">     180 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span>            :         static void copy_rai( const T* begin, const T* end,
+<span class="lineNum">     183 </span>            :                               pointer where, const boost::true_type&amp; )
+<span class="lineNum">     184 </span>            :         {
+<span class="lineNum">     185 </span>            :             std::memcpy( where, begin, sizeof(T) * std::distance(begin,end) );
+<span class="lineNum">     186 </span>            :         }
+<a name="187"><span class="lineNum">     187 </span>            : </a>
+<span class="lineNum">     188 </span>            :         template&lt; class I, bool b &gt;
+<span class="lineNum">     189 </span><span class="lineNoCov">          0 :         static void copy_rai( I begin, I end,</span>
+<span class="lineNum">     190 </span>            :                               pointer where, const boost::integral_constant&lt;bool, b&gt;&amp; )
+<span class="lineNum">     191 </span>            :         {
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :             std::uninitialized_copy( begin, end, where );</span>
+<span class="lineNum">     193 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     194 </span>            : 
+<span class="lineNum">     195 </span>            :         template&lt; class I &gt;
+<span class="lineNum">     196 </span>            :         static void copy_impl( I begin, I end, pointer where, std::bidirectional_iterator_tag )
+<span class="lineNum">     197 </span>            :         {
+<span class="lineNum">     198 </span>            :             std::uninitialized_copy( begin, end, where );
+<span class="lineNum">     199 </span>            :         }
+<a name="200"><span class="lineNum">     200 </span>            : </a>
+<span class="lineNum">     201 </span>            :         template&lt; class I &gt;
+<span class="lineNum">     202 </span><span class="lineNoCov">          0 :         static void copy_impl( I begin, I end, pointer where )</span>
+<span class="lineNum">     203 </span>            :         {
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :             copy_impl( begin, end, where,</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :                        typename std::iterator_traits&lt;I&gt;::iterator_category() );</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     207 </span>            : 
+<span class="lineNum">     208 </span>            :         template&lt; class I, class I2 &gt;
+<span class="lineNum">     209 </span>            :         static void assign_impl( I begin, I end, I2 where )
+<span class="lineNum">     210 </span>            :         {
+<span class="lineNum">     211 </span>            :             assign_impl( begin, end, where, boost::has_trivial_assign&lt;T&gt;() );
+<span class="lineNum">     212 </span>            :         }
+<span class="lineNum">     213 </span>            : 
+<span class="lineNum">     214 </span>            :         template&lt; class I, class I2 &gt;
+<span class="lineNum">     215 </span>            :         static void assign_impl( I begin, I end, I2 where, const boost::true_type&amp; )
+<span class="lineNum">     216 </span>            :         {
+<span class="lineNum">     217 </span>            :             std::memcpy( where, begin, sizeof(T) * std::distance(begin,end) );
+<span class="lineNum">     218 </span>            :         }
+<span class="lineNum">     219 </span>            : 
+<span class="lineNum">     220 </span>            :         template&lt; class I, class I2 &gt;
+<span class="lineNum">     221 </span>            :         static void assign_impl( I begin, I end, I2 where, const boost::false_type&amp; )
+<span class="lineNum">     222 </span>            :         {
+<span class="lineNum">     223 </span>            :             for( ; begin != end; ++begin, ++where )
+<span class="lineNum">     224 </span>            :                 *where = *begin;
+<span class="lineNum">     225 </span>            :         }
+<span class="lineNum">     226 </span>            : 
+<span class="lineNum">     227 </span>            :         void unchecked_push_back_n( size_type n, const boost::true_type&amp; )
+<span class="lineNum">     228 </span>            :         {
+<span class="lineNum">     229 </span>            :             std::uninitialized_fill( end(), end() + n, T() );
+<span class="lineNum">     230 </span>            :             size_ += n;
+<span class="lineNum">     231 </span>            :         }
+<span class="lineNum">     232 </span>            : 
+<span class="lineNum">     233 </span>            :         void unchecked_push_back_n( size_type n, const boost::false_type&amp; )
+<span class="lineNum">     234 </span>            :         {
+<span class="lineNum">     235 </span>            :             for( size_type i = 0u; i &lt; n; ++i )
+<span class="lineNum">     236 </span>            :                 unchecked_push_back();
+<a name="237"><span class="lineNum">     237 </span>            :         }</a>
+<span class="lineNum">     238 </span>            : 
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         void auto_buffer_destroy( pointer where, const boost::false_type&amp; )</span>
+<span class="lineNum">     240 </span>            :         {
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :             (*where).~T();</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     243 </span>            : 
+<span class="lineNum">     244 </span>            :         void auto_buffer_destroy( pointer, const boost::true_type&amp; )
+<a name="245"><span class="lineNum">     245 </span>            :         { }</a>
+<span class="lineNum">     246 </span>            : 
+<span class="lineNum">     247 </span><span class="lineNoCov">          0 :         void auto_buffer_destroy( pointer where )</span>
+<span class="lineNum">     248 </span>            :         {
+<span class="lineNum">     249 </span><span class="lineNoCov">          0 :             auto_buffer_destroy( where, boost::has_trivial_destructor&lt;T&gt;() );</span>
+<a name="250"><span class="lineNum">     250 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     251 </span>            : 
+<span class="lineNum">     252 </span><span class="lineNoCov">          0 :         void destroy_back_n( size_type n, const boost::false_type&amp; )</span>
+<span class="lineNum">     253 </span>            :         {
+<span class="lineNum">     254 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( n &gt; 0 );</span>
+<span class="lineNum">     255 </span><span class="lineNoCov">          0 :             pointer buffer  = buffer_ + size_ - 1u;</span>
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :             pointer new_end = buffer - n;</span>
+<span class="lineNum">     257 </span><span class="lineNoCov">          0 :             for( ; buffer &gt; new_end; --buffer )</span>
+<span class="lineNum">     258 </span><span class="lineNoCov">          0 :                 auto_buffer_destroy( buffer );</span>
+<span class="lineNum">     259 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     260 </span>            : 
+<span class="lineNum">     261 </span>            :         void destroy_back_n( size_type n, const boost::true_type&amp; )
+<a name="262"><span class="lineNum">     262 </span>            :         { }</a>
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span><span class="lineNoCov">          0 :         void destroy_back_n( size_type n )</span>
+<span class="lineNum">     265 </span>            :         {
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 :             destroy_back_n( n, boost::has_trivial_destructor&lt;T&gt;() );</span>
+<a name="267"><span class="lineNum">     267 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     268 </span>            : 
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 :         void auto_buffer_destroy( const boost::false_type&amp; x )</span>
+<span class="lineNum">     270 </span>            :         {
+<span class="lineNum">     271 </span><span class="lineNoCov">          0 :             if( size_ )</span>
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :                 destroy_back_n( size_, x );</span>
+<span class="lineNum">     273 </span><span class="lineNoCov">          0 :             deallocate( buffer_, members_.capacity_ );</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     275 </span>            : 
+<span class="lineNum">     276 </span>            :         void auto_buffer_destroy( const boost::true_type&amp; )
+<span class="lineNum">     277 </span>            :         {
+<span class="lineNum">     278 </span>            :             deallocate( buffer_, members_.capacity_ );
+<a name="279"><span class="lineNum">     279 </span>            :         }</a>
+<span class="lineNum">     280 </span>            : 
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :         pointer move_to_new_buffer( size_type new_capacity, const boost::false_type&amp; )</span>
+<span class="lineNum">     282 </span>            :         {
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 :             pointer new_buffer = allocate( new_capacity ); // strong</span>
+<span class="lineNum">     284 </span>            :             boost::multi_index::detail::scope_guard guard =
+<span class="lineNum">     285 </span>            :                 boost::multi_index::detail::make_obj_guard( *this,
+<span class="lineNum">     286 </span>            :                                                             &amp;auto_buffer::deallocate,
+<span class="lineNum">     287 </span>            :                                                             new_buffer,
+<span class="lineNum">     288 </span><span class="lineNoCov">          0 :                                                             new_capacity );</span>
+<span class="lineNum">     289 </span><span class="lineNoCov">          0 :             copy_impl( begin(), end(), new_buffer ); // strong</span>
+<span class="lineNum">     290 </span><span class="lineNoCov">          0 :             guard.dismiss();                         // nothrow</span>
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :             return new_buffer;</span>
+<span class="lineNum">     292 </span>            :         }
+<span class="lineNum">     293 </span>            : 
+<span class="lineNum">     294 </span>            :         pointer move_to_new_buffer( size_type new_capacity, const boost::true_type&amp; )
+<span class="lineNum">     295 </span>            :         {
+<span class="lineNum">     296 </span>            :             pointer new_buffer = allocate( new_capacity ); // strong
+<span class="lineNum">     297 </span>            :             copy_impl( begin(), end(), new_buffer );       // nothrow
+<span class="lineNum">     298 </span>            :             return new_buffer;
+<a name="299"><span class="lineNum">     299 </span>            :         }</a>
+<span class="lineNum">     300 </span>            : 
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 :         void reserve_impl( size_type new_capacity )</span>
+<span class="lineNum">     302 </span>            :         {
+<span class="lineNum">     303 </span>            :             pointer new_buffer = move_to_new_buffer( new_capacity,
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :                                                  boost::has_nothrow_copy&lt;T&gt;() );</span>
+<span class="lineNum">     305 </span><span class="lineNoCov">          0 :             (*this).~auto_buffer();</span>
+<span class="lineNum">     306 </span><span class="lineNoCov">          0 :             buffer_   = new_buffer;</span>
+<span class="lineNum">     307 </span><span class="lineNoCov">          0 :             members_.capacity_ = new_capacity;</span>
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( size_ &lt;= members_.capacity_ );</span>
+<a name="309"><span class="lineNum">     309 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     310 </span>            : 
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :         size_type new_capacity_impl( size_type n )</span>
+<span class="lineNum">     312 </span>            :         {
+<span class="lineNum">     313 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( n &gt; members_.capacity_ );</span>
+<span class="lineNum">     314 </span><span class="lineNoCov">          0 :             size_type new_capacity = GrowPolicy::new_capacity( members_.capacity_ );</span>
+<span class="lineNum">     315 </span>            :             // @todo: consider to check for allocator.max_size()
+<span class="lineNum">     316 </span><span class="lineNoCov">          0 :             return (std::max)(new_capacity,n);</span>
+<span class="lineNum">     317 </span>            :         }
+<span class="lineNum">     318 </span>            : 
+<span class="lineNum">     319 </span>            :         static void swap_helper( auto_buffer&amp; l, auto_buffer&amp; r,
+<span class="lineNum">     320 </span>            :                                  const boost::true_type&amp; )
+<span class="lineNum">     321 </span>            :         {
+<span class="lineNum">     322 </span>            :             BOOST_ASSERT( l.is_on_stack() &amp;&amp; r.is_on_stack() );
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            :             auto_buffer temp( l.begin(), l.end() );
+<span class="lineNum">     325 </span>            :             assign_impl( r.begin(), r.end(), l.begin() );
+<span class="lineNum">     326 </span>            :             assign_impl( temp.begin(), temp.end(), r.begin() );
+<span class="lineNum">     327 </span>            :             boost::swap( l.size_, r.size_ );
+<span class="lineNum">     328 </span>            :             boost::swap( l.members_.capacity_, r.members_.capacity_ );
+<span class="lineNum">     329 </span>            :         }
+<span class="lineNum">     330 </span>            : 
+<span class="lineNum">     331 </span>            :         static void swap_helper( auto_buffer&amp; l, auto_buffer&amp; r,
+<span class="lineNum">     332 </span>            :                                  const boost::false_type&amp; )
+<span class="lineNum">     333 </span>            :         {
+<span class="lineNum">     334 </span>            :             BOOST_ASSERT( l.is_on_stack() &amp;&amp; r.is_on_stack() );
+<span class="lineNum">     335 </span>            :             size_type min_size    = (std::min)(l.size_,r.size_);
+<span class="lineNum">     336 </span>            :             size_type max_size    = (std::max)(l.size_,r.size_);
+<span class="lineNum">     337 </span>            :             size_type diff        = max_size - min_size;
+<span class="lineNum">     338 </span>            :             auto_buffer* smallest = l.size_ == min_size ? &amp;l : &amp;r;
+<span class="lineNum">     339 </span>            :             auto_buffer* largest  = smallest == &amp;l ? &amp;r : &amp;l;
+<span class="lineNum">     340 </span>            : 
+<span class="lineNum">     341 </span>            :             // @remark: the implementation below is not as fast
+<span class="lineNum">     342 </span>            :             //          as it could be if we assumed T had a default
+<span class="lineNum">     343 </span>            :             //          constructor.
+<span class="lineNum">     344 </span>            : 
+<span class="lineNum">     345 </span>            :             size_type i = 0u;
+<span class="lineNum">     346 </span>            :             for(  ; i &lt; min_size; ++i )
+<span class="lineNum">     347 </span>            :                 boost::swap( (*smallest)[i], (*largest)[i] );
+<span class="lineNum">     348 </span>            : 
+<span class="lineNum">     349 </span>            :             for( ; i &lt; max_size; ++i )
+<span class="lineNum">     350 </span>            :                 smallest-&gt;unchecked_push_back( (*largest)[i] );
+<span class="lineNum">     351 </span>            : 
+<span class="lineNum">     352 </span>            :             largest-&gt;pop_back_n( diff );
+<span class="lineNum">     353 </span>            :             boost::swap( l.members_.capacity_, r.members_.capacity_ );
+<span class="lineNum">     354 </span>            :         }
+<span class="lineNum">     355 </span>            : 
+<span class="lineNum">     356 </span>            :         void one_sided_swap( auto_buffer&amp; temp ) // nothrow
+<span class="lineNum">     357 </span>            :         {
+<span class="lineNum">     358 </span>            :             BOOST_ASSERT( !temp.is_on_stack() );
+<span class="lineNum">     359 </span>            :             this-&gt;~auto_buffer();
+<span class="lineNum">     360 </span>            :             // @remark: must be nothrow
+<span class="lineNum">     361 </span>            :             get_allocator()    = temp.get_allocator();
+<span class="lineNum">     362 </span>            :             members_.capacity_ = temp.members_.capacity_;
+<span class="lineNum">     363 </span>            :             buffer_            = temp.buffer_;
+<span class="lineNum">     364 </span>            :             BOOST_ASSERT( temp.size_ &gt;= size_ + 1u );
+<span class="lineNum">     365 </span>            :             size_              = temp.size_;
+<span class="lineNum">     366 </span>            :             temp.buffer_       = 0;
+<span class="lineNum">     367 </span>            :             BOOST_ASSERT( temp.is_valid() );
+<span class="lineNum">     368 </span>            :         }
+<span class="lineNum">     369 </span>            : 
+<span class="lineNum">     370 </span>            :         template&lt; class I &gt;
+<span class="lineNum">     371 </span>            :         void insert_impl( const_iterator before, I begin_arg, I end_arg,
+<span class="lineNum">     372 </span>            :                           std::input_iterator_tag )
+<span class="lineNum">     373 </span>            :         {
+<span class="lineNum">     374 </span>            :             for( ; begin_arg != end_arg; ++begin_arg )
+<span class="lineNum">     375 </span>            :             {
+<span class="lineNum">     376 </span>            :                 before = insert( before, *begin_arg );
+<span class="lineNum">     377 </span>            :                 ++before;
+<span class="lineNum">     378 </span>            :             }
+<span class="lineNum">     379 </span>            :         }
+<span class="lineNum">     380 </span>            : 
+<span class="lineNum">     381 </span>            :         void grow_back( size_type n, const boost::true_type&amp; )
+<span class="lineNum">     382 </span>            :         {
+<span class="lineNum">     383 </span>            :             BOOST_ASSERT( size_ + n &lt;= members_.capacity_ );
+<span class="lineNum">     384 </span>            :             size_ += n;
+<span class="lineNum">     385 </span>            :         }
+<span class="lineNum">     386 </span>            : 
+<span class="lineNum">     387 </span>            :         void grow_back( size_type n, const boost::false_type&amp; )
+<span class="lineNum">     388 </span>            :         {
+<span class="lineNum">     389 </span>            :             unchecked_push_back_n(n);
+<span class="lineNum">     390 </span>            :         }
+<span class="lineNum">     391 </span>            : 
+<span class="lineNum">     392 </span>            :         void grow_back( size_type n )
+<span class="lineNum">     393 </span>            :         {
+<span class="lineNum">     394 </span>            :             grow_back( n, boost::has_trivial_constructor&lt;T&gt;() );
+<span class="lineNum">     395 </span>            :         }
+<span class="lineNum">     396 </span>            : 
+<span class="lineNum">     397 </span>            :         void grow_back_one( const boost::true_type&amp; )
+<span class="lineNum">     398 </span>            :         {
+<span class="lineNum">     399 </span>            :             BOOST_ASSERT( size_ + 1 &lt;= members_.capacity_ );
+<span class="lineNum">     400 </span>            :             size_ += 1;
+<span class="lineNum">     401 </span>            :         }
+<span class="lineNum">     402 </span>            : 
+<span class="lineNum">     403 </span>            :         void grow_back_one( const boost::false_type&amp; )
+<span class="lineNum">     404 </span>            :         {
+<span class="lineNum">     405 </span>            :             unchecked_push_back();
+<span class="lineNum">     406 </span>            :         }
+<span class="lineNum">     407 </span>            : 
+<span class="lineNum">     408 </span>            :         void grow_back_one()
+<span class="lineNum">     409 </span>            :         {
+<span class="lineNum">     410 </span>            :             grow_back_one( boost::has_trivial_constructor&lt;T&gt;() );
+<span class="lineNum">     411 </span>            :         }
+<span class="lineNum">     412 </span>            : 
+<span class="lineNum">     413 </span>            :         template&lt; class I &gt;
+<span class="lineNum">     414 </span>            :         void insert_impl( const_iterator before, I begin_arg, I end_arg,
+<span class="lineNum">     415 </span>            :                           std::forward_iterator_tag )
+<span class="lineNum">     416 </span>            :         {
+<span class="lineNum">     417 </span>            :             difference_type n = std::distance(begin_arg, end_arg);
+<span class="lineNum">     418 </span>            : 
+<span class="lineNum">     419 </span>            :             if( size_ + n &lt;= members_.capacity_ )
+<span class="lineNum">     420 </span>            :             {
+<span class="lineNum">     421 </span>            :                 bool is_back_insertion = before == cend();
+<span class="lineNum">     422 </span>            :                 if( !is_back_insertion )
+<span class="lineNum">     423 </span>            :                 {
+<span class="lineNum">     424 </span>            :                     grow_back( n );
+<span class="lineNum">     425 </span>            :                     iterator where = const_cast&lt;T*&gt;(before);
+<span class="lineNum">     426 </span>            :                     std::copy( before, cend() - n, where + n );
+<span class="lineNum">     427 </span>            :                     assign_impl( begin_arg, end_arg, where );
+<span class="lineNum">     428 </span>            :                 }
+<span class="lineNum">     429 </span>            :                 else
+<span class="lineNum">     430 </span>            :                 {
+<span class="lineNum">     431 </span>            :                     unchecked_push_back( begin_arg, end_arg );
+<span class="lineNum">     432 </span>            :                 }
+<span class="lineNum">     433 </span>            :                 BOOST_ASSERT( is_valid() );
+<span class="lineNum">     434 </span>            :                 return;
+<span class="lineNum">     435 </span>            :             }
+<span class="lineNum">     436 </span>            : 
+<span class="lineNum">     437 </span>            :             auto_buffer temp( new_capacity_impl( size_ + n ) );
+<span class="lineNum">     438 </span>            :             temp.unchecked_push_back( cbegin(), before );
+<span class="lineNum">     439 </span>            :             temp.unchecked_push_back( begin_arg, end_arg );
+<span class="lineNum">     440 </span>            :             temp.unchecked_push_back( before, cend() );
+<span class="lineNum">     441 </span>            :             one_sided_swap( temp );
+<span class="lineNum">     442 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     443 </span>            :         }
+<a name="444"><span class="lineNum">     444 </span>            : </a>
+<span class="lineNum">     445 </span>            :     public:
+<span class="lineNum">     446 </span><span class="lineNoCov">          0 :         bool is_valid() const // invariant</span>
+<span class="lineNum">     447 </span>            :         {
+<span class="lineNum">     448 </span>            :             // @remark: allowed for N==0 and when
+<span class="lineNum">     449 </span>            :             //          using a locally instance
+<span class="lineNum">     450 </span>            :             //          in insert()/one_sided_swap()
+<span class="lineNum">     451 </span><span class="lineNoCov">          0 :             if( buffer_ == 0 )</span>
+<span class="lineNum">     452 </span><span class="lineNoCov">          0 :                 return true;</span>
+<span class="lineNum">     453 </span>            : 
+<span class="lineNum">     454 </span><span class="lineNoCov">          0 :             if( members_.capacity_ &lt; N )</span>
+<span class="lineNum">     455 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     456 </span>            : 
+<span class="lineNum">     457 </span><span class="lineNoCov">          0 :             if( !is_on_stack() &amp;&amp; members_.capacity_ &lt;= N )</span>
+<span class="lineNum">     458 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     459 </span>            : 
+<span class="lineNum">     460 </span><span class="lineNoCov">          0 :             if( buffer_ == members_.address() )</span>
+<span class="lineNum">     461 </span><span class="lineNoCov">          0 :                 if( members_.capacity_ &gt; N )</span>
+<span class="lineNum">     462 </span><span class="lineNoCov">          0 :                     return false;</span>
+<span class="lineNum">     463 </span>            : 
+<span class="lineNum">     464 </span><span class="lineNoCov">          0 :             if( size_ &gt; members_.capacity_ )</span>
+<span class="lineNum">     465 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">     466 </span>            : 
+<span class="lineNum">     467 </span><span class="lineNoCov">          0 :             return true;</span>
+<a name="468"><span class="lineNum">     468 </span>            :         }</a>
+<span class="lineNum">     469 </span>            : 
+<span class="lineNum">     470 </span><span class="lineNoCov">          0 :         auto_buffer()</span>
+<span class="lineNum">     471 </span>            :             : members_( N ),
+<span class="lineNum">     472 </span>            :               buffer_( static_cast&lt;T*&gt;(members_.address()) ),
+<span class="lineNum">     473 </span><span class="lineNoCov">          0 :               size_( 0u )</span>
+<span class="lineNum">     474 </span>            :         {
+<span class="lineNum">     475 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( is_valid() );</span>
+<span class="lineNum">     476 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     477 </span>            : 
+<span class="lineNum">     478 </span>            :         auto_buffer( const auto_buffer&amp; r )
+<span class="lineNum">     479 </span>            :             : members_( (std::max)(r.size_,size_type(N)) ),
+<span class="lineNum">     480 </span>            :               buffer_( allocate( members_.capacity_ ) ),
+<span class="lineNum">     481 </span>            :               size_( 0 )
+<span class="lineNum">     482 </span>            :         {
+<span class="lineNum">     483 </span>            :             copy_impl( r.begin(), r.end(), buffer_ );
+<span class="lineNum">     484 </span>            :             size_ = r.size_;
+<span class="lineNum">     485 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     486 </span>            :         }
+<span class="lineNum">     487 </span>            : 
+<span class="lineNum">     488 </span>            :         auto_buffer&amp; operator=( const auto_buffer&amp; r ) // basic
+<span class="lineNum">     489 </span>            :         {
+<span class="lineNum">     490 </span>            :             if( this == &amp;r )
+<span class="lineNum">     491 </span>            :                 return *this;
+<span class="lineNum">     492 </span>            : 
+<span class="lineNum">     493 </span>            :             difference_type diff = size_ - r.size_;
+<span class="lineNum">     494 </span>            :             if( diff &gt;= 0 )
+<span class="lineNum">     495 </span>            :             {
+<span class="lineNum">     496 </span>            :                 pop_back_n( static_cast&lt;size_type&gt;(diff) );
+<span class="lineNum">     497 </span>            :                 assign_impl( r.begin(), r.end(), begin() );
+<span class="lineNum">     498 </span>            :             }
+<span class="lineNum">     499 </span>            :             else
+<span class="lineNum">     500 </span>            :             {
+<span class="lineNum">     501 </span>            :                 if( members_.capacity_ &gt;= r.size() )
+<span class="lineNum">     502 </span>            :                 {
+<span class="lineNum">     503 </span>            :                     unchecked_push_back_n( static_cast&lt;size_type&gt;(-diff) );
+<span class="lineNum">     504 </span>            :                     assign_impl( r.begin(), r.end(), begin() );
+<span class="lineNum">     505 </span>            :                 }
+<span class="lineNum">     506 </span>            :                 else
+<span class="lineNum">     507 </span>            :                 {
+<span class="lineNum">     508 </span>            :                     // @remark: we release memory as early as possible
+<span class="lineNum">     509 </span>            :                     //          since we only give the basic guarantee
+<span class="lineNum">     510 </span>            :                     (*this).~auto_buffer();
+<span class="lineNum">     511 </span>            :                     buffer_ = 0;
+<span class="lineNum">     512 </span>            :                     pointer new_buffer = allocate( r.size() );
+<span class="lineNum">     513 </span>            :                     boost::multi_index::detail::scope_guard guard =
+<span class="lineNum">     514 </span>            :                         boost::multi_index::detail::make_obj_guard( *this,
+<span class="lineNum">     515 </span>            :                                                                     &amp;auto_buffer::deallocate,
+<span class="lineNum">     516 </span>            :                                                                     new_buffer,
+<span class="lineNum">     517 </span>            :                                                                     r.size() );
+<span class="lineNum">     518 </span>            :                     copy_impl( r.begin(), r.end(), new_buffer );
+<span class="lineNum">     519 </span>            :                     guard.dismiss();
+<span class="lineNum">     520 </span>            :                     buffer_            = new_buffer;
+<span class="lineNum">     521 </span>            :                     members_.capacity_ = r.size();
+<span class="lineNum">     522 </span>            :                     size_              = members_.capacity_;
+<span class="lineNum">     523 </span>            :                 }
+<span class="lineNum">     524 </span>            :             }
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            :             BOOST_ASSERT( size() == r.size() );
+<span class="lineNum">     527 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     528 </span>            :             return *this;
+<span class="lineNum">     529 </span>            :         }
+<span class="lineNum">     530 </span>            : 
+<span class="lineNum">     531 </span>            :         explicit auto_buffer( size_type capacity_arg )
+<span class="lineNum">     532 </span>            :             : members_( (std::max)(capacity_arg, size_type(N)) ),
+<span class="lineNum">     533 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     534 </span>            :               size_( 0 )
+<span class="lineNum">     535 </span>            :         {
+<span class="lineNum">     536 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     537 </span>            :         }
+<span class="lineNum">     538 </span>            : 
+<span class="lineNum">     539 </span>            :         auto_buffer( size_type size_arg, optimized_const_reference init_value )
+<span class="lineNum">     540 </span>            :             : members_( (std::max)(size_arg, size_type(N)) ),
+<span class="lineNum">     541 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     542 </span>            :               size_( 0 )
+<span class="lineNum">     543 </span>            :         {
+<span class="lineNum">     544 </span>            :             std::uninitialized_fill( buffer_, buffer_ + size_arg, init_value );
+<span class="lineNum">     545 </span>            :             size_ = size_arg;
+<span class="lineNum">     546 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     547 </span>            :         }
+<span class="lineNum">     548 </span>            : 
+<span class="lineNum">     549 </span>            :         auto_buffer( size_type capacity_arg, const allocator_type&amp; a )
+<span class="lineNum">     550 </span>            :             : allocator_type( a ),
+<span class="lineNum">     551 </span>            :               members_( (std::max)(capacity_arg, size_type(N)) ),
+<span class="lineNum">     552 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     553 </span>            :               size_( 0 )
+<span class="lineNum">     554 </span>            :         {
+<span class="lineNum">     555 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     556 </span>            :         }
+<span class="lineNum">     557 </span>            : 
+<span class="lineNum">     558 </span>            :         auto_buffer( size_type size_arg, optimized_const_reference init_value,
+<span class="lineNum">     559 </span>            :                      const allocator_type&amp; a )
+<span class="lineNum">     560 </span>            :             : allocator_type( a ),
+<span class="lineNum">     561 </span>            :               members_( (std::max)(size_arg, size_type(N)) ),
+<span class="lineNum">     562 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     563 </span>            :               size_( 0 )
+<span class="lineNum">     564 </span>            :         {
+<span class="lineNum">     565 </span>            :             std::uninitialized_fill( buffer_, buffer_ + size_arg, init_value );
+<span class="lineNum">     566 </span>            :             size_ = size_arg;
+<span class="lineNum">     567 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     568 </span>            :         }
+<span class="lineNum">     569 </span>            : 
+<span class="lineNum">     570 </span>            :         template&lt; class ForwardIterator &gt;
+<span class="lineNum">     571 </span>            :         auto_buffer( ForwardIterator begin_arg, ForwardIterator end_arg )
+<span class="lineNum">     572 </span>            :             :
+<span class="lineNum">     573 </span>            :               members_( std::distance(begin_arg, end_arg) ),
+<span class="lineNum">     574 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     575 </span>            :               size_( 0 )
+<span class="lineNum">     576 </span>            :         {
+<span class="lineNum">     577 </span>            :             copy_impl( begin_arg, end_arg, buffer_ );
+<span class="lineNum">     578 </span>            :             size_ = members_.capacity_;
+<span class="lineNum">     579 </span>            :             if( members_.capacity_ &lt; N )
+<span class="lineNum">     580 </span>            :                 members_.capacity_ = N;
+<span class="lineNum">     581 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     582 </span>            :         }
+<span class="lineNum">     583 </span>            : 
+<span class="lineNum">     584 </span>            :         template&lt; class ForwardIterator &gt;
+<span class="lineNum">     585 </span>            :         auto_buffer( ForwardIterator begin_arg, ForwardIterator end_arg,
+<span class="lineNum">     586 </span>            :                      const allocator_type&amp; a )
+<span class="lineNum">     587 </span>            :             : allocator_type( a ),
+<span class="lineNum">     588 </span>            :               members_( std::distance(begin_arg, end_arg) ),
+<span class="lineNum">     589 </span>            :               buffer_( allocate(members_.capacity_) ),
+<span class="lineNum">     590 </span>            :               size_( 0 )
+<span class="lineNum">     591 </span>            :         {
+<span class="lineNum">     592 </span>            :             copy_impl( begin_arg, end_arg, buffer_ );
+<span class="lineNum">     593 </span>            :             size_ = members_.capacity_;
+<span class="lineNum">     594 </span>            :             if( members_.capacity_ &lt; N )
+<span class="lineNum">     595 </span>            :                 members_.capacity_ = N;
+<span class="lineNum">     596 </span>            :             BOOST_ASSERT( is_valid() );
+<a name="597"><span class="lineNum">     597 </span>            :         }</a>
+<span class="lineNum">     598 </span>            : 
+<span class="lineNum">     599 </span><span class="lineNoCov">          0 :         ~auto_buffer()</span>
+<span class="lineNum">     600 </span>            :         {
+<span class="lineNum">     601 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( is_valid() );</span>
+<span class="lineNum">     602 </span><span class="lineNoCov">          0 :             if( buffer_ ) // do we need this check? Yes, but only</span>
+<span class="lineNum">     603 </span>            :                 // for N = 0u + local instances in one_sided_swap()
+<span class="lineNum">     604 </span><span class="lineNoCov">          0 :                 auto_buffer_destroy( boost::has_trivial_destructor&lt;T&gt;() );</span>
+<span class="lineNum">     605 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     606 </span>            : 
+<span class="lineNum">     607 </span>            :     public:
+<span class="lineNum">     608 </span>            :         bool empty() const
+<span class="lineNum">     609 </span>            :         {
+<span class="lineNum">     610 </span>            :             return size_ == 0;
+<a name="611"><span class="lineNum">     611 </span>            :         }</a>
+<span class="lineNum">     612 </span>            : 
+<span class="lineNum">     613 </span><span class="lineNoCov">          0 :         bool full() const</span>
+<span class="lineNum">     614 </span>            :         {
+<span class="lineNum">     615 </span><span class="lineNoCov">          0 :             return size_ == members_.capacity_;</span>
+<a name="616"><span class="lineNum">     616 </span>            :         }</a>
+<span class="lineNum">     617 </span>            : 
+<span class="lineNum">     618 </span><span class="lineNoCov">          0 :         bool is_on_stack() const</span>
+<span class="lineNum">     619 </span>            :         {
+<span class="lineNum">     620 </span><span class="lineNoCov">          0 :             return members_.capacity_ &lt;= N;</span>
+<span class="lineNum">     621 </span>            :         }
+<span class="lineNum">     622 </span>            : 
+<span class="lineNum">     623 </span>            :         size_type size() const
+<span class="lineNum">     624 </span>            :         {
+<span class="lineNum">     625 </span>            :             return size_;
+<span class="lineNum">     626 </span>            :         }
+<span class="lineNum">     627 </span>            : 
+<span class="lineNum">     628 </span>            :         size_type capacity() const
+<span class="lineNum">     629 </span>            :         {
+<span class="lineNum">     630 </span>            :             return members_.capacity_;
+<span class="lineNum">     631 </span>            :         }
+<span class="lineNum">     632 </span>            : 
+<span class="lineNum">     633 </span>            :     public:
+<span class="lineNum">     634 </span>            :         pointer data()
+<span class="lineNum">     635 </span>            :         {
+<span class="lineNum">     636 </span>            :             return buffer_;
+<span class="lineNum">     637 </span>            :         }
+<span class="lineNum">     638 </span>            : 
+<span class="lineNum">     639 </span>            :         const_pointer data() const
+<span class="lineNum">     640 </span>            :         {
+<span class="lineNum">     641 </span>            :             return buffer_;
+<a name="642"><span class="lineNum">     642 </span>            :         }</a>
+<span class="lineNum">     643 </span>            : 
+<span class="lineNum">     644 </span><span class="lineNoCov">          0 :         allocator_type&amp; get_allocator()</span>
+<span class="lineNum">     645 </span>            :         {
+<span class="lineNum">     646 </span><span class="lineNoCov">          0 :             return static_cast&lt;allocator_type&amp;&gt;(*this);</span>
+<span class="lineNum">     647 </span>            :         }
+<span class="lineNum">     648 </span>            : 
+<span class="lineNum">     649 </span>            :         const allocator_type&amp; get_allocator() const
+<span class="lineNum">     650 </span>            :         {
+<span class="lineNum">     651 </span>            :             return static_cast&lt;const allocator_type&amp;&gt;(*this);
+<span class="lineNum">     652 </span>            :         }
+<a name="653"><span class="lineNum">     653 </span>            : </a>
+<span class="lineNum">     654 </span>            :     public:
+<span class="lineNum">     655 </span><span class="lineNoCov">          0 :         iterator begin()</span>
+<span class="lineNum">     656 </span>            :         {
+<span class="lineNum">     657 </span><span class="lineNoCov">          0 :             return buffer_;</span>
+<span class="lineNum">     658 </span>            :         }
+<span class="lineNum">     659 </span>            : 
+<span class="lineNum">     660 </span>            :         const_iterator begin() const
+<span class="lineNum">     661 </span>            :         {
+<span class="lineNum">     662 </span>            :             return buffer_;
+<a name="663"><span class="lineNum">     663 </span>            :         }</a>
+<span class="lineNum">     664 </span>            : 
+<span class="lineNum">     665 </span><span class="lineNoCov">          0 :         iterator end()</span>
+<span class="lineNum">     666 </span>            :         {
+<span class="lineNum">     667 </span><span class="lineNoCov">          0 :             return buffer_ + size_;</span>
+<span class="lineNum">     668 </span>            :         }
+<span class="lineNum">     669 </span>            : 
+<span class="lineNum">     670 </span>            :         const_iterator end() const
+<span class="lineNum">     671 </span>            :         {
+<span class="lineNum">     672 </span>            :             return buffer_ + size_;
+<span class="lineNum">     673 </span>            :         }
+<span class="lineNum">     674 </span>            : 
+<span class="lineNum">     675 </span>            :         reverse_iterator rbegin()
+<span class="lineNum">     676 </span>            :         {
+<span class="lineNum">     677 </span>            :             return reverse_iterator(end());
+<span class="lineNum">     678 </span>            :         }
+<span class="lineNum">     679 </span>            : 
+<span class="lineNum">     680 </span>            :         const_reverse_iterator rbegin() const
+<span class="lineNum">     681 </span>            :         {
+<span class="lineNum">     682 </span>            :             return const_reverse_iterator(end());
+<span class="lineNum">     683 </span>            :         }
+<span class="lineNum">     684 </span>            : 
+<span class="lineNum">     685 </span>            :         reverse_iterator rend()
+<span class="lineNum">     686 </span>            :         {
+<span class="lineNum">     687 </span>            :             return reverse_iterator(begin());
+<span class="lineNum">     688 </span>            :         }
+<span class="lineNum">     689 </span>            : 
+<span class="lineNum">     690 </span>            :         const_reverse_iterator rend() const
+<span class="lineNum">     691 </span>            :         {
+<span class="lineNum">     692 </span>            :             return const_reverse_iterator(begin());
+<span class="lineNum">     693 </span>            :         }
+<span class="lineNum">     694 </span>            : 
+<span class="lineNum">     695 </span>            :         const_iterator cbegin() const
+<span class="lineNum">     696 </span>            :         {
+<span class="lineNum">     697 </span>            :             return const_cast&lt;const auto_buffer*&gt;(this)-&gt;begin();
+<span class="lineNum">     698 </span>            :         }
+<span class="lineNum">     699 </span>            : 
+<span class="lineNum">     700 </span>            :         const_iterator cend() const
+<span class="lineNum">     701 </span>            :         {
+<span class="lineNum">     702 </span>            :             return const_cast&lt;const auto_buffer*&gt;(this)-&gt;end();
+<span class="lineNum">     703 </span>            :         }
+<span class="lineNum">     704 </span>            : 
+<span class="lineNum">     705 </span>            :         const_reverse_iterator crbegin() const
+<span class="lineNum">     706 </span>            :         {
+<span class="lineNum">     707 </span>            :             return const_cast&lt;const auto_buffer*&gt;(this)-&gt;rbegin();
+<span class="lineNum">     708 </span>            :         }
+<span class="lineNum">     709 </span>            : 
+<span class="lineNum">     710 </span>            :         const_reverse_iterator crend() const
+<span class="lineNum">     711 </span>            :         {
+<span class="lineNum">     712 </span>            :             return const_cast&lt;const auto_buffer*&gt;(this)-&gt;rend();
+<span class="lineNum">     713 </span>            :         }
+<span class="lineNum">     714 </span>            : 
+<span class="lineNum">     715 </span>            :     public:
+<span class="lineNum">     716 </span>            :         reference front()
+<span class="lineNum">     717 </span>            :         {
+<span class="lineNum">     718 </span>            :             return buffer_[0];
+<span class="lineNum">     719 </span>            :         }
+<span class="lineNum">     720 </span>            : 
+<span class="lineNum">     721 </span>            :         optimized_const_reference front() const
+<span class="lineNum">     722 </span>            :         {
+<span class="lineNum">     723 </span>            :             return buffer_[0];
+<span class="lineNum">     724 </span>            :         }
+<span class="lineNum">     725 </span>            : 
+<span class="lineNum">     726 </span>            :         reference back()
+<span class="lineNum">     727 </span>            :         {
+<span class="lineNum">     728 </span>            :             return buffer_[size_-1];
+<span class="lineNum">     729 </span>            :         }
+<span class="lineNum">     730 </span>            : 
+<span class="lineNum">     731 </span>            :         optimized_const_reference back() const
+<span class="lineNum">     732 </span>            :         {
+<span class="lineNum">     733 </span>            :             return buffer_[size_-1];
+<span class="lineNum">     734 </span>            :         }
+<span class="lineNum">     735 </span>            : 
+<span class="lineNum">     736 </span>            :         reference operator[]( size_type n )
+<span class="lineNum">     737 </span>            :         {
+<span class="lineNum">     738 </span>            :             BOOST_ASSERT( n &lt; size_ );
+<span class="lineNum">     739 </span>            :             return buffer_[n];
+<span class="lineNum">     740 </span>            :         }
+<span class="lineNum">     741 </span>            : 
+<span class="lineNum">     742 </span>            :         optimized_const_reference operator[]( size_type n ) const
+<span class="lineNum">     743 </span>            :         {
+<span class="lineNum">     744 </span>            :             BOOST_ASSERT( n &lt; size_ );
+<span class="lineNum">     745 </span>            :             return buffer_[n];
+<span class="lineNum">     746 </span>            :         }
+<span class="lineNum">     747 </span>            : 
+<span class="lineNum">     748 </span>            :         void unchecked_push_back()
+<span class="lineNum">     749 </span>            :         {
+<span class="lineNum">     750 </span>            :             BOOST_ASSERT( !full() );
+<span class="lineNum">     751 </span>            :             new (buffer_ + size_) T;
+<span class="lineNum">     752 </span>            :             ++size_;
+<span class="lineNum">     753 </span>            :         }
+<span class="lineNum">     754 </span>            : 
+<span class="lineNum">     755 </span>            :         void unchecked_push_back_n( size_type n )
+<span class="lineNum">     756 </span>            :         {
+<span class="lineNum">     757 </span>            :             BOOST_ASSERT( size_ + n &lt;= members_.capacity_ );
+<span class="lineNum">     758 </span>            :             unchecked_push_back_n( n, boost::has_trivial_assign&lt;T&gt;() );
+<a name="759"><span class="lineNum">     759 </span>            :         }</a>
+<span class="lineNum">     760 </span>            : 
+<span class="lineNum">     761 </span><span class="lineNoCov">          0 :         void unchecked_push_back( optimized_const_reference x ) // non-growing</span>
+<span class="lineNum">     762 </span>            :         {
+<span class="lineNum">     763 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( !full() );</span>
+<span class="lineNum">     764 </span><span class="lineNoCov">          0 :             new (buffer_ + size_) T( x );</span>
+<span class="lineNum">     765 </span><span class="lineNoCov">          0 :             ++size_;</span>
+<span class="lineNum">     766 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     767 </span>            : 
+<span class="lineNum">     768 </span>            :         template&lt; class ForwardIterator &gt;
+<span class="lineNum">     769 </span>            :         void unchecked_push_back( ForwardIterator begin_arg,
+<span class="lineNum">     770 </span>            :                                   ForwardIterator end_arg ) // non-growing
+<span class="lineNum">     771 </span>            :         {
+<span class="lineNum">     772 </span>            :             BOOST_ASSERT( size_ + std::distance(begin_arg, end_arg) &lt;= members_.capacity_ );
+<span class="lineNum">     773 </span>            :             copy_impl( begin_arg, end_arg, buffer_ + size_ );
+<span class="lineNum">     774 </span>            :             size_ += std::distance(begin_arg, end_arg);
+<span class="lineNum">     775 </span>            :         }
+<span class="lineNum">     776 </span>            : 
+<span class="lineNum">     777 </span>            :         void reserve_precisely( size_type n )
+<span class="lineNum">     778 </span>            :         {
+<span class="lineNum">     779 </span>            :             BOOST_ASSERT( members_.capacity_  &gt;= N );
+<span class="lineNum">     780 </span>            : 
+<span class="lineNum">     781 </span>            :             if( n &lt;= members_.capacity_ )
+<span class="lineNum">     782 </span>            :                 return;
+<span class="lineNum">     783 </span>            :             reserve_impl( n );
+<span class="lineNum">     784 </span>            :             BOOST_ASSERT( members_.capacity_ == n );
+<a name="785"><span class="lineNum">     785 </span>            :         }</a>
+<span class="lineNum">     786 </span>            : 
+<span class="lineNum">     787 </span><span class="lineNoCov">          0 :         void reserve( size_type n ) // strong</span>
+<span class="lineNum">     788 </span>            :         {
+<span class="lineNum">     789 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( members_.capacity_  &gt;= N );</span>
+<span class="lineNum">     790 </span>            : 
+<span class="lineNum">     791 </span><span class="lineNoCov">          0 :             if( n &lt;= members_.capacity_ )</span>
+<span class="lineNum">     792 </span><span class="lineNoCov">          0 :                 return;</span>
+<span class="lineNum">     793 </span>            : 
+<span class="lineNum">     794 </span><span class="lineNoCov">          0 :             reserve_impl( new_capacity_impl( n ) );</span>
+<span class="lineNum">     795 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( members_.capacity_ &gt;= n );</span>
+<span class="lineNum">     796 </span>            :         }
+<span class="lineNum">     797 </span>            : 
+<span class="lineNum">     798 </span>            :         void push_back()
+<span class="lineNum">     799 </span>            :         {
+<span class="lineNum">     800 </span>            :             if( size_ != members_.capacity_ )
+<span class="lineNum">     801 </span>            :             {
+<span class="lineNum">     802 </span>            :                 unchecked_push_back();
+<span class="lineNum">     803 </span>            :             }
+<span class="lineNum">     804 </span>            :             else
+<span class="lineNum">     805 </span>            :             {
+<span class="lineNum">     806 </span>            :                 reserve( size_ + 1u );
+<span class="lineNum">     807 </span>            :                 unchecked_push_back();
+<span class="lineNum">     808 </span>            :             }
+<a name="809"><span class="lineNum">     809 </span>            :         }</a>
+<span class="lineNum">     810 </span>            : 
+<span class="lineNum">     811 </span><span class="lineNoCov">          0 :         void push_back( optimized_const_reference x )</span>
+<span class="lineNum">     812 </span>            :         {
+<span class="lineNum">     813 </span><span class="lineNoCov">          0 :             if( size_ != members_.capacity_ )</span>
+<span class="lineNum">     814 </span>            :             {
+<span class="lineNum">     815 </span><span class="lineNoCov">          0 :                 unchecked_push_back( x );</span>
+<span class="lineNum">     816 </span>            :             }
+<span class="lineNum">     817 </span>            :             else
+<span class="lineNum">     818 </span>            :             {
+<span class="lineNum">     819 </span><span class="lineNoCov">          0 :                reserve( size_ + 1u );</span>
+<span class="lineNum">     820 </span><span class="lineNoCov">          0 :                unchecked_push_back( x );</span>
+<span class="lineNum">     821 </span>            :             }
+<span class="lineNum">     822 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     823 </span>            : 
+<span class="lineNum">     824 </span>            :         template&lt; class ForwardIterator &gt;
+<span class="lineNum">     825 </span>            :         void push_back( ForwardIterator begin_arg, ForwardIterator end_arg )
+<span class="lineNum">     826 </span>            :         {
+<span class="lineNum">     827 </span>            :             difference_type diff = std::distance(begin_arg, end_arg);
+<span class="lineNum">     828 </span>            :             if( size_ + diff &gt; members_.capacity_ )
+<span class="lineNum">     829 </span>            :                 reserve( size_ + diff );
+<span class="lineNum">     830 </span>            :             unchecked_push_back( begin_arg, end_arg );
+<span class="lineNum">     831 </span>            :         }
+<span class="lineNum">     832 </span>            : 
+<span class="lineNum">     833 </span>            :         iterator insert( const_iterator before, optimized_const_reference x ) // basic
+<span class="lineNum">     834 </span>            :         {
+<span class="lineNum">     835 </span>            :             // @todo: consider if we want to support x in 'this'
+<span class="lineNum">     836 </span>            :             if( size_ &lt; members_.capacity_ )
+<span class="lineNum">     837 </span>            :             {
+<span class="lineNum">     838 </span>            :                 bool is_back_insertion = before == cend();
+<span class="lineNum">     839 </span>            :                 iterator where = const_cast&lt;T*&gt;(before);
+<span class="lineNum">     840 </span>            : 
+<span class="lineNum">     841 </span>            :                 if( !is_back_insertion )
+<span class="lineNum">     842 </span>            :                 {
+<span class="lineNum">     843 </span>            :                     grow_back_one();
+<span class="lineNum">     844 </span>            :                     std::copy( before, cend() - 1u, where + 1u );
+<span class="lineNum">     845 </span>            :                     *where = x;
+<span class="lineNum">     846 </span>            :                     BOOST_ASSERT( is_valid() );
+<span class="lineNum">     847 </span>            :                  }
+<span class="lineNum">     848 </span>            :                 else
+<span class="lineNum">     849 </span>            :                 {
+<span class="lineNum">     850 </span>            :                     unchecked_push_back( x );
+<span class="lineNum">     851 </span>            :                 }
+<span class="lineNum">     852 </span>            :                 return where;
+<span class="lineNum">     853 </span>            :             }
+<span class="lineNum">     854 </span>            : 
+<span class="lineNum">     855 </span>            :             auto_buffer temp( new_capacity_impl( size_ + 1u ) );
+<span class="lineNum">     856 </span>            :             temp.unchecked_push_back( cbegin(), before );
+<span class="lineNum">     857 </span>            :             iterator result = temp.end();
+<span class="lineNum">     858 </span>            :             temp.unchecked_push_back( x );
+<span class="lineNum">     859 </span>            :             temp.unchecked_push_back( before, cend() );
+<span class="lineNum">     860 </span>            :             one_sided_swap( temp );
+<span class="lineNum">     861 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     862 </span>            :             return result;
+<span class="lineNum">     863 </span>            :         }
+<span class="lineNum">     864 </span>            : 
+<span class="lineNum">     865 </span>            :         void insert( const_iterator before, size_type n,
+<span class="lineNum">     866 </span>            :                      optimized_const_reference x )
+<span class="lineNum">     867 </span>            :         {
+<span class="lineNum">     868 </span>            :             // @todo: see problems above
+<span class="lineNum">     869 </span>            :             if( size_ + n &lt;= members_.capacity_ )
+<span class="lineNum">     870 </span>            :             {
+<span class="lineNum">     871 </span>            :                 grow_back( n );
+<span class="lineNum">     872 </span>            :                 iterator where = const_cast&lt;T*&gt;(before);
+<span class="lineNum">     873 </span>            :                 std::copy( before, cend() - n, where + n );
+<span class="lineNum">     874 </span>            :                 std::fill( where, where + n, x );
+<span class="lineNum">     875 </span>            :                 BOOST_ASSERT( is_valid() );
+<span class="lineNum">     876 </span>            :                 return;
+<span class="lineNum">     877 </span>            :             }
+<span class="lineNum">     878 </span>            : 
+<span class="lineNum">     879 </span>            :             auto_buffer temp( new_capacity_impl( size_ + n ) );
+<span class="lineNum">     880 </span>            :             temp.unchecked_push_back( cbegin(), before );
+<span class="lineNum">     881 </span>            :             std::uninitialized_fill_n( temp.end(), n, x );
+<span class="lineNum">     882 </span>            :             temp.size_ += n;
+<span class="lineNum">     883 </span>            :             temp.unchecked_push_back( before, cend() );
+<span class="lineNum">     884 </span>            :             one_sided_swap( temp );
+<span class="lineNum">     885 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">     886 </span>            :         }
+<span class="lineNum">     887 </span>            : 
+<span class="lineNum">     888 </span>            :         template&lt; class ForwardIterator &gt;
+<span class="lineNum">     889 </span>            :         void insert( const_iterator before,
+<span class="lineNum">     890 </span>            :                      ForwardIterator begin_arg, ForwardIterator end_arg ) // basic
+<span class="lineNum">     891 </span>            :         {
+<span class="lineNum">     892 </span>            :             typedef typename std::iterator_traits&lt;ForwardIterator&gt;
+<span class="lineNum">     893 </span>            :                 ::iterator_category category;
+<span class="lineNum">     894 </span>            :             insert_impl( before, begin_arg, end_arg, category() );
+<span class="lineNum">     895 </span>            :         }
+<span class="lineNum">     896 </span>            : 
+<span class="lineNum">     897 </span>            :         void pop_back()
+<span class="lineNum">     898 </span>            :         {
+<span class="lineNum">     899 </span>            :             BOOST_ASSERT( !empty() );
+<span class="lineNum">     900 </span>            :             auto_buffer_destroy( buffer_ + size_ - 1, boost::has_trivial_destructor&lt;T&gt;() );
+<span class="lineNum">     901 </span>            :             --size_;
+<a name="902"><span class="lineNum">     902 </span>            :         }</a>
+<span class="lineNum">     903 </span>            : 
+<span class="lineNum">     904 </span><span class="lineNoCov">          0 :         void pop_back_n( size_type n )</span>
+<span class="lineNum">     905 </span>            :         {
+<span class="lineNum">     906 </span><span class="lineNoCov">          0 :             BOOST_ASSERT( n &lt;= size_ );</span>
+<span class="lineNum">     907 </span><span class="lineNoCov">          0 :             if( n )</span>
+<span class="lineNum">     908 </span>            :             {
+<span class="lineNum">     909 </span><span class="lineNoCov">          0 :                 destroy_back_n( n );</span>
+<span class="lineNum">     910 </span><span class="lineNoCov">          0 :                 size_ -= n;</span>
+<span class="lineNum">     911 </span>            :             }
+<a name="912"><span class="lineNum">     912 </span><span class="lineNoCov">          0 :         }</span></a>
+<span class="lineNum">     913 </span>            : 
+<span class="lineNum">     914 </span><span class="lineNoCov">          0 :         void clear()</span>
+<span class="lineNum">     915 </span>            :         {
+<span class="lineNum">     916 </span><span class="lineNoCov">          0 :             pop_back_n( size_ );</span>
+<span class="lineNum">     917 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     918 </span>            : 
+<span class="lineNum">     919 </span>            :         iterator erase( const_iterator where )
+<span class="lineNum">     920 </span>            :         {
+<span class="lineNum">     921 </span>            :             BOOST_ASSERT( !empty() );
+<span class="lineNum">     922 </span>            :             BOOST_ASSERT( cbegin() &lt;= where );
+<span class="lineNum">     923 </span>            :             BOOST_ASSERT( cend() &gt; where );
+<span class="lineNum">     924 </span>            : 
+<span class="lineNum">     925 </span>            :             unsigned elements = cend() - where - 1u;
+<span class="lineNum">     926 </span>            : 
+<span class="lineNum">     927 </span>            :             if( elements &gt; 0u )
+<span class="lineNum">     928 </span>            :             {
+<span class="lineNum">     929 </span>            :                 const_iterator start = where + 1u;
+<span class="lineNum">     930 </span>            :                 std::copy( start, start + elements,
+<span class="lineNum">     931 </span>            :                            const_cast&lt;T*&gt;(where) );
+<span class="lineNum">     932 </span>            :             }
+<span class="lineNum">     933 </span>            :             pop_back();
+<span class="lineNum">     934 </span>            :             BOOST_ASSERT( !full() );
+<span class="lineNum">     935 </span>            :             iterator result = const_cast&lt;T*&gt;( where );
+<span class="lineNum">     936 </span>            :             BOOST_ASSERT( result &lt;= end() );
+<span class="lineNum">     937 </span>            :             return result;
+<span class="lineNum">     938 </span>            :         }
+<span class="lineNum">     939 </span>            : 
+<span class="lineNum">     940 </span>            :         iterator erase( const_iterator from, const_iterator to )
+<span class="lineNum">     941 </span>            :         {
+<span class="lineNum">     942 </span>            :             BOOST_ASSERT( !(std::distance(from,to)&gt;0) ||
+<span class="lineNum">     943 </span>            :                           !empty() );
+<span class="lineNum">     944 </span>            :             BOOST_ASSERT( cbegin() &lt;= from );
+<span class="lineNum">     945 </span>            :             BOOST_ASSERT( cend() &gt;= to );
+<span class="lineNum">     946 </span>            : 
+<span class="lineNum">     947 </span>            :             unsigned elements = std::distance(to,cend());
+<span class="lineNum">     948 </span>            : 
+<span class="lineNum">     949 </span>            :             if( elements &gt; 0u )
+<span class="lineNum">     950 </span>            :             {
+<span class="lineNum">     951 </span>            :                 BOOST_ASSERT( elements &gt; 0u );
+<span class="lineNum">     952 </span>            :                 std::copy( to, to + elements,
+<span class="lineNum">     953 </span>            :                            const_cast&lt;T*&gt;(from) );
+<span class="lineNum">     954 </span>            :             }
+<span class="lineNum">     955 </span>            :             pop_back_n( std::distance(from,to) );
+<span class="lineNum">     956 </span>            :             BOOST_ASSERT( !full() );
+<span class="lineNum">     957 </span>            :             iterator result = const_cast&lt;T*&gt;( from );
+<span class="lineNum">     958 </span>            :             BOOST_ASSERT( result &lt;= end() );
+<span class="lineNum">     959 </span>            :             return result;
+<span class="lineNum">     960 </span>            :         }
+<span class="lineNum">     961 </span>            : 
+<span class="lineNum">     962 </span>            :         void shrink_to_fit()
+<span class="lineNum">     963 </span>            :         {
+<span class="lineNum">     964 </span>            :             if( is_on_stack() || !GrowPolicy::should_shrink(size_,members_.capacity_) )
+<span class="lineNum">     965 </span>            :                 return;
+<span class="lineNum">     966 </span>            : 
+<span class="lineNum">     967 </span>            :             reserve_impl( size_ );
+<span class="lineNum">     968 </span>            :             members_.capacity_ = (std::max)(size_type(N),members_.capacity_);
+<span class="lineNum">     969 </span>            :             BOOST_ASSERT( is_on_stack() || size_ == members_.capacity_ );
+<span class="lineNum">     970 </span>            :             BOOST_ASSERT( !is_on_stack() || size_ &lt;= members_.capacity_ );
+<span class="lineNum">     971 </span>            :         }
+<span class="lineNum">     972 </span>            : 
+<span class="lineNum">     973 </span>            :         pointer uninitialized_grow( size_type n ) // strong
+<span class="lineNum">     974 </span>            :         {
+<span class="lineNum">     975 </span>            :             if( size_ + n &lt;= members_.capacity_ )
+<span class="lineNum">     976 </span>            :                 reserve( size_ + n );
+<span class="lineNum">     977 </span>            : 
+<span class="lineNum">     978 </span>            :             pointer res = end();
+<span class="lineNum">     979 </span>            :             size_ += n;
+<span class="lineNum">     980 </span>            :             return res;
+<span class="lineNum">     981 </span>            :         }
+<span class="lineNum">     982 </span>            : 
+<span class="lineNum">     983 </span>            :         void uninitialized_shrink( size_type n ) // nothrow
+<span class="lineNum">     984 </span>            :         {
+<span class="lineNum">     985 </span>            :             // @remark: test for wrap-around
+<span class="lineNum">     986 </span>            :             BOOST_ASSERT( size_ - n &lt;= members_.capacity_ );
+<span class="lineNum">     987 </span>            :             size_ -= n;
+<span class="lineNum">     988 </span>            :         }
+<span class="lineNum">     989 </span>            : 
+<span class="lineNum">     990 </span>            :         void uninitialized_resize( size_type n )
+<span class="lineNum">     991 </span>            :         {
+<span class="lineNum">     992 </span>            :             if( n &gt; size() )
+<span class="lineNum">     993 </span>            :                 uninitialized_grow( n - size() );
+<span class="lineNum">     994 </span>            :             else if( n &lt; size() )
+<span class="lineNum">     995 </span>            :                 uninitialized_shrink( size() - n );
+<span class="lineNum">     996 </span>            : 
+<span class="lineNum">     997 </span>            :            BOOST_ASSERT( size() == n );
+<span class="lineNum">     998 </span>            :         }
+<span class="lineNum">     999 </span>            : 
+<span class="lineNum">    1000 </span>            :         // nothrow  - if both buffer are on the heap, or
+<span class="lineNum">    1001 </span>            :         //          - if one buffer is on the heap and one has
+<span class="lineNum">    1002 </span>            :         //            'has_allocated_buffer() == false', or
+<span class="lineNum">    1003 </span>            :         //          - if copy-construction cannot throw
+<span class="lineNum">    1004 </span>            :         // basic    - otherwise (better guarantee impossible)
+<span class="lineNum">    1005 </span>            :         // requirement: the allocator must be no-throw-swappable
+<span class="lineNum">    1006 </span>            :         void swap( auto_buffer&amp; r )
+<span class="lineNum">    1007 </span>            :         {
+<span class="lineNum">    1008 </span>            :             bool on_stack      = is_on_stack();
+<span class="lineNum">    1009 </span>            :             bool r_on_stack    = r.is_on_stack();
+<span class="lineNum">    1010 </span>            :             bool both_on_heap  = !on_stack &amp;&amp; !r_on_stack;
+<span class="lineNum">    1011 </span>            :             if( both_on_heap )
+<span class="lineNum">    1012 </span>            :             {
+<span class="lineNum">    1013 </span>            :                 boost::swap( get_allocator(), r.get_allocator() );
+<span class="lineNum">    1014 </span>            :                 boost::swap( members_.capacity_, r.members_.capacity_ );
+<span class="lineNum">    1015 </span>            :                 boost::swap( buffer_, r.buffer_ );
+<span class="lineNum">    1016 </span>            :                 boost::swap( size_, r.size_ );
+<span class="lineNum">    1017 </span>            :                 BOOST_ASSERT( is_valid() );
+<span class="lineNum">    1018 </span>            :                 BOOST_ASSERT( r.is_valid() );
+<span class="lineNum">    1019 </span>            :                 return;
+<span class="lineNum">    1020 </span>            :             }
+<span class="lineNum">    1021 </span>            : 
+<span class="lineNum">    1022 </span>            :             BOOST_ASSERT( on_stack || r_on_stack );
+<span class="lineNum">    1023 </span>            :             bool exactly_one_on_stack = (on_stack &amp;&amp; !r_on_stack) ||
+<span class="lineNum">    1024 </span>            :                                         (!on_stack &amp;&amp; r_on_stack);
+<span class="lineNum">    1025 </span>            : 
+<span class="lineNum">    1026 </span>            :             //
+<span class="lineNum">    1027 </span>            :             // Remark: we now know that we can copy into
+<span class="lineNum">    1028 </span>            :             //         the unused stack buffer.
+<span class="lineNum">    1029 </span>            :             //
+<span class="lineNum">    1030 </span>            :             if( exactly_one_on_stack )
+<span class="lineNum">    1031 </span>            :             {
+<span class="lineNum">    1032 </span>            :                 auto_buffer* one_on_stack = on_stack ? this : &amp;r;
+<span class="lineNum">    1033 </span>            :                 auto_buffer* other        = on_stack ? &amp;r : this;
+<span class="lineNum">    1034 </span>            :                 pointer new_buffer = static_cast&lt;T*&gt;(other-&gt;members_.address());
+<span class="lineNum">    1035 </span>            :                 copy_impl( one_on_stack-&gt;begin(), one_on_stack-&gt;end(),
+<span class="lineNum">    1036 </span>            :                            new_buffer );                            // strong
+<span class="lineNum">    1037 </span>            :                 one_on_stack-&gt;~auto_buffer();                       // nothrow
+<span class="lineNum">    1038 </span>            :                 boost::swap( get_allocator(), r.get_allocator() );  // assume nothrow
+<span class="lineNum">    1039 </span>            :                 boost::swap( members_.capacity_, r.members_.capacity_ );
+<span class="lineNum">    1040 </span>            :                 boost::swap( size_, r.size_ );
+<span class="lineNum">    1041 </span>            :                 one_on_stack-&gt;buffer_ = other-&gt;buffer_;
+<span class="lineNum">    1042 </span>            :                 other-&gt;buffer_        = new_buffer;
+<span class="lineNum">    1043 </span>            :                 BOOST_ASSERT( other-&gt;is_on_stack() );
+<span class="lineNum">    1044 </span>            :                 BOOST_ASSERT( !one_on_stack-&gt;is_on_stack() );
+<span class="lineNum">    1045 </span>            :                 BOOST_ASSERT( is_valid() );
+<span class="lineNum">    1046 </span>            :                 BOOST_ASSERT( r.is_valid() );
+<span class="lineNum">    1047 </span>            :                 return;
+<span class="lineNum">    1048 </span>            :             }
+<span class="lineNum">    1049 </span>            : 
+<span class="lineNum">    1050 </span>            :             BOOST_ASSERT( on_stack &amp;&amp; r_on_stack );
+<span class="lineNum">    1051 </span>            :             swap_helper( *this, r, boost::has_trivial_assign&lt;T&gt;() );
+<span class="lineNum">    1052 </span>            :             BOOST_ASSERT( is_valid() );
+<span class="lineNum">    1053 </span>            :             BOOST_ASSERT( r.is_valid() );
+<span class="lineNum">    1054 </span>            :         }
+<span class="lineNum">    1055 </span>            : 
+<span class="lineNum">    1056 </span>            :     private:
+<span class="lineNum">    1057 </span>            :         typedef boost::aligned_storage&lt; N * sizeof(T),
+<span class="lineNum">    1058 </span>            :                                         boost::alignment_of&lt;T&gt;::value &gt;
+<a name="1059"><span class="lineNum">    1059 </span>            :                                storage;</a>
+<span class="lineNum">    1060 </span>            : 
+<span class="lineNum">    1061 </span><span class="lineNoCov">          0 :         struct members_type : storage /* to enable EBO */</span>
+<span class="lineNum">    1062 </span>            :         {
+<a name="1063"><span class="lineNum">    1063 </span>            :             size_type capacity_;</a>
+<span class="lineNum">    1064 </span>            : 
+<span class="lineNum">    1065 </span><span class="lineNoCov">          0 :             members_type( size_type capacity )</span>
+<span class="lineNum">    1066 </span><span class="lineNoCov">          0 :                : capacity_(capacity)</span>
+<a name="1067"><span class="lineNum">    1067 </span><span class="lineNoCov">          0 :             { }</span></a>
+<span class="lineNum">    1068 </span>            : 
+<span class="lineNum">    1069 </span><span class="lineNoCov">          0 :             void* address() const</span>
+<span class="lineNum">    1070 </span><span class="lineNoCov">          0 :             { return const_cast&lt;storage&amp;&gt;(static_cast&lt;const storage&amp;&gt;(*this)).address(); }</span>
+<span class="lineNum">    1071 </span>            :         };
+<span class="lineNum">    1072 </span>            : 
+<span class="lineNum">    1073 </span>            :         members_type members_;
+<span class="lineNum">    1074 </span>            :         pointer      buffer_;
+<span class="lineNum">    1075 </span>            :         size_type    size_;
+<span class="lineNum">    1076 </span>            : 
+<span class="lineNum">    1077 </span>            :     };
+<span class="lineNum">    1078 </span>            : 
+<span class="lineNum">    1079 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1080 </span>            :     inline void swap( auto_buffer&lt;T,SBP,GP,A&gt;&amp; l, auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1081 </span>            :     {
+<span class="lineNum">    1082 </span>            :         l.swap( r );
+<span class="lineNum">    1083 </span>            :     }
+<span class="lineNum">    1084 </span>            : 
+<span class="lineNum">    1085 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1086 </span>            :     inline bool operator==( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1087 </span>            :                             const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1088 </span>            :     {
+<span class="lineNum">    1089 </span>            :         if( l.size() != r.size() )
+<span class="lineNum">    1090 </span>            :             return false;
+<span class="lineNum">    1091 </span>            :         return std::equal( l.begin(), l.end(), r.begin() );
+<span class="lineNum">    1092 </span>            :     }
+<span class="lineNum">    1093 </span>            : 
+<span class="lineNum">    1094 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1095 </span>            :     inline bool operator!=( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1096 </span>            :                             const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1097 </span>            :     {
+<span class="lineNum">    1098 </span>            :         return !(l == r);
+<span class="lineNum">    1099 </span>            :     }
+<span class="lineNum">    1100 </span>            : 
+<span class="lineNum">    1101 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1102 </span>            :     inline bool operator&lt;( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1103 </span>            :                            const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1104 </span>            :     {
+<span class="lineNum">    1105 </span>            :         return std::lexicographical_compare( l.begin(), l.end(),
+<span class="lineNum">    1106 </span>            :                                              r.begin(), r.end() );
+<span class="lineNum">    1107 </span>            :     }
+<span class="lineNum">    1108 </span>            : 
+<span class="lineNum">    1109 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1110 </span>            :     inline bool operator&gt;( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1111 </span>            :                            const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1112 </span>            :     {
+<span class="lineNum">    1113 </span>            :         return (r &lt; l);
+<span class="lineNum">    1114 </span>            :     }
+<span class="lineNum">    1115 </span>            : 
+<span class="lineNum">    1116 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1117 </span>            :     inline bool operator&lt;=( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1118 </span>            :                             const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1119 </span>            :     {
+<span class="lineNum">    1120 </span>            :         return !(r &gt; l);
+<span class="lineNum">    1121 </span>            :     }
+<span class="lineNum">    1122 </span>            : 
+<span class="lineNum">    1123 </span>            :     template&lt; class T, class SBP, class GP, class A &gt;
+<span class="lineNum">    1124 </span>            :     inline bool operator&gt;=( const auto_buffer&lt;T,SBP,GP,A&gt;&amp; l,
+<span class="lineNum">    1125 </span>            :                             const auto_buffer&lt;T,SBP,GP,A&gt;&amp; r )
+<span class="lineNum">    1126 </span>            :     {
+<span class="lineNum">    1127 </span>            :         return !(l &lt; r);
+<span class="lineNum">    1128 </span>            :     }
+<span class="lineNum">    1129 </span>            : 
+<span class="lineNum">    1130 </span>            : } // namespace detail
+<span class="lineNum">    1131 </span>            : } // namespace signals2
+<span class="lineNum">    1132 </span>            : }
+<span class="lineNum">    1133 </span>            : 
+<span class="lineNum">    1134 </span>            : #if BOOST_WORKAROUND(BOOST_MSVC, &gt;= 1400)
+<span class="lineNum">    1135 </span>            : #pragma warning(pop)
+<span class="lineNum">    1136 </span>            : #endif
+<span class="lineNum">    1137 </span>            : 
+<span class="lineNum">    1138 </span>            : #endif
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12-4-g04a3c0e</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
