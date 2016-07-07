@@ -26,7 +26,7 @@
 #include "./matches/UserMatcher.h"
 #include "LikesDatabaseManager.h"
 
-#define DEFAULT_PASS "1234"
+#define DEFAULT_PASS "123456"
 class ExistentUserException : public exception {
 };
 

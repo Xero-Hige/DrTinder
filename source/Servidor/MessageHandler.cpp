@@ -224,13 +224,12 @@ bool MessageHandler::updateUser(string user_data) {
 		LOGG(WARNING) << "Bad format of user data to modify";
 		return false;
 	}
-
+	this->createInterests(new_user.getInterests());
 	Json::Value jsonUser = jsonParser.userToJson(&new_user, true);
 	Json::Value data_to_post;
 	jsonUser[PHOTO_KEY]= photo;
 	data_to_post[META_KEY][VERSION_KEY] = VERSION_VALUE;
 	data_to_post[USER_KEY] = jsonUser;
-	LOGG(DEBUG) << jsonParser.getAsString(data_to_post);
 	LOGG(DEBUG) << "Updating info of " + id ;
 
 	bool changed = ssClient->changeUser(id, jsonParser.getAsString(data_to_post).c_str());
@@ -407,7 +406,6 @@ bool MessageHandler::addLocalization(string localization) {
 	data_to_post[USER_KEY] = jsonUser;
 
 	LOGG(DEBUG) << "Updating info of " + id ;
-	LOGG(DEBUG) << "User: " <<  jsonParser.getAsString(data_to_post);
 	return ssClient->changeUser(id, jsonParser.getAsString(data_to_post));
 }
 
@@ -435,7 +433,7 @@ bool MessageHandler::getUser(string username, string &user_data) {
 		string copy(user_data), lookingFor = "";
 		json.parsing(copy);
 		usersDB->getEntry(USER_LOOKING_DB + username, lookingFor);
-		LOGG(DEBUG)<< "Parsing user: " << json.getAsString(json.getValue(USER_KEY));
+		LOGG(DEBUG)<< "Parsing user: " << json.getAsString(json.getValue(USER_KEY)[MAIL_KEY]);
 		parser.JsonToCsvFull(json.getValue(USER_KEY), user_data, lookingFor);
 	} else {
 		LOGG(DEBUG) << "Does not exist in shared";

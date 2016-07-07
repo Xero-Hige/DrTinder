@@ -29,7 +29,12 @@ void RequestHandler::sendHttpReply(std::string reply, std::string content_type, 
               (int) reply.size(), reply.c_str());
 	LOGG(DEBUG) << "Content type: " << content_type;
 	LOGG(DEBUG) << "Content length: " << reply.size();
-	LOGG(DEBUG) << "Body: " << reply;
+	if (reply.length() > 50){
+		LOGG(DEBUG) << "Body: " << reply.substr(0,49) << "...";
+	}else{
+		LOGG(DEBUG) << "Body: " << reply;
+	}
+
 }
 
 bool RequestHandler::validateToken() {
@@ -231,6 +236,7 @@ void RequestHandler::listenInterestRequest() {
 		return;
 	}
     std::string interest_photo;
+    LOGG(DEBUG) << "searching photo of " << id_interest;
     if (msgHandler->getInterestPhoto(interest_photo, std::string(id_interest))){
     	sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);
     }else{
@@ -268,8 +274,12 @@ void RequestHandler::listenPhotoGet() {
     return;
     }
     std::string photo_64;
-    msgHandler->getPhoto(std::string(username), photo_64);
-    sendHttpReply(photo_64, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);
+    if (!msgHandler->getPhoto(std::string(username), photo_64)){
+    	sendHttpLine(BAD_REQUEST);
+    }else{
+    	sendHttpReply(photo_64, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);
+    }
+
 }
 
 void RequestHandler::listenPhotoPost() {
