@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -194,6 +195,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (!mFirebaseLoginFinished) {
             try {
                 mLoginLatch.await();
+                FirebaseMessaging.getInstance().subscribeToTopic("friendly_engage");
             } catch (InterruptedException e) {
                 DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
             }
