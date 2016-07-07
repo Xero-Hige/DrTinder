@@ -11,6 +11,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/back"
         android:fillViewport="true"
         android:measureAllChildren="false"
         android:paddingTop="20dp"

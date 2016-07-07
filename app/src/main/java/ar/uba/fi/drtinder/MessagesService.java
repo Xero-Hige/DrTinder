@@ -37,7 +37,17 @@ import java.util.Map;
  */
 public class MessagesService extends FirebaseMessagingService {
 
-    private ChatSession mSession;
+    private static ChatSession mSession;
+
+    /**
+     * Set the associated chat session that needs to be notified
+     *
+     * @param session Chat session to notify
+     */
+    public static void setSession(ChatSession session) {
+        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Binded to session");
+        mSession = session;
+    }
 
     /**
      * Called when a new incoming message is received
@@ -96,7 +106,6 @@ public class MessagesService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-
     private void sendMatchNotification(String match) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -120,15 +129,6 @@ public class MessagesService extends FirebaseMessagingService {
                 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
-
-    /**
-     * Set the associated chat session that needs to be notified
-     *
-     * @param mSession Chat session to notify
-     */
-    public void setSession(ChatSession mSession) {
-        this.mSession = mSession;
     }
 
     /**

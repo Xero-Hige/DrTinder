@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -74,7 +75,18 @@ public final class UserHandler {
     private static final String AVATAR_URL = "users/photo";
     private static String mToken = ERROR_TOKEN;
 
+    private static AtomicLong mMessageId = new AtomicLong(0);
+
     private UserHandler() {
+    }
+
+    /**
+     * Incremental ID for FB messages
+     *
+     * @return next message ID
+     */
+    public static Long getMessageId() {
+        return mMessageId.getAndIncrement();
     }
 
     /**
@@ -149,7 +161,13 @@ public final class UserHandler {
         return ServerUrlWrapper.getServerUrl() + LOGIN_URL;
     }
 
-    private static String getUsernameFrom(String email) {
+    /**
+     * Returns the standard username from an email
+     *
+     * @param email user Email
+     * @return username
+     */
+    public static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
         return fields[0] + fields[1];
     }
@@ -166,7 +184,7 @@ public final class UserHandler {
      * @return true if its valid, false otherwise
      */
     public static boolean isValidPassword(String pass) {
-        return pass.length() >= 4;
+        return pass.length() >= 6;
     }
 
     /**

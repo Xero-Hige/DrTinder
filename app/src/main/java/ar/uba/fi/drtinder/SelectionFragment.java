@@ -51,6 +51,7 @@ public class SelectionFragment extends Fragment {
     private static final int USER_NAME = 1;
     private static final int USER_AGE = 2;
     private static final int USER_ID = 3;
+    private static final int USER_EMAIL = 4;
     private static final int USER_BIO = 5;
     private static final int USER_INTS = 7;
 
@@ -136,6 +137,9 @@ public class SelectionFragment extends Fragment {
     private void showActualUserData() {
         Intent detailsIntent = new Intent(getContext(), UserDetailsActivity.class);
         Map<Integer, String> data = mUsersQueue.peek();
+        if (data == null) {
+            return;
+        }
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_NAME, data.get(USER_NAME));
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_AGE, data.get(USER_AGE));
         detailsIntent.putExtra(UserDetailsActivity.EXTRA_USER_ID, data.get(USER_ID));
@@ -168,6 +172,10 @@ public class SelectionFragment extends Fragment {
                             excluded++;
                             continue;
                         }
+
+                        userData[USER_ID] = UserHandler.getUsernameFrom(userData[USER_EMAIL]);
+
+
                         ImageResourcesHandler.prefetch(userData[USER_ID],
                                 ImageResourcesHandler.RES_USER_IMG, UserHandler.getToken(),
                                 getContext());
@@ -199,7 +207,7 @@ public class SelectionFragment extends Fragment {
                 Map<Integer, String> data = mUsersQueue.remove();
 
                 FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder(FirebaseMessaging.getInstance().toString() + "@gcm.googleapis.com")
+                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
                                 .setMessageId(" ")
                                 .addData("user", UserHandler.getUsername())
                                 .addData("candidate", data.get(USER_ID))
@@ -219,8 +227,8 @@ public class SelectionFragment extends Fragment {
                 Map<Integer, String> data = mUsersQueue.remove();
 
                 FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder(FirebaseMessaging.getInstance().toString() + "@gcm.googleapis.com")
-                                .setMessageId(" ")
+                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
+                                .setMessageId(UserHandler.getMessageId().toString())
                                 .addData("user", UserHandler.getUsername())
                                 .addData("candidate", data.get(USER_ID))
                                 .addData("liked", "yes")
