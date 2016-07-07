@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
                     for (int i = 0; i < data.size(); i++) {
                         String name = data.get(i)[1];
                         String age = data.get(i)[2];
-                        String user = data.get(i)[3];
+                        String user = UserHandler.getUsernameFrom(data.get(i)[4]);
 
                         View layout = inflater.inflate(R.layout.chat_user_layout_left,
                                 container, false);

@@ -161,7 +161,13 @@ public final class UserHandler {
         return ServerUrlWrapper.getServerUrl() + LOGIN_URL;
     }
 
-    private static String getUsernameFrom(String email) {
+    /**
+     * Returns the standard username from an email
+     *
+     * @param email user Email
+     * @return username
+     */
+    public static String getUsernameFrom(String email) {
         String[] fields = email.split("@");
         return fields[0] + fields[1];
     }

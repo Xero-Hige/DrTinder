@@ -51,6 +51,7 @@ public class SelectionFragment extends Fragment {
     private static final int USER_NAME = 1;
     private static final int USER_AGE = 2;
     private static final int USER_ID = 3;
+    private static final int USER_EMAIL = 4;
     private static final int USER_BIO = 5;
     private static final int USER_INTS = 7;
 
@@ -171,6 +172,10 @@ public class SelectionFragment extends Fragment {
                             excluded++;
                             continue;
                         }
+
+                        userData[USER_ID] = UserHandler.getUsernameFrom(userData[USER_EMAIL]);
+
+
                         ImageResourcesHandler.prefetch(userData[USER_ID],
                                 ImageResourcesHandler.RES_USER_IMG, UserHandler.getToken(),
                                 getContext());
