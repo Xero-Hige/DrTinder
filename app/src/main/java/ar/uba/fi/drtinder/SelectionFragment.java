@@ -208,7 +208,7 @@ public class SelectionFragment extends Fragment {
 
                 FirebaseMessaging.getInstance().send(
                         new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                .setMessageId(" ")
+                                .setMessageId(UserHandler.getMessageId().toString())
                                 .addData("user", UserHandler.getUsername())
                                 .addData("candidate", data.get(USER_ID))
                                 .addData("liked", "no")
