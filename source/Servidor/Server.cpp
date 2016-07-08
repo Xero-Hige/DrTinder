@@ -50,6 +50,7 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 
 	switch (new_event) {
 		case MG_EV_HTTP_REQUEST:
+			//TODO add chats/new and matches url
 			LOGG(DEBUG) << "Recieved http msg";
 			if (is_equal(&http_msg->uri, USERS_URI)) {
 				requestHandler.listenUsersRequest();

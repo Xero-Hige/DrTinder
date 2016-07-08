@@ -10,6 +10,8 @@ RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnectio
 	msgHandler->setSharedLink(shared);
 }
 
+//TODO chats/new and matches listener
+//TODO procesing of send msg, new like, new matches and new ms
 
 RequestHandler::~RequestHandler() {
 	delete msgHandler;
