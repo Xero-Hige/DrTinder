@@ -4,12 +4,17 @@
 #define DB_SEPARATOR ","
 
 #define CHAT_URI "/chats"
+#define CHAT_NEW_URI "/chats/new"
 #define USER_URI "/user"
 #define USER_ID_URI "/user/token/id"
 #define USERS_URI "/users"
 #define USERS_PHOTO_URI "/users/photo"
 #define INTEREST_URI "/interest"
 #define FRIENDS_URI "/friends"
+#define MATCHES_URI "/matches"
+
+#define BODY_USER_ID "user_id"
+#define BODY_MSG "msg"
 
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"

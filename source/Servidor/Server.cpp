@@ -62,6 +62,10 @@ void Server::handleEvent(struct mg_connection* act_connection, int new_event, vo
 				requestHandler.listenPhotoRequest();
 			} else if (is_equal(&http_msg->uri, USER_URI)) {
 				requestHandler.listenUserRequest();
+			} else if (is_equal(&http_msg->uri, MATCHES_URI)) {
+				requestHandler.listenMatchesRequest();
+			} else if (is_equal(&http_msg->uri, CHAT_NEW_URI)) {
+				requestHandler.listenChatNewRequest();
 			}else{
 				requestHandler.sendHttpLine(NOT_IMPLEMENTED);
 			}

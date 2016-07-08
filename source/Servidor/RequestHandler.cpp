@@ -249,22 +249,17 @@ void RequestHandler::listenInterestRequest() {
 
 void RequestHandler::listenChatRequest() {
 	LOGG(DEBUG) << "Listening chat request";
-    if (! is_equal(&http_msg->method, GET_S)) {
+	if (! login()) {
+	    	return; }
+
+	if ( is_equal(&http_msg->method, GET_S)) {
+		this->listenChatGet();
+    }else if (is_equal(&http_msg->method, POST_S)){
+    	this->listenChatPost();
+    }else{
     	sendHttpLine(NOT_IMPLEMENTED);
     }
-    LOGG(DEBUG) << GET_S;
 
-    char friend_name[BUFFER_SMALL_SIZE];
-    std::string reply;
-    if (! login()) {
-    	return; }
-
-    if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
-        msgHandler->getChat(string(friend_name), reply);
-    } else {
-        msgHandler->getMatches(reply);
-    }
-    sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 }
 
 void RequestHandler::listenPhotoGet() {
@@ -303,4 +298,68 @@ void RequestHandler::listenPhotoRequest() {
     } else {
         sendHttpLine(NOT_IMPLEMENTED);
     }
+}
+
+void RequestHandler::listenChatNewRequest(){
+	LOGG(DEBUG) << "Listening new chat request";
+	if (! login()) { return; }
+	//TODO
+	if (is_equal(&http_msg->method, GET_S)) {
+		this->listenNewChatGet();
+	}else{
+		sendHttpLine(NOT_IMPLEMENTED);
+	}
+
+}
+
+void RequestHandler::listenMatchesRequest(){
+	LOGG(DEBUG)<< "Listening matches request";
+	if (! login()) {return;}
+
+	if (is_equal(&http_msg->method, GET_S)) {
+		this->listenMatchesGet();
+	} else if (is_equal(&http_msg->method, POST_S)) {
+		this->listenMatchesPost();
+	} else{
+		sendHttpLine(NOT_IMPLEMENTED);
+	}
+
+}
+
+void RequestHandler::listenChatGet(){
+	LOGG(DEBUG)<< GET_S;
+
+	char friend_name[BUFFER_SMALL_SIZE];
+	std::string reply;
+
+	if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
+		msgHandler->getChat(string(friend_name), reply);
+	} else {
+		msgHandler->getMatches(reply);
+	}
+	sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
+}
+
+void RequestHandler::listenChatPost(){
+	LOGG(DEBUG)<< POST_S;
+	//TODO
+	sendHttpLine(NOT_IMPLEMENTED);
+}
+
+void RequestHandler::listenMatchesGet(){
+	LOGG(DEBUG)<< GET_S;
+	//TODO
+	sendHttpLine(NOT_IMPLEMENTED);
+}
+
+void RequestHandler::listenMatchesPost(){
+	LOGG(DEBUG)<< POST_S;
+	//TODO
+	sendHttpLine(NOT_IMPLEMENTED);
+}
+
+void RequestHandler::listenNewChatGet(){
+	LOGG(DEBUG)<< GET_S;
+	//TODO
+	sendHttpLine(NOT_IMPLEMENTED);
 }

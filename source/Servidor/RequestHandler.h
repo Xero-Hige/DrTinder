@@ -25,6 +25,10 @@ public:
 
     void listenPhotoRequest();
 
+    void listenChatNewRequest();
+
+    void listenMatchesRequest();
+
     void sendHttpLine(int status_code);
 
     void sendHttpReply(std::string reply, std::string content_type,int code);
@@ -56,6 +60,16 @@ private:
     void listenPhotoGet();
 
     void listenPhotoPost();
+
+    void listenChatGet();
+
+    void listenChatPost();
+
+    void listenMatchesGet();
+
+    void listenMatchesPost();
+
+    void listenNewChatGet();
 };
 
 
