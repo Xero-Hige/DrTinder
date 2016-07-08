@@ -17,6 +17,6 @@ lcov -a coverage1.info -a coverage2.info -o coverage_merged.info
 lcov -r coverage_merged.info /usr/include/\* -o coverage_merged.info 
 lcov -r coverage_merged.info  /usr/local/include/\* -o coverage_merged.info 
 lcov -r coverage_merged.info  \*/source/libs/\* -o coverage_merged.info 
-lcov -r coverage_merged.info  \*/Servidor/tests/\* -o coverage_merged.info 
+lcov -r coverage_merged.info  \*/source/Servidor/tests/\* -o coverage_merged.info 
 
 genhtml coverage_merged.info

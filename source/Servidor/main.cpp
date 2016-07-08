@@ -3,7 +3,6 @@
 #include <mutex>
 
 #include "../libs/loger/easylogging++.h"
-#include "XMPPServer.h"
 #include "Server.h"
 INITIALIZE_EASYLOGGINGPP
 #define ELPP_THREAD_SAFE
@@ -19,10 +18,6 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result_mutex.lock();
 	result = true;
 	result_mutex.unlock();
-}
-
-void listenXMPP(Swift::SimpleEventLoop& eventLoop) {
-	eventLoop.run();
 }
 
 void setUpDatabase(rocksdb::DB** db, std::string db_name) {
@@ -51,20 +46,10 @@ int main(int argc, char**argv) {
 
 	server.setUsersDB(usersDB);
 
-	Swift::SimpleEventLoop eventLoop;
-	Swift::BoostNetworkFactories networkFactories(&eventLoop);
-	XMPPServer xmppServer(&networkFactories);
-
 	rocksdb::DB* chatDB;
 	setUpDatabase(&chatDB, "chatDB");
 	rocksdb::DB* likesDB;
 	setUpDatabase(&likesDB, "likesDB");
-
-	xmppServer.setChatDB(chatDB);
-	xmppServer.setLikesDB(likesDB);
-
-	std::mutex xmpp_mutex;
-	std::thread xmpp_thread(listenXMPP, std::ref(eventLoop));
 
 	server.setChatDB(chatDB);
 	server.setLikesDB(likesDB);
@@ -83,8 +68,6 @@ int main(int argc, char**argv) {
 	}
 	quit_mutex.unlock();
 
-	xmppServer.close();
-	xmpp_thread.join();
 	quit_control_thread.join();
 	RestClient::disable();
 	LOGG(INFO) << "Closing server";

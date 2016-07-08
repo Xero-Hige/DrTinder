@@ -15,7 +15,7 @@ INCLUDE_DIRECTORIES(../libs/googletest)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/)
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS rt Swiften libidn.so libresolv.so boost_system boost_date_time expat pthread rocksdb z bz2 snappy curl restclient-cpp xml2 gcov)
+SET(SERVER_LIBS rt libidn.so libresolv.so expat pthread rocksdb z bz2 snappy curl restclient-cpp xml2 gcov)
 SET(TEST_LIBS ${SERVER_LIBS} gtest)
 
 SET(SSL_LIBS ssl crypto)
@@ -36,8 +36,6 @@ SET(COMMON_SRCS ../libs/mongoose/mongoose.c
 	 Parsers/UserParser.cpp
 	 ChatDatabaseManager.cpp
 	 LikesDatabaseManager.cpp
-	 XMPPServer.cpp 
-	 XMPPMessageHandler.cpp
 )
 SET (Servidor_SRCS main.cpp ${COMMON_SRCS})
 

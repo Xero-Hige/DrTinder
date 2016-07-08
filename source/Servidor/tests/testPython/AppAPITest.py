@@ -3,7 +3,7 @@ import unittest
 import base64
 
 mail= "de@hotmail.com"
-passw = "1234"
+passw = "123456"
 
 myClient = ClientApp(mail,passw)
 
@@ -17,8 +17,8 @@ class MyTest(unittest.TestCase):
 		r = myClient.delete()
 		self.assertEquals(r.status_code,200)
 		r = myClient.delete()
-		#token expired -> 498 (NOT LOGED IN)
-		self.assertEquals(r.status_code,498)	
+		#token expired -> 403
+		self.assertEquals(r.status_code,403)	
 
 	def test_ChangedPhoto(self):
 		myClient.signup()
@@ -73,8 +73,8 @@ class MyTest(unittest.TestCase):
 		myClient.delete()
 
 	def test_loginUserOfSS(self):
-		user="asd@asd.com"
-		r = myClient.login(user,"1234")
+		user="copito@gmail.com"
+		r = myClient.login(user,"123456")
 		self.assertEqual(r.status_code,200)
 
 if __name__ == '__main__':
