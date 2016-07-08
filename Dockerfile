@@ -39,20 +39,14 @@ RUN cd DrTinder/source/libs/googletest ; cmake . ; make install
 # Install cpprest
 RUN cd DrTinder/source/libs/restclient-cpp ; ./autogen.sh ; ./configure ; make install
 
-# Install swiften
-RUN cd DrTinder/source/libs/swift ; ./scons SWIFTEN_INSTALLDIR=/usr/local /usr/local
-
-# Install boost
-RUN apt-get update && apt-get install -y libboost-all-dev
-
 # Add exe permissions for google style check
 RUN cd DrTinder ; chmod +x execute.sh
 
 # Run cmake on AppServer
 RUN cd DrTinder/source/Servidor ; cmake .
 
-# Compile AppServer
-RUN cd DrTinder/source/Servidor ; make
+# Compile Test
+RUN cd DrTinder/source/Servidor ; make Test
 
 # Run Tests and upload codecov
 CMD DrTinder/source/Servidor/Test
