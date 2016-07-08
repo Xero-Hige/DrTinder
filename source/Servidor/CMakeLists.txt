@@ -15,7 +15,7 @@ INCLUDE_DIRECTORIES(../libs/googletest)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/)
 
 LINK_DIRECTORIES(/usr/local/lib/ /usr/lib /usr/lib/x86_64-linux-gnu/ )
-SET(SERVER_LIBS rt pthread rocksdb z bz2 snappy curl restclient-cpp xml2 gcov)
+SET(SERVER_LIBS rt pthread rocksdb z bz2 snappy curl restclient-cpp gcov)
 SET(TEST_LIBS ${SERVER_LIBS} gtest)
 
 SET(SSL_LIBS ssl crypto)
