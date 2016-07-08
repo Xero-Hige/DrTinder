@@ -2,6 +2,7 @@
 
 #define MAX_LEN_TOKEN_BUFFER 100
 #define BUFFER_SMALL_SIZE 100
+#define BUFFER_MSG_SIZE 1000
 
 RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :
     connection(pConnection), http_msg(pMessage) {
@@ -9,9 +10,6 @@ RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnectio
 	msgHandler = new MessageHandler(databases);
 	msgHandler->setSharedLink(shared);
 }
-
-//TODO chats/new and matches listener
-//TODO procesing of send msg, new like, new matches and new ms
 
 RequestHandler::~RequestHandler() {
 	delete msgHandler;
@@ -342,24 +340,49 @@ void RequestHandler::listenChatGet(){
 
 void RequestHandler::listenChatPost(){
 	LOGG(DEBUG)<< POST_S;
-	//TODO
+
+	char user_data[BUFFER_SMALL_SIZE], msg[BUFFER_MSG_SIZE];
+	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data));
+	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_LIKE, msg, sizeof(msg));
+
+	if ( !parsed || !parsed_msg){
+		sendHttpLine(BAD_REQUEST);
+		return;
+	}
+	//TODO save new msg to user_data from username.
 	sendHttpLine(NOT_IMPLEMENTED);
 }
 
 void RequestHandler::listenMatchesGet(){
 	LOGG(DEBUG)<< GET_S;
-	//TODO
+	//TODO get new matches (only names)
 	sendHttpLine(NOT_IMPLEMENTED);
 }
 
 void RequestHandler::listenMatchesPost(){
 	LOGG(DEBUG)<< POST_S;
-	//TODO
+
+	char user_data[BUFFER_SMALL_SIZE], boolean[10];
+	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data));
+	int parsed_like = mg_get_http_var(&http_msg->body, BODY_LIKE, boolean, sizeof(boolean));
+
+	if ( !parsed || !parsed_like){
+		sendHttpLine(BAD_REQUEST);
+		return;
+	}
+
+	//TODO save new like for user_data with boolean, verify match, etc.
 	sendHttpLine(NOT_IMPLEMENTED);
 }
 
 void RequestHandler::listenNewChatGet(){
 	LOGG(DEBUG)<< GET_S;
-	//TODO
-	sendHttpLine(NOT_IMPLEMENTED);
+	char user_data[BUFFER_SMALL_SIZE], boolean[10];
+	if ( mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data))){
+		//TODO get new msgs of username,user_data chat
+		sendHttpLine(NOT_IMPLEMENTED);
+	}else{
+		sendHttpLine(BAD_REQUEST);
+	}
+
 }

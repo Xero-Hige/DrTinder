@@ -15,6 +15,7 @@
 
 #define BODY_USER_ID "user_id"
 #define BODY_MSG "msg"
+#define BODY_LIKE "bool"
 
 #define TOKEN_VARIABLE_NAME "token"
 #define AUTHORIZATION_HEADER "Authorization"
