@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.util.Base64;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -76,7 +74,7 @@ public final class UserHandler {
     private static final String MATCHES_URL = "/matches";
     private static String mToken = ERROR_TOKEN;
 
-    private static AtomicLong mMessageId = new AtomicLong(0);
+    private static String mUserEmail = "";
 
     private UserHandler() {
     }
@@ -87,7 +85,7 @@ public final class UserHandler {
      * @return next message ID
      */
     public static Long getMessageId() {
-        return mMessageId.getAndIncrement();
+        return 2L; //TODO Remove
     }
 
     /**
@@ -145,17 +143,9 @@ public final class UserHandler {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
         }
 
+        mUserEmail = email;
         mToken = response.getBody();
         return response.getBody();
-
-
-//        restTemplate = new RestTemplate();
-//
-//        String tokenUrl = getTokenUrl() + "/" + user;
-//        response = restTemplate.getForEntity(tokenUrl, String.class);
-//
-//
-//        return mToken;
     }
 
     private static String getLoginUrl() {
@@ -232,9 +222,7 @@ public final class UserHandler {
             return "";
         }
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert currentUser != null; //DEBUG Assert
-        return currentUser.getEmail();
+        return mUserEmail;
     }
 
     /**
