@@ -60,8 +60,6 @@ public class SelectionFragment extends Fragment {
     //TODO: Remove
     private SwipeDeck mCardStack;
 
-    private View mProgressView;
-
     private Queue<Map<Integer, String>> mUsersQueue;
     private Map<Integer, Map<Integer, String>> mUsersData;
     private View mFragmentView;
@@ -87,7 +85,6 @@ public class SelectionFragment extends Fragment {
 
         mCardStack.setLeftImage(R.id.card_nope);
         mCardStack.setRightImage(R.id.card_like);
-        mProgressView = mFragmentView.findViewById(R.id.login_progress);
 
         setButtons(mFragmentView);
 
