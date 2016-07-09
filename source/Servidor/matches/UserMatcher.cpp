@@ -55,7 +55,7 @@ bool UserMatcher::userInMatches(User* user, string userMatches){
 	while (std::getline(f, line)) {
 		vector<string> elems = csv.parseLine(&line);
 		if (elems[MAIL_FULL_IDX].compare(user_mail) == 0) {
-			LOGG(DEBUG)<< "Already interacted with " << user->getMail();
+			LOGG(DEBUG)<< "Already interacted with " << user_mail;
 			return true;
 		}
 	}

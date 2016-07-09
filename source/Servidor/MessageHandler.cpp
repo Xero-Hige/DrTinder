@@ -322,18 +322,21 @@ void MessageHandler::getAllInteractions(std::string& matches) {
 }
 
 void MessageHandler::getMatches(std::string& matches) {
-	LOGG(INFO) << "Devolviendo usuarios matcheados.";
-	usersDB->createIterator();
-	while (usersDB->validIterator()) {
+	LOGG(INFO) << "Devolviendo usuarios matcheados";
+	//se vuelve choto si son muchos users
+	//deberia guardar todos los matcheados por mail
+	//por el mail obtener el id y asi buscarlos en SS
+	likesDB->createIterator();
+	while (likesDB->validIterator()) {
 		string users, liked, candidate_data;
 
-		usersDB->getActualPair(users, liked);
+		likesDB->getActualPair(users, liked);
 		if (liked == LIKED_TOKEN && match(users, candidate_data)) {
 			matches.append(candidate_data + "\n");
 		}
-		usersDB->advanceIterator();
+		likesDB->advanceIterator();
 	}
-	usersDB->deleteIterator();
+	likesDB->deleteIterator();
 }
 
 string MessageHandler::getToken() {

@@ -301,7 +301,7 @@ void RequestHandler::listenPhotoRequest() {
 void RequestHandler::listenChatNewRequest(){
 	LOGG(DEBUG) << "Listening new chat request";
 	if (! login()) { return; }
-	//TODO
+
 	if (is_equal(&http_msg->method, GET_S)) {
 		this->listenNewChatGet();
 	}else{
