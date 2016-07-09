@@ -205,16 +205,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
-
-                FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                .setMessageId(UserHandler.getMessageId().toString())
-                                .addData("user", UserHandler.getUsername())
-                                .addData("candidate", data.get(USER_ID))
-                                .addData("liked", "no")
-                                .build());
-
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(USER_NAME));
+                sendLike(data, false);
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -226,15 +217,7 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
 
-                FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                .setMessageId(UserHandler.getMessageId().toString())
-                                .addData("user", UserHandler.getUsername())
-                                .addData("candidate", data.get(USER_ID))
-                                .addData("liked", "yes")
-                                .build());
-
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(USER_NAME));
+                sendLike(data, true);
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -254,6 +237,18 @@ public class SelectionFragment extends Fragment {
             }
 
         });
+    }
+
+    private void sendLike(Map<Integer, String> candidateData, boolean liked) {
+        FirebaseMessaging.getInstance().send(
+                new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
+                        .setMessageId(UserHandler.getMessageId().toString())
+                        .addData("user", UserHandler.getUsername())
+                        .addData("candidate", candidateData.get(USER_ID))
+                        .addData("liked", liked ? "yes" : "no")
+                        .build());
+
+        DrTinderLogger.writeLog(DrTinderLogger.INFO, (liked ? "Liked  " : "Rejected ") + candidateData.get(USER_NAME));
     }
 
     private void addUserCard(int index, String[] userData) {
