@@ -389,12 +389,14 @@ public final class UserHandler {
         String matchesUrl = uriBuilder.build().toString();
 
         boolean sent = false;
-        while (!sent) {
+        int tries = 0;
+        while (!sent || tries > 30) {
             try {
                 restTemplate.postForEntity(matchesUrl, body, String.class);
                 sent = true;
             } catch (Exception e) {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on match: " + e.getMessage());
+                tries += 1;
             }
         }
     }
