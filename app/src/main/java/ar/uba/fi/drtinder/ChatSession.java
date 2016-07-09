@@ -141,18 +141,22 @@ public class ChatSession extends AppCompatActivity {
                     //TODO: Remove
                     addPersonalResponse(message);
 
-                    FirebaseMessaging.getInstance().send(
-                            new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                    .setMessageId(UserHandler.getMessageId().toString())
-                                    .addData("sender", mYourId)
-                                    .addData("receiver", mFriendId)
-                                    .addData("message", message)
-                                    .build());
+                    sendMessage(message);
 
                     msgView.setText("");
                     Utility.hideKeyboard(this);
                     scrollToLast();
                 });
+    }
+
+    private void sendMessage(String message) {
+        FirebaseMessaging.getInstance().send(
+                new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
+                        .setMessageId(UserHandler.getMessageId().toString())
+                        .addData("sender", mYourId)
+                        .addData("receiver", mFriendId)
+                        .addData("message", message)
+                        .build());
     }
 
     private void loadOldMessages() {
