@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -338,25 +336,12 @@ public class UserProfileActivity extends AppCompatActivity {
         Utility.showMessage("Creando usuario", viewGroup);
         String password = mPasswordView.getText().toString();
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(mEmail, password)
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user at FB: "
-                                + mEmail + " " + password);
-                        Utility.showMessage("Fallo al crear el usuario. Reintente mas tarde", viewGroup);
-                        enableButtons();
-                        return;
-                    }
-
-                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
-
-                    if (mProfileImage == null) {
-                        mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
-                    }
-                    CreateUserTask createTask = new CreateUserTask(this, password);
-                    createTask.execute();
-                    disableButtons();
-                });
+        if (mProfileImage == null) {
+            mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
+        }
+        CreateUserTask createTask = new CreateUserTask(this, password);
+        createTask.execute();
+        disableButtons();
     }
 
     private boolean validateFields() {
@@ -379,7 +364,6 @@ public class UserProfileActivity extends AppCompatActivity {
         userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
         userdata.put("localization", LocationHandler.getLocationString(this));
 
-
         String interests = "";
         for (int i = 0; i < mInterestList.size(); i++) {
             interests = interests + mInterestList.get(i);
@@ -390,13 +374,16 @@ public class UserProfileActivity extends AppCompatActivity {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
+
         if (mSearchingFemale.isChecked()) {
             interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
-        interests = interests.substring(0, interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
-
+        if (!interests.equals("")) {
+            interests = interests.substring(0,
+                    interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
+        }
         userdata.put("interest", interests);
         return userdata;
     }
