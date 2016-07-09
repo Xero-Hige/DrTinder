@@ -66,6 +66,7 @@ public final class UserHandler {
      * Sign up result: Sign up successful
      */
     public static final String SIGNUP_SUCCESS = "S";
+    public static final int MAX_TRIES = 30;
     private static final String LOGIN_URL = "user";
     private static final String DELETE_URL = "users";
     private static final String SIGNUP_URL = "users";
@@ -376,7 +377,7 @@ public final class UserHandler {
      * @param candidateId
      * @param liked
      */
-    public static void sendLike(String token, String candidateId, boolean liked) {
+    public static boolean sendLike(String token, String candidateId, boolean liked) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -390,7 +391,7 @@ public final class UserHandler {
 
         boolean sent = false;
         int tries = 0;
-        while (!sent || tries > 30) {
+        while (!sent && tries < MAX_TRIES) {
             try {
                 restTemplate.postForEntity(matchesUrl, body, String.class);
                 sent = true;
@@ -399,6 +400,8 @@ public final class UserHandler {
                 tries += 1;
             }
         }
+
+        return sent;
     }
 
     private static String getMatchesUrl() {

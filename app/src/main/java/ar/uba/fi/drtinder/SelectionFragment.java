@@ -236,7 +236,7 @@ public class SelectionFragment extends Fragment {
 
     private void sendLike(Map<Integer, String> candidateData, boolean liked) {
         SendLikeTask task = new SendLikeTask(candidateData.get(USER_ID), liked);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void addUserCard(int index, String[] userData) {
@@ -267,13 +267,17 @@ public class SelectionFragment extends Fragment {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            UserHandler.sendLike(UserHandler.getToken(), candidateId, liked);
-            return true;
+            return UserHandler.sendLike(UserHandler.getToken(), candidateId, liked);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            if (success) {
             DrTinderLogger.writeLog(DrTinderLogger.INFO, (liked ? "Liked  " : "Rejected ") + candidateId);
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed: " + (liked ? "like  " : "reject ") + candidateId);
+
         }
 
         @Override
