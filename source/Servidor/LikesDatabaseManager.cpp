@@ -24,7 +24,7 @@ void LikesDatabaseManager::saveLike(std::string deUser, std::string aUser, std::
 	this->addEntry(deUser + DB_SEPARATOR + aUser, boolean);
 
 	if (getEntry(USERS_INTERACTED_OF + deUser, interacted_aux)){
-		addEntry(USERS_INTERACTED_OF + deUser,interacted_aux + aUser + "\n")
+		addEntry(USERS_INTERACTED_OF + deUser,interacted_aux + aUser + "\n");
 	}else{
 		addEntry(USERS_INTERACTED_OF + deUser,aUser + "\n");
 	}
