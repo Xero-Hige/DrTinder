@@ -3,6 +3,7 @@ package ar.uba.fi.drtinder;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
@@ -19,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.siyamed.shapeimageview.BubbleImageView;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 /**
  * @author Xero-Hige
@@ -150,13 +149,8 @@ public class ChatSession extends AppCompatActivity {
     }
 
     private void sendMessage(String message) {
-        FirebaseMessaging.getInstance().send(
-                new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                        .setMessageId(UserHandler.getMessageId().toString())
-                        .addData("sender", mYourId)
-                        .addData("receiver", mFriendId)
-                        .addData("message", message)
-                        .build());
+        SendMessageTask task = new SendMessageTask(mFriendId, message);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void loadOldMessages() {
@@ -256,5 +250,39 @@ public class ChatSession extends AppCompatActivity {
         msgTextView.setText(message);
 
         runOnUiThread(() -> mMessagesLayout.addView(layout));
+    }
+
+    private class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
+
+        String candidateId;
+        String message;
+
+        SendMessageTask(String candidateId, String message) {
+            this.candidateId = candidateId;
+            this.message = message;
+        }
+
+        /**
+         * @param params params
+         * @return Task successful
+         */
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return UserHandler.sendMessage(UserHandler.getToken(), candidateId, message);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Message sent: " + message);
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to send: " + message);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
     }
 }

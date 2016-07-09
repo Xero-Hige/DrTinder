@@ -72,7 +72,9 @@ public final class UserHandler {
     private static final String SIGNUP_URL = "users";
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
-    private static final String MATCHES_URL = "/matches";
+    private static final String MATCHES_URL = "matches";
+    private static final String MESSAGES_URL = "matches";
+
     private static String mToken = ERROR_TOKEN;
 
     private static String mUserEmail = "";
@@ -368,6 +370,45 @@ public final class UserHandler {
 
     private static String getUpdateUrl() {
         return ServerUrlWrapper.getServerUrl() + UPDATE_URL;
+    }
+
+    /**
+     * TODO
+     *
+     * @param token
+     * @param candidateId
+     * @param message
+     * @return
+     */
+    public static boolean sendMessage(String token, String candidateId, String message) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String bodyTemplate = "user_id=%s msg=%s";
+
+        String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, message);
+
+        Uri.Builder uriBuilder = Uri.parse(getMessagesUrl()).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String matchesUrl = uriBuilder.build().toString();
+
+        boolean sent = false;
+        int tries = 0;
+        while (!sent && tries < MAX_TRIES) {
+            try {
+                restTemplate.postForEntity(matchesUrl, body, String.class);
+                sent = true;
+            } catch (Exception e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on msg send: " + e.getMessage());
+                tries += 1;
+            }
+        }
+
+        return sent;
+    }
+
+    private static String getMessagesUrl() {
+        return ServerUrlWrapper.getServerUrl() + MESSAGES_URL;
     }
 
     /**
