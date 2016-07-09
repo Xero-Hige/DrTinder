@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -67,10 +66,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mUrl;
 
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    private boolean mFirebaseLogedIn;
-    private boolean mFirebaseLoginFinished;
-
     private CountDownLatch mLoginLatch;
 
     /**
@@ -86,7 +81,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
         LocationHandler.getLocationString(this); //Forces to fetch gps info
 
-        mFirebaseLoginFinished = true;
         mLoginLatch = new CountDownLatch(0);
         // Set up the login form.
 
@@ -177,9 +171,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private void firebaseAuthenticate(String email, String password) {
-        mFirebaseLoginFinished = false;
         mLoginLatch = new CountDownLatch(1);
-        mFirebaseAuth.signInWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
                     if (!task.isSuccessful()) {
@@ -187,19 +180,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     } else {
                         DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
                     }
-                    mFirebaseLogedIn = task.isSuccessful();
-                    mFirebaseLoginFinished = true;
                     mLoginLatch.countDown();
                 });
-
-        if (!mFirebaseLoginFinished) {
-            try {
-                mLoginLatch.await();
-                FirebaseMessaging.getInstance().subscribeToTopic("friendly_engage");
-            } catch (InterruptedException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
-            }
-        }
     }
 
     private void attemptRegister() {
@@ -347,12 +329,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            //Todo: Change
-            //String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,mUserPassword, getLocationString());
-            //if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
-            //    return false;
-            //}
-            //firebaseAuthenticate(mUserEmail, mUserPassword);
             return UserHandler.isValidEmail(this.mUserEmail);
         }
 
@@ -415,7 +391,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }
 
             firebaseAuthenticate(mUserEmail, mUserPassword);
-            return mFirebaseLogedIn;
+            return true;
         }
 
         @Override
@@ -437,24 +413,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 showProgress(false);
-                return;
-            }
-
-            if (!mFirebaseLogedIn) {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserEmail, mUserPassword)
-                        .addOnCompleteListener(task -> {
-                            showProgress(false);
-                            if (!task.isSuccessful()) {
-                                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to login at FB");
-                                Utility.showMessage("Fallo en Firebase. Contacte al administrador",
-                                        Utility.getViewgroup(mActivity));
-                                return;
-                            }
-
-                            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
-                            firebaseAuthenticate(mUserEmail, mUserPassword);
-                            startApp(this.mActivity);
-                        });
                 return;
             }
 
