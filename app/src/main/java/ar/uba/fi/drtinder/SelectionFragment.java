@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -237,15 +235,8 @@ public class SelectionFragment extends Fragment {
     }
 
     private void sendLike(Map<Integer, String> candidateData, boolean liked) {
-        FirebaseMessaging.getInstance().send(
-                new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                        .setMessageId(UserHandler.getMessageId().toString())
-                        .addData("user", UserHandler.getUsername())
-                        .addData("candidate", candidateData.get(USER_ID))
-                        .addData("liked", liked ? "yes" : "no")
-                        .build());
-
-        DrTinderLogger.writeLog(DrTinderLogger.INFO, (liked ? "Liked  " : "Rejected ") + candidateData.get(USER_NAME));
+        SendLikeTask task = new SendLikeTask(candidateData.get(USER_ID), liked);
+        task.execute();
     }
 
     private void addUserCard(int index, String[] userData) {
@@ -260,10 +251,36 @@ public class SelectionFragment extends Fragment {
         mUsersQueue.add(userMap);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
+    private class SendLikeTask extends AsyncTask<Void, Void, Boolean> {
+
+        String candidateId;
+        boolean liked;
+
+        SendLikeTask(String candidateId, boolean liked) {
+            this.candidateId = candidateId;
+            this.liked = liked;
+        }
+
+        /**
+         * @param params params
+         * @return Task successful
+         */
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            UserHandler.sendLike(UserHandler.getToken(), candidateId, liked);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            DrTinderLogger.writeLog(DrTinderLogger.INFO, (liked ? "Liked  " : "Rejected ") + candidateId);
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }
+
     private class UsersFetchTask extends AsyncTask<Void, Void, Boolean> {
 
         /**

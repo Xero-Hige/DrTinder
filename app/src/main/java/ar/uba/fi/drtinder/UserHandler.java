@@ -73,6 +73,7 @@ public final class UserHandler {
     private static final String SIGNUP_URL = "users";
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
+    private static final String MATCHES_URL = "/matches";
     private static String mToken = ERROR_TOKEN;
 
     private static AtomicLong mMessageId = new AtomicLong(0);
@@ -380,6 +381,36 @@ public final class UserHandler {
     }
 
     /**
+     * TODO
+     *
+     * @param token
+     * @param candidateId
+     * @param liked
+     */
+    public static void sendLike(String token, String candidateId, boolean liked) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String bodyTemplate = "user_id=%s bool=%s";
+
+        String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, String.valueOf(liked));
+
+        Uri.Builder uriBuilder = Uri.parse(getUpdateUrl()).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String matchesUrl = uriBuilder.build().toString();
+
+        boolean sent = false;
+        while (!sent) {
+            try {
+                restTemplate.postForEntity(matchesUrl, body, String.class);
+                sent = true;
+            } catch (Exception e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on match: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
      * Uploads a new profile picture for the logged in user
      *
      * @param profilePicture New picture
@@ -410,6 +441,10 @@ public final class UserHandler {
 
     private static String getAvatarUrl() {
         return ServerUrlWrapper.getServerUrl() + AVATAR_URL;
+    }
+
+    private static String getMatchesUrl() {
+        return ServerUrlWrapper.getServerUrl() + MATCHES_URL;
     }
 
     /**
