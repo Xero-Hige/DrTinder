@@ -229,7 +229,8 @@ public final class UserHandler {
      * Logouts from the current session
      */
     public static void logout() {
-        FirebaseAuth.getInstance().signOut();
+        mToken = "";
+        mUserEmail = "";
     }
 
     /**
@@ -383,7 +384,7 @@ public final class UserHandler {
 
         String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, String.valueOf(liked));
 
-        Uri.Builder uriBuilder = Uri.parse(getUpdateUrl()).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(getMatchesUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
         String matchesUrl = uriBuilder.build().toString();
 
@@ -396,6 +397,10 @@ public final class UserHandler {
                 DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on match: " + e.getMessage());
             }
         }
+    }
+
+    private static String getMatchesUrl() {
+        return ServerUrlWrapper.getServerUrl() + MATCHES_URL;
     }
 
     /**
@@ -429,10 +434,6 @@ public final class UserHandler {
 
     private static String getAvatarUrl() {
         return ServerUrlWrapper.getServerUrl() + AVATAR_URL;
-    }
-
-    private static String getMatchesUrl() {
-        return ServerUrlWrapper.getServerUrl() + MATCHES_URL;
     }
 
     /**
