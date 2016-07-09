@@ -266,23 +266,23 @@ public final class ImageResourcesHandler {
 
             if (success) {
 
-                int bmW = mImageBitmap.getWidth();
-                int bmH = mImageBitmap.getHeight();
+                int bitmapWidth = mImageBitmap.getWidth();
+                int bitmapHeight = mImageBitmap.getHeight();
 
 
-                int y = (bmW < bmH) ? (bmH - bmW) / 2 : 0;
-                int x = (bmW < bmH) ? 0 : (bmW - bmH) / 2;
-                int w = (bmW < bmH) ? bmW : bmH;
-                int h = (bmW < bmH) ? bmW : bmH;
+                int initialY = (bitmapWidth < bitmapHeight) ? (bitmapHeight - bitmapWidth) / 2 : 0;
+                int initialX = (bitmapWidth < bitmapHeight) ? 0 : (bitmapWidth - bitmapHeight) / 2;
+                int resultWidth = (bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight;
+                int resultHeight = (bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight;
 
-                int W = mImageView.getWidth();
-                int H = mImageView.getHeight();
+                int viewWidth = mImageView.getWidth();
+                int viewHeight = mImageView.getHeight();
 
                 Matrix matrix = new Matrix();
-                float scale = ((W < H) ? W + 0.0f : H + 0.0f) / ((bmW < bmH) ? bmW : bmH);
+                float scale = ((viewWidth < viewHeight) ? viewWidth + 0.0f : viewHeight + 0.0f) / ((bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight);
                 matrix.postScale(scale, scale);
 
-                mImageBitmap = Bitmap.createBitmap(mImageBitmap, x, y, w, h, matrix, true);
+                mImageBitmap = Bitmap.createBitmap(mImageBitmap, initialX, initialY, resultWidth, resultHeight, matrix, true);
 
                 mImageView.setImageBitmap(mImageBitmap);
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
