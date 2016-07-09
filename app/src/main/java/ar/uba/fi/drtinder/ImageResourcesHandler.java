@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -264,6 +265,25 @@ public final class ImageResourcesHandler {
             }
 
             if (success) {
+
+                int bmW = mImageBitmap.getWidth();
+                int bmH = mImageBitmap.getHeight();
+
+
+                int y = (bmW < bmH) ? (bmH - bmW) / 2 : 0;
+                int x = (bmW < bmH) ? 0 : (bmW - bmH) / 2;
+                int w = (bmW < bmH) ? bmW : bmH;
+                int h = (bmW < bmH) ? bmW : bmH;
+
+                int W = mImageView.getWidth();
+                int H = mImageView.getHeight();
+
+                Matrix matrix = new Matrix();
+                float scale = ((W < H) ? W + 0.0f : H + 0.0f) / ((bmW < bmH) ? bmW : bmH);
+                matrix.postScale(scale, scale);
+
+                mImageBitmap = Bitmap.createBitmap(mImageBitmap, x, y, w, h, matrix, true);
+
                 mImageView.setImageBitmap(mImageBitmap);
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Loaded image " + mImageUrl);
                 return;
