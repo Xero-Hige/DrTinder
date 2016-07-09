@@ -95,7 +95,7 @@ public class SelectionFragment extends Fragment {
     private void fillCardStack() {
         Utility.showMessage("Buscando candidatos", getView(), "Ok", 100);
         UsersFetchTask mAuthTask = new UsersFetchTask();
-        mAuthTask.execute((Void) null);
+        mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setButtons(View view) {

@@ -109,7 +109,7 @@ public final class StringResourcesHandler {
      */
     public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static List<String[]> fetchData(String queryUrl) {

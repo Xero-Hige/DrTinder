@@ -283,7 +283,7 @@ public class UserProfileActivity extends AppCompatActivity {
             disableButtons();
             Utility.showMessage("Borrando usuario", Utility.getViewgroup(this));
             DeleteUserTask task = new DeleteUserTask(this);
-            task.execute();
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         });
 
         View deleteDiv = findViewById(R.id.deleteUserDivider);
@@ -322,7 +322,7 @@ public class UserProfileActivity extends AppCompatActivity {
         disableButtons();
         Utility.showMessage("Actualizando datos", Utility.getViewgroup(this));
         UpdateInfoTask task = new UpdateInfoTask(this);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void createUser() {
@@ -340,7 +340,7 @@ public class UserProfileActivity extends AppCompatActivity {
             mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
         }
         CreateUserTask createTask = new CreateUserTask(this, password);
-        createTask.execute();
+        createTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         disableButtons();
     }
 
