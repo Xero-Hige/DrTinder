@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity
         Utility.hideKeyboard(this);
     }
 
-    private void changeFragment(Fragment selectionFragment) {
-        FragmentManager frag = getSupportFragmentManager();
-        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     /**
@@ -86,6 +86,12 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         ImageResourcesHandler.clearCache(this);
         UserHandler.logout();
+        MatchesListener.stopListening();
+    }
+
+    private void changeFragment(Fragment selectionFragment) {
+        FragmentManager frag = getSupportFragmentManager();
+        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
     }
 
     /**
@@ -100,6 +106,12 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MatchesListener.startListening(UserHandler.getToken(), this.getApplicationContext());
     }
 
     /**
