@@ -1,10 +1,8 @@
 package ar.uba.fi.drtinder;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -17,10 +15,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.github.siyamed.shapeimageview.BubbleImageView;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 /**
  * @author Xero-Hige
@@ -56,26 +50,9 @@ public class ChatSession extends AppCompatActivity {
 
     private LinearLayout mMessagesLayout;
 
-    private String mYourId;
     private String mFriendId;
     private String mFriendName;
 
-    private ChatSession mDis = this;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        private MessagesService mService;
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
-            mService = binder.getService();
-            MessagesService.setSession(ChatSession.this);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            MessagesService.setSession(null);
-        }
-    };
 
     /**
      * Perform initialization of all fragments and loaders.
@@ -121,7 +98,7 @@ public class ChatSession extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        MessagesService.setSession(null);
+        MessagesListener.stopListening();
     }
 
     private void addSendListener() {
@@ -138,16 +115,7 @@ public class ChatSession extends AppCompatActivity {
                         return;
                     }
 
-                    //TODO: Remove
-                    addPersonalResponse(message);
-
-                    FirebaseMessaging.getInstance().send(
-                            new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                    .setMessageId(UserHandler.getMessageId().toString())
-                                    .addData("sender", mYourId)
-                                    .addData("receiver", mFriendId)
-                                    .addData("message", message)
-                                    .build());
+                    sendMessage(message);
 
                     msgView.setText("");
                     Utility.hideKeyboard(this);
@@ -155,34 +123,39 @@ public class ChatSession extends AppCompatActivity {
                 });
     }
 
+    private void sendMessage(String message) {
+        SendMessageTask task = new SendMessageTask(mFriendId, message);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     private void loadOldMessages() {
         StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.USER_CHAT, UserHandler.getToken()
                 , data -> {
-            for (int index = 0; index < data.size(); index++) {
-                String[] messageData = data.get(index);
-                if (messageData.length != DATA_FIELDS) {
-                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Message length mismatch");
-                    continue;
-                }
+                    for (int index = 0; index < data.size(); index++) {
+                        String[] messageData = data.get(index);
+                        if (messageData.length != DATA_FIELDS) {
+                            DrTinderLogger.writeLog(DrTinderLogger.WARN, "Message length mismatch");
+                            continue;
+                        }
 
-                String senderId = messageData[0];
-                String messageText = messageData[1];
+                        String senderId = messageData[0];
+                        String messageText = messageData[1];
 
-                if (senderId.equals(mYourId)) {
-                    addPersonalResponse(messageText);
-                    continue;
-                }
+                        if (senderId.equals(UserHandler.getUsername())) {
+                            addPersonalResponse(messageText);
+                            continue;
+                        }
 
-                if (senderId.equals(mFriendId)) {
-                    addFriendResponse(messageText);
-                    continue;
-                }
+                        if (senderId.equals(mFriendId)) {
+                            addFriendResponse(messageText);
+                            continue;
+                        }
 
-                DrTinderLogger.writeLog(DrTinderLogger.ERRO,
-                        "Received unknown sender id " + senderId);
-            }
-            scrollToLast();
-        });
+                        DrTinderLogger.writeLog(DrTinderLogger.ERRO,
+                                "Received unknown sender id " + senderId);
+                    }
+                    scrollToLast();
+                });
     }
 
     private void scrollToLast() {
@@ -192,6 +165,31 @@ public class ChatSession extends AppCompatActivity {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
+    }
+
+    private void addPersonalResponse(String message) {
+        addResponse(R.layout.chat_session_you, "Tu", UserHandler.getUsername(), message);
+    }
+
+    private void addResponse(int layoutId, String username, String userId, String message) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View layout = inflater.inflate(layoutId, null);
+
+        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
+        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
+                UserHandler.getToken(), imageView, this);
+
+        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
+        nameTextView.setText(username + ":");
+
+        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
+        msgTextView.setText(message);
+
+        runOnUiThread(() -> mMessagesLayout.addView(layout));
+    }
+
+    private void addFriendResponse(String message) {
+        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
     /**
@@ -204,10 +202,7 @@ public class ChatSession extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Intent intent = new Intent(this, MessagesService.class);
-        //ComponentName a = startService(intent);
-        //bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        MessagesService.setSession(this);
+        MessagesListener.startListening(UserHandler.getToken(), this.getApplicationContext(), this);
     }
 
     /**
@@ -221,7 +216,7 @@ public class ChatSession extends AppCompatActivity {
             addFriendResponse(message);
             return;
         }
-        if (userId.equals(mYourId)) {
+        if (userId.equals(UserHandler.getUsername())) {
             addPersonalResponse(message);
             return;
         }
@@ -229,28 +224,37 @@ public class ChatSession extends AppCompatActivity {
                 + userId + " - " + message);
     }
 
-    private void addPersonalResponse(String message) {
-        addResponse(R.layout.chat_session_you, "Tu", UserHandler.getUsername(), message);
-    }
+    private class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
 
-    private void addFriendResponse(String message) {
-        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
-    }
+        private final String mCandidateId;
+        private final String mMessage;
 
-    private void addResponse(int layoutId, String username, String userId, String message) {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View layout = inflater.inflate(layoutId, null);
+        SendMessageTask(String candidateId, String message) {
+            mCandidateId = candidateId;
+            mMessage = message;
+        }
 
-        BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
-        ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
-                UserHandler.getToken(), imageView, this);
+        /**
+         * @param params params
+         * @return Task successful
+         */
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return UserHandler.sendMessage(UserHandler.getToken(), mCandidateId, mMessage);
+        }
 
-        TextView nameTextView = (TextView) layout.findViewById(R.id.chat_user_name);
-        nameTextView.setText(username + ":");
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Message sent: " + mMessage);
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to send: " + mMessage);
 
-        TextView msgTextView = (TextView) layout.findViewById(R.id.chat_user_msg);
-        msgTextView.setText(message);
+        }
 
-        runOnUiThread(() -> mMessagesLayout.addView(layout));
+        @Override
+        protected void onCancelled() {
+        }
     }
 }

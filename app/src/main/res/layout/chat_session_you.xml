@@ -10,10 +10,10 @@
                 android:paddingStart="15dp"
                 android:paddingTop="5dp">
 
-    <com.github.siyamed.shapeimageview.BubbleImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/chat_user_img"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="end"
