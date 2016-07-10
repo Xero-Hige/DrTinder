@@ -329,9 +329,9 @@ bool MessageHandler::validateToken(std::string user_token) {
 void MessageHandler::getInteractions(std::string& interactedUsersData) {
 	LOGG(INFO) << "Devolviendo likes/rechazos de " << username;
 	string interactedUsers;
-	likesDB->getInteractedUsers(username, interactedUsersData);
+	likesDB->getInteractedUsers(username, interactedUsers);
 
-	istringstream f(interactedUsersData);
+	istringstream f(interactedUsers);
 	string interactedUserName;
 	while (getline(f, interactedUserName)) {
 		string interactedUserData;
