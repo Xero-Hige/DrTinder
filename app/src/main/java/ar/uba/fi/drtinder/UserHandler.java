@@ -93,6 +93,8 @@ public final class UserHandler {
      */
     static String getLoginToken(String email, String password, String location) {
 
+        mToken = null;
+
         RestTemplate restTemplate = new RestTemplate();
 
         String user = getUsernameFrom(email);
