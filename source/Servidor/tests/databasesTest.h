@@ -70,6 +70,21 @@ TEST(CHDBManager,messageHistoryAdd){
 	delete database;
 }
 
+TEST(CHDBManager,sendNewMessage){
+	DB * database;
+	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	ChatDatabaseManager mgr(database);
+	string msg = "holaaa";
+	string sender = "pepe@aa.com";
+	string to = "aaa@aa.com";
+	string chat;
+	mgr.saveMessage(msg,sender,to);
+	mgr.getNewMsgs(sender, to, chat);
+	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
+	delete database;
+}
+
+
 TEST(LKDBManager,matches){
 	DB * database;
 	setUpDatabaseTest(&database,CH_HAND_TEST_DB);

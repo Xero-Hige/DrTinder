@@ -40,7 +40,10 @@ void RequestHandler::sendHttpReply(std::string reply, std::string content_type, 
 bool RequestHandler::validateToken() {
     char buffer[MAX_LEN_TOKEN_BUFFER];
     int parsed = mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
-
+    if (!parsed){
+    	sendHttpLine(BAD_REQUEST);
+    	return false;
+    }
     std::string token(buffer);
     LOGG(DEBUG) << "Validating Token for connection: " << token;
     if (! msgHandler->validateToken(token)) {
@@ -386,12 +389,15 @@ void RequestHandler::listenMatchesPost(){
 
 void RequestHandler::listenNewChatGet(){
 	LOGG(DEBUG)<< GET_S;
-	char user_data[BUFFER_SMALL_SIZE], boolean[10];
-	if ( mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data))){
-		//TODO get new msgs of username,user_data chat
-		sendHttpLine(NOT_IMPLEMENTED);
+	char user_data[BUFFER_SMALL_SIZE];
+	string msgs;
+	//TODO define if all new msgs or only msgs of user
+	msgHandler->getNewMessages(msgs);
+	sendHttpReply(msgs, CONTENT_TYPE_HEADER_PLAIN ,STATUS_OK);
+	/*if ( mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data))){
+
 	}else{
 		sendHttpLine(BAD_REQUEST);
-	}
+	}*/
 
 }
