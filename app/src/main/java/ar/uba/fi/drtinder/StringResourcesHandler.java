@@ -54,6 +54,10 @@ public final class StringResourcesHandler {
      * Query type: Information of the user
      */
     public static final int USER_INFO = 3;
+    /**
+     * Query type: New matches for the service
+     */
+    public static final int SERVICE_MATCHES = 4;
 
     /**
      * Interest string divider (divide 2 diferent interest groups)
@@ -68,6 +72,8 @@ public final class StringResourcesHandler {
     private static final String MATCHES_URL = "chats";
     private static final String CHATMSG_URL = "chats";
     private static final String USERINFO_URL = "user";
+    private static final String NEW_MATCHES_URL = "matches";
+
 
     private StringResourcesHandler() {
     }
@@ -83,6 +89,8 @@ public final class StringResourcesHandler {
                 return url + CHATMSG_URL;
             case USER_INFO:
                 return url + USERINFO_URL;
+            case SERVICE_MATCHES:
+                return url + NEW_MATCHES_URL;
             default:
                 return "";
         }

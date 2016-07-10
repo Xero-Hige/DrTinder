@@ -79,19 +79,15 @@ public class MatchesListener {
             DrTinderLogger.writeLog(DrTinderLogger.INFO, "Started Matches listener");
             while (running) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(6000);
                     CountDownLatch barrier = new CountDownLatch(1);
-                    StringResourcesHandler.executeQuery(StringResourcesHandler.USER_INFO, mToken, v -> {
-                        DrTinderLogger.writeLog(DrTinderLogger.DEBG, "EXECUTED");
-                        try {
-                            Thread.sleep(6000);
-                            sendMatchNotification("Un gato", mContext);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_MATCHES, mToken, data -> {
+                        for (int i = 0; i < data.size(); i++) {
+                            String matchName = data.get(i)[0];
+                            sendMatchNotification(matchName, mContext);
                         }
-
                         barrier.countDown();
-                    });//FIXME
+                    });
                     barrier.await();
                 } catch (InterruptedException e) {
                     DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Listener thread stoped");
