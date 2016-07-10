@@ -20,6 +20,7 @@
 
 #include <cstdbool>
 #include <list>
+#include <queue>
 
 #include "../libs/jsoncpp/dist/json/json.h"
 #include "User.h"
@@ -35,6 +36,11 @@ typedef  struct _server_databases_t {
 	rocksdb::DB *chatDB;
 	rocksdb::DB *likesDB;
 } server_databases_t;
+
+typedef struct new_message_t {
+	std::string sender;
+	std::string message;
+};
 
 /* Handler for incomming requests. */
 class MessageHandler {
@@ -61,11 +67,17 @@ class MessageHandler {
 
 		void getMatches(std::string& matches);
 
-		void getAllInteractions(std::string& matches);
+		bool getNewMatches(std::string& newMatches);
+
+		void getInteractions(std::string& matches);
 
 		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
 		bool getChat(std::string other_username, std::string& chat_history);
+
+		bool postChatMsg(string receiverUserName, string message);
+
+		bool getNewMessages(std::string& newMessages);
 
 		bool getPhoto(string username, string &photo_64);
 
@@ -84,6 +96,13 @@ class MessageHandler {
 		void saveUserInDB(std::string userJson, string pass);
 
 		void updateUsersWithSS();
+
+		bool postInteraction(string friend_name, string reaction);
+
+		void split(string values, string& value1, string& value2);
+
+		string getReactionToken(string reaction);
+
 protected:
 		/* Authenticate user and password in message. Saves INCORRECT_LOGIN
 		or CORRECT_LOGIN in resultMsg. */
@@ -102,8 +121,11 @@ protected:
 		SharedServerClient * ssClient;
 		Tokenizer* tokenizer;
 		std::string username;
+		std::queue<string> newMatches;
+		std::queue<new_message_t> newMessages;
 
-	bool match(string &users, string &candidate_data);
+
+	bool appUserLikesAnotherUser(string &users, string &candidate_data);
 };
 
 #endif // PARSER_H

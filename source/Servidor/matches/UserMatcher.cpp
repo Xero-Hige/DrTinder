@@ -21,6 +21,7 @@ UserMatcher::UserMatcher(){
  * 2) Con edad a no mas de AGE_RANGE anios de distancia.
  * 3) Localidad a menos de MAX_DISTANCE.
  * 4) Al menos un interes en comun.
+ * 5) Que no se haya interactuado antes.
  */
 list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users, string userMatches) {
 	list<User*> filteredUsers;

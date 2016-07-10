@@ -341,38 +341,47 @@ void RequestHandler::listenChatGet(){
 void RequestHandler::listenChatPost(){
 	LOGG(DEBUG)<< POST_S;
 
-	char user_data[BUFFER_SMALL_SIZE], msg[BUFFER_MSG_SIZE];
-	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data));
-	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_LIKE, msg, sizeof(msg));
+	char receiverUserName[BUFFER_SMALL_SIZE], message[BUFFER_MSG_SIZE];
+	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, receiverUserName, sizeof(receiverUserName));
+	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_LIKE, message, sizeof(message));
 
 	if ( !parsed || !parsed_msg){
 		sendHttpLine(BAD_REQUEST);
 		return;
 	}
-	//TODO save new msg to user_data from username.
-	sendHttpLine(NOT_IMPLEMENTED);
+	bool posted = msgHandler->postChatMsg(receiverUserName, message);
+	int status = (posted) ? STATUS_OK: BAD_REQUEST;
+	sendHttpLine(status);
 }
 
 void RequestHandler::listenMatchesGet(){
 	LOGG(DEBUG)<< GET_S;
-	//TODO get new matches (only names)
-	sendHttpLine(NOT_IMPLEMENTED);
+	string newMatches;
+	bool result_ok = msgHandler->getNewMatches(newMatches);
+	if(result_ok){
+		sendHttpReply(newMatches, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
+	}else{
+		sendHttpLine(BAD_REQUEST);
+	}
 }
 
 void RequestHandler::listenMatchesPost(){
 	LOGG(DEBUG)<< POST_S;
 
-	char user_data[BUFFER_SMALL_SIZE], boolean[10];
-	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data));
-	int parsed_like = mg_get_http_var(&http_msg->body, BODY_LIKE, boolean, sizeof(boolean));
+	char friend_name[BUFFER_SMALL_SIZE];
+	char reaction[10];
+
+	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, friend_name, sizeof(friend_name));
+	int parsed_like = mg_get_http_var(&http_msg->body, BODY_LIKE, reaction, sizeof(reaction));
 
 	if ( !parsed || !parsed_like){
 		sendHttpLine(BAD_REQUEST);
 		return;
 	}
 
-	//TODO save new like for user_data with boolean, verify match, etc.
-	sendHttpLine(NOT_IMPLEMENTED);
+	bool posted = msgHandler->postInteraction(friend_name, reaction);
+    int status = (posted) ? STATUS_OK: BAD_REQUEST;
+    sendHttpLine(status);
 }
 
 void RequestHandler::listenNewChatGet(){

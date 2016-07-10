@@ -97,7 +97,7 @@ bool MessageHandler::getUsers(std::string& resultMsg) {
 	csvParser.makeUser(currentUserData,currentUser);
 
 	string userMatches;
-	getAllInteractions(userMatches);
+	getInteractions(userMatches);
 
 	UserMatcher matcher;
 
@@ -263,6 +263,26 @@ bool MessageHandler::getChat(std::string other_username, string& chat_history) {
 	return chatDB->getHistory(username, other_username, chat_history);
 }
 
+bool MessageHandler::postChatMsg(string receiverUserName, string message){
+	chatDB->saveMessage(message,username,receiverUserName);
+	return true;
+}
+
+bool MessageHandler::getNewMessages(std::string& newMessages){
+	string usernamesMatched;
+	likesDB->getMatches(username, usernamesMatched);
+
+	istringstream f(usernamesMatched);
+	string matchedUserName;
+	while (getline(f, matchedUserName)) {
+		string newMessagesFromMatchedUser;
+		chatDB->getNewMsgs(matchedUserName, username, newMessagesFromMatchedUser);
+		//TODO OJO! LOS MENSAJES NUEVOS SE VAN SEPARANDO TAMBIEN CON "\n" EN chatDB->saveNewMsgs
+		newMessages.append(matchedUserName + "," + newMessagesFromMatchedUser + "\n");
+	}
+	return true;
+}
+
 bool MessageHandler::getPhoto(std::string other_username, string& photo_64) {
 	string user_id, photo;
 	LOGG(DEBUG)<<"Getting user for " << other_username;
@@ -306,37 +326,23 @@ bool MessageHandler::validateToken(std::string user_token) {
 
 }
 
-void MessageHandler::getAllInteractions(std::string& matches) {
+void MessageHandler::getInteractions(std::string& interactedUsersData) {
 	LOGG(INFO) << "Devolviendo likes/rechazos de " << username;
-	usersDB->createIterator();
-	while (usersDB->validIterator()) {
-		string users, liked, candidate_data;
+	string interactedUsers;
+	likesDB->getInteractedUsers(username, interactedUsersData);
 
-		usersDB->getActualPair(users, liked);
-		if (liked != "" && match(users, candidate_data)) {
-			matches.append(candidate_data + "\n");
-		}
-		usersDB->advanceIterator();
+	istringstream f(interactedUsersData);
+	string interactedUserName;
+	while (getline(f, interactedUserName)) {
+		string interactedUserData;
+		getUser(interactedUserName, interactedUserData);
+		interactedUsersData.append(interactedUserData + "\n");
 	}
-	usersDB->deleteIterator();
 }
 
-void MessageHandler::getMatches(std::string& matches) {
-	LOGG(INFO) << "Devolviendo usuarios matcheados";
-	//se vuelve choto si son muchos users
-	//deberia guardar todos los matcheados por mail
-	//por el mail obtener el id y asi buscarlos en SS
-	likesDB->createIterator();
-	while (likesDB->validIterator()) {
-		string users, liked, candidate_data;
 
-		likesDB->getActualPair(users, liked);
-		if (liked == LIKED_TOKEN && match(users, candidate_data)) {
-			matches.append(candidate_data + "\n");
-		}
-		likesDB->advanceIterator();
-	}
-	likesDB->deleteIterator();
+void MessageHandler::getMatches(std::string& matches) {
+	likesDB->getMatches(username, matches);
 }
 
 string MessageHandler::getToken() {
@@ -366,9 +372,9 @@ string MessageHandler::getToken() {
 
 bool MessageHandler::addLocalization(string localization) {
 	LOGG(DEBUG) << "Changing " << localization << " for " << username;
-	int i = localization.find(SEPARATOR);
-	string latitude = localization.substr(0, i);
-	string longitude = localization.substr(i+1, localization.length());
+	string latitude;
+	string longitude;
+	split(localization, latitude, longitude);
 	if ( !isFloat(latitude) || !isFloat(longitude)){
 		LOGG(DEBUG) << "Localization without floats. Latitude: " << latitude << " - longitude: " << longitude;
 		return false;
@@ -444,22 +450,29 @@ bool MessageHandler::getUser(string username, string &user_data) {
 	return ok;
 }
 
-bool MessageHandler::match(string& users, string& candidate_data) {
-	size_t i = users.find(DB_SEPARATOR);
-	string user1 = users.substr(0, i);
-	string user2 = users.substr(i+1, users.length());
+void MessageHandler::split(string values, string& value1, string& value2){
+		size_t i = values.find(DB_SEPARATOR);
+		value1 = values.substr(0, i);
+		//TODO Revisar el ultimo indice.
+		value2 = values.substr(i+1, values.length());
+}
 
-	if (user1 != username ) {
-		if (user2 != username) {
-			return false;
-		}
-		getUser(user1, candidate_data);
-		return true;
-	}
-	getUser(user2, candidate_data);
+string MessageHandler::getReactionToken(string reaction){
+	//TODO CHECK THE VALUE THAT COMES IN STRING!
+	return (reaction == "true") ? LIKED_TOKEN : DISLIKED_TOKEN;
+}
+
+bool MessageHandler::postInteraction(string friend_name, string reaction){
+	LOGG(INFO) << "Recieved reaction " << reaction << " from " << username << " to " << friend_name;
+	string reactionToken = getReactionToken(reaction);
+	likesDB->saveLike(username, friend_name, reactionToken);
 	return true;
 }
 
+bool MessageHandler::getNewMatches(string& newMatches){
+	likesDB->getNewMatches(username, newMatches);
+	return true;
+}
 
 
 
