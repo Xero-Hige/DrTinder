@@ -1,11 +1,8 @@
 package ar.uba.fi.drtinder;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -53,26 +50,9 @@ public class ChatSession extends AppCompatActivity {
 
     private LinearLayout mMessagesLayout;
 
-    private String mYourId;
     private String mFriendId;
     private String mFriendName;
 
-    private ChatSession mDis = this;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        private MessagesService mService;
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MessagesService.LocalBinder binder = (MessagesService.LocalBinder) service;
-            mService = binder.getService();
-            MessagesService.setSession(ChatSession.this);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            MessagesService.setSession(null);
-        }
-    };
 
     /**
      * Perform initialization of all fragments and loaders.
@@ -118,7 +98,7 @@ public class ChatSession extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        MessagesService.setSession(null);
+        MessagesListener.stopListening();
     }
 
     private void addSendListener() {
@@ -134,9 +114,6 @@ public class ChatSession extends AppCompatActivity {
                     if (message.isEmpty()) {
                         return;
                     }
-
-                    //TODO: Remove
-                    addPersonalResponse(message);
 
                     sendMessage(message);
 
@@ -154,31 +131,31 @@ public class ChatSession extends AppCompatActivity {
     private void loadOldMessages() {
         StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.USER_CHAT, UserHandler.getToken()
                 , data -> {
-            for (int index = 0; index < data.size(); index++) {
-                String[] messageData = data.get(index);
-                if (messageData.length != DATA_FIELDS) {
-                    DrTinderLogger.writeLog(DrTinderLogger.WARN, "Message length mismatch");
-                    continue;
-                }
+                    for (int index = 0; index < data.size(); index++) {
+                        String[] messageData = data.get(index);
+                        if (messageData.length != DATA_FIELDS) {
+                            DrTinderLogger.writeLog(DrTinderLogger.WARN, "Message length mismatch");
+                            continue;
+                        }
 
-                String senderId = messageData[0];
-                String messageText = messageData[1];
+                        String senderId = messageData[0];
+                        String messageText = messageData[1];
 
-                if (senderId.equals(mYourId)) {
-                    addPersonalResponse(messageText);
-                    continue;
-                }
+                        if (senderId.equals(UserHandler.getUsername())) {
+                            addPersonalResponse(messageText);
+                            continue;
+                        }
 
-                if (senderId.equals(mFriendId)) {
-                    addFriendResponse(messageText);
-                    continue;
-                }
+                        if (senderId.equals(mFriendId)) {
+                            addFriendResponse(messageText);
+                            continue;
+                        }
 
-                DrTinderLogger.writeLog(DrTinderLogger.ERRO,
-                        "Received unknown sender id " + senderId);
-            }
-            scrollToLast();
-        });
+                        DrTinderLogger.writeLog(DrTinderLogger.ERRO,
+                                "Received unknown sender id " + senderId);
+                    }
+                    scrollToLast();
+                });
     }
 
     private void scrollToLast() {
@@ -190,47 +167,8 @@ public class ChatSession extends AppCompatActivity {
         appBarLayout.setExpanded(false, true);
     }
 
-    /**
-     * Called after onCreate(Bundle) — or after onRestart() when the activity had been stopped, but
-     * is now again being displayed to the user. It will be followed by onResume().
-     * <p>
-     * Derived classes must call through to the super class's implementation of this method.
-     * If they do not, an exception will be thrown.
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Intent intent = new Intent(this, MessagesService.class);
-        //ComponentName a = startService(intent);
-        //bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        MessagesService.setSession(this);
-    }
-
-    /**
-     * Adds an user response to the chat log
-     *
-     * @param message Message to add
-     * @param userId  Sender id
-     */
-    public void addResponse(String message, String userId) {
-        if (userId.equals(mFriendId)) {
-            addFriendResponse(message);
-            return;
-        }
-        if (userId.equals(mYourId)) {
-            addPersonalResponse(message);
-            return;
-        }
-        DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
-                + userId + " - " + message);
-    }
-
     private void addPersonalResponse(String message) {
         addResponse(R.layout.chat_session_you, "Tu", UserHandler.getUsername(), message);
-    }
-
-    private void addFriendResponse(String message) {
-        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
     }
 
     private void addResponse(int layoutId, String username, String userId, String message) {
@@ -248,6 +186,42 @@ public class ChatSession extends AppCompatActivity {
         msgTextView.setText(message);
 
         runOnUiThread(() -> mMessagesLayout.addView(layout));
+    }
+
+    private void addFriendResponse(String message) {
+        addResponse(R.layout.chat_session_friend, mFriendName, mFriendId, message);
+    }
+
+    /**
+     * Called after onCreate(Bundle) — or after onRestart() when the activity had been stopped, but
+     * is now again being displayed to the user. It will be followed by onResume().
+     * <p>
+     * Derived classes must call through to the super class's implementation of this method.
+     * If they do not, an exception will be thrown.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MessagesListener.startListening(UserHandler.getToken(), this.getApplicationContext(), this);
+    }
+
+    /**
+     * Adds an user response to the chat log
+     *
+     * @param message Message to add
+     * @param userId  Sender id
+     */
+    public void addResponse(String message, String userId) {
+        if (userId.equals(mFriendId)) {
+            addFriendResponse(message);
+            return;
+        }
+        if (userId.equals(UserHandler.getUsername())) {
+            addPersonalResponse(message);
+            return;
+        }
+        DrTinderLogger.writeLog(DrTinderLogger.WARN, "Response from unknown id:"
+                + userId + " - " + message);
     }
 
     private class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
