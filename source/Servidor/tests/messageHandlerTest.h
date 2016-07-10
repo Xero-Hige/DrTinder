@@ -215,12 +215,13 @@ TEST(MsgHandler, GetInterestPhotoExistant){
 
 TEST(MsgHandler,GetMatchesForUser){
 	vector<string> user_data;
-	string mail = "marcelo@prueba.com";
+	string mail = "marcelo2@prueba.com";
+	string alias = "marcelo2pruebacom";
 	user_data.resize(USER_DATA_FOR_CLIENT_COUNT);
 	user_data[SEX_IDX] = "man";
 	user_data[NAME_IDX] = "Marcelo";
 	user_data[MAIL_IDX] = mail;
-	user_data[ALIAS_IDX] = "Marce";
+	user_data[ALIAS_IDX] = alias;
 	user_data[AGE_IDX] = "21";
 	user_data[INT_IDX] = "sport::tennis";
 	user_data[DSC_IDX] = "Quiero ser un maestro pokemon";
@@ -240,7 +241,8 @@ TEST(MsgHandler,GetMatchesForUser){
 	server_databases_t databases;
 	databases.usersDB = db;
 	databases.chatDB = dbc;
-	string user = mail, password = "pepe";
+	string user = alias;
+	string password = "pepe";
 	MessageHandler handler(&databases);
 	handler.setUser(user);
 	handler.setSharedLink(SHARED_SERVER_URL);
@@ -253,6 +255,7 @@ TEST(MsgHandler,GetMatchesForUser){
 	ASSERT_TRUE(result);
 	//elimino para evitar creacion de user en tests consecutivos
 	ASSERT_TRUE(handler.deleteUser());
+
 	delete db;
 	delete dbc;
 }
