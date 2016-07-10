@@ -12,8 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * ${FILE}
- * <p>
+ * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -25,13 +24,24 @@ import java.util.concurrent.CountDownLatch;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ */
+
+/**
+ * Handler of the listener of new matches
  */
 public class MatchesListener {
 
+    public static final int POLLING_INTERVAL = 6000;
     private static MatchListenTask task;
     private static boolean running = false;
 
+    /**
+     * Starts the listening
+     *
+     * @param token   user token
+     * @param context app context
+     */
     static void startListening(String token, Context context) {
         if (running) {
             return;
@@ -41,6 +51,9 @@ public class MatchesListener {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    /**
+     * Stops the listening
+     */
     static void stopListening() {
         running = false;
         task.cancel(true);
@@ -79,7 +92,7 @@ public class MatchesListener {
             DrTinderLogger.writeLog(DrTinderLogger.INFO, "Started Matches listener");
             while (running) {
                 try {
-                    Thread.sleep(6000);
+                    Thread.sleep(POLLING_INTERVAL);
                     CountDownLatch barrier = new CountDownLatch(1);
                     StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_MATCHES, mToken, data -> {
                         for (int i = 0; i < data.size(); i++) {
