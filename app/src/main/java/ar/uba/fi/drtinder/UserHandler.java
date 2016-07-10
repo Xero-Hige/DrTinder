@@ -373,20 +373,19 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
-     *
-     * @param token
-     * @param candidateId
-     * @param message
-     * @return
+     * Sends a message from the active user
+     * @param token session token
+     * @param receiverId receiver id
+     * @param message message to send
+     * @return true if success
      */
-    public static boolean sendMessage(String token, String candidateId, String message) {
+    public static boolean sendMessage(String token, String receiverId, String message) {
 
         RestTemplate restTemplate = new RestTemplate();
 
         String bodyTemplate = "user_id=%s msg=%s";
 
-        String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, message);
+        String body = String.format(Locale.ENGLISH, bodyTemplate, receiverId, message);
 
         Uri.Builder uriBuilder = Uri.parse(getMessagesUrl()).buildUpon();
         uriBuilder.appendQueryParameter("token", token);
@@ -412,11 +411,11 @@ public final class UserHandler {
     }
 
     /**
-     * TODO
-     *
-     * @param token
-     * @param candidateId
-     * @param liked
+     * Sends a like/nope from the active user
+     * @param token session token
+     * @param candidateId candidate id
+     * @param liked true if liked, false if not
+     * @return true if success
      */
     public static boolean sendLike(String token, String candidateId, boolean liked) {
 

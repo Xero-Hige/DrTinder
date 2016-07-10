@@ -152,6 +152,10 @@ public class UserProfileActivity extends AppCompatActivity {
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
         }
+        loadOldData(mUsername);
+    }
+
+    private void loadOldData(String mUsername) {
         StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, UserHandler.getToken(),
                 data -> {
                     if (data == null) {

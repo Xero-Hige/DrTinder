@@ -24,19 +24,22 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Handler of the listener of new matches
  */
-public class MessagesListener {
+public final class MessagesListener {
 
     private static final int POLLING_INTERVAL = 1000;
     private static ChatListeningTask task;
     private static boolean running = false;
     private static ChatSession mSession = null;
 
+    private MessagesListener() {
+    }
 
     /**
      * Starts the listening
      *
      * @param token   user token
      * @param context app context
+     * @param session binded session
      */
     static void startListening(String token, Context context, ChatSession session) {
         if (running) {
@@ -57,7 +60,7 @@ public class MessagesListener {
         mSession = null;
     }
 
-    static private class ChatListeningTask extends AsyncTask<Void, Void, Boolean> {
+    private static class ChatListeningTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mToken;
         private final Context mContext;

@@ -279,10 +279,12 @@ public final class ImageResourcesHandler {
                 int viewHeight = mImageView.getHeight();
 
                 Matrix matrix = new Matrix();
-                float scale = ((viewWidth < viewHeight) ? viewWidth + 0.0f : viewHeight + 0.0f) / ((bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight);
+                float scale = ((viewWidth < viewHeight) ? viewWidth + 0.0f : viewHeight + 0.0f)
+                        / ((bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight);
                 matrix.postScale(scale, scale);
 
-                mImageBitmap = Bitmap.createBitmap(mImageBitmap, initialX, initialY, resultWidth, resultHeight, matrix, true);
+                mImageBitmap = Bitmap.createBitmap(mImageBitmap, initialX, initialY,
+                        resultWidth, resultHeight, matrix, true);
 
                 mImageView.setImageBitmap(mImageBitmap);
                 DrTinderLogger.writeLog(DrTinderLogger.INFO, "Loaded image " + mImageUrl);

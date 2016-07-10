@@ -226,12 +226,12 @@ public class ChatSession extends AppCompatActivity {
 
     private class SendMessageTask extends AsyncTask<Void, Void, Boolean> {
 
-        String candidateId;
-        String message;
+        private final String mCandidateId;
+        private final String mMessage;
 
         SendMessageTask(String candidateId, String message) {
-            this.candidateId = candidateId;
-            this.message = message;
+            mCandidateId = candidateId;
+            mMessage = message;
         }
 
         /**
@@ -240,16 +240,16 @@ public class ChatSession extends AppCompatActivity {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            return UserHandler.sendMessage(UserHandler.getToken(), candidateId, message);
+            return UserHandler.sendMessage(UserHandler.getToken(), mCandidateId, mMessage);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Message sent: " + message);
+                DrTinderLogger.writeLog(DrTinderLogger.DEBG, "Message sent: " + mMessage);
                 return;
             }
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to send: " + message);
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to send: " + mMessage);
 
         }
 

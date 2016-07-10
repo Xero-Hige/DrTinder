@@ -253,12 +253,12 @@ public class SelectionFragment extends Fragment {
 
     private class SendLikeTask extends AsyncTask<Void, Void, Boolean> {
 
-        String candidateId;
-        boolean liked;
+        private final String mCandidateId;
+        private final boolean mLiked;
 
         SendLikeTask(String candidateId, boolean liked) {
-            this.candidateId = candidateId;
-            this.liked = liked;
+            mCandidateId = candidateId;
+            mLiked = liked;
         }
 
         /**
@@ -267,16 +267,16 @@ public class SelectionFragment extends Fragment {
          */
         @Override
         protected Boolean doInBackground(Void... params) {
-            return UserHandler.sendLike(UserHandler.getToken(), candidateId, liked);
+            return UserHandler.sendLike(UserHandler.getToken(), mCandidateId, mLiked);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-            DrTinderLogger.writeLog(DrTinderLogger.INFO, (liked ? "Liked  " : "Rejected ") + candidateId);
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, (mLiked ? "Liked  " : "Rejected ") + mCandidateId);
                 return;
             }
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed: " + (liked ? "like  " : "reject ") + candidateId);
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed: " + (mLiked ? "like  " : "reject ") + mCandidateId);
 
         }
 

@@ -30,11 +30,14 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Handler of the listener of new matches
  */
-public class MatchesListener {
+public final class MatchesListener {
 
-    public static final int POLLING_INTERVAL = 6000;
+    private static final int POLLING_INTERVAL = 6000;
     private static MatchListenTask task;
     private static boolean running = false;
+
+    private MatchesListener() {
+    }
 
     /**
      * Starts the listening
@@ -77,7 +80,7 @@ public class MatchesListener {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    static private class MatchListenTask extends AsyncTask<Void, Void, Boolean> {
+    private static class MatchListenTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mToken;
         private final Context mContext;
