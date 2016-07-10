@@ -19,7 +19,7 @@ using namespace std;
 
 TEST(DBManager,iterateCreateIterateItsValid){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,US_HAND_TEST_DB);
 	DatabaseManager mgr(database);
 	string key1="asdq",key2="asd13",key3="asd123";
 	string value="asd";
@@ -34,7 +34,7 @@ TEST(DBManager,iterateCreateIterateItsValid){
 
 TEST(DBManager,iterateDBHasActualPair){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,US_HAND_TEST_DB);
 	DatabaseManager mgr(database);
 	string key1="asdq",key2="asd13",key3="asd123";
 	string value = "asd";
@@ -79,7 +79,7 @@ TEST(CHDBManager,sendNewMessage){
 	string to = "aaa@aa.com";
 	string chat;
 	mgr.saveMessage(msg,sender,to);
-	mgr.getNewMsgs(sender, to, chat);
+	mgr.getNewMsgs(to, sender, chat);
 	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
 	delete database;
 }
@@ -87,7 +87,7 @@ TEST(CHDBManager,sendNewMessage){
 
 TEST(LKDBManager,matches){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	LikesDatabaseManager mgr(database);
 	string user1 = "ww@WW.com";
 	string user2 = "bb@bb.com";
@@ -97,7 +97,7 @@ TEST(LKDBManager,matches){
 
 TEST(LKDBManager, bothUsersLikeShouldMatch ){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	string user1 = "aa@aa.com";
 	string user2 = "bb@bb.com";
 	LikesDatabaseManager mgr(database);
@@ -109,7 +109,7 @@ TEST(LKDBManager, bothUsersLikeShouldMatch ){
 
 TEST(LKDBManager, oneLikeOtherDislikeShouldNotMatch ){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	string user1 = "aaa@aaa.com";
 	string user2 = "bbb@bbb.com";
 	LikesDatabaseManager mgr(database);
@@ -121,7 +121,7 @@ TEST(LKDBManager, oneLikeOtherDislikeShouldNotMatch ){
 
 TEST (LKDBManager, manyMatchesAllInNewAndMatches){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	string newMatches, matches;
 	string user1 = "aac@aac.com";
 	string user2 = "bbc@bbc.com";
@@ -136,6 +136,7 @@ TEST (LKDBManager, manyMatchesAllInNewAndMatches){
 	mgr.saveLike(user4,user1,LIKED_TOKEN);
 
 	mgr.getNewMatches(user1,newMatches);
+
 	mgr.getMatches(user1,matches);
 
 	delete database;
@@ -151,7 +152,7 @@ TEST (LKDBManager, manyMatchesAllInNewAndMatches){
 
 TEST (LKDBManager, oneSideLikeShouldInteractNotMatch){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	LikesDatabaseManager mgr(database);
 	string interacted, matches;
 	string user1 = "aaac@aaac.com";
@@ -170,7 +171,7 @@ TEST (LKDBManager, oneSideLikeShouldInteractNotMatch){
 
 TEST (LDBManager, allInteractedUsersIncludeMatchesAndNotMatches){
 	DB * database;
-	setUpDatabaseTest(&database,CH_HAND_TEST_DB);
+	setUpDatabaseTest(&database,LIKE_HAND_TEST_DB);
 	LikesDatabaseManager mgr(database);
 	string interacted;
 	string user1 = "aaac@aaac.com";

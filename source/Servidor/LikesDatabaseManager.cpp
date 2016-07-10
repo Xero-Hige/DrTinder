@@ -38,11 +38,19 @@ void LikesDatabaseManager::saveLike(std::string deUser, std::string aUser, std::
 	}
 
 	if( matches(deUser,aUser)){
+		//TODO refactor of registering new matches
 		getEntry(MATCHES_OF + deUser, matches_aux);
 		addEntry(MATCHES_OF + deUser, matches_aux  + aUser + "\n");
 
 		getEntry(NEW_MATCHES_OF + deUser, new_aux);
 		addEntry(NEW_MATCHES_OF + deUser, new_aux + aUser + "\n");
+
+		getEntry(MATCHES_OF + aUser, matches_aux);
+		addEntry(MATCHES_OF + aUser, matches_aux  + deUser + "\n");
+
+		getEntry(NEW_MATCHES_OF + aUser, new_aux);
+		addEntry(NEW_MATCHES_OF + aUser, new_aux + deUser + "\n");
+
 	}
 }
 
