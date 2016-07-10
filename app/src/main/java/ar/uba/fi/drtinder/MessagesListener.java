@@ -75,6 +75,11 @@ public class MessagesListener {
                     Thread.sleep(POLLING_INTERVAL);
                     CountDownLatch barrier = new CountDownLatch(1);
                     StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_CHAT, mToken, data -> {
+                        if (data == null) {
+                            barrier.countDown();
+                            return;
+                        }
+
                         for (int i = 0; i < data.size(); i++) {
                             if (data.get(i).length < 2) {
                                 continue;

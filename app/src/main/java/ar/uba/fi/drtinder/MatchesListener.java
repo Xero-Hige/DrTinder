@@ -95,6 +95,11 @@ public class MatchesListener {
                     Thread.sleep(POLLING_INTERVAL);
                     CountDownLatch barrier = new CountDownLatch(1);
                     StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_MATCHES, mToken, data -> {
+                        if (data == null) {
+                            barrier.countDown();
+                            return;
+                        }
+
                         for (int i = 0; i < data.size(); i++) {
                             String matchName = data.get(i)[0];
                             sendMatchNotification(matchName, mContext);
