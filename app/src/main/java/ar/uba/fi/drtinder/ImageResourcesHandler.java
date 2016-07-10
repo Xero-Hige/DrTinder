@@ -270,17 +270,17 @@ public final class ImageResourcesHandler {
                 int bitmapHeight = mImageBitmap.getHeight();
 
 
-                int initialY = (bitmapWidth < bitmapHeight) ? (bitmapHeight - bitmapWidth) / 2 : 0;
-                int initialX = (bitmapWidth < bitmapHeight) ? 0 : (bitmapWidth - bitmapHeight) / 2;
-                int resultWidth = (bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight;
-                int resultHeight = (bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight;
+                int initialY = bitmapWidth < bitmapHeight ? (bitmapHeight - bitmapWidth) / 2 : 0;
+                int initialX = bitmapWidth < bitmapHeight ? 0 : (bitmapWidth - bitmapHeight) / 2;
+                int resultWidth = bitmapWidth < bitmapHeight ? bitmapWidth : bitmapHeight;
+                int resultHeight = bitmapWidth < bitmapHeight ? bitmapWidth : bitmapHeight;
 
                 int viewWidth = mImageView.getWidth();
                 int viewHeight = mImageView.getHeight();
 
                 Matrix matrix = new Matrix();
-                float scale = ((viewWidth < viewHeight) ? viewWidth + 0.0f : viewHeight + 0.0f)
-                        / ((bitmapWidth < bitmapHeight) ? bitmapWidth : bitmapHeight);
+                float scale = (viewWidth < viewHeight ? viewWidth + 0.0f : viewHeight + 0.0f)
+                        / (bitmapWidth < bitmapHeight ? bitmapWidth : bitmapHeight);
                 matrix.postScale(scale, scale);
 
                 mImageBitmap = Bitmap.createBitmap(mImageBitmap, initialX, initialY,

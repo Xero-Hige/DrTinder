@@ -66,7 +66,8 @@ public final class UserHandler {
      * Sign up result: Sign up successful
      */
     public static final String SIGNUP_SUCCESS = "S";
-    public static final int MAX_TRIES = 30;
+
+    private static final int MAX_TRIES = 30;
     private static final String LOGIN_URL = "user";
     private static final String DELETE_URL = "users";
     private static final String SIGNUP_URL = "users";

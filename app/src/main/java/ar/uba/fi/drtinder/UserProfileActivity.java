@@ -71,6 +71,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private static final String MALE = "man";
     private static final String FEMALE = "woman";
+    private static final String CATEGORY_SEX = "sex";
 
     private ImageView mProfilePic;
     private String mActivityAction;
@@ -132,7 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
             assert mEmail != null; //DEBUG Assert
         }
 
-        mProfilePic.setOnClickListener(v -> {
+        mProfilePic.setOnClickListener(data -> {
             Intent gallery = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(gallery, PICK_IMAGE);
@@ -164,7 +165,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
 
                     if (data.size() == 0) {
-                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte", Utility.getViewgroup(this), "Ok");
+                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte",
+                                Utility.getViewgroup(this), "Ok");
                         return;
                     }
 
@@ -178,8 +180,10 @@ public class UserProfileActivity extends AppCompatActivity {
                         sex = data.get(0)[5];
                         interest = data.get(0)[7];
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Userdata doesn't have the required number of fields");
-                        Utility.showMessage("Error en la recepcion de datos", Utility.getViewgroup(this));
+                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO,
+                                "Userdata doesn't have the required number of fields");
+                        Utility.showMessage("Error en la recepcion de datos",
+                                Utility.getViewgroup(this));
                         //return;
                     }
 
@@ -229,7 +233,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String trimmedCategory = category.replace("  ", " ").trim();
         String trimmedId = id.replace("  ", " ").trim();
 
-        if (trimmedCategory.equals("sex")) {
+        if (trimmedCategory.equals(CATEGORY_SEX)) {
             setLookingFor(trimmedId);
             return;
         }
@@ -242,7 +246,8 @@ public class UserProfileActivity extends AppCompatActivity {
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
+                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(),
+                imageView, this.getApplicationContext());
         mInterestLLay.addView(layout);
         mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
@@ -300,14 +305,14 @@ public class UserProfileActivity extends AppCompatActivity {
         assert mSubmitButton != null; //DEBUG Assert
 
         String label = null;
-        View.OnClickListener clickListener = v -> {
+        View.OnClickListener clickListener = data -> {
         }; //Empty initialize
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             label = "Create";
-            clickListener = v -> createUser();
+            clickListener = data -> createUser();
         } else if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             label = "Update";
-            clickListener = v -> updateUser();
+            clickListener = data -> updateUser();
         }
 
         assert label != null;
@@ -375,12 +380,12 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         if (mSearchingMale.isChecked()) {
-            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
+            interests += CATEGORY_SEX + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
         if (mSearchingFemale.isChecked()) {
-            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
+            interests += CATEGORY_SEX + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
