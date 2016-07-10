@@ -377,7 +377,7 @@ public final class UserHandler {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String bodyTemplate = "user_id=%s msg=%s";
+        String bodyTemplate = "user_id=%s&msg=%s";
 
         String body = String.format(Locale.ENGLISH, bodyTemplate, receiverId, message);
 
@@ -415,7 +415,7 @@ public final class UserHandler {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String bodyTemplate = "user_id=%s bool=%s";
+        String bodyTemplate = "user_id=%s&bool=%s";
 
         String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, String.valueOf(liked));
 
