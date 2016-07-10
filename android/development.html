@@ -85,7 +85,7 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Android Client</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="compile.html">Project Compile</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Project Development</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Project Development</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#development-environment">Development Environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#architecture">Architecture</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#data-policy">Data Policy</a></li>
@@ -105,8 +105,8 @@
 <li class="toctree-l2"><a class="reference internal" href="userManual.html">User Manual</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../appServer/index.html">AppServer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">SharedServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appServer/index.html">App Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">Shared Server</a></li>
 </ul>
 
             
@@ -212,76 +212,76 @@
 <ul class="simple">
 <li>Filling an ImageView with an external resource using Image Resource Handler</li>
 </ul>
-<div class="code Java highlight-python"><div class="highlight"><pre><span></span>//UserDetailsActivity.java
-private void setUserImage(Intent intent) {
+<div class="code Java highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span><span class="n">UserDetailsActivity</span><span class="o">.</span><span class="n">java</span>
+<span class="n">private</span> <span class="n">void</span> <span class="n">setUserImage</span><span class="p">(</span><span class="n">Intent</span> <span class="n">intent</span><span class="p">)</span> <span class="p">{</span>
 
-    ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-    String userId = intent.getStringExtra(EXTRA_USER_ID);
+    <span class="n">ImageView</span> <span class="n">imageView</span> <span class="o">=</span> <span class="p">(</span><span class="n">ImageView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">backdrop</span><span class="p">);</span>
+    <span class="n">String</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="n">getStringExtra</span><span class="p">(</span><span class="n">EXTRA_USER_ID</span><span class="p">);</span>
 
-    ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG, mToken,
-            imageView, getBaseContext());
+    <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">fillImageResource</span><span class="p">(</span><span class="n">userId</span><span class="p">,</span> <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">RES_USER_IMG</span><span class="p">,</span> <span class="n">mToken</span><span class="p">,</span>
+            <span class="n">imageView</span><span class="p">,</span> <span class="n">getBaseContext</span><span class="p">());</span>
 
-}
+<span class="p">}</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Using Dr. Tinder logger to log an error</li>
 </ul>
-<div class="code Java highlight-python"><div class="highlight"><pre><span></span>@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == RESULT_OK &amp;&amp; requestCode == PICK_IMAGE) {
-        Uri imageUri = data.getData();
-        try {
-            mProfileImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-        } catch (IOException e) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, &quot;The impossible happen. Image IOError&quot;);
-            return; //No image to display (cant upload)
-        }
-        mProfilePic.setImageURI(imageUri);
-    }
-}
+<div class="code Java highlight-default"><div class="highlight"><pre><span></span><span class="nd">@Override</span>
+<span class="n">protected</span> <span class="n">void</span> <span class="n">onActivityResult</span><span class="p">(</span><span class="nb">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="nb">int</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">super</span><span class="o">.</span><span class="n">onActivityResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">resultCode</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">resultCode</span> <span class="o">==</span> <span class="n">RESULT_OK</span> <span class="o">&amp;&amp;</span> <span class="n">requestCode</span> <span class="o">==</span> <span class="n">PICK_IMAGE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Uri</span> <span class="n">imageUri</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">getData</span><span class="p">();</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="n">mProfileImage</span> <span class="o">=</span> <span class="n">MediaStore</span><span class="o">.</span><span class="n">Images</span><span class="o">.</span><span class="n">Media</span><span class="o">.</span><span class="n">getBitmap</span><span class="p">(</span><span class="n">this</span><span class="o">.</span><span class="n">getContentResolver</span><span class="p">(),</span> <span class="n">imageUri</span><span class="p">);</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">writeLog</span><span class="p">(</span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">ERRO</span><span class="p">,</span> <span class="s2">&quot;The impossible happen. Image IOError&quot;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span> <span class="o">//</span><span class="n">No</span> <span class="n">image</span> <span class="n">to</span> <span class="n">display</span> <span class="p">(</span><span class="n">cant</span> <span class="n">upload</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">mProfilePic</span><span class="o">.</span><span class="n">setImageURI</span><span class="p">(</span><span class="n">imageUri</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Making a query with String Resource Handler. Showing snackbar error</li>
 </ul>
-<div class="code Java highlight-python"><div class="highlight"><pre><span></span>StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, mToken,
-    data -&gt; {
-        if (data == null) {
-            Utility.showMessage(&quot;Error de conexion con el servidor&quot;, Utility.getViewgroup(this), &quot;Ok&quot;);
-            return;
-        }
-        String username = data.get(0)[0];
-        String age = data.get(0)[1];
-        String sex = data.get(0)[2];
-        String lookingFor = data.get(0)[3];
-        String interest = data.get(0)[4];
+<div class="code Java highlight-default"><div class="highlight"><pre><span></span><span class="n">StringResourcesHandler</span><span class="o">.</span><span class="n">executeQuery</span><span class="p">(</span><span class="n">mUsername</span><span class="p">,</span> <span class="n">StringResourcesHandler</span><span class="o">.</span><span class="n">USER_INFO</span><span class="p">,</span> <span class="n">mToken</span><span class="p">,</span>
+    <span class="n">data</span> <span class="o">-&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Utility</span><span class="o">.</span><span class="n">showMessage</span><span class="p">(</span><span class="s2">&quot;Error de conexion con el servidor&quot;</span><span class="p">,</span> <span class="n">Utility</span><span class="o">.</span><span class="n">getViewgroup</span><span class="p">(</span><span class="n">this</span><span class="p">),</span> <span class="s2">&quot;Ok&quot;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">String</span> <span class="n">username</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="n">String</span> <span class="n">age</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+        <span class="n">String</span> <span class="n">sex</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">2</span><span class="p">];</span>
+        <span class="n">String</span> <span class="n">lookingFor</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">];</span>
+        <span class="n">String</span> <span class="n">interest</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">4</span><span class="p">];</span>
 
-        TextView usernameView = (TextView) findViewById(R.id.profUsername);
-        assert usernameView != null; //DEBUG Assert
-        usernameView.setText(username);
+        <span class="n">TextView</span> <span class="n">usernameView</span> <span class="o">=</span> <span class="p">(</span><span class="n">TextView</span><span class="p">)</span> <span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">profUsername</span><span class="p">);</span>
+        <span class="k">assert</span> <span class="n">usernameView</span> <span class="o">!=</span> <span class="n">null</span><span class="p">;</span> <span class="o">//</span><span class="n">DEBUG</span> <span class="n">Assert</span>
+        <span class="n">usernameView</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
 
-        mAge.setText(age);
-        mSexMale.setChecked(sex.equals(MALE));
-        mSexFemale.setChecked(sex.equals(FEMALE));
-        mSearchingMale.setChecked(lookingFor.equals(MALE) || lookingFor.equals(BOTH));
-        mSearchingFemale.setChecked(lookingFor.equals(FEMALE) || lookingFor.equals(BOTH));
+        <span class="n">mAge</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>
+        <span class="n">mSexMale</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">sex</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">MALE</span><span class="p">));</span>
+        <span class="n">mSexFemale</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">sex</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">FEMALE</span><span class="p">));</span>
+        <span class="n">mSearchingMale</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">lookingFor</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">MALE</span><span class="p">)</span> <span class="o">||</span> <span class="n">lookingFor</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">BOTH</span><span class="p">));</span>
+        <span class="n">mSearchingFemale</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">lookingFor</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">FEMALE</span><span class="p">)</span> <span class="o">||</span> <span class="n">lookingFor</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">BOTH</span><span class="p">));</span>
 
 
-        String[] interests = interest.split(StringResourcesHandler.INTEREST_DIVIDER);
-        for (String interest1 : interests) {
-            String[] params = interest1.split(StringResourcesHandler.INTEREST_DATA_DIVIDER);
-            addInterest(params[0], params[1]);
-        }
+        <span class="n">String</span><span class="p">[]</span> <span class="n">interests</span> <span class="o">=</span> <span class="n">interest</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">StringResourcesHandler</span><span class="o">.</span><span class="n">INTEREST_DIVIDER</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">String</span> <span class="n">interest1</span> <span class="p">:</span> <span class="n">interests</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">String</span><span class="p">[]</span> <span class="n">params</span> <span class="o">=</span> <span class="n">interest1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">StringResourcesHandler</span><span class="o">.</span><span class="n">INTEREST_DATA_DIVIDER</span><span class="p">);</span>
+            <span class="n">addInterest</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="p">}</span>
 
-    });
+    <span class="p">});</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Clearing cached resource</li>
 </ul>
-<div class="code Java highlight-python"><div class="highlight"><pre><span></span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">writeLog</span><span class="p">(</span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Rejected &quot;</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">USER_NAME</span><span class="p">));</span>
+<div class="code Java highlight-default"><div class="highlight"><pre><span></span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">writeLog</span><span class="p">(</span><span class="n">DrTinderLogger</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s2">&quot;Rejected &quot;</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">USER_NAME</span><span class="p">));</span>
 <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">freeCachedResource</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">USER_ID</span><span class="p">),</span>
         <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">RES_USER_IMG</span><span class="p">,</span> <span class="n">getContext</span><span class="p">());</span>
 </pre></div>
@@ -289,11 +289,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 <ul class="simple">
 <li>Clearing all cache</li>
 </ul>
-<div class="code Java highlight-python"><div class="highlight"><pre><span></span>@Override
-public void onDestroy() {
-    super.onDestroy();
-    ImageResourcesHandler.clearCache(this);
-}
+<div class="code Java highlight-default"><div class="highlight"><pre><span></span><span class="nd">@Override</span>
+<span class="n">public</span> <span class="n">void</span> <span class="n">onDestroy</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">super</span><span class="o">.</span><span class="n">onDestroy</span><span class="p">();</span>
+    <span class="n">ImageResourcesHandler</span><span class="o">.</span><span class="n">clearCache</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -305,7 +305,7 @@ public void onDestroy() {
 <li>Code builds without errors at Travis.</li>
 <li>New code does not add errors at style checks performed by <code class="docutils literal"><span class="pre">Checkstyle</span></code>, <code class="docutils literal"><span class="pre">Findbugs</span></code>, <code class="docutils literal"><span class="pre">PMD</span></code> and <code class="docutils literal"><span class="pre">Lint</span></code>.  You could check this locally using the <em>Gradle</em> <code class="docutils literal"><span class="pre">check</span></code> target as follows:</li>
 </ul>
-<div class="code bash highlight-python"><div class="highlight"><pre><span></span>.\gradlew check
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">gradlew</span> <span class="n">check</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -313,7 +313,7 @@ public void onDestroy() {
 <hr class="docutils" />
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p><strong>Dr. Tinder</strong> depends on the following <a class="reference internal" href="libraries.html#external"><span>External libraries</span></a></p>
+<p><strong>Dr. Tinder</strong> depends on the following <a class="reference internal" href="libraries.html#external"><span class="std std-ref">External libraries</span></a></p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="libraries.html">External libraries</a><ul>
@@ -346,13 +346,12 @@ public void onDestroy() {
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/LocationHandler.html">LocationHandler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/LoginActivity.html">LoginActivity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MainActivity.html">MainActivity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MessagesService.html">MessagesService</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MessagesService-LocalBinder.html">MessagesService.LocalBinder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MatchesListener.html">MatchesListener</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/MessagesListener.html">MessagesListener</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/SelectionFragment.html">SelectionFragment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/ServerUrlWrapper.html">ServerUrlWrapper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/StringResourcesHandler.html">StringResourcesHandler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/StringResourcesHandler-CallbackOperation.html">StringResourcesHandler.CallbackOperation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/TinderFInstanceIdService.html">TinderFInstanceIdService</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserDetailsActivity.html">UserDetailsActivity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserHandler.html">UserHandler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ar/uba/fi/drtinder/UserProfileActivity.html">UserProfileActivity</a></li>
@@ -386,7 +385,7 @@ public void onDestroy() {
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 07, 2016.
+      Last updated on Jul 09, 2016.
 
     </p>
   </div>

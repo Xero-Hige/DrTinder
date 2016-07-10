@@ -13,13 +13,12 @@ ar.uba.fi.drtinder
    LocationHandler
    LoginActivity
    MainActivity
-   MessagesService
-   MessagesService-LocalBinder
+   MatchesListener
+   MessagesListener
    SelectionFragment
    ServerUrlWrapper
    StringResourcesHandler
    StringResourcesHandler-CallbackOperation
-   TinderFInstanceIdService
    UserDetailsActivity
    UserHandler
    UserProfileActivity

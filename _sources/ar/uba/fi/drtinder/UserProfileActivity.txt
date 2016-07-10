@@ -38,8 +38,6 @@
 
 .. java:import:: android.widget TextView
 
-.. java:import:: com.google.firebase.auth FirebaseAuth
-
 .. java:import:: java.io IOException
 
 .. java:import:: java.util HashMap

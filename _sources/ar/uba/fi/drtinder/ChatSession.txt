@@ -1,12 +1,8 @@
-.. java:import:: android.content ComponentName
-
 .. java:import:: android.content Intent
 
-.. java:import:: android.content ServiceConnection
+.. java:import:: android.os AsyncTask
 
 .. java:import:: android.os Bundle
-
-.. java:import:: android.os IBinder
 
 .. java:import:: android.support.design.widget AppBarLayout
 
@@ -31,12 +27,6 @@
 .. java:import:: android.widget LinearLayout
 
 .. java:import:: android.widget TextView
-
-.. java:import:: com.github.siyamed.shapeimageview BubbleImageView
-
-.. java:import:: com.google.firebase.messaging FirebaseMessaging
-
-.. java:import:: com.google.firebase.messaging RemoteMessage
 
 ChatSession
 ===========

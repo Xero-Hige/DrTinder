@@ -50,6 +50,22 @@ INTEREST_DIVIDER
 
    Interest string divider (divide 2 diferent interest groups)
 
+SERVICE_CHAT
+^^^^^^^^^^^^
+
+.. java:field:: public static final int SERVICE_CHAT
+   :outertype: StringResourcesHandler
+
+   Query type: New matches for the service
+
+SERVICE_MATCHES
+^^^^^^^^^^^^^^^
+
+.. java:field:: public static final int SERVICE_MATCHES
+   :outertype: StringResourcesHandler
+
+   Query type: New matches for the service
+
 USER_CANDIDATES
 ^^^^^^^^^^^^^^^
 

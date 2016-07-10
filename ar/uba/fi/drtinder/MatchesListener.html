@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ChatSession &mdash; DrTinder 1.0.0 documentation</title>
+  <title>MatchesListener &mdash; DrTinder 1.0.0 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="DrTinder 1.0.0 documentation" href="../../../../index.html"/>
         <link rel="up" title="ar.uba.fi.drtinder" href="package-index.html"/>
-        <link rel="next" title="DrTinderLogger" href="DrTinderLogger.html"/>
-        <link rel="prev" title="ChatFragment" href="ChatFragment.html"/> 
+        <link rel="next" title="MessagesListener" href="MessagesListener.html"/>
+        <link rel="prev" title="MainActivity" href="MainActivity.html"/> 
 
   
   <script src="../../../../_static/js/modernizr.min.js"></script>
@@ -142,11 +142,11 @@
       
           <li><a href="package-index.html">ar.uba.fi.drtinder</a> &raquo;</li>
       
-    <li>ChatSession</li>
+    <li>MatchesListener</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../../../../_sources/ar/uba/fi/drtinder/ChatSession.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/ar/uba/fi/drtinder/MatchesListener.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,50 +156,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="chatsession">
-<h1>ChatSession<a class="headerlink" href="#chatsession" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="matcheslistener">
+<h1>MatchesListener<a class="headerlink" href="#matcheslistener" title="Permalink to this headline">¶</a></h1>
 <dl class="type">
-<dt id="ar.uba.fi.drtinder.ChatSession">
-public class <code class="descname">ChatSession</code> extends AppCompatActivity<a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chat session activity. Represents a chat session between 2 users.</p>
+<dt id="ar.uba.fi.drtinder.MatchesListener">
+public final class <code class="descname">MatchesListener</code><a class="headerlink" href="#ar.uba.fi.drtinder.MatchesListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handler of the listener of new matches</p>
 </dd></dl>
 
-<div class="section" id="fields">
-<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="extra-friend-id">
-<h3>EXTRA_FRIEND_ID<a class="headerlink" href="#extra-friend-id" title="Permalink to this headline">¶</a></h3>
-<dl class="field">
-<dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_ID">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_FRIEND_ID</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intent extra field: Friend user id</p>
-</dd></dl>
-
-</div>
-<div class="section" id="extra-friend-name">
-<h3>EXTRA_FRIEND_NAME<a class="headerlink" href="#extra-friend-name" title="Permalink to this headline">¶</a></h3>
-<dl class="field">
-<dt id="ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_NAME">
-public static final <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a> <code class="descname">EXTRA_FRIEND_NAME</code><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.EXTRA_FRIEND_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intent extra field: Friend name</p>
-</dd></dl>
-
-</div>
-</div>
 <div class="section" id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="addresponse">
-<h3>addResponse<a class="headerlink" href="#addresponse" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="startlistening">
+<h3>startListening<a class="headerlink" href="#startlistening" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
-<dt id="ar.uba.fi.drtinder.ChatSession.addResponse(String, String)">
-public void <code class="descname">addResponse</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> message</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> userId</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.addResponse(String, String)" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds an user response to the chat log</p>
+<dt id="ar.uba.fi.drtinder.MatchesListener.startListening(String, Context)">
+static void <code class="descname">startListening</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, Context<em> context</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MatchesListener.startListening(String, Context)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the listening</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>message</strong> &#8211; Message to add</li>
-<li><strong>userId</strong> &#8211; Sender id</li>
+<li><strong>token</strong> &#8211; user token</li>
+<li><strong>context</strong> &#8211; app context</li>
 </ul>
 </td>
 </tr>
@@ -208,43 +187,12 @@ public void <code class="descname">addResponse</code><span class="sig-paren">(</
 </dd></dl>
 
 </div>
-<div class="section" id="oncreate">
-<h3>onCreate<a class="headerlink" href="#oncreate" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="stoplistening">
+<h3>stopListening<a class="headerlink" href="#stoplistening" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
-<dt id="ar.uba.fi.drtinder.ChatSession.onCreate(Bundle)">
-protected void <code class="descname">onCreate</code><span class="sig-paren">(</span>Bundle<em> bundle</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.onCreate(Bundle)" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform initialization of all fragments and loaders.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>bundle</strong> &#8211; If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-<div class="section" id="onstart">
-<h3>onStart<a class="headerlink" href="#onstart" title="Permalink to this headline">¶</a></h3>
-<dl class="method">
-<dt id="ar.uba.fi.drtinder.ChatSession.onStart()">
-protected void <code class="descname">onStart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.onStart()" title="Permalink to this definition">¶</a></dt>
-<dd><p>Called after onCreate(Bundle) — or after onRestart() when the activity had been stopped, but is now again being displayed to the user. It will be followed by onResume().</p>
-<p>Derived classes must call through to the super class&#8217;s implementation of this method. If they do not, an exception will be thrown.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="onstop">
-<h3>onStop<a class="headerlink" href="#onstop" title="Permalink to this headline">¶</a></h3>
-<dl class="method">
-<dt id="ar.uba.fi.drtinder.ChatSession.onStop()">
-public void <code class="descname">onStop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.ChatSession.onStop()" title="Permalink to this definition">¶</a></dt>
-<dd><p>Called when you are no longer visible to the user. You will next receive either onRestart(), onDestroy(), or nothing, depending on later user activity.</p>
-<p>Derived classes must call through to the super class&#8217;s implementation of this method. If they do not, an exception will be thrown.</p>
+<dt id="ar.uba.fi.drtinder.MatchesListener.stopListening()">
+static void <code class="descname">stopListening</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.MatchesListener.stopListening()" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the listening</p>
 </dd></dl>
 
 </div>
@@ -258,10 +206,10 @@ public void <code class="descname">onStop</code><span class="sig-paren">(</span>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="DrTinderLogger.html" class="btn btn-neutral float-right" title="DrTinderLogger" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="MessagesListener.html" class="btn btn-neutral float-right" title="MessagesListener" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ChatFragment.html" class="btn btn-neutral" title="ChatFragment" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="MainActivity.html" class="btn btn-neutral" title="MainActivity" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,0 +1,38 @@
+.. java:import:: android.content Context
+
+.. java:import:: android.os AsyncTask
+
+.. java:import:: java.util.concurrent CountDownLatch
+
+MessagesListener
+================
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class MessagesListener
+
+   Handler of the listener of new matches
+
+Methods
+-------
+startListening
+^^^^^^^^^^^^^^
+
+.. java:method:: static void startListening(String token, Context context, ChatSession session)
+   :outertype: MessagesListener
+
+   Starts the listening
+
+   :param token: user token
+   :param context: app context
+   :param session: binded session
+
+stopListening
+^^^^^^^^^^^^^
+
+.. java:method:: static void stopListening()
+   :outertype: MessagesListener
+
+   Stops the listening
+

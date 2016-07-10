@@ -1,0 +1,49 @@
+.. java:import:: android.app NotificationManager
+
+.. java:import:: android.content Context
+
+.. java:import:: android.graphics Bitmap
+
+.. java:import:: android.graphics BitmapFactory
+
+.. java:import:: android.media RingtoneManager
+
+.. java:import:: android.net Uri
+
+.. java:import:: android.os AsyncTask
+
+.. java:import:: android.support.v4.app NotificationCompat
+
+.. java:import:: java.util.concurrent CountDownLatch
+
+MatchesListener
+===============
+
+.. java:package:: ar.uba.fi.drtinder
+   :noindex:
+
+.. java:type:: public final class MatchesListener
+
+   Handler of the listener of new matches
+
+Methods
+-------
+startListening
+^^^^^^^^^^^^^^
+
+.. java:method:: static void startListening(String token, Context context)
+   :outertype: MatchesListener
+
+   Starts the listening
+
+   :param token: user token
+   :param context: app context
+
+stopListening
+^^^^^^^^^^^^^
+
+.. java:method:: static void stopListening()
+   :outertype: MatchesListener
+
+   Stops the listening
+

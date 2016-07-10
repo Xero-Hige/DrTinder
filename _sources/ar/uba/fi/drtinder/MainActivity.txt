@@ -95,3 +95,15 @@ onOptionsItemSelected
    :param item: The selected item
    :return: true to display the item as the selected item
 
+onStart
+^^^^^^^
+
+.. java:method:: @Override protected void onStart()
+   :outertype: MainActivity
+
+onStop
+^^^^^^
+
+.. java:method:: @Override protected void onStop()
+   :outertype: MainActivity
+

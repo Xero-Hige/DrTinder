@@ -6,6 +6,8 @@
 
 .. java:import:: android.graphics BitmapFactory
 
+.. java:import:: android.graphics Matrix
+
 .. java:import:: android.net Uri
 
 .. java:import:: android.os AsyncTask

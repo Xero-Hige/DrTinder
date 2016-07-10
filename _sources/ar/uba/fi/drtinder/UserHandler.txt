@@ -6,8 +6,6 @@
 
 .. java:import:: com.google.firebase.auth FirebaseAuth
 
-.. java:import:: com.google.firebase.auth FirebaseUser
-
 .. java:import:: org.springframework.http HttpEntity
 
 .. java:import:: org.springframework.http HttpHeaders
@@ -33,8 +31,6 @@
 .. java:import:: java.util Locale
 
 .. java:import:: java.util Map
-
-.. java:import:: java.util.concurrent.atomic AtomicLong
 
 .. java:import:: au.com.bytecode.opencsv CSVWriter
 
@@ -116,16 +112,6 @@ getLoginToken
    :param location: User location
    :return: Token string. If error, one of the listed error tokens
 
-getMessageId
-^^^^^^^^^^^^
-
-.. java:method:: public static Long getMessageId()
-   :outertype: UserHandler
-
-   Incremental ID for FB messages
-
-   :return: next message ID
-
 getToken
 ^^^^^^^^
 
@@ -206,6 +192,32 @@ logout
    :outertype: UserHandler
 
    Logouts from the current session
+
+sendLike
+^^^^^^^^
+
+.. java:method:: public static boolean sendLike(String token, String candidateId, boolean liked)
+   :outertype: UserHandler
+
+   Sends a like/nope from the active user
+
+   :param token: session token
+   :param candidateId: candidate id
+   :param liked: true if liked, false if not
+   :return: true if success
+
+sendMessage
+^^^^^^^^^^^
+
+.. java:method:: public static boolean sendMessage(String token, String receiverId, String message)
+   :outertype: UserHandler
+
+   Sends a message from the active user
+
+   :param token: session token
+   :param receiverId: receiver id
+   :param message: message to send
+   :return: true if success
 
 signUp
 ^^^^^^

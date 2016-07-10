@@ -102,8 +102,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../android/userManual.html">User Manual</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../appServer/index.html">AppServer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../sharedServer/index.html">SharedServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../appServer/index.html">App Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sharedServer/index.html">Shared Server</a></li>
 </ul>
 
             
@@ -262,23 +262,6 @@ static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/
 </dd></dl>
 
 </div>
-<div class="section" id="getmessageid">
-<h3>getMessageId<a class="headerlink" href="#getmessageid" title="Permalink to this headline">¶</a></h3>
-<dl class="method">
-<dt id="ar.uba.fi.drtinder.UserHandler.getMessageId()">
-public static <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/Long.html" title="java.lang.Long">Long</a> <code class="descname">getMessageId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.getMessageId()" title="Permalink to this definition">¶</a></dt>
-<dd><p>Incremental ID for FB messages</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">next message ID</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="gettoken">
 <h3>getToken<a class="headerlink" href="#gettoken" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
@@ -425,6 +408,56 @@ public static void <code class="descname">logout</code><span class="sig-paren">(
 </dd></dl>
 
 </div>
+<div class="section" id="sendlike">
+<h3>sendLike<a class="headerlink" href="#sendlike" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.UserHandler.sendLike(String, String, boolean)">
+public static boolean <code class="descname">sendLike</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> candidateId</em>, boolean<em> liked</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.sendLike(String, String, boolean)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a like/nope from the active user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>token</strong> &#8211; session token</li>
+<li><strong>candidateId</strong> &#8211; candidate id</li>
+<li><strong>liked</strong> &#8211; true if liked, false if not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true if success</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sendmessage">
+<h3>sendMessage<a class="headerlink" href="#sendmessage" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ar.uba.fi.drtinder.UserHandler.sendMessage(String, String, String)">
+public static boolean <code class="descname">sendMessage</code><span class="sig-paren">(</span><a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> token</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> receiverId</em>, <a class="reference external" href="http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" title="java.lang.String">String</a><em> message</em><span class="sig-paren">)</span><a class="headerlink" href="#ar.uba.fi.drtinder.UserHandler.sendMessage(String, String, String)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a message from the active user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>token</strong> &#8211; session token</li>
+<li><strong>receiverId</strong> &#8211; receiver id</li>
+<li><strong>message</strong> &#8211; message to send</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">true if success</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="signup">
 <h3>signUp<a class="headerlink" href="#signup" title="Permalink to this headline">¶</a></h3>
 <dl class="method">
@@ -518,7 +551,7 @@ public static void <code class="descname">uploadProfilePicture</code><span class
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 07, 2016.
+      Last updated on Jul 09, 2016.
 
     </p>
   </div>
