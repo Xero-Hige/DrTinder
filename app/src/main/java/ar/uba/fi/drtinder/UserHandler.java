@@ -84,15 +84,6 @@ public final class UserHandler {
     }
 
     /**
-     * Incremental ID for FB messages
-     *
-     * @return next message ID
-     */
-    public static Long getMessageId() {
-        return 2L; //TODO Remove
-    }
-
-    /**
      * Fetches token from server and returns it
      *
      * @param email    User email
