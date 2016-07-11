@@ -14,5 +14,5 @@
 [![Heroku](http://heroku-badge.herokuapp.com/?app=dr-tinder&style=flat)](https://dr-tinder.herokuapp.com/)
 
 ##Downloads
-* [Android Apk](https://github.com/Xero-Hige/DrTinder/releases/download/v1.50.0-beta/Dr-Tinder1.50beta.apk) ([Changelog](https://github.com/Xero-Hige/DrTinder/blob/master/AndroidChangelog.md))
+* [Android Apk](https://github.com/Xero-Hige/DrTinder/releases/download/v1.50.0-beta/Dr-Tinder1.55beta.apk) ([Changelog](https://github.com/Xero-Hige/DrTinder/blob/master/AndroidChangelog.md))
 
