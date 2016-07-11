@@ -251,7 +251,8 @@ void RequestHandler::listenInterestRequest() {
 void RequestHandler::listenChatRequest() {
 	LOGG(DEBUG) << "Listening chat request";
 	if (! login()) {
-	    	return; }
+	    	return;
+	}
 
 	if ( is_equal(&http_msg->method, GET_S)) {
 		this->listenChatGet();
@@ -334,9 +335,23 @@ void RequestHandler::listenChatGet(){
 	std::string reply;
 
 	if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
-		msgHandler->getChat(string(friend_name), reply);
+		string chatHistory;
+		msgHandler->getChat(string(friend_name), chatHistory);
+		LOGG(INFO) << "RETURNING CHAT HISTORY: " << chatHistory;
+		reply = chatHistory;
 	} else {
-		msgHandler->getMatches(reply);
+		string matchesUserData;
+		string matchesUserNames;
+		msgHandler->getMatches(matchesUserNames);
+
+		istringstream f(matchesUserNames);
+		string matchUserName;
+		while (std::getline(f, matchUserName)) {
+			string matchUserData;
+			msgHandler->getUser(matchUserName, matchUserData);
+			matchesUserData.append(matchUserData + "\n");
+		}
+		reply = matchesUserData;
 	}
 	sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 }
@@ -349,6 +364,7 @@ void RequestHandler::listenChatPost(){
 	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_LIKE, message, sizeof(message));
 
 	if ( !parsed || !parsed_msg){
+		LOGG(WARNING) << "BAD CHAT POST REQUEST. ";
 		sendHttpLine(BAD_REQUEST);
 		return;
 	}
@@ -394,10 +410,19 @@ void RequestHandler::listenNewChatGet(){
 	char friend_name[BUFFER_SMALL_SIZE];
 
 	int parsed = mg_get_http_var(&http_msg->query_string, BODY_USER_ID, friend_name, sizeof(friend_name));
+
+	if ( !parsed){
+		LOGG(WARNING) << "BAD GET NEW MESSAGES REQUEST. ";
+		sendHttpLine(BAD_REQUEST);
+		return;
+	}
+
 	bool result_ok = msgHandler->getNewMessages(friend_name, newMessages);
 	if(result_ok){
+		LOGG(INFO) << "RETURNING NEW MESSAGES: " << newMessages;
 		sendHttpReply(newMessages, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 	}else{
+		LOGG(WARNING) << "BAD GET NEW MESSAGES REQUEST. ";
 		sendHttpLine(BAD_REQUEST);
 	}
 }

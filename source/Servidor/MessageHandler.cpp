@@ -259,16 +259,19 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 	return ssClient->getInterestPhoto(id_interest, photo_64);
 }
 
-bool MessageHandler::getChat(std::string other_username, string& chat_history) {
-	return chatDB->getHistory(username, other_username, chat_history);
+bool MessageHandler::getChat(std::string friend_username, string& chat_history) {
+	LOGG(INFO) << "Fetching chat history from " << username << " and " << friend_username;
+	return chatDB->getHistory(username, friend_username, chat_history);
 }
 
 bool MessageHandler::postChatMsg(string receiverUserName, string message){
+	LOGG(INFO) << "Posting message " << message << " from " << username << " to " << receiverUserName;
 	chatDB->saveMessage(message,username,receiverUserName);
 	return true;
 }
 
 bool MessageHandler::getNewMessages(string friend_name, string& newMessages){
+	LOGG(INFO) << "Fetching new messages from " << username << " and " << friend_name;
 	chatDB->getNewMsgs(friend_name, username, newMessages);
 	return true;
 }
@@ -332,6 +335,7 @@ void MessageHandler::getInteractions(std::string& interactedUsersData) {
 
 
 void MessageHandler::getMatches(std::string& matches) {
+	LOGG(INFO) << "Fetching matches from " << username;
 	likesDB->getMatches(username, matches);
 }
 

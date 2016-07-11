@@ -28,7 +28,7 @@ list<User*> UserMatcher::filterPossibleMatches(User* appUser, list<User*>* users
 	LOGG(DEBUG) << "Filtering users.";
 	LOGG(DEBUG) << "Past interactions with: " << userMatches;
 	for (User* user : *users) {
-		LOGG(INFO) << "Checking if user is a match candidate: " << user->getMail();
+		LOGG(DEBUG) << "Checking if user is a match candidate: " << user->getMail();
 		if(!sameUser(appUser, user)){
 			if(!userInMatches(user, userMatches)){
 				if (isLookingForUserSex(appUser, user) && isInAgeRange(appUser, user) && isNearby(appUser, user)

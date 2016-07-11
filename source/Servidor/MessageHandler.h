@@ -73,7 +73,7 @@ class MessageHandler {
 
 		bool getInterestPhoto(std::string& photo_64, std::string id_interest);
 
-		bool getChat(std::string other_username, std::string& chat_history);
+		bool getChat(std::string friend_username, std::string& chat_history);
 
 		bool postChatMsg(string receiverUserName, string message);
 
