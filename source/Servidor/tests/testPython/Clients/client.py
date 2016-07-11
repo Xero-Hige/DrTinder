@@ -1,4 +1,3 @@
-import httplib
 import requests
 #HttpClient persistant
 GET="GET"

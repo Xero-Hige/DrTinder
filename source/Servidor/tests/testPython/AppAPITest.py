@@ -79,7 +79,6 @@ class MyTest(unittest.TestCase):
 		r = secondClient.chatFriend(mail1)
 		self.assertNotEqual(r.text.find(msg),-1)
 
-
 	def test_BothLikeAndMatch(self):
 		myClient.login()
 		secondClient.login()
@@ -90,6 +89,20 @@ class MyTest(unittest.TestCase):
 		r = secondClient.getNewMatches()
 		self.assertNotEqual(r.text.find(mail1),-1)		
 
+	def test_getNewMsgsTwiceSeconTimeIsEmpty(self):
+		msg="khjcdjutdutgcfju"
+		myClient.login()
+		myClient.sendMessage(mail2,msg)
+		secondClient.login()
+		r = secondClient.getNewMsgs(mail1)
+		self.assertNotEqual(r.text.find(msg),-1)
+		r = secondClient.getNewMsgs(mail1)
+		self.assertEqual(r.text.find(msg),-1)
+
+	def test_getExistantInterestPhoto(self):
+		myClient.login()
+		r = myClient.getInterestPhoto("tennissport")
+		self.assertEqual(r.status_code,200)
 
 if __name__ == '__main__':
 	unittest.main()

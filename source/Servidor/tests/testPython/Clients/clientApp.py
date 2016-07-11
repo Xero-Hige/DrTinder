@@ -6,6 +6,7 @@ users_url = "users"
 token_url = "token"
 photo_url = "photo"
 chat_url = "chats"
+interest_url="interest"
 new_url = "new"
 matches_url = "matches"
 id_url = "id"
@@ -46,6 +47,7 @@ class ClientApp(Client):
 		header = {"Authorization":"username=\""+self.mail+"\" pass=\""+self.passw+"\""}
 		body = "User=" + user_data
 		return self.makeRequest(POST,url,body,header)
+
 	def getPhoto(self, mail=""):
 		if mail == "":
 			mail=self.mail
@@ -104,9 +106,12 @@ class ClientApp(Client):
 		body= "user_id=" + user + "&msg=" + msg 
 		return self.makeRequest(POST,url,body)
 
-	def getNewMsgs(self,user=""):
-		if (user == ""):
-			user= self.mail
-		params = {"token": self.token}
+	def getNewMsgs(self,user):
+		params = {"token": self.token, "res_id": user}
 		url = self.makeUrl([chat_url, new_url], params)
+		return self.makeRequest(GET,url)
+
+	def getInterestPhoto(self,int_id):
+		params = {"token": self.token, "res_id": int_id}
+		url = self.makeUrl([interest_url], params)
 		return self.makeRequest(GET,url)
