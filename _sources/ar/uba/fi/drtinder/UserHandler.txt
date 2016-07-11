@@ -4,8 +4,6 @@
 
 .. java:import:: android.util Base64
 
-.. java:import:: com.google.firebase.auth FirebaseAuth
-
 .. java:import:: org.springframework.http HttpEntity
 
 .. java:import:: org.springframework.http HttpHeaders
@@ -152,16 +150,6 @@ getUsernameFrom
 
    :param email: user Email
    :return: username
-
-isLoggedIn
-^^^^^^^^^^
-
-.. java:method:: public static boolean isLoggedIn()
-   :outertype: UserHandler
-
-   Checks if the system is logged in
-
-   :return: true if there is a logged in session
 
 isValidEmail
 ^^^^^^^^^^^^

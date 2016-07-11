@@ -28,6 +28,8 @@
 
 .. java:import:: android.widget TextView
 
+.. java:import:: com.github.siyamed.shapeimageview BubbleImageView
+
 ChatSession
 ===========
 

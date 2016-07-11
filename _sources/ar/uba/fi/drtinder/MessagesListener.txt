@@ -1,5 +1,3 @@
-.. java:import:: android.content Context
-
 .. java:import:: android.os AsyncTask
 
 .. java:import:: java.util.concurrent CountDownLatch
@@ -19,13 +17,12 @@ Methods
 startListening
 ^^^^^^^^^^^^^^
 
-.. java:method:: static void startListening(String token, Context context, ChatSession session)
+.. java:method:: static void startListening(String token, String friendId, ChatSession session)
    :outertype: MessagesListener
 
    Starts the listening
 
    :param token: user token
-   :param context: app context
    :param session: binded session
 
 stopListening

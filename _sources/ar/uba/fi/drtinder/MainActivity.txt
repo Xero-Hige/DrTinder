@@ -34,8 +34,22 @@ MainActivity
 
    Main app activity of the app Dr Tinder. Displays the 2 main fragments: Selection and Chatlist
 
+Fields
+------
+DELETE_PROF
+^^^^^^^^^^^
+
+.. java:field:: public static final int DELETE_PROF
+   :outertype: MainActivity
+
 Methods
 -------
+onActivityResult
+^^^^^^^^^^^^^^^^
+
+.. java:method:: @Override protected void onActivityResult(int requestCode, int resultCode, Intent data)
+   :outertype: MainActivity
+
 onBackPressed
 ^^^^^^^^^^^^^
 
@@ -76,7 +90,7 @@ onDestroy
 onNavigationItemSelected
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. java:method:: @SuppressWarnings @Override public boolean onNavigationItemSelected(MenuItem item)
+.. java:method:: @Override public boolean onNavigationItemSelected(MenuItem item)
    :outertype: MainActivity
 
    Called when an item in the navigation menu is selected.
