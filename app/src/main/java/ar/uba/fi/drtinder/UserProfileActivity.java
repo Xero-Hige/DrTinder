@@ -519,6 +519,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
+            setResult(RESULT_CANCELED);
             mContext.finish();
         }
     }
