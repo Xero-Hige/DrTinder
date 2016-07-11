@@ -117,6 +117,10 @@ public final class UserHandler {
             return mToken;
         } catch (HttpClientErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            if (e.getStatusCode().value() == 401) {
+                mToken = FAILED_TOKEN;
+                return FAILED_TOKEN;
+            }
             mToken = ERROR_TOKEN;
             return mToken;
         } catch (ResourceAccessException e) {
@@ -128,10 +132,6 @@ public final class UserHandler {
         int statusCode = response.getStatusCode().value();
 
         if (statusCode != 200) {
-            if (statusCode == 401) {
-                mToken = FAILED_TOKEN;
-                return FAILED_TOKEN;
-            }
             String errorMessage = "Failed login post: "
                     + response.getStatusCode().value()
                     + " " + response.getStatusCode().getReasonPhrase();
