@@ -2,26 +2,29 @@ from Clients.clientApp import ClientApp
 import unittest
 import base64
 
-mail= "de@hotmail.com"
+mail= "dehotmail.com"
 passw = "123456"
 
+mail2="copitogmail.com"
+passw2="123456"
+
 myClient = ClientApp(mail,passw)
+secondClient = ClientApp(mail2,passw2)
+
+myClient.signup()
 
 class MyTest(unittest.TestCase):
 
 	def test_CantDeleteTwice(self):
-		r = myClient.signup()
-		self.assertEquals(r.status_code,201)
 		myClient.login()
-		myClient.getData()
 		r = myClient.delete()
 		self.assertEquals(r.status_code,200)
 		r = myClient.delete()
 		#token expired -> 403
-		self.assertEquals(r.status_code,403)	
+		self.assertEquals(r.status_code,403)
+		myClient.signup()	
 
 	def test_ChangedPhoto(self):
-		myClient.signup()
 		myClient.login()
 		with open("download.jpg", "rb") as image_file:
 			foto_mujer = base64.b64encode(image_file.read())
@@ -31,33 +34,26 @@ class MyTest(unittest.TestCase):
 		self.assertTrue(r.text.find(foto_mujer)	>= 0)
 
 	def test_CallUnexistantUri(self):
-		myClient.signup()
 		myClient.login()
 		r = myClient.uniexistantCall()
 		self.assertTrue(r.status_code,501)
-		r = myClient.delete()
 
 	def test_GetMatches(self):
-		myClient.signup()
 		myClient.login()
 		r = myClient.getNewMatches()
 		self.assertTrue(r.status_code,200)
-		r = myClient.delete()
 		self.assertTrue(1)
 
 	def test_ModifiedDataBadData(self):
 		data = '"Nombre","25","Alias22","pepep123@pas.com","man","Pickachu","sport::tennis"';
-		myClient.signup()
 		myClient.login()
 		r = myClient.modifyData(data)
 		self.assertEqual(r.status_code,400)
 		r = myClient.getData()
 		self.assertEqual(r.status_code,200)
-		myClient.delete()
 
 	def test_ModifiedDataGoodData(self):
 		data = '"NONONON","25","man","sport::tennis"';
-		myClient.signup()
 		myClient.login()
 		myClient.modifyData(data)
 		r = myClient.getData()
@@ -66,16 +62,35 @@ class MyTest(unittest.TestCase):
 
 	def test_getUserOfSS(self):
 		user="asd@asd.com"
-		myClient.signup()
 		myClient.login()
 		r = myClient.getData(user)
 		self.assertEqual(r.status_code,200)
-		myClient.delete()
 
 	def test_loginUserOfSS(self):
 		user="copito@gmail.com"
 		r = myClient.login(user,"123456")
 		self.assertEqual(r.status_code,200)
 
+	def test_sendMsgToExistantUser(self):
+		msg="khjcdjutdutgcfju"
+		myClient.login()
+		myClient.sendMessage(mail2,msg)
+		secondClient.login()
+		r = secondClient.getNewMsgs()
+		self.assertNotEqual(r.text.find(msg),-1)
+
+
+	def test_BothLikeAndMatch(self):
+		myClient.login()
+		secondClient.login()
+		myClient.likeUser(mail2)
+		secondClient.likeUser(mail1)
+		r = myClient.getMatches()
+		self.assertNotEqual(r.text.find(mail2),-1)
+		r = secondClient.getNewMatches()
+		self.assertNotEqual(r.text.find(mail1),-1)		
+
+
 if __name__ == '__main__':
 	unittest.main()
+	myClient.delete()

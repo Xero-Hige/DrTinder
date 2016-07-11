@@ -6,6 +6,8 @@ users_url = "users"
 token_url = "token"
 photo_url = "photo"
 chat_url = "chats"
+new_url = "new"
+matches_url = "matches"
 id_url = "id"
 
 
@@ -16,8 +18,8 @@ class ClientApp(Client):
 		self.token = ""
 		self.passw = passw
 
-	# def getInterestPhoto(self,photo="sport"):
-	# 	url = makeUrl([in],{"token":self.token})
+	def getInterestPhoto(self,photo="sport"):
+		url = makeUrl([in],{"token":self.token})
 	
 	def getData(self, mail=""):
 		if mail == "":
@@ -25,7 +27,7 @@ class ClientApp(Client):
 		url = self.makeUrl([user_url], {"token":self.token, "res_id":mail})
 		return self.makeRequest(GET,url)
 
-	def getNewMatches(self):
+	def getMatches(self):
 		url= self.makeUrl([users_url], {"token": self.token})
 		return self.makeRequest(GET,url)
 
@@ -80,4 +82,34 @@ class ClientApp(Client):
 
 	def uniexistantCall(self):
 		url = self.makeUrl(["noExiste","Nono"])
+		return self.makeRequest(GET,url)
+
+	def likeUser(self,user):
+		params = {"token": self.token}
+		body = "user_id=" + user + " bool=\"true\"" 
+		url = self.makeUrl([matches_url], params)
+		return self.makeRequest(POST,url,body)
+
+	def dislikeUser(self,user):
+		params = {"token": self.token}
+		body = "user_id=" + user + " bool=\"false\"" 
+		url = self.makeUrl([matches_url], params)
+		return self.makeRequest(POST,url,body)
+
+	def getNewMatches(self):
+		params = {"token": self.token}
+		url = self.makeUrl([matches_url], params)
+		return self.makeRequest(GET,url)
+
+	def sendMessage(self,user,msg="hola"):
+		params = {"token": self.token}
+		url = self.makeUrl([chat_url], params)
+		body= "user_id=" + user + " msg=\"" + msg + "\"" 
+		return self.makeRequest(POST,url,body)
+
+	def getNewMsgs(self,user=""):
+		if (user == ""):
+			user= self.mail
+		params = {"token": self.token}
+		url = self.makeUrl([chat_url, new_url], params)
 		return self.makeRequest(GET,url)
