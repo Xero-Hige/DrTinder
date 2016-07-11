@@ -19,9 +19,11 @@ public:
 	bool getHistory(std::string& sender,
 			std::string& receiver, std::string& chat_history);
 
-	void getNewMsgs(std::string sender,std::string reciever, std::string &newMsgs);
+	void getNewMsgs(std::string sender,std::string receiver, std::string &newMsgs);
 
 private:
+
+	std::string getConversationKey(std::string sender, std::string receiver);
 
 	void saveNewMsgs(std::string& message, std::string& sender,
 			std::string& receiver);

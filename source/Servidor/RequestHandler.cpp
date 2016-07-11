@@ -389,15 +389,15 @@ void RequestHandler::listenMatchesPost(){
 
 void RequestHandler::listenNewChatGet(){
 	LOGG(DEBUG)<< GET_S;
-	char user_data[BUFFER_SMALL_SIZE];
-	string msgs;
-	//TODO define if all new msgs or only msgs of user
-	msgHandler->getNewMessages(msgs);
-	sendHttpReply(msgs, CONTENT_TYPE_HEADER_PLAIN ,STATUS_OK);
-	/*if ( mg_get_http_var(&http_msg->body, BODY_USER_ID, user_data, sizeof(user_data))){
 
+	string newMessages;
+	char friend_name[BUFFER_SMALL_SIZE];
+
+	int parsed = mg_get_http_var(&http_msg->query_string, BODY_USER_ID, friend_name, sizeof(friend_name));
+	bool result_ok = msgHandler->getNewMessages(friend_name, newMessages);
+	if(result_ok){
+		sendHttpReply(newMessages, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 	}else{
 		sendHttpLine(BAD_REQUEST);
-	}*/
-
+	}
 }
