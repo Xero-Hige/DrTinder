@@ -93,7 +93,7 @@ public final class MessagesListener {
                             String userId = data.get(i)[0];
                             String message = data.get(i)[1];
 
-                            mSession.addResponse(userId, message);
+                            mSession.addResponse(message, userId);
                         }
                         barrier.countDown();
                     });
