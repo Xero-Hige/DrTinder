@@ -123,9 +123,11 @@ bool MessageHandler::authenticate(string username, string password) {
 		if (! usersDB->correctEntry(USER_DB + username, password)){
 			LOGG(DEBUG) << "Incorrect Username-Password";
 			return false;
+		}else{
+			return true;
 		}
 	}
-	return found;
+	return true;
 }
 
 void MessageHandler::createInterests(Interests* interests){

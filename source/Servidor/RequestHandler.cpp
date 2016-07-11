@@ -204,6 +204,7 @@ void RequestHandler::listenUsersRequest() {
 	LOGG(DEBUG) << "Listening UserS request";
     if (is_equal(&http_msg->method, POST_S)) {
         listenUsersPost();
+        return;
     }
     if (! login()) {
     	return;
@@ -225,6 +226,7 @@ void RequestHandler::listenInterestRequest() {
 	LOGG(DEBUG) << "Listening Interest request";
     if (! is_equal(&http_msg->method, GET_S)) {
     	sendHttpLine(NOT_IMPLEMENTED);
+    	return;
     }
 
     if (! login()) {
