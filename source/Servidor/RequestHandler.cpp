@@ -334,7 +334,7 @@ void RequestHandler::listenChatGet(){
 	char friend_name[BUFFER_SMALL_SIZE];
 	std::string reply;
 
-	if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {
+	if (mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) >= 0) {
 		string chatHistory;
 		msgHandler->getChat(string(friend_name), chatHistory);
 		LOGG(INFO) << "RETURNING CHAT HISTORY: " << chatHistory;
@@ -361,7 +361,7 @@ void RequestHandler::listenChatPost(){
 
 	char receiverUserName[BUFFER_SMALL_SIZE], message[BUFFER_MSG_SIZE];
 	int parsed = mg_get_http_var(&http_msg->body, BODY_USER_ID, receiverUserName, sizeof(receiverUserName));
-	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_LIKE, message, sizeof(message));
+	int parsed_msg = mg_get_http_var(&http_msg->body, BODY_MSG, message, sizeof(message));
 
 	if ( !parsed || !parsed_msg){
 		LOGG(WARNING) << "BAD CHAT POST REQUEST. ";

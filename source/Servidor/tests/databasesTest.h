@@ -52,8 +52,9 @@ TEST(DBManager,iterateDBHasActualPair){
 		}
 	}while (mgr.advanceIterator());
 	mgr.deleteIterator();
-	ASSERT_TRUE(found);
 	delete database;
+	ASSERT_TRUE(found);
+
 }
 
 TEST(CHDBManager,messageHistoryAdd){
@@ -66,8 +67,9 @@ TEST(CHDBManager,messageHistoryAdd){
 	string chat;
 	mgr.saveMessage(msg,sender,to);
 	mgr.getHistory(sender,to,chat);
-	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
 	delete database;
+	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
+
 }
 
 TEST(CHDBManager,sendNewMessage){
@@ -80,8 +82,9 @@ TEST(CHDBManager,sendNewMessage){
 	string chat;
 	mgr.saveMessage(msg,sender,to);
 	mgr.getNewMsgs(to, sender, chat);
-	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
 	delete database;
+	ASSERT_TRUE( chat.find(msg)!= std::string::npos );
+
 }
 
 
