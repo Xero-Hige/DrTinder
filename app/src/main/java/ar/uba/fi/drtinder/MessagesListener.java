@@ -41,13 +41,13 @@ public final class MessagesListener {
      * @param context app context
      * @param session binded session
      */
-    static void startListening(String token, Context context, ChatSession session) {
+    static void startListening(String token, String friendId, Context context, ChatSession session) {
         if (running) {
             return;
         }
         running = true;
         mSession = session;
-        task = new ChatListeningTask(token, context);
+        task = new ChatListeningTask(token, friendId, context);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -64,10 +64,12 @@ public final class MessagesListener {
 
         private final String mToken;
         private final Context mContext;
+        private final String mFriendId;
 
-        ChatListeningTask(String token, Context context) {
+        ChatListeningTask(String token, String friendId, Context context) {
             mToken = token;
             mContext = context;
+            mFriendId = friendId;
         }
 
         @Override
@@ -77,7 +79,7 @@ public final class MessagesListener {
                 try {
                     Thread.sleep(POLLING_INTERVAL);
                     CountDownLatch barrier = new CountDownLatch(1);
-                    StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_CHAT, mToken, data -> {
+                    StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.SERVICE_CHAT, mToken, data -> {
                         if (data == null) {
                             barrier.countDown();
                             return;
