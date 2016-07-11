@@ -77,7 +77,7 @@ class MessageHandler {
 
 		bool postChatMsg(string receiverUserName, string message);
 
-		bool getNewMessages(std::string& newMessages);
+		bool getNewMessages(string friend_name, string& newMessages);
 
 		bool getPhoto(string username, string &photo_64);
 

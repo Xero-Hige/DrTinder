@@ -7,34 +7,46 @@ ChatDatabaseManager::ChatDatabaseManager(rocksdb::DB *database) : DatabaseManage
 
 }
 
+std::string ChatDatabaseManager::getConversationKey(std::string sender, std::string receiver){
+	string key;
+    if (sender.compare(receiver) < 0) {
+		key = receiver + DB_SEPARATOR + sender;
+	} else {
+		key = sender + DB_SEPARATOR + receiver;
+	}
+    return key;
+}
+
 void ChatDatabaseManager::saveNewMsgs(std::string& message, std::string& sender, std::string& receiver){
-	//Solo guardo los nuevos que le enviaron
-	string aux;
-	string key = NEW_MSGS_PREFIX + receiver + DB_SEPARATOR + sender;
-	if (!getEntry(key, aux)) {
-		DatabaseManager::addEntry(key, message + "\n");
+	string currentNewMessages;
+	string conversationKey = getConversationKey(sender, receiver);
+	string newMessageskey = NEW_MSGS_PREFIX + conversationKey;
+
+	string messageWithSender = sender + DB_SEPARATOR + message;
+
+	if (!getEntry(newMessageskey, currentNewMessages)) {
+		DatabaseManager::addEntry(newMessageskey, messageWithSender + "\n");
 		return;
 	}
-	replaceEntry(key, aux + message + "\n");
+	replaceEntry(newMessageskey, currentNewMessages + messageWithSender + "\n");
 }
 
 void ChatDatabaseManager::saveMessage(std::string& message, std::string& sender, std::string& receiver){
-    string aux;
+	LOGG(INFO) << "Saving message " << message <<" from " << sender << " to " << receiver;
+    string conversationHistory;
     string key;
-    if (sender.compare(receiver) < 0 ){
-    	key = receiver + DB_SEPARATOR + sender;
-    }else{
-    	key = sender + DB_SEPARATOR + receiver;
-    }
+    key = getConversationKey(sender, receiver);
 
     this->saveNewMsgs(message,sender,receiver);
 
-    if (! getEntry(key, aux)) {
-        DatabaseManager::addEntry(key, message + "\n");
+    string messageWithSender = sender + DB_SEPARATOR + message;
+
+    if (! getEntry(key, conversationHistory)) {
+        DatabaseManager::addEntry(key, messageWithSender + "\n");
         return;
     }
 
-    replaceEntry(key, aux + message + "\n");
+    replaceEntry(key, conversationHistory + messageWithSender + "\n");
 
 }
 
@@ -42,11 +54,7 @@ bool ChatDatabaseManager::getHistory(std::string& sender, std::string& receiver,
     string aux;
     string key;
 
-    if (sender.compare(receiver) < 0) {
-		key = receiver + DB_SEPARATOR + sender;
-	} else {
-		key = sender + DB_SEPARATOR + receiver;
-	}
+    key = getConversationKey(sender, receiver);
 
     if (! getEntry(key, aux) ) {
             return false;
@@ -56,13 +64,17 @@ bool ChatDatabaseManager::getHistory(std::string& sender, std::string& receiver,
     return true;
 }
 
-void ChatDatabaseManager::getNewMsgs(string sender, string reciever, string &newMsgs){
-	string aux;
-	string key = sender + DB_SEPARATOR + reciever;
+void ChatDatabaseManager::getNewMsgs(string sender, string receiver, string &newMsgs){
+	string newMessages;
+	string conversationKey = getConversationKey(sender, receiver);
+	string newMessageskey = NEW_MSGS_PREFIX + conversationKey;
 
-	if (getEntry(NEW_MSGS_PREFIX + key,aux)){
-		newMsgs = aux;
-		this->replaceEntry(NEW_MSGS_PREFIX + key,"");
+	if (getEntry(newMessageskey,newMessages)){
+
+		this->replaceEntry(newMessageskey,"");
+	} else {
+		newMessages = "";
 	}
 
+	newMsgs = newMessages;
 }

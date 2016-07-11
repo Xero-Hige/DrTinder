@@ -268,18 +268,8 @@ bool MessageHandler::postChatMsg(string receiverUserName, string message){
 	return true;
 }
 
-bool MessageHandler::getNewMessages(std::string& newMessages){
-	string usernamesMatched;
-	likesDB->getMatches(username, usernamesMatched);
-
-	istringstream f(usernamesMatched);
-	string matchedUserName;
-	while (getline(f, matchedUserName)) {
-		string newMessagesFromMatchedUser;
-		chatDB->getNewMsgs(matchedUserName, username, newMessagesFromMatchedUser);
-		//TODO OJO! LOS MENSAJES NUEVOS SE VAN SEPARANDO TAMBIEN CON "\n" EN chatDB->saveNewMsgs
-		newMessages.append(matchedUserName + "," + newMessagesFromMatchedUser + "\n");
-	}
+bool MessageHandler::getNewMessages(string friend_name, string& newMessages){
+	chatDB->getNewMsgs(friend_name, username, newMessages);
 	return true;
 }
 
