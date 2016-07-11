@@ -74,7 +74,7 @@ public final class UserHandler {
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
     private static final String MATCHES_URL = "matches";
-    private static final String MESSAGES_URL = "matches";
+    private static final String MESSAGES_URL = "chats";
 
     private static String mToken = ERROR_TOKEN;
 
@@ -92,6 +92,8 @@ public final class UserHandler {
      * @return Token string. If error, one of the listed error tokens
      */
     static String getLoginToken(String email, String password, String location) {
+
+        mToken = null;
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -375,7 +377,7 @@ public final class UserHandler {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String bodyTemplate = "user_id=%s msg=%s";
+        String bodyTemplate = "user_id=%s&msg=%s";
 
         String body = String.format(Locale.ENGLISH, bodyTemplate, receiverId, message);
 
@@ -413,7 +415,7 @@ public final class UserHandler {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String bodyTemplate = "user_id=%s bool=%s";
+        String bodyTemplate = "user_id=%s&bool=%s";
 
         String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, String.valueOf(liked));
 
