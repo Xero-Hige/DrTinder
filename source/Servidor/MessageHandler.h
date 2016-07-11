@@ -37,10 +37,10 @@ typedef  struct _server_databases_t {
 	rocksdb::DB *likesDB;
 } server_databases_t;
 
-typedef struct new_message_t {
+typedef struct _new_message_t {
 	std::string sender;
 	std::string message;
-};
+} new_message_t;
 
 /* Handler for incomming requests. */
 class MessageHandler {

@@ -40,7 +40,10 @@ void RequestHandler::sendHttpReply(std::string reply, std::string content_type, 
 bool RequestHandler::validateToken() {
     char buffer[MAX_LEN_TOKEN_BUFFER];
     int parsed = mg_get_http_var(&http_msg->query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));
-
+    if (!parsed){
+    	sendHttpLine(BAD_REQUEST);
+    	return false;
+    }
     std::string token(buffer);
     LOGG(DEBUG) << "Validating Token for connection: " << token;
     if (! msgHandler->validateToken(token)) {
