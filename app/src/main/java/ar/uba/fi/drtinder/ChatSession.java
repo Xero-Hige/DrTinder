@@ -167,6 +167,7 @@ public class ChatSession extends AppCompatActivity {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
+        Utility.hideKeyboard(this);
     }
 
     private void addPersonalResponse(String message) {
@@ -188,6 +189,7 @@ public class ChatSession extends AppCompatActivity {
         msgTextView.setText(message);
 
         runOnUiThread(() -> mMessagesLayout.addView(layout));
+        runOnUiThread(this::scrollToLast);
     }
 
     private void addFriendResponse(String message) {
