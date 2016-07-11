@@ -4,9 +4,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Base64;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -68,25 +64,21 @@ public final class UserHandler {
      * Sign up result: Sign up successful
      */
     public static final String SIGNUP_SUCCESS = "S";
+
+    private static final int MAX_TRIES = 30;
     private static final String LOGIN_URL = "user";
     private static final String DELETE_URL = "users";
     private static final String SIGNUP_URL = "users";
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
+    private static final String MATCHES_URL = "matches";
+    private static final String MESSAGES_URL = "chats";
+
     private static String mToken = ERROR_TOKEN;
 
-    private static AtomicLong mMessageId = new AtomicLong(0);
+    private static String mUserEmail = "";
 
     private UserHandler() {
-    }
-
-    /**
-     * Incremental ID for FB messages
-     *
-     * @return next message ID
-     */
-    public static Long getMessageId() {
-        return mMessageId.getAndIncrement();
     }
 
     /**
@@ -98,6 +90,8 @@ public final class UserHandler {
      * @return Token string. If error, one of the listed error tokens
      */
     static String getLoginToken(String email, String password, String location) {
+
+        mToken = null;
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -123,6 +117,10 @@ public final class UserHandler {
             return mToken;
         } catch (HttpClientErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            if (e.getStatusCode().value() == 401) {
+                mToken = FAILED_TOKEN;
+                return FAILED_TOKEN;
+            }
             mToken = ERROR_TOKEN;
             return mToken;
         } catch (ResourceAccessException e) {
@@ -134,27 +132,15 @@ public final class UserHandler {
         int statusCode = response.getStatusCode().value();
 
         if (statusCode != 200) {
-            if (statusCode == 401) {
-                mToken = FAILED_TOKEN;
-                return FAILED_TOKEN;
-            }
             String errorMessage = "Failed login post: "
                     + response.getStatusCode().value()
                     + " " + response.getStatusCode().getReasonPhrase();
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, errorMessage);
         }
 
+        mUserEmail = email;
         mToken = response.getBody();
         return response.getBody();
-
-
-//        restTemplate = new RestTemplate();
-//
-//        String tokenUrl = getTokenUrl() + "/" + user;
-//        response = restTemplate.getForEntity(tokenUrl, String.class);
-//
-//
-//        return mToken;
     }
 
     private static String getLoginUrl() {
@@ -203,21 +189,7 @@ public final class UserHandler {
      * @return Logged user username
      */
     public static String getUsername() {
-        if (!isLoggedIn()) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
-            return "";
-        }
-
         return getUsernameFrom(getUserEmail());
-    }
-
-    /**
-     * Checks if the system is logged in
-     *
-     * @return true if there is a logged in session
-     */
-    public static boolean isLoggedIn() {
-        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     /**
@@ -226,21 +198,15 @@ public final class UserHandler {
      * @return Logged user email
      */
     public static String getUserEmail() {
-        if (!isLoggedIn()) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
-            return "";
-        }
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert currentUser != null; //DEBUG Assert
-        return currentUser.getEmail();
+        return mUserEmail;
     }
 
     /**
      * Logouts from the current session
      */
     public static void logout() {
-        FirebaseAuth.getInstance().signOut();
+        mToken = "";
+        mUserEmail = "";
     }
 
     /**
@@ -264,7 +230,7 @@ public final class UserHandler {
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
         }
-        FirebaseAuth.getInstance().signOut();
+        mToken = null;
         return true;
     }
 
@@ -377,6 +343,84 @@ public final class UserHandler {
 
     private static String getUpdateUrl() {
         return ServerUrlWrapper.getServerUrl() + UPDATE_URL;
+    }
+
+    /**
+     * Sends a message from the active user
+     *
+     * @param token      session token
+     * @param receiverId receiver id
+     * @param message    message to send
+     * @return true if success
+     */
+    public static boolean sendMessage(String token, String receiverId, String message) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String bodyTemplate = "user_id=%s&msg=%s";
+
+        String body = String.format(Locale.ENGLISH, bodyTemplate, receiverId, message);
+
+        Uri.Builder uriBuilder = Uri.parse(getMessagesUrl()).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String matchesUrl = uriBuilder.build().toString();
+
+        boolean sent = false;
+        int tries = 0;
+        while (!sent && tries < MAX_TRIES) {
+            try {
+                restTemplate.postForEntity(matchesUrl, body, String.class);
+                sent = true;
+            } catch (Exception e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on msg send: " + e.getMessage());
+                tries += 1;
+            }
+        }
+
+        return sent;
+    }
+
+    private static String getMessagesUrl() {
+        return ServerUrlWrapper.getServerUrl() + MESSAGES_URL;
+    }
+
+    /**
+     * Sends a like/nope from the active user
+     *
+     * @param token       session token
+     * @param candidateId candidate id
+     * @param liked       true if liked, false if not
+     * @return true if success
+     */
+    public static boolean sendLike(String token, String candidateId, boolean liked) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        String bodyTemplate = "user_id=%s&bool=%s";
+
+        String body = String.format(Locale.ENGLISH, bodyTemplate, candidateId, String.valueOf(liked));
+
+        Uri.Builder uriBuilder = Uri.parse(getMatchesUrl()).buildUpon();
+        uriBuilder.appendQueryParameter("token", token);
+        String matchesUrl = uriBuilder.build().toString();
+
+        boolean sent = false;
+        int tries = 0;
+        while (!sent && tries < MAX_TRIES) {
+            try {
+                restTemplate.postForEntity(matchesUrl, body, String.class);
+                sent = true;
+            } catch (Exception e) {
+                DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Exception on match: " + e.getMessage());
+                tries += 1;
+            }
+        }
+
+        return sent;
+    }
+
+    private static String getMatchesUrl() {
+        return ServerUrlWrapper.getServerUrl() + MATCHES_URL;
     }
 
     /**

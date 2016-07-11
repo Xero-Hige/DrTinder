@@ -37,6 +37,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final int DELETE_PROF = 123;
     private MenuItem mActualFragItem;
     private String mUsername;
 
@@ -72,9 +73,9 @@ public class MainActivity extends AppCompatActivity
         Utility.hideKeyboard(this);
     }
 
-    private void changeFragment(Fragment selectionFragment) {
-        FragmentManager frag = getSupportFragmentManager();
-        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     /**
@@ -86,20 +87,12 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         ImageResourcesHandler.clearCache(this);
         UserHandler.logout();
+        MatchesListener.stopListening();
     }
 
-    /**
-     * Missing Api Reference
-     */
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        assert drawer != null; //DEBUG Assert
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    private void changeFragment(Fragment selectionFragment) {
+        FragmentManager frag = getSupportFragmentManager();
+        frag.beginTransaction().replace(R.id.section_layout, selectionFragment).commit();
     }
 
     /**
@@ -167,7 +160,6 @@ public class MainActivity extends AppCompatActivity
      * @param item The selected item
      * @return true to display the item as the selected item
      */
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -177,7 +169,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, UserProfileActivity.class);
             intent.putExtra(UserProfileActivity.USER_EXTRA_USERNAME, mUsername);
             intent.putExtra(UserProfileActivity.PROFILE_EXTRA_ACTION, UserProfileActivity.PROFILE_ACTION_UPDATE);
-            startActivity(intent);
+            startActivityForResult(intent, DELETE_PROF);
         } else if (itemId == R.id.nav_logout) {
             UserHandler.logout();
             Intent intent = new Intent(this, LoginActivity.class);
@@ -189,5 +181,35 @@ public class MainActivity extends AppCompatActivity
         assert drawer != null; //DEBUG Assert
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DELETE_PROF) {
+            if (resultCode == RESULT_CANCELED) {
+                //this.finish();
+            }
+        }
+    }
+
+    /**
+     * Missing Api Reference
+     */
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        assert drawer != null; //DEBUG Assert
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MatchesListener.startListening(UserHandler.getToken(), this.getApplicationContext());
     }
 }

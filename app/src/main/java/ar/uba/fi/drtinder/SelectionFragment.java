@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daprlabs.cardstack.SwipeDeck;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,8 +58,6 @@ public class SelectionFragment extends Fragment {
     //TODO: Remove
     private SwipeDeck mCardStack;
 
-    private View mProgressView;
-
     private Queue<Map<Integer, String>> mUsersQueue;
     private Map<Integer, Map<Integer, String>> mUsersData;
     private View mFragmentView;
@@ -87,7 +83,6 @@ public class SelectionFragment extends Fragment {
 
         mCardStack.setLeftImage(R.id.card_nope);
         mCardStack.setRightImage(R.id.card_like);
-        mProgressView = mFragmentView.findViewById(R.id.login_progress);
 
         setButtons(mFragmentView);
 
@@ -100,7 +95,7 @@ public class SelectionFragment extends Fragment {
     private void fillCardStack() {
         Utility.showMessage("Buscando candidatos", getView(), "Ok", 100);
         UsersFetchTask mAuthTask = new UsersFetchTask();
-        mAuthTask.execute((Void) null);
+        mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setButtons(View view) {
@@ -205,16 +200,7 @@ public class SelectionFragment extends Fragment {
                     return;
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
-
-                FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                .setMessageId(" ")
-                                .addData("user", UserHandler.getUsername())
-                                .addData("candidate", data.get(USER_ID))
-                                .addData("liked", "no")
-                                .build());
-
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Rejected " + data.get(USER_NAME));
+                sendLike(data, false);
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -226,15 +212,7 @@ public class SelectionFragment extends Fragment {
                 }
                 Map<Integer, String> data = mUsersQueue.remove();
 
-                FirebaseMessaging.getInstance().send(
-                        new RemoteMessage.Builder("292426067795@gcm.googleapis.com")
-                                .setMessageId(UserHandler.getMessageId().toString())
-                                .addData("user", UserHandler.getUsername())
-                                .addData("candidate", data.get(USER_ID))
-                                .addData("liked", "yes")
-                                .build());
-
-                DrTinderLogger.writeLog(DrTinderLogger.INFO, "Liked  " + data.get(USER_NAME));
+                sendLike(data, true);
                 ImageResourcesHandler.freeCachedResource(data.get(USER_ID),
                         ImageResourcesHandler.RES_USER_IMG, getContext());
             }
@@ -256,6 +234,11 @@ public class SelectionFragment extends Fragment {
         });
     }
 
+    private void sendLike(Map<Integer, String> candidateData, boolean liked) {
+        SendLikeTask task = new SendLikeTask(candidateData.get(USER_ID), liked);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     private void addUserCard(int index, String[] userData) {
         Map<Integer, String> userMap = new HashMap<>();
         userMap.put(USER_NAME, userData[USER_NAME]);
@@ -268,10 +251,40 @@ public class SelectionFragment extends Fragment {
         mUsersQueue.add(userMap);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
+    private class SendLikeTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mCandidateId;
+        private final boolean mLiked;
+
+        SendLikeTask(String candidateId, boolean liked) {
+            mCandidateId = candidateId;
+            mLiked = liked;
+        }
+
+        /**
+         * @param params params
+         * @return Task successful
+         */
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return UserHandler.sendLike(UserHandler.getToken(), mCandidateId, mLiked);
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                DrTinderLogger.writeLog(DrTinderLogger.INFO, (mLiked ? "Liked  " : "Rejected ") + mCandidateId);
+                return;
+            }
+            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed: " + (mLiked ? "like  " : "reject ") + mCandidateId);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+    }
+
     private class UsersFetchTask extends AsyncTask<Void, Void, Boolean> {
 
         /**

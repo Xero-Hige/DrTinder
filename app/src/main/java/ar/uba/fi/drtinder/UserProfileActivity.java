@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -73,6 +71,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private static final String MALE = "man";
     private static final String FEMALE = "woman";
+    private static final String CATEGORY_SEX = "sex";
 
     private ImageView mProfilePic;
     private String mActivityAction;
@@ -134,7 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
             assert mEmail != null; //DEBUG Assert
         }
 
-        mProfilePic.setOnClickListener(v -> {
+        mProfilePic.setOnClickListener(data -> {
             Intent gallery = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI);
             startActivityForResult(gallery, PICK_IMAGE);
@@ -154,6 +153,10 @@ public class UserProfileActivity extends AppCompatActivity {
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             return;
         }
+        loadOldData(mUsername);
+    }
+
+    private void loadOldData(String mUsername) {
         StringResourcesHandler.executeQuery(mUsername, StringResourcesHandler.USER_INFO, UserHandler.getToken(),
                 data -> {
                     if (data == null) {
@@ -162,7 +165,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
 
                     if (data.size() == 0) {
-                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte", Utility.getViewgroup(this), "Ok");
+                        Utility.showMessage("Error de datos recibidos.\nContactese con soporte",
+                                Utility.getViewgroup(this), "Ok");
                         return;
                     }
 
@@ -176,8 +180,10 @@ public class UserProfileActivity extends AppCompatActivity {
                         sex = data.get(0)[5];
                         interest = data.get(0)[7];
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Userdata doesn't have the required number of fields");
-                        Utility.showMessage("Error en la recepcion de datos", Utility.getViewgroup(this));
+                        DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO,
+                                "Userdata doesn't have the required number of fields");
+                        Utility.showMessage("Error en la recepcion de datos",
+                                Utility.getViewgroup(this));
                         //return;
                     }
 
@@ -227,7 +233,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String trimmedCategory = category.replace("  ", " ").trim();
         String trimmedId = id.replace("  ", " ").trim();
 
-        if (trimmedCategory.equals("sex")) {
+        if (trimmedCategory.equals(CATEGORY_SEX)) {
             setLookingFor(trimmedId);
             return;
         }
@@ -240,7 +246,8 @@ public class UserProfileActivity extends AppCompatActivity {
         textView.setText(interestLabel);
         ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
         ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
+                ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(),
+                imageView, this.getApplicationContext());
         mInterestLLay.addView(layout);
         mInterestList.add(trimmedCategory + StringResourcesHandler.INTEREST_DATA_DIVIDER + trimmedId);
     }
@@ -285,7 +292,7 @@ public class UserProfileActivity extends AppCompatActivity {
             disableButtons();
             Utility.showMessage("Borrando usuario", Utility.getViewgroup(this));
             DeleteUserTask task = new DeleteUserTask(this);
-            task.execute();
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         });
 
         View deleteDiv = findViewById(R.id.deleteUserDivider);
@@ -298,14 +305,14 @@ public class UserProfileActivity extends AppCompatActivity {
         assert mSubmitButton != null; //DEBUG Assert
 
         String label = null;
-        View.OnClickListener clickListener = v -> {
+        View.OnClickListener clickListener = data -> {
         }; //Empty initialize
         if (mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             label = "Create";
-            clickListener = v -> createUser();
+            clickListener = data -> createUser();
         } else if (mActivityAction.equals(PROFILE_ACTION_UPDATE)) {
             label = "Update";
-            clickListener = v -> updateUser();
+            clickListener = data -> updateUser();
         }
 
         assert label != null;
@@ -324,7 +331,7 @@ public class UserProfileActivity extends AppCompatActivity {
         disableButtons();
         Utility.showMessage("Actualizando datos", Utility.getViewgroup(this));
         UpdateInfoTask task = new UpdateInfoTask(this);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void createUser() {
@@ -338,25 +345,12 @@ public class UserProfileActivity extends AppCompatActivity {
         Utility.showMessage("Creando usuario", viewGroup);
         String password = mPasswordView.getText().toString();
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(mEmail, password)
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed create user at FB: "
-                                + mEmail + " " + password);
-                        Utility.showMessage("Fallo al crear el usuario. Reintente mas tarde", viewGroup);
-                        enableButtons();
-                        return;
-                    }
-
-                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
-
-                    if (mProfileImage == null) {
-                        mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
-                    }
-                    CreateUserTask createTask = new CreateUserTask(this, password);
-                    createTask.execute();
-                    disableButtons();
-                });
+        if (mProfileImage == null) {
+            mProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.not_found);
+        }
+        CreateUserTask createTask = new CreateUserTask(this, password);
+        createTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        disableButtons();
     }
 
     private boolean validateFields() {
@@ -379,7 +373,6 @@ public class UserProfileActivity extends AppCompatActivity {
         userdata.put("sex", mSexMale.isChecked() ? MALE : FEMALE);
         userdata.put("localization", LocationHandler.getLocationString(this));
 
-
         String interests = "";
         for (int i = 0; i < mInterestList.size(); i++) {
             interests = interests + mInterestList.get(i);
@@ -387,16 +380,19 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         if (mSearchingMale.isChecked()) {
-            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
+            interests += CATEGORY_SEX + StringResourcesHandler.INTEREST_DATA_DIVIDER + MALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
+
         if (mSearchingFemale.isChecked()) {
-            interests += "sex" + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
+            interests += CATEGORY_SEX + StringResourcesHandler.INTEREST_DATA_DIVIDER + FEMALE
                     + StringResourcesHandler.INTEREST_DIVIDER;
         }
 
-        interests = interests.substring(0, interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
-
+        if (!interests.equals("")) {
+            interests = interests.substring(0,
+                    interests.length() - StringResourcesHandler.INTEREST_DIVIDER.length());
+        }
         userdata.put("interest", interests);
         return userdata;
     }
@@ -523,6 +519,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
+            setResult(RESULT_CANCELED);
             mContext.finish();
         }
     }

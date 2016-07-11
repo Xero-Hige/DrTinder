@@ -22,10 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.concurrent.CountDownLatch;
-
 /**
  * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
@@ -66,12 +62,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mUrl;
 
-    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-    private boolean mFirebaseLogedIn;
-    private boolean mFirebaseLoginFinished;
-
-    private CountDownLatch mLoginLatch;
-
     /**
      * Called when the activity is starting
      *
@@ -85,8 +75,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
         LocationHandler.getLocationString(this); //Forces to fetch gps info
 
-        mFirebaseLoginFinished = true;
-        mLoginLatch = new CountDownLatch(0);
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -175,31 +163,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    private void firebaseAuthenticate(String email, String password) {
-        mFirebaseLoginFinished = false;
-        mLoginLatch = new CountDownLatch(1);
-        mFirebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
-                    if (!task.isSuccessful()) {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
-                    } else {
-                        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
-                    }
-                    mFirebaseLogedIn = task.isSuccessful();
-                    mFirebaseLoginFinished = true;
-                    mLoginLatch.countDown();
-                });
-
-        if (!mFirebaseLoginFinished) {
-            try {
-                mLoginLatch.await();
-            } catch (InterruptedException e) {
-                DrTinderLogger.writeLog(DrTinderLogger.WARN, "Login latch interrupted");
-            }
-        }
-    }
-
     private void attemptRegister() {
         if (mUrl.isEnabled()) {
             String url = mUrl.getText().toString();
@@ -221,7 +184,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // perform the user login attempt.
         showProgress(true);
         mAuthTask = new UserLoginTask(email, password, this);
-        mAuthTask.execute((Void) null);
+        mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -262,7 +225,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // perform the user login attempt.
         showProgress(true);
         mRegisterTask = new RegisterTask(email, this);
-        mRegisterTask.execute((Void) null);
+        mRegisterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private boolean isEmailValid(String email) {
@@ -345,12 +308,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            //Todo: Change
-            //String mAuthToken = UserInfoHandler.getLoginToken(mUserEmail,mUserPassword, getLocationString());
-            //if (mAuthToken.equals(UserInfoHandler.NULL_TOKEN)) {
-            //    return false;
-            //}
-            //firebaseAuthenticate(mUserEmail, mUserPassword);
             return UserHandler.isValidEmail(this.mUserEmail);
         }
 
@@ -408,12 +365,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
-            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
-                return false;
-            }
+            return !mAuthToken.equals(UserHandler.FAILED_TOKEN);
 
-            firebaseAuthenticate(mUserEmail, mUserPassword);
-            return mFirebaseLogedIn;
         }
 
         @Override
@@ -435,24 +388,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 mEmailTextView.setError(getString(R.string.error_failed_login));
                 mEmailTextView.requestFocus();
                 showProgress(false);
-                return;
-            }
-
-            if (!mFirebaseLogedIn) {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(mUserEmail, mUserPassword)
-                        .addOnCompleteListener(task -> {
-                            showProgress(false);
-                            if (!task.isSuccessful()) {
-                                DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Failed to login at FB");
-                                Utility.showMessage("Fallo en Firebase. Contacte al administrador",
-                                        Utility.getViewgroup(mActivity));
-                                return;
-                            }
-
-                            DrTinderLogger.writeLog(DrTinderLogger.INFO, "Created user at FB");
-                            firebaseAuthenticate(mUserEmail, mUserPassword);
-                            startApp(this.mActivity);
-                        });
                 return;
             }
 

@@ -54,6 +54,14 @@ public final class StringResourcesHandler {
      * Query type: Information of the user
      */
     public static final int USER_INFO = 3;
+    /**
+     * Query type: New matches for the service
+     */
+    public static final int SERVICE_MATCHES = 4;
+    /**
+     * Query type: New matches for the service
+     */
+    public static final int SERVICE_CHAT = 5;
 
     /**
      * Interest string divider (divide 2 diferent interest groups)
@@ -68,6 +76,9 @@ public final class StringResourcesHandler {
     private static final String MATCHES_URL = "chats";
     private static final String CHATMSG_URL = "chats";
     private static final String USERINFO_URL = "user";
+    private static final String NEW_MATCHES_URL = "matches";
+    private static final String NEW_CHATS_URL = "chats/new";
+
 
     private StringResourcesHandler() {
     }
@@ -83,6 +94,10 @@ public final class StringResourcesHandler {
                 return url + CHATMSG_URL;
             case USER_INFO:
                 return url + USERINFO_URL;
+            case SERVICE_MATCHES:
+                return url + NEW_MATCHES_URL;
+            case SERVICE_CHAT:
+                return url + NEW_CHATS_URL;
             default:
                 return "";
         }
@@ -109,7 +124,7 @@ public final class StringResourcesHandler {
      */
     public static void executeQuery(String resId, int requestType, String token, CallbackOperation operation) {
         FetchDataTask task = new FetchDataTask(requestType, resId, token, operation);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private static List<String[]> fetchData(String queryUrl) {

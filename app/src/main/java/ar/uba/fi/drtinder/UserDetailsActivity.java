@@ -110,7 +110,8 @@ public class UserDetailsActivity extends AppCompatActivity {
             textView.setText(interestLabel);
             ImageView imageView = (ImageView) layout.findViewById(R.id.interst_img);
             ImageResourcesHandler.fillImageResource(trimmedId + trimmedCategory,
-                    ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView, this.getApplicationContext());
+                    ImageResourcesHandler.RES_INTEREST_IMG, UserHandler.getToken(), imageView,
+                    this.getApplicationContext());
             assert listLayout != null; //DEBUG Assert
             listLayout.addView(layout);
         }
