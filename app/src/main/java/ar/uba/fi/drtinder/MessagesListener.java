@@ -1,6 +1,5 @@
 package ar.uba.fi.drtinder;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.concurrent.CountDownLatch;
@@ -38,16 +37,15 @@ public final class MessagesListener {
      * Starts the listening
      *
      * @param token   user token
-     * @param context app context
      * @param session binded session
      */
-    static void startListening(String token, String friendId, Context context, ChatSession session) {
+    static void startListening(String token, String friendId, ChatSession session) {
         if (running) {
             return;
         }
         running = true;
         mSession = session;
-        task = new ChatListeningTask(token, friendId, context);
+        task = new ChatListeningTask(token, friendId);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -63,12 +61,10 @@ public final class MessagesListener {
     private static class ChatListeningTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mToken;
-        private final Context mContext;
         private final String mFriendId;
 
-        ChatListeningTask(String token, String friendId, Context context) {
+        ChatListeningTask(String token, String friendId) {
             mToken = token;
-            mContext = context;
             mFriendId = friendId;
         }
 

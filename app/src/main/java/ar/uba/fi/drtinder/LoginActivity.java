@@ -22,10 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.concurrent.CountDownLatch;
-
 /**
  * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
@@ -66,8 +62,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
     private TextView mUrl;
 
-    private CountDownLatch mLoginLatch;
-
     /**
      * Called when the activity is starting
      *
@@ -81,7 +75,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
         LocationHandler.getLocationString(this); //Forces to fetch gps info
 
-        mLoginLatch = new CountDownLatch(0);
         // Set up the login form.
 
         mEmailTextView = (EditText) findViewById(R.id.email);
@@ -168,20 +161,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // perform the user login attempt.
             executor.execute(email, password);
         }
-    }
-
-    private void firebaseAuthenticate(String email, String password) {
-        mLoginLatch = new CountDownLatch(1);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    DrTinderLogger.writeLog(DrTinderLogger.INFO, "Logged in FCM completed.");
-                    if (!task.isSuccessful()) {
-                        DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Token login in FCM failed");
-                    } else {
-                        DrTinderLogger.writeLog(DrTinderLogger.INFO, "Successfully login with token in FCM");
-                    }
-                    mLoginLatch.countDown();
-                });
     }
 
     private void attemptRegister() {
@@ -386,12 +365,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (mAuthToken.equals(UserHandler.ERROR_TOKEN)) {
                 return false;
             }
-            if (mAuthToken.equals(UserHandler.FAILED_TOKEN)) {
-                return false;
-            }
+            return !mAuthToken.equals(UserHandler.FAILED_TOKEN);
 
-            firebaseAuthenticate(mUserEmail, mUserPassword);
-            return true;
         }
 
         @Override

@@ -205,7 +205,7 @@ public class ChatSession extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         MessagesListener.startListening(UserHandler.getToken(), mFriendId
-                , this.getApplicationContext(), this);
+                , this);
     }
 
     /**
