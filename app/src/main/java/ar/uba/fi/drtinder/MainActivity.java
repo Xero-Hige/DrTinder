@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == DELETE_PROF) {
             if (resultCode == RESULT_CANCELED) {
-                this.finish();
+                //this.finish();
             }
         }
     }

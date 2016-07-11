@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Base64;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -119,6 +117,10 @@ public final class UserHandler {
             return mToken;
         } catch (HttpClientErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            if (e.getStatusCode().value() == 401) {
+                mToken = FAILED_TOKEN;
+                return FAILED_TOKEN;
+            }
             mToken = ERROR_TOKEN;
             return mToken;
         } catch (ResourceAccessException e) {
@@ -130,10 +132,6 @@ public final class UserHandler {
         int statusCode = response.getStatusCode().value();
 
         if (statusCode != 200) {
-            if (statusCode == 401) {
-                mToken = FAILED_TOKEN;
-                return FAILED_TOKEN;
-            }
             String errorMessage = "Failed login post: "
                     + response.getStatusCode().value()
                     + " " + response.getStatusCode().getReasonPhrase();
@@ -191,21 +189,7 @@ public final class UserHandler {
      * @return Logged user username
      */
     public static String getUsername() {
-        if (!isLoggedIn()) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching username");
-            return "";
-        }
-
         return getUsernameFrom(getUserEmail());
-    }
-
-    /**
-     * Checks if the system is logged in
-     *
-     * @return true if there is a logged in session
-     */
-    public static boolean isLoggedIn() {
-        return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
     /**
@@ -214,11 +198,6 @@ public final class UserHandler {
      * @return Logged user email
      */
     public static String getUserEmail() {
-        if (!isLoggedIn()) {
-            DrTinderLogger.writeLog(DrTinderLogger.ERRO, "Not logged in fetching email");
-            return "";
-        }
-
         return mUserEmail;
     }
 
@@ -251,7 +230,7 @@ public final class UserHandler {
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
         }
-        FirebaseAuth.getInstance().signOut();
+        mToken = null;
         return true;
     }
 
@@ -368,9 +347,10 @@ public final class UserHandler {
 
     /**
      * Sends a message from the active user
-     * @param token session token
+     *
+     * @param token      session token
      * @param receiverId receiver id
-     * @param message message to send
+     * @param message    message to send
      * @return true if success
      */
     public static boolean sendMessage(String token, String receiverId, String message) {
@@ -406,9 +386,10 @@ public final class UserHandler {
 
     /**
      * Sends a like/nope from the active user
-     * @param token session token
+     *
+     * @param token       session token
      * @param candidateId candidate id
-     * @param liked true if liked, false if not
+     * @param liked       true if liked, false if not
      * @return true if success
      */
     public static boolean sendLike(String token, String candidateId, boolean liked) {

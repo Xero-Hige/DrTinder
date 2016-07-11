@@ -1,6 +1,5 @@
 package ar.uba.fi.drtinder;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.concurrent.CountDownLatch;
@@ -38,16 +37,15 @@ public final class MessagesListener {
      * Starts the listening
      *
      * @param token   user token
-     * @param context app context
      * @param session binded session
      */
-    static void startListening(String token, Context context, ChatSession session) {
+    static void startListening(String token, String friendId, ChatSession session) {
         if (running) {
             return;
         }
         running = true;
         mSession = session;
-        task = new ChatListeningTask(token, context);
+        task = new ChatListeningTask(token, friendId);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
@@ -63,11 +61,11 @@ public final class MessagesListener {
     private static class ChatListeningTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mToken;
-        private final Context mContext;
+        private final String mFriendId;
 
-        ChatListeningTask(String token, Context context) {
+        ChatListeningTask(String token, String friendId) {
             mToken = token;
-            mContext = context;
+            mFriendId = friendId;
         }
 
         @Override
@@ -77,7 +75,7 @@ public final class MessagesListener {
                 try {
                     Thread.sleep(POLLING_INTERVAL);
                     CountDownLatch barrier = new CountDownLatch(1);
-                    StringResourcesHandler.executeQuery(StringResourcesHandler.SERVICE_CHAT, mToken, data -> {
+                    StringResourcesHandler.executeQuery(mFriendId, StringResourcesHandler.SERVICE_CHAT, mToken, data -> {
                         if (data == null) {
                             barrier.countDown();
                             return;
@@ -95,7 +93,7 @@ public final class MessagesListener {
                             String userId = data.get(i)[0];
                             String message = data.get(i)[1];
 
-                            mSession.addResponse(userId, message);
+                            mSession.addResponse(message, userId);
                         }
                         barrier.countDown();
                     });

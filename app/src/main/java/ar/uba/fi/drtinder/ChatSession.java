@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.siyamed.shapeimageview.BubbleImageView;
+
 /**
  * @author Xero-Hige
  * Copyright 2016 Gaston Martinez Gaston.martinez.90@gmail.com
@@ -165,6 +167,7 @@ public class ChatSession extends AppCompatActivity {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         assert appBarLayout != null; //Debug assert
         appBarLayout.setExpanded(false, true);
+        Utility.hideKeyboard(this);
     }
 
     private void addPersonalResponse(String message) {
@@ -175,7 +178,7 @@ public class ChatSession extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout = inflater.inflate(layoutId, null);
 
-        ImageView imageView = (ImageView) layout.findViewById(R.id.chat_user_img);
+        BubbleImageView imageView = (BubbleImageView) layout.findViewById(R.id.chat_user_img);
         ImageResourcesHandler.fillImageResource(userId, ImageResourcesHandler.RES_USER_IMG,
                 UserHandler.getToken(), imageView, this);
 
@@ -186,6 +189,7 @@ public class ChatSession extends AppCompatActivity {
         msgTextView.setText(message);
 
         runOnUiThread(() -> mMessagesLayout.addView(layout));
+        runOnUiThread(this::scrollToLast);
     }
 
     private void addFriendResponse(String message) {
@@ -202,7 +206,8 @@ public class ChatSession extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        MessagesListener.startListening(UserHandler.getToken(), this.getApplicationContext(), this);
+        MessagesListener.startListening(UserHandler.getToken(), mFriendId
+                , this);
     }
 
     /**
