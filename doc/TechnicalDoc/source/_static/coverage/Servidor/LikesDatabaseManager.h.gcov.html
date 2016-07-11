@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage_total.info - Servidor/LikesDatabaseManager.h</title>
+  <title>LCOV - coverage_merged.info - Servidor/LikesDatabaseManager.h</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage_total.info</td>
+            <td class="headerValue">coverage_merged.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-07 11:40:07</td>
+            <td class="headerValue">2016-07-11 17:43:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -63,18 +63,29 @@
 <a name="1"><span class="lineNum">       1 </span>            : #ifndef SOURCE_LIKESDATABASEMANAGER_H</a>
 <span class="lineNum">       2 </span>            : #define SOURCE_LIKESDATABASEMANAGER_H
 <span class="lineNum">       3 </span>            : 
-<span class="lineNum">       4 </span>            : 
-<a name="5"><span class="lineNum">       5 </span>            : #include &quot;DatabaseManager.h&quot;</a>
-<span class="lineNum">       6 </span>            : 
-<span class="lineNum">       7 </span><span class="lineCov">          1 : class LikesDatabaseManager : public DatabaseManager{</span>
-<span class="lineNum">       8 </span>            : public:
-<span class="lineNum">       9 </span>            :     LikesDatabaseManager(rocksdb::DB *database);
-<span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span>            :     bool matches(std::string user1, std::string user2);
-<span class="lineNum">      12 </span>            : };
+<span class="lineNum">       4 </span>            : #define MATCHES_OF &quot;MatchesOf&quot;
+<span class="lineNum">       5 </span>            : #define NEW_MATCHES_OF &quot;NewMatchesOf&quot;
+<span class="lineNum">       6 </span>            : #define USERS_INTERACTED_OF &quot;UserInteractedOf&quot;
+<span class="lineNum">       7 </span>            : 
+<a name="8"><span class="lineNum">       8 </span>            : #include &quot;DatabaseManager.h&quot;</a>
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span><span class="lineCov">         12 : class LikesDatabaseManager : public DatabaseManager{</span>
+<span class="lineNum">      11 </span>            : public:
+<span class="lineNum">      12 </span>            :     LikesDatabaseManager(rocksdb::DB *database);
 <span class="lineNum">      13 </span>            : 
-<span class="lineNum">      14 </span>            : 
-<span class="lineNum">      15 </span>            : #endif //SOURCE_LIKESDATABASEMANAGER_H
+<span class="lineNum">      14 </span>            :     bool matches(std::string user1, std::string user2);
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            :     void saveLike(std::string deUser, std::string aUser, std::string boolean);
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :     void getMatches(std::string deUser, std::string &amp;usenamesMatches);
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            :     void getNewMatches(std::string deUser, std::string &amp;nameMatches);
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            :     void getInteractedUsers(std::string deUser, std::string &amp;usenamesInteracted);
+<span class="lineNum">      23 </span>            : };
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            : #endif //SOURCE_LIKESDATABASEMANAGER_H
 </pre>
       </td>
     </tr>

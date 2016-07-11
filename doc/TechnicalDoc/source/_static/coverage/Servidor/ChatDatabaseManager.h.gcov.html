@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage_total.info - Servidor/ChatDatabaseManager.h</title>
+  <title>LCOV - coverage_merged.info - Servidor/ChatDatabaseManager.h</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage_total.info</td>
+            <td class="headerValue">coverage_merged.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">1</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-07 11:40:07</td>
+            <td class="headerValue">2016-07-11 17:43:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -63,22 +63,39 @@
 <a name="1"><span class="lineNum">       1 </span>            : #ifndef SOURCE_CHATDATABASEMANAGER_H</a>
 <span class="lineNum">       2 </span>            : #define SOURCE_CHATDATABASEMANAGER_H
 <span class="lineNum">       3 </span>            : 
-<span class="lineNum">       4 </span>            : 
-<a name="5"><span class="lineNum">       5 </span>            : #include &quot;DatabaseManager.h&quot;</a>
-<span class="lineNum">       6 </span>            : 
-<span class="lineNum">       7 </span><span class="lineCov">          1 : class ChatDatabaseManager : public DatabaseManager {</span>
-<span class="lineNum">       8 </span>            :     public:
-<span class="lineNum">       9 </span>            :         ChatDatabaseManager(rocksdb::DB *database);
-<span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span>            :         void saveMessage(std::string&amp; message, std::string&amp; sender, std::string&amp; receiver);
-<span class="lineNum">      12 </span>            :         bool getHistory(std::string&amp; sender, std::string&amp; receiver, std::string&amp; chat_history);
-<span class="lineNum">      13 </span>            : 
-<span class="lineNum">      14 </span>            :     void addEntry(std::string sender, std::string receiver, std::string message);
-<span class="lineNum">      15 </span>            : 
-<span class="lineNum">      16 </span>            : };
-<span class="lineNum">      17 </span>            : 
+<span class="lineNum">       4 </span>            : #define NEW_MSGS_PREFIX &quot;NewMsgsFor_&quot;
+<span class="lineNum">       5 </span>            : 
+<a name="6"><span class="lineNum">       6 </span>            : #include &quot;DatabaseManager.h&quot;</a>
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span><span class="lineCov">          4 : class ChatDatabaseManager: public DatabaseManager {</span>
+<span class="lineNum">       9 </span>            : public:
+<span class="lineNum">      10 </span>            :         ChatDatabaseManager(rocksdb::DB *database);
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            :         void saveMessage(std::string message, std::string sender,
+<span class="lineNum">      13 </span>            :                         std::string receiver);
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span>            :         /*En chat history quedan de a uno por linea
+<span class="lineNum">      16 </span>            :          *    usernameSender,msg
+<span class="lineNum">      17 </span>            :          * ordenados de mas viejo a mas nuevo.*/
 <span class="lineNum">      18 </span>            : 
-<span class="lineNum">      19 </span>            : #endif //SOURCE_CHATDATABASEMANAGER_H
+<span class="lineNum">      19 </span>            :         bool getHistory(std::string sender,
+<span class="lineNum">      20 </span>            :                         std::string receiver, std::string&amp; chat_history);
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            :         void getNewMsgs(std::string sender,std::string receiver, std::string &amp;newMsgs);
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            : private:
+<span class="lineNum">      25 </span>            : 
+<span class="lineNum">      26 </span>            :         std::string getConversationKey(std::string sender, std::string receiver);
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            :         std::string getNewMessagesKey(std::string sender, std::string receiver);
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span>            :         void saveNewMsgs(std::string messageWithSender, std::string sender,
+<span class="lineNum">      31 </span>            :                         std::string receiver);
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : };
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : #endif //SOURCE_CHATDATABASEMANAGER_H
 </pre>
       </td>
     </tr>
