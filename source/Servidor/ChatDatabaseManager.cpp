@@ -17,29 +17,33 @@ std::string ChatDatabaseManager::getConversationKey(std::string sender, std::str
     return key;
 }
 
-void ChatDatabaseManager::saveNewMsgs(std::string& message, std::string& sender, std::string& receiver){
+std::string ChatDatabaseManager::getNewMessagesKey(std::string sender, std::string receiver){
+	return NEW_MSGS_PREFIX + sender + DB_SEPARATOR + receiver;
+}
+
+void ChatDatabaseManager::saveNewMsgs(std::string messageWithSender, std::string sender, std::string receiver){
 	string currentNewMessages;
-	string conversationKey = getConversationKey(sender, receiver);
-	string newMessageskey = NEW_MSGS_PREFIX + conversationKey;
 
-	string messageWithSender = sender + DB_SEPARATOR + message;
-
+	string newMessageskey = getNewMessagesKey(sender, receiver);
 	if (!getEntry(newMessageskey, currentNewMessages)) {
 		DatabaseManager::addEntry(newMessageskey, messageWithSender + "\n");
 		return;
 	}
 	replaceEntry(newMessageskey, currentNewMessages + messageWithSender + "\n");
+
 }
 
-void ChatDatabaseManager::saveMessage(std::string& message, std::string& sender, std::string& receiver){
+void ChatDatabaseManager::saveMessage(std::string message, std::string sender, std::string receiver){
 	LOGG(INFO) << "Saving message " << message <<" from " << sender << " to " << receiver;
     string conversationHistory;
     string key;
     key = getConversationKey(sender, receiver);
 
-    this->saveNewMsgs(message,sender,receiver);
-
     string messageWithSender = sender + DB_SEPARATOR + message;
+
+    //Saving new message in both users conversations.
+    saveNewMsgs(messageWithSender,sender,receiver);
+    saveNewMsgs(messageWithSender,receiver,sender);
 
     if (! getEntry(key, conversationHistory)) {
         DatabaseManager::addEntry(key, messageWithSender + "\n");
@@ -50,28 +54,28 @@ void ChatDatabaseManager::saveMessage(std::string& message, std::string& sender,
 
 }
 
-bool ChatDatabaseManager::getHistory(std::string& sender, std::string& receiver, std::string& chat_history){
-    string aux;
+bool ChatDatabaseManager::getHistory(std::string sender, std::string receiver, std::string& chat_history){
+    string conversationHistory;
     string key;
 
     key = getConversationKey(sender, receiver);
 
-    if (! getEntry(key, aux) ) {
+    if (! getEntry(key, conversationHistory) ) {
             return false;
     }
 
-    chat_history = aux;
+    chat_history = conversationHistory;
     return true;
 }
 
 void ChatDatabaseManager::getNewMsgs(string sender, string receiver, string &newMsgs){
 	string newMessages;
-	string conversationKey = getConversationKey(sender, receiver);
-	string newMessageskey = NEW_MSGS_PREFIX + conversationKey;
+	string newMessageskey = getNewMessagesKey(sender, receiver);
 
 	if (getEntry(newMessageskey,newMessages)){
-
-		this->replaceEntry(newMessageskey,"");
+		LOGG(INFO) << "Found new messages from " << sender << " and " << receiver;
+		LOGG(INFO) << "Messages found " << newMessages;
+		this->deleteEntry(newMessageskey);
 	} else {
 		newMessages = "";
 	}

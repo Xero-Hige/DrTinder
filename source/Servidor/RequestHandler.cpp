@@ -409,7 +409,7 @@ void RequestHandler::listenNewChatGet(){
 	string newMessages;
 	char friend_name[BUFFER_SMALL_SIZE];
 
-	int parsed = mg_get_http_var(&http_msg->query_string, BODY_USER_ID, friend_name, sizeof(friend_name));
+	int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name));
 
 	if ( !parsed){
 		LOGG(WARNING) << "BAD GET NEW MESSAGES REQUEST. ";
