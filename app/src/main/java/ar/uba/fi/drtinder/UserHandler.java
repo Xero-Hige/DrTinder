@@ -74,7 +74,7 @@ public final class UserHandler {
     private static final String UPDATE_URL = "users";
     private static final String AVATAR_URL = "users/photo";
     private static final String MATCHES_URL = "matches";
-    private static final String MESSAGES_URL = "matches";
+    private static final String MESSAGES_URL = "chats";
 
     private static String mToken = ERROR_TOKEN;
 
