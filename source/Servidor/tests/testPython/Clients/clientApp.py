@@ -17,9 +17,6 @@ class ClientApp(Client):
 		self.mail = mail
 		self.token = ""
 		self.passw = passw
-
-	def getInterestPhoto(self,photo="sport"):
-		url = makeUrl([in],{"token":self.token})
 	
 	def getData(self, mail=""):
 		if mail == "":
@@ -57,12 +54,12 @@ class ClientApp(Client):
 		return self.makeRequest(GET, url)
 
 	def friends(self):
-		url= self.makeUrl([chat_url])
-		return self.makeRequest(GET,url,{"token": self.token})
+		url= self.makeUrl([chat_url], {"token": self.token})
+		return self.makeRequest(GET,url)
 
 	def chatFriend(self,id):
-		url = self.makeUrl([chat_url])
-		return self.makeRequest(GET,url,{"token": self.token, "res_id": id})
+		url = self.makeUrl([chat_url],{"token": self.token, "res_id": id})
+		return self.makeRequest(GET,url)
 
 	def modifyData(self, string_put_user_csv):
 		body="User="+string_put_user_csv
@@ -86,13 +83,13 @@ class ClientApp(Client):
 
 	def likeUser(self,user):
 		params = {"token": self.token}
-		body = "user_id=" + user + " bool=\"true\"" 
+		body = "user_id=" + user + "&bool=true" 
 		url = self.makeUrl([matches_url], params)
 		return self.makeRequest(POST,url,body)
 
 	def dislikeUser(self,user):
 		params = {"token": self.token}
-		body = "user_id=" + user + " bool=\"false\"" 
+		body = "user_id=" + user + "&bool=false" 
 		url = self.makeUrl([matches_url], params)
 		return self.makeRequest(POST,url,body)
 
@@ -104,7 +101,7 @@ class ClientApp(Client):
 	def sendMessage(self,user,msg="hola"):
 		params = {"token": self.token}
 		url = self.makeUrl([chat_url], params)
-		body= "user_id=" + user + " msg=\"" + msg + "\"" 
+		body= "user_id=" + user + "&msg=" + msg 
 		return self.makeRequest(POST,url,body)
 
 	def getNewMsgs(self,user=""):

@@ -2,13 +2,13 @@ from Clients.clientApp import ClientApp
 import unittest
 import base64
 
-mail= "dehotmail.com"
+mail1= "dehotmail.com"
 passw = "123456"
 
 mail2="copitogmail.com"
 passw2="123456"
 
-myClient = ClientApp(mail,passw)
+myClient = ClientApp(mail1,passw)
 secondClient = ClientApp(mail2,passw2)
 
 myClient.signup()
@@ -76,7 +76,7 @@ class MyTest(unittest.TestCase):
 		myClient.login()
 		myClient.sendMessage(mail2,msg)
 		secondClient.login()
-		r = secondClient.getNewMsgs()
+		r = secondClient.chatFriend(mail1)
 		self.assertNotEqual(r.text.find(msg),-1)
 
 
@@ -85,7 +85,7 @@ class MyTest(unittest.TestCase):
 		secondClient.login()
 		myClient.likeUser(mail2)
 		secondClient.likeUser(mail1)
-		r = myClient.getMatches()
+		r = myClient.friends()
 		self.assertNotEqual(r.text.find(mail2),-1)
 		r = secondClient.getNewMatches()
 		self.assertNotEqual(r.text.find(mail1),-1)		
