@@ -111,6 +111,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
 
+        LocationHandler.getLocationString(this);
+
         assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
@@ -323,8 +325,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void updateUser() {
         if (!validateFields()) {
-            ViewGroup viewGroup = Utility.getViewgroup(this);
-            Utility.showMessage("Datos incorrectos en campos obligatorios", viewGroup);
             return;
         }
 
@@ -338,7 +338,6 @@ public class UserProfileActivity extends AppCompatActivity {
         ViewGroup viewGroup = Utility.getViewgroup(this);
 
         if (!validateFields()) {
-            Utility.showMessage("Datos incorrectos en campos obligatorios", viewGroup);
             return;
         }
 
@@ -358,11 +357,21 @@ public class UserProfileActivity extends AppCompatActivity {
         String sAge = mAge.getText().toString();
 
         if (sAge.equals("") || name.equals("")) {
+            Utility.showMessage("Nombre y edad no pueden estar vacios", Utility.getViewgroup(this));
+            return false;
+        }
+
+        if (!UserHandler.isValidPassword(mPasswordView.getText().toString())) {
+            Utility.showMessage("Password invalida", Utility.getViewgroup(this));
             return false;
         }
 
         int age = Integer.parseInt(sAge);
-        return age >= 18;
+        if (age >= 18) {
+            Utility.showMessage("Debe ser mayor de 18", Utility.getViewgroup(this));
+            return false;
+        }
+        return true;
     }
 
     @NonNull
