@@ -43,7 +43,7 @@ public final class LocationHandler {
     public static final String LOCATION_FAILED = "";
 
 
-    private static String locationString = "0,0";
+    private static String locationString = "-58.367996,-34.617627";
 
     private LocationHandler() {
     }

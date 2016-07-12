@@ -104,6 +104,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         addLogoShortcut();
     }
 
+    @Override
+    protected void onStart() {
+        LocationHandler.getLocationString(this); //Forces to fetch gps info (every time)
+        super.onStart();
+    }
+
     private void addLogoShortcut() {
         ImageView logo = (ImageView) findViewById(R.id.drTinderLogo);
         logo.setOnLongClickListener(v -> {

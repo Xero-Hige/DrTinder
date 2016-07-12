@@ -111,6 +111,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         Intent activityIntent = getIntent();
 
+        LocationHandler.getLocationString(this);
+
         assert toolbar != null; //DEBUG Assert
 
         mActivityAction = activityIntent.getStringExtra(PROFILE_EXTRA_ACTION);
