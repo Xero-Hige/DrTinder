@@ -84,6 +84,8 @@ public final class LocationHandler {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
+            Utility.showMessage("La aplicacion necesita tener habilitado el gps",
+                    Utility.getViewgroup(activity));
             DrTinderLogger.writeLog(DrTinderLogger.WARN, "App needs location permission");
 
             return PERMISSION_MISSING;
