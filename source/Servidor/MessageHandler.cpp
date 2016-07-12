@@ -275,7 +275,7 @@ bool MessageHandler::postChatMsg(string receiverUserName, string message){
 
 bool MessageHandler::getNewMessages(string friend_name, string& newMessages){
 	LOGG(DEBUG) << "Fetching new messages from " << username << " and " << friend_name;
-	chatDB->getNewMsgs(friend_name, username, newMessages);
+	chatDB->getNewMsgs( username, friend_name, newMessages);
 	return true;
 }
 
