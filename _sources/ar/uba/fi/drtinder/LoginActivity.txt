@@ -95,3 +95,9 @@ onLoaderReset
 
    :param cursorLoader: The Loader that is being reset.
 
+onStart
+^^^^^^^
+
+.. java:method:: @Override protected void onStart()
+   :outertype: LoginActivity
+

@@ -98,13 +98,17 @@
 <li class="toctree-l3"><a class="reference internal" href="#signup">SignUp</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modificar-info">Modificar Info</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#delete-user">Delete user</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#like-dislike">Like/Dislike</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#matches-concretados">Matches concretados</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Nuevos matches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#historial-chat">Historial chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enviar-mensaje">Enviar mensaje</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nuevos-mensajes">Nuevos mensajes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bad-token-request">Bad token Request</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bad-url-request">Bad Url Request</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="coverage.html">Coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="knownBugs.html">Known Bugs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">Shared Server</a></li>
@@ -172,9 +176,13 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Headers</strong></p>
-<p>Authorization: username=&#8221;mi_username&#8221; pass=&#8221;mi_contraseña&#8221;</p>
+<ul class="simple">
+<li>Authorization: username=&lt;mi_username&gt; pass=&lt;mi_contraseña&gt;</li>
+</ul>
 <p><strong>Body</strong></p>
-<p class="last">localization=0.125,1.25</p>
+<ul class="last simple">
+<li>localization=0.125,1.25</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -199,7 +207,9 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;&amp;res_id=&#8221;aaaaaa.com&#8221;</p>
+<ul class="last simple">
+<li>token=&lt;mi_token&gt;&amp;res_id=aaaaaa.com</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -212,8 +222,8 @@
 <h2>Foto de usuario<a class="headerlink" href="#foto-de-usuario" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="23%" />
-<col width="77%" />
+<col width="22%" />
+<col width="78%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>URL</td>
@@ -224,7 +234,9 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;&amp;res_id=&#8221;aaaaaa.com&#8221;</p>
+<ul class="last simple">
+<li>token=&#8221;&lt;mi_token&gt;&#8221;&amp;res_id=&#8221;aaaaaa.com&#8221;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -249,7 +261,9 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<ul class="last simple">
+<li>token=&#8221;&lt;mi_token&gt;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -274,13 +288,15 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<ul class="last simple">
+<li>token=&#8221;&lt;mi_token&gt;&#8221;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
-<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
-<p>“2&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
-<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;\n</p>
+<p>“2&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;\n</p>
+<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;\n</p>
 </td>
 </tr>
 </tbody>
@@ -302,9 +318,13 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Headers</strong></p>
-<p>Authorization: username=&#8221;mi_username&#8221; pass=&#8221;mi_contraseña&#8221;</p>
+<ul class="simple">
+<li>Authorization: username=&#8221;mi_username&#8221; pass=&#8221;mi_contraseña&#8221;</li>
+</ul>
 <p><strong>Body</strong></p>
-<p class="last">User=“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;</p>
+<ul class="last simple">
+<li>User=“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -329,9 +349,13 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-Params</strong></p>
-<p>token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<ul class="simple">
+<li>token=&#8221;&lt;mi_token&gt;&#8221;</li>
+</ul>
 <p><strong>Body</strong></p>
-<p class="last">User=“name&#8221;,&#8221;25&#8221;,&#8221;man&#8221;,&#8221;music::rock||food::meat&#8221;</p>
+<ul class="last simple">
+<li>User=“name&#8221;,&#8221;25&#8221;,&#8221;man&#8221;,&#8221;music::rock||food::meat&#8221;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -356,7 +380,40 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-Params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<ul class="last simple">
+<li>token=&#8221;&lt;mi_token&gt;&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 200</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="like-dislike">
+<h2>Like/Dislike<a class="headerlink" href="#like-dislike" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/matches</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<ul class="simple">
+<li>token=&lt;token&gt;</li>
+</ul>
+<p><strong>Body</strong></p>
+<ul class="last simple">
+<li>user_id=&lt;token&gt;&amp;bool=&lt;true/false&gt;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -381,12 +438,134 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Url-Params</strong></p>
-<p class="last">token=&#8221;&lt;mi_token&gt;&#8221;</p>
+<ul class="last simple">
+<li>token=&lt;mi_token&gt;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
-<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
-<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;n</p>
+<td><p class="first">“1&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;\n</p>
+<p class="last">“3&#8221;,“name&#8221;,&#8221;25&#8221;,&#8221;alias&#8221;,&#8221;<a class="reference external" href="mailto:aaa&#37;&#52;&#48;aaa&#46;com">aaa<span>&#64;</span>aaa<span>&#46;</span>com</a>&#8221;,&#8221;man&#8221;,&#8221;Me interesan la gente divertida&#8221;,&#8221;music::rock||food::meat&#8221;\n</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h2>Nuevos matches<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/matches</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<ul class="last simple">
+<li>token=&lt;token&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td><p class="first">name1n</p>
+<p class="last">name2n</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="historial-chat">
+<h2>Historial chat<a class="headerlink" href="#historial-chat" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/chat</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<ul class="last simple">
+<li>token=&lt;token&gt;&amp;res_id=&lt;username&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td><p class="first">&lt;sender&gt;,&lt;msg&gt;\n</p>
+<p>&lt;sender&gt;,&lt;msg&gt;\n</p>
+<p class="last">...</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="enviar-mensaje">
+<h2>Enviar mensaje<a class="headerlink" href="#enviar-mensaje" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/chats</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>POST</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<ul class="simple">
+<li>token=&lt;token&gt;</li>
+</ul>
+<p><strong>Body</strong></p>
+<ul class="last simple">
+<li>user_id=&lt;username&gt;&amp;msg=&lt;msg&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td>HTTP 201</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="nuevos-mensajes">
+<h2>Nuevos mensajes<a class="headerlink" href="#nuevos-mensajes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td><a class="reference external" href="http:/">http:/</a>/&lt;server&gt;/chats/new</td>
+</tr>
+<tr class="row-even"><td>HTTP VERB</td>
+<td>GET</td>
+</tr>
+<tr class="row-odd"><td>PARAMETROS</td>
+<td><p class="first"><strong>Url-params</strong></p>
+<ul class="last simple">
+<li>token=&lt;token&gt;&amp;res_id=&lt;username&gt;</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>RESPUESTA</td>
+<td><p class="first">sender,msg\n</p>
+<p>senedr,msg\n</p>
+<p class="last">...</p>
 </td>
 </tr>
 </tbody>
@@ -408,12 +587,18 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Headers</strong></p>
-<p>Any</p>
+<ul class="simple">
+<li>Any</li>
+</ul>
 <p><strong>Body</strong></p>
-<p>Any</p>
+<ul class="simple">
+<li>Any</li>
+</ul>
 <p><strong>Url-params</strong></p>
-<p>Any</p>
-<p class="last">token=&#8221;&lt;bad_token&gt;&#8221;</p>
+<ul class="last simple">
+<li>Any</li>
+<li>token=&lt;bad_token&gt;</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -438,11 +623,17 @@
 </tr>
 <tr class="row-odd"><td>PARAMETROS</td>
 <td><p class="first"><strong>Headers</strong></p>
-<p>Any</p>
+<ul class="simple">
+<li>Any</li>
+</ul>
 <p><strong>Body</strong></p>
-<p>Any</p>
+<ul class="simple">
+<li>Any</li>
+</ul>
 <p><strong>Url-params</strong></p>
-<p class="last">Any</p>
+<ul class="last simple">
+<li>Any</li>
+</ul>
 </td>
 </tr>
 <tr class="row-even"><td>RESPUESTA</td>
@@ -473,7 +664,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 11, 2016.
+      Last updated on Jul 12, 2016.
 
     </p>
   </div>

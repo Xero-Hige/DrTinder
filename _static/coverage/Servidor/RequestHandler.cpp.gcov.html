@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage_total.info - Servidor/RequestHandler.cpp</title>
+  <title>LCOV - coverage_merged.info - Servidor/RequestHandler.cpp</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,21 +28,21 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage_total.info</td>
+            <td class="headerValue">coverage_merged.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">148</td>
-            <td class="headerCovTableEntry">198</td>
-            <td class="headerCovTableEntryLo">74.7 %</td>
+            <td class="headerCovTableEntry">230</td>
+            <td class="headerCovTableEntry">307</td>
+            <td class="headerCovTableEntryLo">74.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-07 11:40:07</td>
+            <td class="headerValue">2016-07-11 17:43:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">21</td>
-            <td class="headerCovTableEntry">23</td>
-            <td class="headerCovTableEntryHi">91.3 %</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntryHi">96.7 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -63,307 +63,433 @@
 <a name="1"><span class="lineNum">       1 </span>            : #include &quot;RequestHandler.h&quot;</a>
 <span class="lineNum">       2 </span>            : 
 <span class="lineNum">       3 </span>            : #define MAX_LEN_TOKEN_BUFFER 100
-<a name="4"><span class="lineNum">       4 </span>            : #define BUFFER_SMALL_SIZE 100</a>
-<span class="lineNum">       5 </span>            : 
-<span class="lineNum">       6 </span><span class="lineCov">        162 : RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :</span>
-<span class="lineNum">       7 </span><span class="lineCov">        162 :     connection(pConnection), http_msg(pMessage) {</span>
-<span class="lineNum">       8 </span><span class="lineCov">        162 :         server_databases_t *databases = ((server_databases_t *) connection-&gt;user_data);</span>
-<span class="lineNum">       9 </span><span class="lineCov">        162 :         msgHandler = new MessageHandler(databases);</span>
-<span class="lineNum">      10 </span><span class="lineCov">        162 :         msgHandler-&gt;setSharedLink(shared);</span>
-<span class="lineNum">      11 </span><span class="lineCov">        162 : }</span>
-<a name="12"><span class="lineNum">      12 </span>            : </a>
+<span class="lineNum">       4 </span>            : #define BUFFER_SMALL_SIZE 100
+<a name="5"><span class="lineNum">       5 </span>            : #define BUFFER_MSG_SIZE 1000</a>
+<span class="lineNum">       6 </span>            : 
+<span class="lineNum">       7 </span><span class="lineCov">        158 : RequestHandler::RequestHandler(http_message *pMessage, mg_connection *pConnection, std::string shared) :</span>
+<span class="lineNum">       8 </span><span class="lineCov">        158 :     connection(pConnection), http_msg(pMessage) {</span>
+<span class="lineNum">       9 </span><span class="lineCov">        158 :         server_databases_t *databases = ((server_databases_t *) connection-&gt;user_data);</span>
+<span class="lineNum">      10 </span><span class="lineCov">        158 :         msgHandler = new MessageHandler(databases);</span>
+<span class="lineNum">      11 </span><span class="lineCov">        158 :         msgHandler-&gt;setSharedLink(shared);</span>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">        158 : }</span></a>
 <span class="lineNum">      13 </span>            : 
-<span class="lineNum">      14 </span><span class="lineCov">        162 : RequestHandler::~RequestHandler() {</span>
-<span class="lineNum">      15 </span><span class="lineCov">        162 :         delete msgHandler;</span>
-<a name="16"><span class="lineNum">      16 </span><span class="lineCov">        161 : }</span></a>
+<span class="lineNum">      14 </span><span class="lineCov">        158 : RequestHandler::~RequestHandler() {</span>
+<span class="lineNum">      15 </span><span class="lineCov">        158 :         delete msgHandler;</span>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">        158 : }</span></a>
 <span class="lineNum">      17 </span>            : 
-<span class="lineNum">      18 </span><span class="lineCov">         14 : void RequestHandler::sendHttpLine(int status_code) {</span>
-<span class="lineNum">      19 </span><span class="lineCov">         14 :         sendHttpReply(&quot;&quot;,&quot;&quot;,status_code);</span>
-<a name="20"><span class="lineNum">      20 </span><span class="lineCov">         14 : }</span></a>
+<span class="lineNum">      18 </span><span class="lineCov">         10 : void RequestHandler::sendHttpLine(int status_code) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">         10 :         sendHttpReply(&quot;&quot;,&quot;&quot;,status_code);</span>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">         10 : }</span></a>
 <span class="lineNum">      21 </span>            : 
-<span class="lineNum">      22 </span><span class="lineCov">         45 : void RequestHandler::sendHttpReply(std::string reply, std::string content_type, int status) {</span>
-<span class="lineNum">      23 </span><span class="lineCov">         45 :         LOGG(DEBUG) &lt;&lt; &quot;Sending reply: &quot;&lt;&lt; status;</span>
+<span class="lineNum">      22 </span><span class="lineCov">         40 : void RequestHandler::sendHttpReply(std::string reply, std::string content_type, int status) {</span>
+<span class="lineNum">      23 </span><span class="lineCov">         40 :         LOGG(DEBUG) &lt;&lt; &quot;Sending reply: &quot;&lt;&lt; status;</span>
 <span class="lineNum">      24 </span>            :         mg_printf(connection, &quot;HTTP/1.1 %d\r\n&quot;
 <span class="lineNum">      25 </span>            :                       &quot;Content-Type: %s\r\n&quot;
 <span class="lineNum">      26 </span>            :                       &quot;Content-Length: %d\r\n&quot;
 <span class="lineNum">      27 </span>            :                       &quot;\r\n&quot;
 <span class="lineNum">      28 </span>            :                       &quot;%s&quot;, status, content_type.c_str(),
-<span class="lineNum">      29 </span><span class="lineCov">         45 :               (int) reply.size(), reply.c_str());</span>
-<span class="lineNum">      30 </span><span class="lineCov">         45 :         LOGG(DEBUG) &lt;&lt; &quot;Content type: &quot; &lt;&lt; content_type;</span>
-<span class="lineNum">      31 </span><span class="lineCov">         45 :         LOGG(DEBUG) &lt;&lt; &quot;Content length: &quot; &lt;&lt; reply.size();</span>
-<span class="lineNum">      32 </span><span class="lineCov">         45 :         if (reply.length() &gt; 50){</span>
-<span class="lineNum">      33 </span><span class="lineCov">          5 :                 LOGG(DEBUG) &lt;&lt; &quot;Body: &quot; &lt;&lt; reply.substr(0,49) &lt;&lt; &quot;...&quot;;</span>
+<span class="lineNum">      29 </span><span class="lineCov">         40 :               (int) reply.size(), reply.c_str());</span>
+<span class="lineNum">      30 </span><span class="lineCov">         40 :         LOGG(DEBUG) &lt;&lt; &quot;Content type: &quot; &lt;&lt; content_type;</span>
+<span class="lineNum">      31 </span><span class="lineCov">         40 :         LOGG(DEBUG) &lt;&lt; &quot;Content length: &quot; &lt;&lt; reply.size();</span>
+<span class="lineNum">      32 </span><span class="lineCov">         40 :         if (reply.length() &gt; 50){</span>
+<span class="lineNum">      33 </span><span class="lineCov">          6 :                 LOGG(DEBUG) &lt;&lt; &quot;Body: &quot; &lt;&lt; reply.substr(0,49) &lt;&lt; &quot;...&quot;;</span>
 <span class="lineNum">      34 </span>            :         }else{
-<span class="lineNum">      35 </span><span class="lineCov">         40 :                 LOGG(DEBUG) &lt;&lt; &quot;Body: &quot; &lt;&lt; reply;</span>
+<span class="lineNum">      35 </span><span class="lineCov">         34 :                 LOGG(DEBUG) &lt;&lt; &quot;Body: &quot; &lt;&lt; reply;</span>
 <span class="lineNum">      36 </span>            :         }
 <span class="lineNum">      37 </span>            : 
-<a name="38"><span class="lineNum">      38 </span><span class="lineCov">         45 : }</span></a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineCov">         40 : }</span></a>
 <span class="lineNum">      39 </span>            : 
-<span class="lineNum">      40 </span><span class="lineCov">         26 : bool RequestHandler::validateToken() {</span>
+<span class="lineNum">      40 </span><span class="lineCov">         22 : bool RequestHandler::validateToken() {</span>
 <span class="lineNum">      41 </span>            :     char buffer[MAX_LEN_TOKEN_BUFFER];
-<span class="lineNum">      42 </span><span class="lineCov">         26 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));</span>
-<span class="lineNum">      43 </span>            : 
-<span class="lineNum">      44 </span><span class="lineCov">         26 :     std::string token(buffer);</span>
-<span class="lineNum">      45 </span><span class="lineCov">         26 :     LOGG(DEBUG) &lt;&lt; &quot;Validating Token for connection: &quot; &lt;&lt; token;</span>
-<span class="lineNum">      46 </span><span class="lineCov">         26 :     if (! msgHandler-&gt;validateToken(token)) {</span>
-<span class="lineNum">      47 </span><span class="lineCov">         10 :         this-&gt;sendHttpReply(&quot;&quot;, &quot;&quot;, AUTHENTICATION_ERROR);</span>
-<span class="lineNum">      48 </span><span class="lineCov">         10 :         return false;</span>
-<span class="lineNum">      49 </span>            :     }
-<span class="lineNum">      50 </span><span class="lineCov">         16 :     LOGG(DEBUG) &lt;&lt; &quot;Valid token&quot;;</span>
-<span class="lineNum">      51 </span><span class="lineCov">         16 :     return true;</span>
-<a name="52"><span class="lineNum">      52 </span>            : }</a>
-<span class="lineNum">      53 </span>            : 
-<span class="lineNum">      54 </span><span class="lineCov">          4 : void RequestHandler::rejectConnection(int error_code) {</span>
-<span class="lineNum">      55 </span><span class="lineCov">          4 :         LOGG(DEBUG) &lt;&lt; &quot;Rejected Connection &quot; &lt;&lt; error_code;</span>
-<span class="lineNum">      56 </span><span class="lineCov">          4 :     sendHttpLine(error_code);</span>
-<span class="lineNum">      57 </span><span class="lineCov">          4 :     connection-&gt;flags |= MG_F_SEND_AND_CLOSE;</span>
-<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          4 : }</span></a>
-<span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span><span class="lineCov">         18 : bool RequestHandler::parseAuthorization(string &amp;user, string &amp;pass) {</span>
-<span class="lineNum">      61 </span>            :         char user_[BUFFER_SMALL_SIZE], pass_[BUFFER_SMALL_SIZE];
-<span class="lineNum">      62 </span>            :         
-<span class="lineNum">      63 </span><span class="lineCov">         18 :     struct mg_str *hdr = mg_get_http_header(http_msg, AUTHORIZATION_HEADER);</span>
-<span class="lineNum">      64 </span><span class="lineCov">         18 :     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_USER, user_, sizeof(user_));</span>
-<span class="lineNum">      65 </span><span class="lineCov">         18 :     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_PASS, pass_, sizeof(pass_));</span>
-<span class="lineNum">      66 </span>            : 
-<span class="lineNum">      67 </span>            : 
-<span class="lineNum">      68 </span><span class="lineCov">         18 :     if (! is_equal(&amp;http_msg-&gt;uri, USERS_URI) &amp;&amp; ! is_equal(&amp;http_msg-&gt;uri, USER_URI)) {</span>
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Cannot authenticae to this uri&quot;;</span>
-<span class="lineNum">      70 </span><span class="lineNoCov">          0 :         rejectConnection(NOT_IMPLEMENTED);</span>
-<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         return false;</span>
-<span class="lineNum">      72 </span>            :     }
-<span class="lineNum">      73 </span><span class="lineCov">         18 :     user = std::string(user_);</span>
-<span class="lineNum">      74 </span><span class="lineCov">         18 :     pass =  std::string(pass_);</span>
-<span class="lineNum">      75 </span><span class="lineCov">         18 :     LOGG(DEBUG) &lt;&lt; &quot;Auth header parsed for &quot; &lt;&lt; user;</span>
-<span class="lineNum">      76 </span><span class="lineCov">         18 :     return true;</span>
-<a name="77"><span class="lineNum">      77 </span>            : }</a>
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">         26 : bool RequestHandler::login() {</span>
-<span class="lineNum">      80 </span><span class="lineCov">         26 :         return validateToken();</span>
-<a name="81"><span class="lineNum">      81 </span>            : }</a>
-<span class="lineNum">      82 </span>            : 
-<span class="lineNum">      83 </span><span class="lineCov">         10 : void RequestHandler::listenUserPost() {</span>
-<span class="lineNum">      84 </span><span class="lineCov">         10 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
-<span class="lineNum">      85 </span><span class="lineCov">         19 :     string user, pass;</span>
-<span class="lineNum">      86 </span><span class="lineCov">         10 :     if (! parseAuthorization(user, pass)) {</span>
-<span class="lineNum">      87 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">      88 </span>            :     }
-<span class="lineNum">      89 </span><span class="lineCov">         10 :     if (! msgHandler-&gt;authenticate(user, pass) ) {</span>
-<span class="lineNum">      90 </span><span class="lineCov">          1 :         rejectConnection(UNAUTHORIZED);</span>
-<span class="lineNum">      91 </span><span class="lineCov">          1 :         return;</span>
-<span class="lineNum">      92 </span>            :     }
-<span class="lineNum">      93 </span><span class="lineCov">          9 :     msgHandler-&gt;setUser(user);</span>
-<span class="lineNum">      94 </span><span class="lineCov">          9 :     LOGG(DEBUG) &lt;&lt; &quot;Logged in: &quot; &lt;&lt; user;</span>
-<span class="lineNum">      95 </span>            :     char localization[500];
-<span class="lineNum">      96 </span><span class="lineCov">          9 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, USER_LOCATION_TOKEN, localization, sizeof(localization));</span>
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span><span class="lineCov">          9 :     if (parsed &lt;= 0 ){</span>
-<span class="lineNum">      99 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     100 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     101 </span>            :     }
-<span class="lineNum">     102 </span><span class="lineCov">          9 :     bool updated = msgHandler-&gt;addLocalization(std::string(localization));</span>
-<span class="lineNum">     103 </span><span class="lineCov">          9 :     if (! updated){</span>
-<span class="lineNum">     104 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     105 </span>            :     }else{
-<span class="lineNum">     106 </span><span class="lineCov">          9 :         string token = msgHandler-&gt;getToken();</span>
-<span class="lineNum">     107 </span><span class="lineCov">          9 :         sendHttpReply(token,CONTENT_TYPE_HEADER_PLAIN,STATUS_OK);</span>
-<span class="lineNum">     108 </span><span class="lineCov">          9 :     }</span>
-<a name="109"><span class="lineNum">     109 </span>            : }</a>
-<span class="lineNum">     110 </span>            : 
-<span class="lineNum">     111 </span><span class="lineCov">          5 : void RequestHandler::listenUserGet() {</span>
-<span class="lineNum">     112 </span><span class="lineCov">          5 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
-<span class="lineNum">     113 </span>            :     char username[BUFFER_SMALL_SIZE];
-<span class="lineNum">     114 </span><span class="lineCov">          5 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, username, sizeof(username));</span>
-<span class="lineNum">     115 </span>            : 
-<span class="lineNum">     116 </span><span class="lineCov">          5 :     if (parsed &lt;= 0 ) {</span>
-<span class="lineNum">     117 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     118 </span><span class="lineCov">          5 :         return;</span>
-<span class="lineNum">     119 </span>            :     }
-<span class="lineNum">     120 </span><span class="lineCov">          5 :     std::string user_data;</span>
-<span class="lineNum">     121 </span><span class="lineCov">          5 :     msgHandler-&gt;getUser(std::string(username), user_data);</span>
-<span class="lineNum">     122 </span>            : 
-<span class="lineNum">     123 </span><span class="lineCov">          5 :     sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
-<a name="124"><span class="lineNum">     124 </span>            : }</a>
+<span class="lineNum">      42 </span><span class="lineCov">         22 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, TOKEN_VARIABLE_NAME, buffer, sizeof(buffer));</span>
+<span class="lineNum">      43 </span><span class="lineCov">         22 :     if (!parsed){</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">      46 </span>            :     }
+<span class="lineNum">      47 </span><span class="lineCov">         22 :     std::string token(buffer);</span>
+<span class="lineNum">      48 </span><span class="lineCov">         22 :     LOGG(DEBUG) &lt;&lt; &quot;Validating Token for connection: &quot; &lt;&lt; token;</span>
+<span class="lineNum">      49 </span><span class="lineCov">         22 :     if (! msgHandler-&gt;validateToken(token)) {</span>
+<span class="lineNum">      50 </span><span class="lineCov">          3 :         this-&gt;sendHttpReply(&quot;&quot;, &quot;&quot;, AUTHENTICATION_ERROR);</span>
+<span class="lineNum">      51 </span><span class="lineCov">          3 :         return false;</span>
+<span class="lineNum">      52 </span>            :     }
+<span class="lineNum">      53 </span><span class="lineCov">         19 :     LOGG(DEBUG) &lt;&lt; &quot;Valid token&quot;;</span>
+<span class="lineNum">      54 </span><span class="lineCov">         19 :     return true;</span>
+<a name="55"><span class="lineNum">      55 </span>            : }</a>
+<span class="lineNum">      56 </span>            : 
+<span class="lineNum">      57 </span><span class="lineCov">          1 : void RequestHandler::rejectConnection(int error_code) {</span>
+<span class="lineNum">      58 </span><span class="lineCov">          1 :         LOGG(DEBUG) &lt;&lt; &quot;Rejected Connection &quot; &lt;&lt; error_code;</span>
+<span class="lineNum">      59 </span><span class="lineCov">          1 :     sendHttpLine(error_code);</span>
+<span class="lineNum">      60 </span><span class="lineCov">          1 :     connection-&gt;flags |= MG_F_SEND_AND_CLOSE;</span>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">         17 : bool RequestHandler::parseAuthorization(string &amp;user, string &amp;pass) {</span>
+<span class="lineNum">      64 </span>            :         char user_[BUFFER_SMALL_SIZE], pass_[BUFFER_SMALL_SIZE];
+<span class="lineNum">      65 </span>            :         
+<span class="lineNum">      66 </span><span class="lineCov">         17 :     struct mg_str *hdr = mg_get_http_header(http_msg, AUTHORIZATION_HEADER);</span>
+<span class="lineNum">      67 </span><span class="lineCov">         17 :     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_USER, user_, sizeof(user_));</span>
+<span class="lineNum">      68 </span><span class="lineCov">         17 :     mg_http_parse_header(hdr, AUTHORIZATION_HEADER_PASS, pass_, sizeof(pass_));</span>
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">         17 :     if (! is_equal(&amp;http_msg-&gt;uri, USERS_URI) &amp;&amp; ! is_equal(&amp;http_msg-&gt;uri, USER_URI)) {</span>
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Cannot authenticae to this uri&quot;;</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :         rejectConnection(NOT_IMPLEMENTED);</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :         return false;</span>
+<span class="lineNum">      75 </span>            :     }
+<span class="lineNum">      76 </span><span class="lineCov">         17 :     user = std::string(user_);</span>
+<span class="lineNum">      77 </span><span class="lineCov">         17 :     pass =  std::string(pass_);</span>
+<span class="lineNum">      78 </span><span class="lineCov">         17 :     LOGG(DEBUG) &lt;&lt; &quot;Auth header parsed for &quot; &lt;&lt; user;</span>
+<span class="lineNum">      79 </span><span class="lineCov">         17 :     return true;</span>
+<a name="80"><span class="lineNum">      80 </span>            : }</a>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineCov">         22 : bool RequestHandler::login() {</span>
+<span class="lineNum">      83 </span><span class="lineCov">         22 :         return validateToken();</span>
+<a name="84"><span class="lineNum">      84 </span>            : }</a>
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span><span class="lineCov">         15 : void RequestHandler::listenUserPost() {</span>
+<span class="lineNum">      87 </span><span class="lineCov">         15 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
+<span class="lineNum">      88 </span><span class="lineCov">         30 :     string user, pass;</span>
+<span class="lineNum">      89 </span><span class="lineCov">         15 :     if (! parseAuthorization(user, pass)) {</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      91 </span>            :     }
+<span class="lineNum">      92 </span><span class="lineCov">         15 :     if (! msgHandler-&gt;authenticate(user, pass) ) {</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 :         rejectConnection(UNAUTHORIZED);</span>
+<span class="lineNum">      94 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">      95 </span>            :     }
+<span class="lineNum">      96 </span><span class="lineCov">         15 :     msgHandler-&gt;setUser(user);</span>
+<span class="lineNum">      97 </span><span class="lineCov">         15 :     LOGG(DEBUG) &lt;&lt; &quot;Logged in: &quot; &lt;&lt; user;</span>
+<span class="lineNum">      98 </span>            :     char localization[500];
+<span class="lineNum">      99 </span><span class="lineCov">         15 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, USER_LOCATION_TOKEN, localization, sizeof(localization));</span>
+<span class="lineNum">     100 </span>            : 
+<span class="lineNum">     101 </span><span class="lineCov">         15 :     if (parsed &lt;= 0 ){</span>
+<span class="lineNum">     102 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     104 </span>            :     }
+<span class="lineNum">     105 </span><span class="lineCov">         15 :     bool updated = msgHandler-&gt;addLocalization(std::string(localization));</span>
+<span class="lineNum">     106 </span><span class="lineCov">         15 :     if (! updated){</span>
+<span class="lineNum">     107 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     108 </span>            :     }else{
+<span class="lineNum">     109 </span><span class="lineCov">         15 :         string token = msgHandler-&gt;getToken();</span>
+<span class="lineNum">     110 </span><span class="lineCov">         15 :         sendHttpReply(token,CONTENT_TYPE_HEADER_PLAIN,STATUS_OK);</span>
+<span class="lineNum">     111 </span><span class="lineCov">         15 :     }</span>
+<a name="112"><span class="lineNum">     112 </span>            : }</a>
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span><span class="lineCov">          3 : void RequestHandler::listenUserGet() {</span>
+<span class="lineNum">     115 </span><span class="lineCov">          3 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
+<span class="lineNum">     116 </span>            :     char username[BUFFER_SMALL_SIZE];
+<span class="lineNum">     117 </span><span class="lineCov">          3 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, username, sizeof(username));</span>
+<span class="lineNum">     118 </span>            : 
+<span class="lineNum">     119 </span><span class="lineCov">          3 :     if (parsed &lt;= 0 ) {</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     121 </span><span class="lineCov">          3 :         return;</span>
+<span class="lineNum">     122 </span>            :     }
+<span class="lineNum">     123 </span><span class="lineCov">          3 :     std::string user_data;</span>
+<span class="lineNum">     124 </span><span class="lineCov">          3 :     msgHandler-&gt;getUser(std::string(username), user_data);</span>
 <span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span><span class="lineCov">         15 : void RequestHandler::listenUserRequest() {</span>
-<span class="lineNum">     127 </span><span class="lineCov">         15 :         LOGG(DEBUG) &lt;&lt; &quot;Listening User Request&quot;;</span>
-<span class="lineNum">     128 </span><span class="lineCov">         15 :     if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
-<span class="lineNum">     129 </span><span class="lineCov">         10 :         listenUserPost();</span>
-<span class="lineNum">     130 </span><span class="lineCov">         10 :         return;</span>
-<span class="lineNum">     131 </span>            :     }
-<span class="lineNum">     132 </span>            : 
-<span class="lineNum">     133 </span><span class="lineCov">          5 :     if (! login()) {</span>
-<span class="lineNum">     134 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     135 </span>            :     }
-<span class="lineNum">     136 </span>            : 
-<span class="lineNum">     137 </span><span class="lineCov">          5 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
-<span class="lineNum">     138 </span><span class="lineCov">          5 :         listenUserGet();</span>
-<span class="lineNum">     139 </span><span class="lineCov">          5 :         return;</span>
-<span class="lineNum">     140 </span>            :     }
-<span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span><span class="lineNoCov">          0 :     sendHttpLine(NOT_IMPLEMENTED);</span>
-<a name="143"><span class="lineNum">     143 </span>            : }</a>
+<span class="lineNum">     126 </span><span class="lineCov">          3 :     sendHttpReply(user_data, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
+<a name="127"><span class="lineNum">     127 </span>            : }</a>
+<span class="lineNum">     128 </span>            : 
+<span class="lineNum">     129 </span><span class="lineCov">         18 : void RequestHandler::listenUserRequest() {</span>
+<span class="lineNum">     130 </span><span class="lineCov">         18 :         LOGG(DEBUG) &lt;&lt; &quot;Listening User Request&quot;;</span>
+<span class="lineNum">     131 </span><span class="lineCov">         18 :     if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
+<span class="lineNum">     132 </span><span class="lineCov">         15 :         listenUserPost();</span>
+<span class="lineNum">     133 </span><span class="lineCov">         15 :         return;</span>
+<span class="lineNum">     134 </span>            :     }
+<span class="lineNum">     135 </span>            : 
+<span class="lineNum">     136 </span><span class="lineCov">          3 :     if (! login()) {</span>
+<span class="lineNum">     137 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     138 </span>            :     }
+<span class="lineNum">     139 </span>            : 
+<span class="lineNum">     140 </span><span class="lineCov">          3 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     141 </span><span class="lineCov">          3 :         listenUserGet();</span>
+<span class="lineNum">     142 </span><span class="lineCov">          3 :         return;</span>
+<span class="lineNum">     143 </span>            :     }
 <span class="lineNum">     144 </span>            : 
-<span class="lineNum">     145 </span><span class="lineCov">          8 : void RequestHandler::listenUsersPost() {</span>
-<span class="lineNum">     146 </span><span class="lineCov">          8 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
-<span class="lineNum">     147 </span>            :     char user_data[1000];
-<span class="lineNum">     148 </span><span class="lineCov">         16 :     string user, pass;</span>
-<span class="lineNum">     149 </span><span class="lineCov">          8 :     if (! parseAuthorization(user, pass)) {</span>
-<span class="lineNum">     150 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     151 </span>            :     }
-<span class="lineNum">     152 </span><span class="lineCov">          8 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER, user_data, sizeof(user_data));</span>
-<span class="lineNum">     153 </span><span class="lineCov">          8 :     if (parsed &lt;= 0 ) {</span>
-<span class="lineNum">     154 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     155 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     156 </span>            :     }
-<span class="lineNum">     157 </span>            :     try {
-<span class="lineNum">     158 </span><span class="lineCov">          8 :         msgHandler-&gt;setUser( user );</span>
-<span class="lineNum">     159 </span><span class="lineCov">         11 :         bool created = msgHandler-&gt;createUser(std::string(user_data), std::string(pass));</span>
-<span class="lineNum">     160 </span><span class="lineCov">          5 :         if (! created){</span>
-<span class="lineNum">     161 </span><span class="lineNoCov">          0 :             LOGG(DEBUG) &lt;&lt; &quot;Cannot create user &quot;  &lt;&lt; user;</span>
-<span class="lineNum">     162 </span><span class="lineNoCov">          0 :             rejectConnection(BAD_REQUEST);</span>
-<span class="lineNum">     163 </span>            :         }else{
-<span class="lineNum">     164 </span><span class="lineCov">          5 :             sendHttpReply(msgHandler-&gt;getToken(), CONTENT_TYPE_HEADER_PLAIN, CREATED);</span>
-<span class="lineNum">     165 </span>            :         }
-<span class="lineNum">     166 </span>            : 
-<span class="lineNum">     167 </span><span class="lineCov">          3 :     } catch (ExistentUserException existentUserException) {</span>
-<span class="lineNum">     168 </span><span class="lineCov">          3 :         rejectConnection(UNAUTHORIZED);</span>
-<span class="lineNum">     169 </span><span class="lineCov">          8 :     }</span>
-<a name="170"><span class="lineNum">     170 </span>            : }</a>
-<span class="lineNum">     171 </span>            : 
-<span class="lineNum">     172 </span><span class="lineCov">          1 : void RequestHandler::listenUsersGet() {</span>
-<span class="lineNum">     173 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
-<span class="lineNum">     174 </span><span class="lineCov">          1 :     std::string users_data;</span>
-<span class="lineNum">     175 </span><span class="lineCov">          1 :     msgHandler-&gt;getUsers(users_data);</span>
-<span class="lineNum">     176 </span><span class="lineCov">          1 :     sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
-<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     178 </span>            : 
-<span class="lineNum">     179 </span><span class="lineCov">          2 : void RequestHandler::listenUsersPut() {</span>
-<span class="lineNum">     180 </span><span class="lineCov">          2 :     LOGG(DEBUG) &lt;&lt; PUT_S;</span>
-<span class="lineNum">     181 </span>            :     char user_data[1000];
-<span class="lineNum">     182 </span><span class="lineCov">          2 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER, user_data, sizeof(user_data));</span>
-<span class="lineNum">     183 </span><span class="lineCov">          2 :     if (parsed &lt;= 0 ) {</span>
-<span class="lineNum">     184 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;No 'User=' in request, recieved: &quot; &lt;&lt; http_msg-&gt;body.p;</span>
-<span class="lineNum">     185 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     186 </span><span class="lineCov">          2 :         return;</span>
-<span class="lineNum">     187 </span>            :     }
-<span class="lineNum">     188 </span><span class="lineCov">          2 :     bool updated = msgHandler-&gt;updateUser(string(user_data));</span>
-<span class="lineNum">     189 </span><span class="lineCov">          2 :     int status = (updated) ? STATUS_OK: BAD_REQUEST;</span>
-<span class="lineNum">     190 </span><span class="lineCov">          2 :     sendHttpLine(status);</span>
-<a name="191"><span class="lineNum">     191 </span>            : }</a>
-<span class="lineNum">     192 </span>            : 
-<span class="lineNum">     193 </span><span class="lineCov">          6 : void RequestHandler::listenUsersDelete() {</span>
-<span class="lineNum">     194 </span><span class="lineCov">          6 :     LOGG(DEBUG) &lt;&lt; DELETE_S;</span>
-<span class="lineNum">     195 </span><span class="lineCov">          6 :     bool deleted = msgHandler-&gt;deleteUser();</span>
-<span class="lineNum">     196 </span><span class="lineCov">          6 :     int status = (deleted) ? STATUS_OK: BAD_REQUEST;</span>
-<span class="lineNum">     197 </span><span class="lineCov">          6 :     sendHttpLine(status);</span>
-<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          6 : }</span></a>
-<span class="lineNum">     199 </span>            : 
-<span class="lineNum">     200 </span><span class="lineCov">         19 : void RequestHandler::listenUsersRequest() {</span>
-<span class="lineNum">     201 </span><span class="lineCov">         19 :         LOGG(DEBUG) &lt;&lt; &quot;Listening UserS request&quot;;</span>
-<span class="lineNum">     202 </span><span class="lineCov">         19 :     if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
-<span class="lineNum">     203 </span><span class="lineCov">          8 :         listenUsersPost();</span>
-<span class="lineNum">     204 </span>            :     }
-<span class="lineNum">     205 </span><span class="lineCov">         19 :     if (! login()) {</span>
-<span class="lineNum">     206 </span><span class="lineCov">         29 :         return;</span>
-<span class="lineNum">     207 </span>            :     }
-<span class="lineNum">     208 </span>            : 
-<span class="lineNum">     209 </span><span class="lineCov">          9 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
-<span class="lineNum">     210 </span><span class="lineCov">          1 :         listenUsersGet();</span>
-<span class="lineNum">     211 </span><span class="lineCov">          8 :     } else if (is_equal(&amp;http_msg-&gt;method, PUT_S)) {</span>
-<span class="lineNum">     212 </span><span class="lineCov">          2 :         listenUsersPut();</span>
-<span class="lineNum">     213 </span><span class="lineCov">          6 :     } else if (is_equal(&amp;http_msg-&gt;method, DELETE_S)) {</span>
-<span class="lineNum">     214 </span><span class="lineCov">          6 :         listenUsersDelete();</span>
-<span class="lineNum">     215 </span>            :     } else {
-<span class="lineNum">     216 </span><span class="lineNoCov">          0 :         rejectConnection(NOT_IMPLEMENTED);</span>
-<span class="lineNum">     217 </span>            :     }
-<span class="lineNum">     218 </span>            : 
-<a name="219"><span class="lineNum">     219 </span>            : }</a>
-<span class="lineNum">     220 </span>            : 
-<span class="lineNum">     221 </span><span class="lineNoCov">          0 : void RequestHandler::listenInterestRequest() {</span>
-<span class="lineNum">     222 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Listening Interest request&quot;;</span>
-<span class="lineNum">     223 </span><span class="lineNoCov">          0 :     if (! is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
-<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         sendHttpLine(NOT_IMPLEMENTED);</span>
-<span class="lineNum">     225 </span>            :     }
-<span class="lineNum">     226 </span>            : 
-<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     if (! login()) {</span>
-<span class="lineNum">     228 </span><span class="lineNoCov">          0 :         return;</span>
-<span class="lineNum">     229 </span>            :     }
-<span class="lineNum">     230 </span>            : 
-<span class="lineNum">     231 </span><span class="lineNoCov">          0 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
-<span class="lineNum">     232 </span>            :     char id_interest[BUFFER_SMALL_SIZE];
-<span class="lineNum">     233 </span><span class="lineNoCov">          0 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));</span>
-<span class="lineNum">     234 </span><span class="lineNoCov">          0 :         if (parsed &lt;= 0 ) {</span>
-<span class="lineNum">     235 </span><span class="lineNoCov">          0 :                 sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     236 </span><span class="lineNoCov">          0 :                 return;</span>
-<span class="lineNum">     237 </span>            :         }
-<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     std::string interest_photo;</span>
-<span class="lineNum">     239 </span><span class="lineNoCov">          0 :     LOGG(DEBUG) &lt;&lt; &quot;searching photo of &quot; &lt;&lt; id_interest;</span>
-<span class="lineNum">     240 </span><span class="lineNoCov">          0 :     if (msgHandler-&gt;getInterestPhoto(interest_photo, std::string(id_interest))){</span>
-<span class="lineNum">     241 </span><span class="lineNoCov">          0 :         sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);</span>
-<span class="lineNum">     242 </span>            :     }else{
-<span class="lineNum">     243 </span><span class="lineNoCov">          0 :         this-&gt;sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     244 </span>            :     }
-<span class="lineNum">     245 </span><span class="lineNoCov">          0 :     LOGG(DEBUG) &lt;&lt; &quot;Searched for photo: &quot;&lt;&lt; interest_photo;</span>
-<a name="246"><span class="lineNum">     246 </span>            : }</a>
-<span class="lineNum">     247 </span>            : 
-<span class="lineNum">     248 </span><span class="lineNoCov">          0 : void RequestHandler::listenChatRequest() {</span>
-<span class="lineNum">     249 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Listening chat request&quot;;</span>
-<span class="lineNum">     250 </span><span class="lineNoCov">          0 :     if (! is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
-<span class="lineNum">     251 </span><span class="lineNoCov">          0 :         sendHttpLine(NOT_IMPLEMENTED);</span>
-<span class="lineNum">     252 </span>            :     }
-<span class="lineNum">     253 </span><span class="lineNoCov">          0 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
-<span class="lineNum">     254 </span>            : 
-<span class="lineNum">     255 </span>            :     char friend_name[BUFFER_SMALL_SIZE];
-<span class="lineNum">     256 </span><span class="lineNoCov">          0 :     std::string reply;</span>
-<span class="lineNum">     257 </span><span class="lineNoCov">          0 :     if (! login()) {</span>
-<span class="lineNum">     258 </span><span class="lineNoCov">          0 :         return; }</span>
-<span class="lineNum">     259 </span>            : 
-<span class="lineNum">     260 </span><span class="lineNoCov">          0 :     if (mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) == 0) {</span>
-<span class="lineNum">     261 </span><span class="lineNoCov">          0 :         msgHandler-&gt;getChat(string(friend_name), reply);</span>
-<span class="lineNum">     262 </span>            :     } else {
-<span class="lineNum">     263 </span><span class="lineNoCov">          0 :         msgHandler-&gt;getMatches(reply);</span>
-<span class="lineNum">     264 </span>            :     }
-<span class="lineNum">     265 </span><span class="lineNoCov">          0 :     sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
-<a name="266"><span class="lineNum">     266 </span>            : }</a>
-<span class="lineNum">     267 </span>            : 
-<span class="lineNum">     268 </span><span class="lineCov">          1 : void RequestHandler::listenPhotoGet() {</span>
-<span class="lineNum">     269 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
-<span class="lineNum">     270 </span>            :     char username[BUFFER_SMALL_SIZE];
-<span class="lineNum">     271 </span><span class="lineCov">          1 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, username, sizeof(username));</span>
-<span class="lineNum">     272 </span><span class="lineCov">          1 :     if (parsed &lt;= 0 ) {</span>
-<span class="lineNum">     273 </span><span class="lineNoCov">          0 :     sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     274 </span><span class="lineCov">          1 :     return;</span>
-<span class="lineNum">     275 </span>            :     }
-<span class="lineNum">     276 </span><span class="lineCov">          1 :     std::string photo_64;</span>
-<span class="lineNum">     277 </span><span class="lineCov">          1 :     if (!msgHandler-&gt;getPhoto(std::string(username), photo_64)){</span>
-<span class="lineNum">     278 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
-<span class="lineNum">     279 </span>            :     }else{
-<span class="lineNum">     280 </span><span class="lineCov">          1 :         sendHttpReply(photo_64, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);</span>
-<span class="lineNum">     281 </span><span class="lineCov">          1 :     }</span>
-<span class="lineNum">     282 </span>            : 
-<a name="283"><span class="lineNum">     283 </span>            : }</a>
-<span class="lineNum">     284 </span>            : 
-<span class="lineNum">     285 </span><span class="lineCov">          1 : void RequestHandler::listenPhotoPost() {</span>
-<span class="lineNum">     286 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
-<span class="lineNum">     287 </span><span class="lineCov">          1 :     std::string photo_64(http_msg-&gt;body.p, http_msg-&gt;body.len);</span>
-<span class="lineNum">     288 </span><span class="lineCov">          1 :     bool posted = msgHandler-&gt;postPhoto(photo_64);</span>
-<span class="lineNum">     289 </span><span class="lineCov">          1 :     int status = (posted) ? STATUS_OK: BAD_REQUEST;</span>
-<span class="lineNum">     290 </span><span class="lineCov">          1 :     sendHttpLine(status);</span>
-<a name="291"><span class="lineNum">     291 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">     292 </span>            : 
-<span class="lineNum">     293 </span><span class="lineCov">          2 : void RequestHandler::listenPhotoRequest() {</span>
-<span class="lineNum">     294 </span><span class="lineCov">          2 :         LOGG(DEBUG) &lt;&lt; &quot;Listening photo request&quot;;</span>
-<span class="lineNum">     295 </span><span class="lineCov">          4 :     if (! login()) { return; }</span>
-<span class="lineNum">     296 </span>            : 
-<span class="lineNum">     297 </span><span class="lineCov">          2 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
-<span class="lineNum">     298 </span><span class="lineCov">          1 :         listenPhotoGet();</span>
-<span class="lineNum">     299 </span><span class="lineCov">          1 :     } else if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
-<span class="lineNum">     300 </span><span class="lineCov">          1 :         listenPhotoPost();</span>
-<span class="lineNum">     301 </span>            :     } else {
-<a name="302"><span class="lineNum">     302 </span><span class="lineNoCov">          0 :         sendHttpLine(NOT_IMPLEMENTED);</span></a>
-<span class="lineNum">     303 </span>            :     }
-<span class="lineNum">     304 </span><span class="lineCov">          6 : }</span>
+<span class="lineNum">     145 </span><span class="lineNoCov">          0 :     sendHttpLine(NOT_IMPLEMENTED);</span>
+<a name="146"><span class="lineNum">     146 </span>            : }</a>
+<span class="lineNum">     147 </span>            : 
+<span class="lineNum">     148 </span><span class="lineCov">          2 : void RequestHandler::listenUsersPost() {</span>
+<span class="lineNum">     149 </span><span class="lineCov">          2 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
+<span class="lineNum">     150 </span>            :     char user_data[1000];
+<span class="lineNum">     151 </span><span class="lineCov">          4 :     string user, pass;</span>
+<span class="lineNum">     152 </span><span class="lineCov">          2 :     if (! parseAuthorization(user, pass)) {</span>
+<span class="lineNum">     153 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     154 </span>            :     }
+<span class="lineNum">     155 </span><span class="lineCov">          2 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER, user_data, sizeof(user_data));</span>
+<span class="lineNum">     156 </span><span class="lineCov">          2 :     if (parsed &lt;= 0 ) {</span>
+<span class="lineNum">     157 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     158 </span><span class="lineNoCov">          0 :         return;</span>
+<span class="lineNum">     159 </span>            :     }
+<span class="lineNum">     160 </span>            :     try {
+<span class="lineNum">     161 </span><span class="lineCov">          2 :         msgHandler-&gt;setUser( user );</span>
+<span class="lineNum">     162 </span><span class="lineCov">          3 :         bool created = msgHandler-&gt;createUser(std::string(user_data), std::string(pass));</span>
+<span class="lineNum">     163 </span><span class="lineCov">          1 :         if (! created){</span>
+<span class="lineNum">     164 </span><span class="lineNoCov">          0 :             LOGG(DEBUG) &lt;&lt; &quot;Cannot create user &quot;  &lt;&lt; user;</span>
+<span class="lineNum">     165 </span><span class="lineNoCov">          0 :             rejectConnection(BAD_REQUEST);</span>
+<span class="lineNum">     166 </span>            :         }else{
+<span class="lineNum">     167 </span><span class="lineCov">          1 :             sendHttpReply(msgHandler-&gt;getToken(), CONTENT_TYPE_HEADER_PLAIN, CREATED);</span>
+<span class="lineNum">     168 </span>            :         }
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">          1 :     } catch (ExistentUserException existentUserException) {</span>
+<span class="lineNum">     171 </span><span class="lineCov">          1 :         rejectConnection(UNAUTHORIZED);</span>
+<span class="lineNum">     172 </span><span class="lineCov">          2 :     }</span>
+<a name="173"><span class="lineNum">     173 </span>            : }</a>
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineNoCov">          0 : void RequestHandler::listenUsersGet() {</span>
+<span class="lineNum">     176 </span><span class="lineNoCov">          0 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
+<span class="lineNum">     177 </span><span class="lineNoCov">          0 :     std::string users_data;</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :     msgHandler-&gt;getUsers(users_data);</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :     sendHttpReply(users_data, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
+<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">     181 </span>            : 
+<span class="lineNum">     182 </span><span class="lineCov">          2 : void RequestHandler::listenUsersPut() {</span>
+<span class="lineNum">     183 </span><span class="lineCov">          2 :     LOGG(DEBUG) &lt;&lt; PUT_S;</span>
+<span class="lineNum">     184 </span>            :     char user_data[1000];
+<span class="lineNum">     185 </span><span class="lineCov">          2 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER, user_data, sizeof(user_data));</span>
+<span class="lineNum">     186 </span><span class="lineCov">          2 :     if (parsed &lt;= 0 ) {</span>
+<span class="lineNum">     187 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;No 'User=' in request, recieved: &quot; &lt;&lt; http_msg-&gt;body.p;</span>
+<span class="lineNum">     188 </span><span class="lineNoCov">          0 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     189 </span><span class="lineCov">          2 :         return;</span>
+<span class="lineNum">     190 </span>            :     }
+<span class="lineNum">     191 </span><span class="lineCov">          2 :     bool updated = msgHandler-&gt;updateUser(string(user_data));</span>
+<span class="lineNum">     192 </span><span class="lineCov">          2 :     int status = (updated) ? STATUS_OK: BAD_REQUEST;</span>
+<span class="lineNum">     193 </span><span class="lineCov">          2 :     sendHttpLine(status);</span>
+<a name="194"><span class="lineNum">     194 </span>            : }</a>
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineCov">          1 : void RequestHandler::listenUsersDelete() {</span>
+<span class="lineNum">     197 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; DELETE_S;</span>
+<span class="lineNum">     198 </span><span class="lineCov">          1 :     bool deleted = msgHandler-&gt;deleteUser();</span>
+<span class="lineNum">     199 </span><span class="lineCov">          1 :     int status = (deleted) ? STATUS_OK: BAD_REQUEST;</span>
+<span class="lineNum">     200 </span><span class="lineCov">          1 :     sendHttpLine(status);</span>
+<a name="201"><span class="lineNum">     201 </span><span class="lineCov">          1 : }</span></a>
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineCov">          6 : void RequestHandler::listenUsersRequest() {</span>
+<span class="lineNum">     204 </span><span class="lineCov">          6 :         LOGG(DEBUG) &lt;&lt; &quot;Listening UserS request&quot;;</span>
+<span class="lineNum">     205 </span><span class="lineCov">          6 :     if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
+<span class="lineNum">     206 </span><span class="lineCov">          2 :         listenUsersPost();</span>
+<span class="lineNum">     207 </span>            :         return;
+<span class="lineNum">     208 </span><span class="lineCov">          6 :     }</span>
+<span class="lineNum">     209 </span><span class="lineCov">          9 :     if (! login()) {</span>
+<span class="lineNum">     210 </span>            :         return;
+<span class="lineNum">     211 </span>            :     }
+<span class="lineNum">     212 </span><span class="lineCov">          3 : </span>
+<span class="lineNum">     213 </span><span class="lineNoCov">          0 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     214 </span><span class="lineCov">          3 :         listenUsersGet();</span>
+<span class="lineNum">     215 </span><span class="lineCov">          2 :     } else if (is_equal(&amp;http_msg-&gt;method, PUT_S)) {</span>
+<span class="lineNum">     216 </span><span class="lineCov">          1 :         listenUsersPut();</span>
+<span class="lineNum">     217 </span><span class="lineCov">          1 :     } else if (is_equal(&amp;http_msg-&gt;method, DELETE_S)) {</span>
+<span class="lineNum">     218 </span>            :         listenUsersDelete();
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :     } else {</span>
+<span class="lineNum">     220 </span>            :         rejectConnection(NOT_IMPLEMENTED);
+<span class="lineNum">     221 </span>            :     }
+<a name="222"><span class="lineNum">     222 </span>            : </a>
+<span class="lineNum">     223 </span>            : }
+<span class="lineNum">     224 </span><span class="lineCov">          1 : </span>
+<span class="lineNum">     225 </span><span class="lineCov">          1 : void RequestHandler::listenInterestRequest() {</span>
+<span class="lineNum">     226 </span><span class="lineCov">          1 :         LOGG(DEBUG) &lt;&lt; &quot;Listening Interest request&quot;;</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :     if (! is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     228 </span>            :         sendHttpLine(NOT_IMPLEMENTED);
+<span class="lineNum">     229 </span>            :         return;
+<span class="lineNum">     230 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     232 </span>            :     if (! login()) {
+<span class="lineNum">     233 </span>            :         return;
+<span class="lineNum">     234 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
+<span class="lineNum">     237 </span><span class="lineCov">          1 :     char id_interest[BUFFER_SMALL_SIZE];</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));</span>
+<span class="lineNum">     239 </span><span class="lineNoCov">          0 :         if (parsed &lt;= 0 ) {</span>
+<span class="lineNum">     240 </span>            :                 sendHttpLine(BAD_REQUEST);
+<span class="lineNum">     241 </span><span class="lineCov">          1 :                 return;</span>
+<span class="lineNum">     242 </span><span class="lineCov">          1 :         }</span>
+<span class="lineNum">     243 </span><span class="lineCov">          1 :     std::string interest_photo;</span>
+<span class="lineNum">     244 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; &quot;searching photo of &quot; &lt;&lt; id_interest;</span>
+<span class="lineNum">     245 </span>            :     if (msgHandler-&gt;getInterestPhoto(interest_photo, std::string(id_interest))){
+<span class="lineNum">     246 </span><span class="lineNoCov">          0 :         sendHttpReply(interest_photo, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);</span>
+<span class="lineNum">     247 </span>            :     }else{
+<span class="lineNum">     248 </span><span class="lineCov">          1 :         this-&gt;sendHttpLine(BAD_REQUEST);</span>
+<a name="249"><span class="lineNum">     249 </span>            :     }</a>
+<span class="lineNum">     250 </span>            :     LOGG(DEBUG) &lt;&lt; &quot;Searched for photo: &quot;&lt;&lt; interest_photo;
+<span class="lineNum">     251 </span><span class="lineCov">          4 : }</span>
+<span class="lineNum">     252 </span><span class="lineCov">          4 : </span>
+<span class="lineNum">     253 </span><span class="lineCov">          4 : void RequestHandler::listenChatRequest() {</span>
+<span class="lineNum">     254 </span><span class="lineCov">          4 :         LOGG(DEBUG) &lt;&lt; &quot;Listening chat request&quot;;</span>
+<span class="lineNum">     255 </span>            :         if (! login()) {
+<span class="lineNum">     256 </span><span class="lineNoCov">          0 :                 return;</span>
+<span class="lineNum">     257 </span><span class="lineCov">          4 :         }</span>
+<span class="lineNum">     258 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     259 </span><span class="lineCov">          2 :         if ( is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     260 </span><span class="lineCov">          2 :                 this-&gt;listenChatGet();</span>
+<span class="lineNum">     261 </span><span class="lineNoCov">          0 :     }else if (is_equal(&amp;http_msg-&gt;method, POST_S)){</span>
+<span class="lineNum">     262 </span><span class="lineNoCov">          0 :         this-&gt;listenChatPost();</span>
+<span class="lineNum">     263 </span>            :     }else{
+<a name="264"><span class="lineNum">     264 </span>            :         sendHttpLine(NOT_IMPLEMENTED);</a>
+<span class="lineNum">     265 </span>            :     }
+<span class="lineNum">     266 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     267 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     268 </span><span class="lineCov">          1 : </span>
+<span class="lineNum">     269 </span><span class="lineNoCov">          0 : void RequestHandler::listenPhotoGet() {</span>
+<span class="lineNum">     270 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; GET_S;</span>
+<span class="lineNum">     271 </span><span class="lineCov">          1 :     char username[BUFFER_SMALL_SIZE];</span>
+<span class="lineNum">     272 </span><span class="lineNoCov">          0 :     int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, username, sizeof(username));</span>
+<span class="lineNum">     273 </span><span class="lineCov">          1 :     if (parsed &lt;= 0 ) {</span>
+<span class="lineNum">     274 </span><span class="lineNoCov">          0 :     sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     275 </span><span class="lineCov">          1 :     return;</span>
+<span class="lineNum">     276 </span><span class="lineCov">          1 :     }</span>
+<span class="lineNum">     277 </span><span class="lineNoCov">          0 :     std::string photo_64;</span>
+<span class="lineNum">     278 </span><span class="lineNoCov">          0 :     if (!msgHandler-&gt;getPhoto(std::string(username), photo_64)){</span>
+<span class="lineNum">     279 </span><span class="lineCov">          1 :         sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     280 </span><span class="lineCov">          1 :     }else{</span>
+<a name="281"><span class="lineNum">     281 </span>            :         sendHttpReply(photo_64, CONTENT_TYPE_HEADER_PLAIN, STATUS_OK);</a>
+<span class="lineNum">     282 </span>            :     }
+<span class="lineNum">     283 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     284 </span><span class="lineCov">          1 : }</span>
+<span class="lineNum">     285 </span><span class="lineCov">          1 : </span>
+<span class="lineNum">     286 </span><span class="lineCov">          1 : void RequestHandler::listenPhotoPost() {</span>
+<span class="lineNum">     287 </span><span class="lineCov">          1 :     LOGG(DEBUG) &lt;&lt; POST_S;</span>
+<span class="lineNum">     288 </span><span class="lineCov">          1 :     std::string photo_64(http_msg-&gt;body.p, http_msg-&gt;body.len);</span>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">          1 :     bool posted = msgHandler-&gt;postPhoto(photo_64);</span></a>
+<span class="lineNum">     290 </span><span class="lineCov">          1 :     int status = (posted) ? STATUS_OK: BAD_REQUEST;</span>
+<span class="lineNum">     291 </span><span class="lineNoCov">          0 :     sendHttpLine(status);</span>
+<span class="lineNum">     292 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     293 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     294 </span><span class="lineCov">          4 : void RequestHandler::listenPhotoRequest() {</span>
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Listening photo request&quot;;</span>
+<span class="lineNum">     296 </span><span class="lineCov">          2 :     if (! login()) { return; }</span>
+<span class="lineNum">     297 </span><span class="lineCov">          1 : </span>
+<span class="lineNum">     298 </span><span class="lineCov">          1 :     if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     299 </span><span class="lineCov">          1 :         listenPhotoGet();</span>
+<span class="lineNum">     300 </span><span class="lineNoCov">          0 :     } else if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
+<span class="lineNum">     301 </span><span class="lineNoCov">          0 :         listenPhotoPost();</span>
+<a name="302"><span class="lineNum">     302 </span>            :     } else {</a>
+<span class="lineNum">     303 </span>            :         sendHttpLine(NOT_IMPLEMENTED);
+<span class="lineNum">     304 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">     305 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     306 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     307 </span><span class="lineCov">          4 : void RequestHandler::listenChatNewRequest(){</span>
+<span class="lineNum">     308 </span><span class="lineNoCov">          0 :         LOGG(DEBUG) &lt;&lt; &quot;Listening new chat request&quot;;</span>
+<span class="lineNum">     309 </span><span class="lineCov">          2 :         if (! login()) { return; }</span>
+<span class="lineNum">     310 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     311 </span><span class="lineNoCov">          0 :         if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     312 </span><span class="lineNoCov">          0 :                 this-&gt;listenNewChatGet();</span>
+<span class="lineNum">     313 </span>            :         }else{
+<a name="314"><span class="lineNum">     314 </span>            :                 sendHttpLine(NOT_IMPLEMENTED);</a>
+<span class="lineNum">     315 </span>            :         }
+<span class="lineNum">     316 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     317 </span><span class="lineCov">          4 : }</span>
+<span class="lineNum">     318 </span><span class="lineCov">          4 : </span>
+<span class="lineNum">     319 </span><span class="lineCov">          8 : void RequestHandler::listenMatchesRequest(){</span>
+<span class="lineNum">     320 </span><span class="lineNoCov">          0 :         LOGG(DEBUG)&lt;&lt; &quot;Listening matches request&quot;;</span>
+<span class="lineNum">     321 </span><span class="lineCov">          4 :         if (! login()) {return;}</span>
+<span class="lineNum">     322 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     323 </span><span class="lineCov">          2 :         if (is_equal(&amp;http_msg-&gt;method, GET_S)) {</span>
+<span class="lineNum">     324 </span><span class="lineCov">          2 :                 this-&gt;listenMatchesGet();</span>
+<span class="lineNum">     325 </span><span class="lineNoCov">          0 :         } else if (is_equal(&amp;http_msg-&gt;method, POST_S)) {</span>
+<span class="lineNum">     326 </span><span class="lineNoCov">          0 :                 this-&gt;listenMatchesPost();</span>
+<span class="lineNum">     327 </span>            :         } else{
+<a name="328"><span class="lineNum">     328 </span>            :                 sendHttpLine(NOT_IMPLEMENTED);</a>
+<span class="lineNum">     329 </span>            :         }
+<span class="lineNum">     330 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     331 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     332 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     333 </span>            : void RequestHandler::listenChatGet(){
+<span class="lineNum">     334 </span><span class="lineNoCov">          0 :         LOGG(DEBUG)&lt;&lt; GET_S;</span>
+<span class="lineNum">     335 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     336 </span><span class="lineNoCov">          0 :         char friend_name[BUFFER_SMALL_SIZE];</span>
+<span class="lineNum">     337 </span><span class="lineCov">          2 :         std::string reply;</span>
+<span class="lineNum">     338 </span><span class="lineCov">          1 : </span>
+<span class="lineNum">     339 </span><span class="lineCov">          1 :         if (mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name)) &gt;= 0) {</span>
+<span class="lineNum">     340 </span><span class="lineCov">          1 :                 string chatHistory;</span>
+<span class="lineNum">     341 </span><span class="lineCov">          1 :                 msgHandler-&gt;getChat(string(friend_name), chatHistory);</span>
+<a name="342"><span class="lineNum">     342 </span><span class="lineNoCov">          0 :                 LOGG(INFO) &lt;&lt; &quot;RETURNING CHAT HISTORY: &quot; &lt;&lt; chatHistory;</span></a>
+<span class="lineNum">     343 </span><span class="lineCov">          1 :                 reply = chatHistory;</span>
+<span class="lineNum">     344 </span><span class="lineCov">          2 :         } else {</span>
+<span class="lineNum">     345 </span><span class="lineCov">          1 :                 string matchesUserData;</span>
+<span class="lineNum">     346 </span>            :                 string matchesUserNames;
+<span class="lineNum">     347 </span><span class="lineCov">          2 :                 msgHandler-&gt;getMatches(matchesUserNames);</span>
+<span class="lineNum">     348 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     349 </span><span class="lineCov">          3 :                 istringstream f(matchesUserNames);</span>
+<span class="lineNum">     350 </span><span class="lineCov">          1 :                 string matchUserName;</span>
+<span class="lineNum">     351 </span><span class="lineCov">          1 :                 while (std::getline(f, matchUserName)) {</span>
+<span class="lineNum">     352 </span><span class="lineCov">          1 :                         string matchUserData;</span>
+<span class="lineNum">     353 </span><span class="lineCov">          1 :                         msgHandler-&gt;getUser(matchUserName, matchUserData);</span>
+<span class="lineNum">     354 </span><span class="lineCov">          2 :                         matchesUserData.append(matchUserData + &quot;\n&quot;);</span>
+<span class="lineNum">     355 </span><span class="lineNoCov">          0 :                 }</span>
+<span class="lineNum">     356 </span><span class="lineCov">          2 :                 reply = matchesUserData;</span>
+<span class="lineNum">     357 </span><span class="lineCov">          2 :         }</span>
+<a name="358"><span class="lineNum">     358 </span>            :         sendHttpReply(reply, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</a>
+<span class="lineNum">     359 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     360 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     361 </span><span class="lineNoCov">          0 : void RequestHandler::listenChatPost(){</span>
+<span class="lineNum">     362 </span><span class="lineNoCov">          0 :         LOGG(DEBUG)&lt;&lt; POST_S;</span>
+<span class="lineNum">     363 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     364 </span><span class="lineCov">          2 :         char receiverUserName[BUFFER_SMALL_SIZE], message[BUFFER_MSG_SIZE];</span>
+<span class="lineNum">     365 </span><span class="lineNoCov">          0 :         int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER_ID, receiverUserName, sizeof(receiverUserName));</span>
+<span class="lineNum">     366 </span><span class="lineCov">          2 :         int parsed_msg = mg_get_http_var(&amp;http_msg-&gt;body, BODY_MSG, message, sizeof(message));</span>
+<span class="lineNum">     367 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     368 </span><span class="lineNoCov">          0 :         if ( !parsed || !parsed_msg){</span>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">          2 :                 LOGG(WARNING) &lt;&lt; &quot;BAD CHAT POST REQUEST. &quot;;</span></a>
+<span class="lineNum">     370 </span>            :                 sendHttpLine(BAD_REQUEST);
+<span class="lineNum">     371 </span><span class="lineCov">          2 :                 return;</span>
+<span class="lineNum">     372 </span><span class="lineCov">          2 :         }</span>
+<span class="lineNum">     373 </span><span class="lineCov">          2 :         bool posted = msgHandler-&gt;postChatMsg(receiverUserName, message);</span>
+<span class="lineNum">     374 </span>            :         int status = (posted) ? STATUS_OK: BAD_REQUEST;
+<span class="lineNum">     375 </span>            :         sendHttpLine(status);
+<span class="lineNum">     376 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     377 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     378 </span><span class="lineCov">          2 : void RequestHandler::listenMatchesGet(){</span>
+<span class="lineNum">     379 </span><span class="lineCov">          2 :         LOGG(DEBUG)&lt;&lt; GET_S;</span>
+<span class="lineNum">     380 </span><span class="lineCov">          2 :         string newMatches;</span>
+<span class="lineNum">     381 </span><span class="lineCov">          2 :         bool result_ok = msgHandler-&gt;getNewMatches(newMatches);</span>
+<span class="lineNum">     382 </span><span class="lineNoCov">          0 :         if(result_ok){</span>
+<span class="lineNum">     383 </span><span class="lineNoCov">          0 :                 sendHttpReply(newMatches, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
+<span class="lineNum">     384 </span><span class="lineCov">          2 :         }else{</span>
+<span class="lineNum">     385 </span><span class="lineCov">          2 :                 sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     386 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">     387 </span><span class="lineCov">          2 : }</span>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">          2 : </span></a>
+<span class="lineNum">     389 </span>            : void RequestHandler::listenMatchesPost(){
+<span class="lineNum">     390 </span><span class="lineNoCov">          0 :         LOGG(DEBUG)&lt;&lt; POST_S;</span>
+<span class="lineNum">     391 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     392 </span>            :         char friend_name[BUFFER_SMALL_SIZE];
+<span class="lineNum">     393 </span><span class="lineCov">          2 :         char reaction[10];</span>
+<span class="lineNum">     394 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     395 </span>            :         int parsed = mg_get_http_var(&amp;http_msg-&gt;body, BODY_USER_ID, friend_name, sizeof(friend_name));
+<span class="lineNum">     396 </span><span class="lineCov">          2 :         int parsed_like = mg_get_http_var(&amp;http_msg-&gt;body, BODY_LIKE, reaction, sizeof(reaction));</span>
+<span class="lineNum">     397 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     398 </span><span class="lineCov">          2 :         if ( !parsed || !parsed_like){</span>
+<span class="lineNum">     399 </span><span class="lineNoCov">          0 :                 sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     400 </span>            :                 return;
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          2 :         }</span></a>
+<span class="lineNum">     402 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     403 </span><span class="lineCov">          8 :         bool posted = msgHandler-&gt;postInteraction(friend_name, reaction);</span>
+<span class="lineNum">     404 </span>            :     int status = (posted) ? STATUS_OK: BAD_REQUEST;
+<span class="lineNum">     405 </span>            :     sendHttpLine(status);
+<span class="lineNum">     406 </span><span class="lineCov">          2 : }</span>
+<span class="lineNum">     407 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     408 </span>            : void RequestHandler::listenNewChatGet(){
+<span class="lineNum">     409 </span><span class="lineCov">          2 :         LOGG(DEBUG)&lt;&lt; GET_S;</span>
+<span class="lineNum">     410 </span>            : 
+<span class="lineNum">     411 </span>            :         string newMessages;
+<span class="lineNum">     412 </span><span class="lineCov">          2 :         char friend_name[BUFFER_SMALL_SIZE];</span>
+<span class="lineNum">     413 </span>            : 
+<span class="lineNum">     414 </span><span class="lineCov">          2 :         int parsed = mg_get_http_var(&amp;http_msg-&gt;query_string, QUERY_STRING_RESOURCE_ID, friend_name, sizeof(friend_name));</span>
+<span class="lineNum">     415 </span><span class="lineNoCov">          0 : </span>
+<span class="lineNum">     416 </span><span class="lineNoCov">          0 :         if ( !parsed){</span>
+<span class="lineNum">     417 </span><span class="lineCov">          2 :                 LOGG(WARNING) &lt;&lt; &quot;BAD GET NEW MESSAGES REQUEST. &quot;;</span>
+<span class="lineNum">     418 </span>            :                 sendHttpLine(BAD_REQUEST);
+<span class="lineNum">     419 </span>            :                 return;
+<span class="lineNum">     420 </span><span class="lineCov">          2 :         }</span>
+<span class="lineNum">     421 </span><span class="lineCov">          2 : </span>
+<span class="lineNum">     422 </span><span class="lineCov">          2 :         bool result_ok = msgHandler-&gt;getNewMessages(friend_name, newMessages);</span>
+<span class="lineNum">     423 </span><span class="lineCov">          2 :         if(result_ok){</span>
+<span class="lineNum">     424 </span>            :                 LOGG(INFO) &lt;&lt; &quot;RETURNING NEW MESSAGES: &quot; &lt;&lt; newMessages;
+<span class="lineNum">     425 </span><span class="lineNoCov">          0 :                 sendHttpReply(newMessages, CONTENT_TYPE_HEADER_CSV, STATUS_OK);</span>
+<span class="lineNum">     426 </span><span class="lineNoCov">          0 :         }else{</span>
+<span class="lineNum">     427 </span><span class="lineCov">          2 :                 LOGG(WARNING) &lt;&lt; &quot;BAD GET NEW MESSAGES REQUEST. &quot;;</span>
+<span class="lineNum">     428 </span><span class="lineCov">          9 :                 sendHttpLine(BAD_REQUEST);</span>
+<span class="lineNum">     429 </span>            :         }
+<span class="lineNum">     430 </span>            : }
 </pre>
       </td>
     </tr>

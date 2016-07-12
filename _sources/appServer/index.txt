@@ -15,4 +15,3 @@ Este guardo algunos datos extras que no se encuentran en el :ref:`sharedServer` 
 	config
 	api
 	coverage
-	knownBugs

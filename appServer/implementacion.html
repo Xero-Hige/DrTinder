@@ -90,14 +90,12 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Implementacion AppServer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#recepcion-y-procesamiento-de-mensajes-http">Recepción y procesamiento de mensajes HTTP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conexion-al-shared-server">Conexión al Shared Server</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#conexion-con-firebase">Conexión con FireBase</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#almacenamiento-de-datos">Almacenamiento de Datos</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="config.html">Configuracion AppServer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html">API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="coverage.html">Coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="knownBugs.html">Known Bugs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../sharedServer/index.html">Shared Server</a></li>
@@ -149,31 +147,35 @@
             
   <div class="section" id="implementacion-appserver">
 <span id="implementacion"></span><h1>Implementacion AppServer<a class="headerlink" href="#implementacion-appserver" title="Permalink to this headline">¶</a></h1>
-<p>Este sistema tiene principalmente cuatro partes:</p>
+<p>Este sistema tiene principalmente tres partes:</p>
 <ol class="arabic simple">
 <li>Recepción y procesamiento de mensajes HTTP</li>
 <li>Conexión al Shared Server</li>
-<li>Conexión con FireBase</li>
 <li>Almacenamiento de datos</li>
 </ol>
 <div class="section" id="recepcion-y-procesamiento-de-mensajes-http">
 <h2>Recepción y procesamiento de mensajes HTTP<a class="headerlink" href="#recepcion-y-procesamiento-de-mensajes-http" title="Permalink to this headline">¶</a></h2>
 <p>Para la  conexión se utilizo mongoose web server de Cesanta ( <a class="reference external" href="https://github.com/cesanta/mongoose">https://github.com/cesanta/mongoose</a> ).
-Mediante este se reciben y procesan. El <strong>RequestHandler</strong> toma el mensaje y decide cómo procesarlo diferenciando la uri a la cual se hizo y con qué método se lo llamó. Luego un <strong>MessageHandler</strong> se ocupa del procesamiento de tal mensaje, almacenando, parseando los datos y llamando al shared server.</p>
+Mediante este se reciben y procesan. El <strong>RequestHandler</strong> toma el mensaje y decide cómo procesarlo diferenciando la uri a la cual se hizo y con qué método se lo llamó. Este llama a un <strong>MessageHandler</strong> que se ocupa del procesamiento de tal mensaje, almacenando, parseando los datos y llamando al shared server.</p>
 </div>
 <div class="section" id="conexion-al-shared-server">
 <h2>Conexión al Shared Server<a class="headerlink" href="#conexion-al-shared-server" title="Permalink to this headline">¶</a></h2>
 <p>Para la conexión al shared server se utilizo la libreria de curl, para poder correr el server debe tenerlo instalado. Para no profundizar en cómo usar curl se uso restclient-cpp ( <a class="reference external" href="https://github.com/mrtazz/restclient-cpp">https://github.com/mrtazz/restclient-cpp</a> ) que permite hacer los requests de manera simple.
 Se debió crear un CsvParser y JsonParser (libreria utilizada: <a class="reference external" href="https://github.com/open-source-parsers/jsoncpp">jsoncpp</a> ) para poder traducir la información que venía del shared server para pasarla al cliente.</p>
 </div>
-<div class="section" id="conexion-con-firebase">
-<h2>Conexión con FireBase<a class="headerlink" href="#conexion-con-firebase" title="Permalink to this headline">¶</a></h2>
-<p>Para la administración de likes y envio de chats individuales se utilizo fireBase.</p>
-</div>
 <div class="section" id="almacenamiento-de-datos">
 <h2>Almacenamiento de Datos<a class="headerlink" href="#almacenamiento-de-datos" title="Permalink to this headline">¶</a></h2>
-<p>De los usuarios era necesario guardar nuevos datos en el server como la contraseña y una descripcion de estos, ademas de los token de autenticación. Para el almacenamiento de estos se utilizó rocksdb ( <a class="reference external" href="http://rocksdb.org/">http://rocksdb.org/</a> ), que es una base de datos NoSql. Se crearon el DatabaseManager, CharDatabaseManager y LikesDatabaseManager para abstraernos un poco de su implementación específica.
+<p>De los usuarios era necesario guardar nuevos datos en el server como la contraseña y una descripcion de estos, ademas de los token de autenticación, los likes entre ellos y sus respectivos chats. Para el almacenamiento de estos se utilizó rocksdb ( <a class="reference external" href="http://rocksdb.org/">http://rocksdb.org/</a> ), que es una base de datos NoSql. Se crearon el DatabaseManager, CharDatabaseManager y LikesDatabaseManager para abstraernos un poco de su implementación específica.
 Para guardar los datos del usuario se utilizan prefijos dependiendo del dato, por ejemplo para guardar la descripción se utiliza el prefijo <em>LOOKING_FOR_DB</em> al cual se concatena el mail de usuario para tener de clave y como valor se guarda la descripcion.</p>
+<dl class="docutils">
+<dt>Se utilizan tres bases de datos:</dt>
+<dd><ul class="first last simple">
+<li>para password, id, token de user</li>
+<li>para chats de user</li>
+<li>para likes y matches de user</li>
+</ul>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -197,7 +199,7 @@ Para guardar los datos del usuario se utilizan prefijos dependiendo del dato, po
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 11, 2016.
+      Last updated on Jul 12, 2016.
 
     </p>
   </div>
