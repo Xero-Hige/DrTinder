@@ -2,6 +2,7 @@
 #define SOURCE_API_CONSTANTS_SERVER
 
 #define DB_SEPARATOR ","
+#define DB_COMILLAS "\""
 
 #define CHAT_URI "/chats"
 #define CHAT_NEW_URI "/chats/new"

@@ -39,7 +39,8 @@ void ChatDatabaseManager::saveMessage(std::string message, std::string sender, s
     string key;
     key = getConversationKey(sender, receiver);
 
-    string messageWithSender = sender + DB_SEPARATOR + message;
+    string messageWithSender = DB_COMILLAS + sender + DB_COMILLAS
+    		+ DB_SEPARATOR + DB_COMILLAS + message + DB_COMILLAS;
 
     //Saving new message in both users conversations.
     saveNewMsgs(messageWithSender,sender,receiver);
