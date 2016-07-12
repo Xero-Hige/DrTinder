@@ -180,7 +180,7 @@ public final class UserHandler {
      * @return true if its valid, false otherwise
      */
     public static boolean isValidEmail(String email) {
-        return email.matches("[^@]*@[^.]*\\....?\\.?.?.?");
+        return email.matches("[^ ,@]*@[^ ,.]*\\.[^ ,@]{2}[^,@]?\\.?[^ ,@]?[^ ,@]?[^ ,@]?");
     }
 
     /**
