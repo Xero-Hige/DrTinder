@@ -7,6 +7,8 @@
 
 #include "DatabaseManager.h"
 
+using std::string;
+
 class LikesDatabaseManager : public DatabaseManager{
 public:
     LikesDatabaseManager(rocksdb::DB *database);
@@ -20,6 +22,12 @@ public:
     void getNewMatches(std::string deUser, std::string &nameMatches);
 
     void getInteractedUsers(std::string deUser, std::string &usenamesInteracted);
+
+private:
+	void saveInteraction(string fromUser, string toUser);
+	void saveMatch(string fromUser, string toUser);
+	void saveNewMatch(string fromUser, string toUser);
+	void deleteCurrentNewMatches(string user);
 };
 
 

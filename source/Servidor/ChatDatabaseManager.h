@@ -30,6 +30,8 @@ private:
 	void saveNewMsgs(std::string messageWithSender, std::string sender,
 			std::string receiver);
 
+	void deleteCurrentNewMessages(std::string sender, std::string receiver);
+
 };
 
 

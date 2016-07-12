@@ -34,7 +34,7 @@ void ChatDatabaseManager::saveNewMsgs(std::string messageWithSender, std::string
 }
 
 void ChatDatabaseManager::saveMessage(std::string message, std::string sender, std::string receiver){
-	LOGG(INFO) << "Saving message " << message <<" from " << sender << " to " << receiver;
+	LOGG(DEBUG) << "Saving message " << message <<" from " << sender << " to " << receiver;
     string conversationHistory;
     string key;
     key = getConversationKey(sender, receiver);
@@ -54,31 +54,35 @@ void ChatDatabaseManager::saveMessage(std::string message, std::string sender, s
 
 }
 
+
+void ChatDatabaseManager::deleteCurrentNewMessages(std::string sender, std::string receiver){
+	string newMessages;
+	string key = getNewMessagesKey(sender, receiver);
+	if (getEntry(key, newMessages)){
+		deleteEntry(key);
+	}
+}
+
 bool ChatDatabaseManager::getHistory(std::string sender, std::string receiver, std::string& chat_history){
-    string conversationHistory;
     string key;
+    bool conversationFound;
 
     key = getConversationKey(sender, receiver);
+    conversationFound = getEntry(key, chat_history);
 
-    if (! getEntry(key, conversationHistory) ) {
-            return false;
-    }
+    deleteCurrentNewMessages(sender, receiver);
+    return conversationFound;
 
-    chat_history = conversationHistory;
-    return true;
 }
 
 void ChatDatabaseManager::getNewMsgs(string sender, string receiver, string &newMsgs){
-	string newMessages;
 	string newMessageskey = getNewMessagesKey(sender, receiver);
+	bool foundNewMessages;
 
-	if (getEntry(newMessageskey,newMessages)){
-		LOGG(INFO) << "Found new messages from " << sender << " and " << receiver;
-		LOGG(INFO) << "Messages found " << newMessages;
-		this->deleteEntry(newMessageskey);
-	} else {
-		newMessages = "";
+	foundNewMessages = getEntry(newMessageskey,newMsgs);
+
+	if (foundNewMessages){
+		LOGG(DEBUG) << "Found new messages from " << sender << " and " << receiver;
+		deleteCurrentNewMessages(sender, receiver);
 	}
-
-	newMsgs = newMessages;
 }

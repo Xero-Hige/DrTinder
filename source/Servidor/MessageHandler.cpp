@@ -274,7 +274,7 @@ bool MessageHandler::postChatMsg(string receiverUserName, string message){
 }
 
 bool MessageHandler::getNewMessages(string friend_name, string& newMessages){
-	LOGG(INFO) << "Fetching new messages from " << username << " and " << friend_name;
+	LOGG(DEBUG) << "Fetching new messages from " << username << " and " << friend_name;
 	chatDB->getNewMsgs(friend_name, username, newMessages);
 	return true;
 }
@@ -323,7 +323,7 @@ bool MessageHandler::validateToken(std::string user_token) {
 }
 
 void MessageHandler::getInteractions(std::string& interactedUsersData) {
-	LOGG(INFO) << "Devolviendo likes/rechazos de " << username;
+	LOGG(DEBUG) << "Devolviendo likes/rechazos de " << username;
 	string interactedUsers;
 	likesDB->getInteractedUsers(username, interactedUsers);
 

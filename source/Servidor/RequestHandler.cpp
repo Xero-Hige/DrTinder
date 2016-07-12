@@ -229,10 +229,6 @@ void RequestHandler::listenInterestRequest() {
     	return;
     }
 
-    if (! login()) {
-    	return;
-    }
-
     LOGG(DEBUG) << GET_S;
     char id_interest[BUFFER_SMALL_SIZE];
     int parsed = mg_get_http_var(&http_msg->query_string, QUERY_STRING_RESOURCE_ID, id_interest, sizeof(id_interest));
