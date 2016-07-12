@@ -367,7 +367,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         int age = Integer.parseInt(sAge);
-        if (age >= 18) {
+        if (age < 18) {
             Utility.showMessage("Debe ser mayor de 18", Utility.getViewgroup(this));
             return false;
         }
