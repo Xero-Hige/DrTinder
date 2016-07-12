@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage_total.info - Servidor/Interests.cpp</title>
+  <title>LCOV - coverage_merged.info - Servidor/Interests.cpp</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage_total.info</td>
+            <td class="headerValue">coverage_merged.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">36</td>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-07 11:40:07</td>
+            <td class="headerValue">2016-07-11 17:43:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">7</td>
@@ -71,74 +71,74 @@
 <span class="lineNum">       9 </span>            : 
 <a name="10"><span class="lineNum">      10 </span>            : using namespace std;</a>
 <span class="lineNum">      11 </span>            : 
-<span class="lineNum">      12 </span><span class="lineCov">       1545 : Interests::Interests() {</span>
+<span class="lineNum">      12 </span><span class="lineCov">       2646 : Interests::Interests() {</span>
 <span class="lineNum">      13 </span>            :         // TODO Auto-generated constructor stub
 <span class="lineNum">      14 </span>            : 
-<a name="15"><span class="lineNum">      15 </span><span class="lineCov">       1545 : }</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">       2646 : }</span></a>
 <span class="lineNum">      16 </span>            : 
-<span class="lineNum">      17 </span><span class="lineCov">       2129 : void Interests::add(std::string category, std::string value){</span>
-<span class="lineNum">      18 </span><span class="lineCov">       2129 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
+<span class="lineNum">      17 </span><span class="lineCov">       3345 : void Interests::add(std::string category, std::string value){</span>
+<span class="lineNum">      18 </span><span class="lineCov">       3345 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
 <span class="lineNum">      19 </span>            : 
-<span class="lineNum">      20 </span><span class="lineCov">       2129 :         if ( it != this-&gt;intereses.end() ){</span>
-<span class="lineNum">      21 </span><span class="lineCov">        411 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
+<span class="lineNum">      20 </span><span class="lineCov">       3345 :         if ( it != this-&gt;intereses.end() ){</span>
+<span class="lineNum">      21 </span><span class="lineCov">        548 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
 <span class="lineNum">      22 </span>            :                 //http://stackoverflow.com/questions/3450860/check-if-a-stdvector-contains-a-certain-object
-<span class="lineNum">      23 </span><span class="lineCov">        411 :                 if (std::find(valores-&gt;begin(), valores-&gt;end(), value) == valores-&gt;end()){</span>
-<span class="lineNum">      24 </span><span class="lineCov">        332 :                         valores-&gt;push_back(value);</span>
+<span class="lineNum">      23 </span><span class="lineCov">        548 :                 if (std::find(valores-&gt;begin(), valores-&gt;end(), value) == valores-&gt;end()){</span>
+<span class="lineNum">      24 </span><span class="lineCov">        415 :                         valores-&gt;push_back(value);</span>
 <span class="lineNum">      25 </span>            :                 }
 <span class="lineNum">      26 </span>            : 
 <span class="lineNum">      27 </span>            :         }else{
-<span class="lineNum">      28 </span><span class="lineCov">       1718 :                 vector&lt;string&gt; valores;</span>
-<span class="lineNum">      29 </span><span class="lineCov">       1718 :                 valores.push_back(value);</span>
-<span class="lineNum">      30 </span><span class="lineCov">       1718 :                 this-&gt;intereses[category] = valores;</span>
+<span class="lineNum">      28 </span><span class="lineCov">       2797 :                 vector&lt;string&gt; valores;</span>
+<span class="lineNum">      29 </span><span class="lineCov">       2797 :                 valores.push_back(value);</span>
+<span class="lineNum">      30 </span><span class="lineCov">       2797 :                 this-&gt;intereses[category] = valores;</span>
 <span class="lineNum">      31 </span>            :         }
-<a name="32"><span class="lineNum">      32 </span><span class="lineCov">       2129 : }</span></a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineCov">       3345 : }</span></a>
 <span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span><span class="lineCov">          3 : bool Interests::getAll(string category,vector&lt;string&gt; &amp;values){</span>
-<span class="lineNum">      35 </span><span class="lineCov">          3 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
+<span class="lineNum">      34 </span><span class="lineCov">          5 : bool Interests::getAll(string category,vector&lt;string&gt; &amp;values){</span>
+<span class="lineNum">      35 </span><span class="lineCov">          5 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
 <span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineCov">          3 :         if ( it != this-&gt;intereses.end() ){</span>
+<span class="lineNum">      37 </span><span class="lineCov">          5 :         if ( it != this-&gt;intereses.end() ){</span>
 <span class="lineNum">      38 </span>            :                 //devuelve copia
-<span class="lineNum">      39 </span><span class="lineCov">          3 :                 values = it-&gt;second;</span>
-<span class="lineNum">      40 </span><span class="lineCov">          3 :                 return true;</span>
+<span class="lineNum">      39 </span><span class="lineCov">          5 :                 values = it-&gt;second;</span>
+<span class="lineNum">      40 </span><span class="lineCov">          5 :                 return true;</span>
 <span class="lineNum">      41 </span>            :         }
 <span class="lineNum">      42 </span><span class="lineNoCov">          0 :         return false;</span>
 <span class="lineNum">      43 </span>            : 
 <a name="44"><span class="lineNum">      44 </span>            : }</a>
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span><span class="lineCov">         39 : bool Interests::has(string category, string value){</span>
-<span class="lineNum">      47 </span><span class="lineCov">         39 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
+<span class="lineNum">      46 </span><span class="lineCov">         65 : bool Interests::has(string category, string value){</span>
+<span class="lineNum">      47 </span><span class="lineCov">         65 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
 <span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span><span class="lineCov">         39 :         if ( it != this-&gt;intereses.end() ){</span>
+<span class="lineNum">      49 </span><span class="lineCov">         65 :         if ( it != this-&gt;intereses.end() ){</span>
 <span class="lineNum">      50 </span>            :                 //codigo duplicado TODO
-<span class="lineNum">      51 </span><span class="lineCov">         33 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
-<span class="lineNum">      52 </span><span class="lineCov">         33 :                 if (std::find(valores-&gt;begin(), valores-&gt;end(), value) != valores-&gt;end()){</span>
-<span class="lineNum">      53 </span><span class="lineCov">         27 :                         return true;</span>
+<span class="lineNum">      51 </span><span class="lineCov">         55 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
+<span class="lineNum">      52 </span><span class="lineCov">         55 :                 if (std::find(valores-&gt;begin(), valores-&gt;end(), value) != valores-&gt;end()){</span>
+<span class="lineNum">      53 </span><span class="lineCov">         45 :                         return true;</span>
 <span class="lineNum">      54 </span>            :                 }
 <span class="lineNum">      55 </span>            :         }
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineCov">         12 :         return false;</span>
+<span class="lineNum">      57 </span><span class="lineCov">         20 :         return false;</span>
 <a name="58"><span class="lineNum">      58 </span>            : }</a>
 <span class="lineNum">      59 </span>            : 
-<span class="lineNum">      60 </span><span class="lineCov">          6 : void Interests::remove(string category, string value){</span>
-<span class="lineNum">      61 </span><span class="lineCov">          6 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
+<span class="lineNum">      60 </span><span class="lineCov">         10 : void Interests::remove(string category, string value){</span>
+<span class="lineNum">      61 </span><span class="lineCov">         10 :         map&lt;string,vector&lt;string&gt;&gt;::iterator it = this-&gt;intereses.find(category);</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span><span class="lineCov">          6 :         if ( it != this-&gt;intereses.end() ){</span>
-<span class="lineNum">      64 </span><span class="lineCov">          6 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
-<span class="lineNum">      65 </span><span class="lineCov">          6 :                 vector&lt;string&gt;::iterator position = find(valores-&gt;begin(), valores-&gt;end(), value);</span>
-<span class="lineNum">      66 </span><span class="lineCov">          6 :                 if (position != valores-&gt;end()){</span>
-<span class="lineNum">      67 </span><span class="lineCov">          6 :                         valores-&gt;erase(position);</span>
+<span class="lineNum">      63 </span><span class="lineCov">         10 :         if ( it != this-&gt;intereses.end() ){</span>
+<span class="lineNum">      64 </span><span class="lineCov">         10 :                 vector&lt;string&gt; *valores = &amp;it-&gt;second;</span>
+<span class="lineNum">      65 </span><span class="lineCov">         10 :                 vector&lt;string&gt;::iterator position = find(valores-&gt;begin(), valores-&gt;end(), value);</span>
+<span class="lineNum">      66 </span><span class="lineCov">         10 :                 if (position != valores-&gt;end()){</span>
+<span class="lineNum">      67 </span><span class="lineCov">         10 :                         valores-&gt;erase(position);</span>
 <span class="lineNum">      68 </span>            :                 }
 <span class="lineNum">      69 </span>            : 
 <span class="lineNum">      70 </span>            :         }
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          6 : }</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">         10 : }</span></a>
 <span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">        398 : map&lt;string,vector&lt;string&gt;&gt; Interests::allInterests(){</span>
-<span class="lineNum">      74 </span><span class="lineCov">        398 :         return this-&gt;intereses;</span>
+<span class="lineNum">      73 </span><span class="lineCov">        509 : map&lt;string,vector&lt;string&gt;&gt; Interests::allInterests(){</span>
+<span class="lineNum">      74 </span><span class="lineCov">        509 :         return this-&gt;intereses;</span>
 <a name="75"><span class="lineNum">      75 </span>            : }</a>
 <span class="lineNum">      76 </span>            : 
-<span class="lineNum">      77 </span><span class="lineCov">       2232 : Interests::~Interests() {</span>
+<span class="lineNum">      77 </span><span class="lineCov">       3873 : Interests::~Interests() {</span>
 <span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span><span class="lineCov">       2232 : }</span>
+<span class="lineNum">      79 </span><span class="lineCov">       3873 : }</span>
 <span class="lineNum">      80 </span>            : 
 </pre>
       </td>

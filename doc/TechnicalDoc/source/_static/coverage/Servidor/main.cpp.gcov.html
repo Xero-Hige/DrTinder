@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - coverage_total.info - Servidor/main.cpp</title>
+  <title>LCOV - coverage_merged.info - Servidor/main.cpp</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,21 +28,21 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">coverage_total.info</td>
+            <td class="headerValue">coverage_merged.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">45</td>
             <td class="headerCovTableEntry">46</td>
-            <td class="headerCovTableEntry">50</td>
-            <td class="headerCovTableEntryHi">92.0 %</td>
+            <td class="headerCovTableEntryHi">97.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2016-07-07 11:40:07</td>
+            <td class="headerValue">2016-07-11 17:43:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
-            <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryMed">83.3 %</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -65,93 +65,76 @@
 <span class="lineNum">       3 </span>            : #include &lt;mutex&gt;
 <span class="lineNum">       4 </span>            : 
 <span class="lineNum">       5 </span>            : #include &quot;../libs/loger/easylogging++.h&quot;
-<span class="lineNum">       6 </span>            : #include &quot;XMPPServer.h&quot;
-<span class="lineNum">       7 </span>            : #include &quot;Server.h&quot;
-<span class="lineNum">       8 </span><span class="lineCov">          1 : INITIALIZE_EASYLOGGINGPP</span>
-<span class="lineNum">       9 </span>            : #define ELPP_THREAD_SAFE
-<span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span>            : #define QUIT_LINE &quot;quit&quot;
-<a name="12"><span class="lineNum">      12 </span>            : </a>
-<span class="lineNum">      13 </span>            : /* Check std::cin for QUIT_LINE. */
-<span class="lineNum">      14 </span><span class="lineCov">          1 : void hasToQuit(bool&amp; result,  std::mutex&amp; result_mutex) {</span>
-<span class="lineNum">      15 </span><span class="lineCov">          1 :         std::string line;</span>
-<span class="lineNum">      16 </span><span class="lineCov">          3 :         while (line.compare(QUIT_LINE) != 0) {</span>
-<span class="lineNum">      17 </span><span class="lineCov">          1 :                 std::cin &gt;&gt; line;</span>
-<span class="lineNum">      18 </span>            :         }
-<span class="lineNum">      19 </span><span class="lineCov">          1 :         result_mutex.lock();</span>
-<span class="lineNum">      20 </span><span class="lineCov">          1 :         result = true;</span>
-<span class="lineNum">      21 </span><span class="lineCov">          1 :         result_mutex.unlock();</span>
-<a name="22"><span class="lineNum">      22 </span><span class="lineCov">          1 : }</span></a>
-<span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span><span class="lineNoCov">          0 : void listenXMPP(Swift::SimpleEventLoop&amp; eventLoop) {</span>
-<span class="lineNum">      25 </span><span class="lineNoCov">          0 :         eventLoop.run();</span>
-<a name="26"><span class="lineNum">      26 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      27 </span>            : 
-<span class="lineNum">      28 </span><span class="lineCov">          3 : void setUpDatabase(rocksdb::DB** db, std::string db_name) {</span>
-<span class="lineNum">      29 </span><span class="lineCov">          3 :         rocksdb::Options options;</span>
-<span class="lineNum">      30 </span><span class="lineCov">          3 :         options.create_if_missing = true;</span>
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span><span class="lineCov">          3 :         LOGG(INFO) &lt;&lt; &quot;Opening &quot; &lt;&lt; db_name;</span>
-<span class="lineNum">      33 </span>            : 
-<span class="lineNum">      34 </span><span class="lineCov">          6 :         rocksdb::Status status = rocksdb::DB::Open(options, db_name, db);</span>
-<span class="lineNum">      35 </span><span class="lineCov">          3 :         if (! status.ok()) {</span>
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :                 LOGG(ERROR) &lt;&lt; &quot;Could not open database&quot;;</span>
-<span class="lineNum">      37 </span>            :         }else{
-<span class="lineNum">      38 </span><span class="lineCov">          3 :                 LOGG(INFO) &lt;&lt; &quot;Conexion exitosa a la base de datos&quot;;</span>
-<span class="lineNum">      39 </span><span class="lineCov">          3 :         }</span>
-<span class="lineNum">      40 </span><span class="lineCov">          3 : }</span>
-<a name="41"><span class="lineNum">      41 </span>            : </a>
-<span class="lineNum">      42 </span>            : /* Set up server and listen to incomming connections. */
-<span class="lineNum">      43 </span><span class="lineCov">          1 : int main(int argc, char**argv) {</span>
-<span class="lineNum">      44 </span><span class="lineCov">          1 :         RestClient::init();</span>
-<span class="lineNum">      45 </span><span class="lineCov">          2 :         std::string port,shared;</span>
-<span class="lineNum">      46 </span><span class="lineCov">          1 :         configure(argc,argv,port,shared);</span>
-<span class="lineNum">      47 </span><span class="lineCov">          2 :         Server server(port,shared);</span>
+<span class="lineNum">       6 </span>            : #include &quot;Server.h&quot;
+<span class="lineNum">       7 </span><span class="lineCov">          3 : INITIALIZE_EASYLOGGINGPP</span>
+<span class="lineNum">       8 </span>            : #define ELPP_THREAD_SAFE
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : #define QUIT_LINE &quot;quit&quot;
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<span class="lineNum">      12 </span>            : /* Check std::cin for QUIT_LINE. */
+<span class="lineNum">      13 </span><span class="lineCov">          3 : void hasToQuit(bool&amp; result,  std::mutex&amp; result_mutex) {</span>
+<span class="lineNum">      14 </span><span class="lineCov">          3 :         std::string line;</span>
+<span class="lineNum">      15 </span><span class="lineCov">          9 :         while (line.compare(QUIT_LINE) != 0) {</span>
+<span class="lineNum">      16 </span><span class="lineCov">          3 :                 std::cin &gt;&gt; line;</span>
+<span class="lineNum">      17 </span>            :         }
+<span class="lineNum">      18 </span><span class="lineCov">          3 :         result_mutex.lock();</span>
+<span class="lineNum">      19 </span><span class="lineCov">          3 :         result = true;</span>
+<span class="lineNum">      20 </span><span class="lineCov">          3 :         result_mutex.unlock();</span>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          3 : }</span></a>
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span><span class="lineCov">          9 : void setUpDatabase(rocksdb::DB** db, std::string db_name) {</span>
+<span class="lineNum">      24 </span><span class="lineCov">          9 :         rocksdb::Options options;</span>
+<span class="lineNum">      25 </span><span class="lineCov">          9 :         options.create_if_missing = true;</span>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineCov">          9 :         LOGG(INFO) &lt;&lt; &quot;Opening &quot; &lt;&lt; db_name;</span>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">         18 :         rocksdb::Status status = rocksdb::DB::Open(options, db_name, db);</span>
+<span class="lineNum">      30 </span><span class="lineCov">          9 :         if (! status.ok()) {</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :                 LOGG(ERROR) &lt;&lt; &quot;Could not open database&quot;;</span>
+<span class="lineNum">      32 </span>            :         }else{
+<span class="lineNum">      33 </span><span class="lineCov">          9 :                 LOGG(INFO) &lt;&lt; &quot;Conexion exitosa a la base de datos&quot;;</span>
+<span class="lineNum">      34 </span><span class="lineCov">          9 :         }</span>
+<span class="lineNum">      35 </span><span class="lineCov">          9 : }</span>
+<a name="36"><span class="lineNum">      36 </span>            : </a>
+<span class="lineNum">      37 </span>            : /* Set up server and listen to incomming connections. */
+<span class="lineNum">      38 </span><span class="lineCov">          3 : int main(int argc, char**argv) {</span>
+<span class="lineNum">      39 </span><span class="lineCov">          3 :         RestClient::init();</span>
+<span class="lineNum">      40 </span><span class="lineCov">          6 :         std::string port,shared;</span>
+<span class="lineNum">      41 </span><span class="lineCov">          3 :         configure(argc,argv,port,shared);</span>
+<span class="lineNum">      42 </span><span class="lineCov">          6 :         Server server(port,shared);</span>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span>            :         rocksdb::DB* usersDB;
+<span class="lineNum">      45 </span><span class="lineCov">          3 :         setUpDatabase(&amp;usersDB, &quot;usersDB&quot;);</span>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span><span class="lineCov">          3 :         server.setUsersDB(usersDB);</span>
 <span class="lineNum">      48 </span>            : 
-<span class="lineNum">      49 </span>            :         rocksdb::DB* usersDB;
-<span class="lineNum">      50 </span><span class="lineCov">          1 :         setUpDatabase(&amp;usersDB, &quot;usersDB&quot;);</span>
-<span class="lineNum">      51 </span>            : 
-<span class="lineNum">      52 </span><span class="lineCov">          1 :         server.setUsersDB(usersDB);</span>
-<span class="lineNum">      53 </span>            : /*
-<span class="lineNum">      54 </span>            :         Swift::SimpleEventLoop eventLoop;
-<span class="lineNum">      55 </span>            :         Swift::BoostNetworkFactories networkFactories(&amp;eventLoop);
-<span class="lineNum">      56 </span>            :         XMPPServer xmppServer(&amp;networkFactories);*/
+<span class="lineNum">      49 </span>            :         rocksdb::DB* chatDB;
+<span class="lineNum">      50 </span><span class="lineCov">          3 :         setUpDatabase(&amp;chatDB, &quot;chatDB&quot;);</span>
+<span class="lineNum">      51 </span>            :         rocksdb::DB* likesDB;
+<span class="lineNum">      52 </span><span class="lineCov">          3 :         setUpDatabase(&amp;likesDB, &quot;likesDB&quot;);</span>
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span><span class="lineCov">          3 :         server.setChatDB(chatDB);</span>
+<span class="lineNum">      55 </span><span class="lineCov">          3 :         server.setLikesDB(likesDB);</span>
+<span class="lineNum">      56 </span><span class="lineCov">          3 :         server.updateServer();</span>
 <span class="lineNum">      57 </span>            : 
-<span class="lineNum">      58 </span>            :         rocksdb::DB* chatDB;
-<span class="lineNum">      59 </span><span class="lineCov">          1 :         setUpDatabase(&amp;chatDB, &quot;chatDB&quot;);</span>
-<span class="lineNum">      60 </span>            :         rocksdb::DB* likesDB;
-<span class="lineNum">      61 </span><span class="lineCov">          1 :         setUpDatabase(&amp;likesDB, &quot;likesDB&quot;);</span>
+<span class="lineNum">      58 </span><span class="lineCov">          3 :         bool quit = false;</span>
+<span class="lineNum">      59 </span><span class="lineCov">          3 :         LOGG(INFO) &lt;&lt; &quot;Opening server&quot;;</span>
+<span class="lineNum">      60 </span><span class="lineCov">          3 :         std::mutex quit_mutex;</span>
+<span class="lineNum">      61 </span><span class="lineCov">          6 :         std::thread quit_control_thread(hasToQuit, std::ref(quit), std::ref(quit_mutex));</span>
 <span class="lineNum">      62 </span>            : 
-<span class="lineNum">      63 </span>            :         /*xmppServer.setChatDB(chatDB);
-<span class="lineNum">      64 </span>            :         xmppServer.setLikesDB(likesDB);*/
-<span class="lineNum">      65 </span>            : 
-<span class="lineNum">      66 </span><span class="lineCov">          1 :         std::mutex xmpp_mutex;</span>
-<span class="lineNum">      67 </span>            :         /*std::thread xmpp_thread(listenXMPP, std::ref(eventLoop));*/
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span><span class="lineCov">          1 :         server.setChatDB(chatDB);</span>
-<span class="lineNum">      70 </span><span class="lineCov">          1 :         server.setLikesDB(likesDB);</span>
-<span class="lineNum">      71 </span><span class="lineCov">          1 :         server.updateServer();</span>
-<span class="lineNum">      72 </span>            : 
-<span class="lineNum">      73 </span><span class="lineCov">          1 :         bool quit = false;</span>
-<span class="lineNum">      74 </span><span class="lineCov">          1 :         LOGG(INFO) &lt;&lt; &quot;Opening server&quot;;</span>
-<span class="lineNum">      75 </span><span class="lineCov">          1 :         std::mutex quit_mutex;</span>
-<span class="lineNum">      76 </span><span class="lineCov">          2 :         std::thread quit_control_thread(hasToQuit, std::ref(quit), std::ref(quit_mutex));</span>
-<span class="lineNum">      77 </span>            : 
-<span class="lineNum">      78 </span><span class="lineCov">          1 :         quit_mutex.lock();</span>
-<span class="lineNum">      79 </span><span class="lineCov">        276 :         while (! quit) {</span>
-<span class="lineNum">      80 </span><span class="lineCov">        274 :                 quit_mutex.unlock();</span>
-<span class="lineNum">      81 </span><span class="lineCov">        274 :                 server.run();</span>
-<span class="lineNum">      82 </span><span class="lineCov">        274 :                 quit_mutex.lock();</span>
-<span class="lineNum">      83 </span>            :         }
-<span class="lineNum">      84 </span><span class="lineCov">          1 :         quit_mutex.unlock();</span>
-<span class="lineNum">      85 </span>            : 
-<span class="lineNum">      86 </span>            :         /*xmppServer.close();
-<span class="lineNum">      87 </span>            :         xmpp_thread.join();*/
-<span class="lineNum">      88 </span><span class="lineCov">          1 :         quit_control_thread.join();</span>
-<span class="lineNum">      89 </span><span class="lineCov">          1 :         RestClient::disable();</span>
-<a name="90"><span class="lineNum">      90 </span><span class="lineCov">          1 :         LOGG(INFO) &lt;&lt; &quot;Closing server&quot;;</span></a>
-<span class="lineNum">      91 </span><span class="lineCov">          2 :     return 0;</span>
-<span class="lineNum">      92 </span><span class="lineCov">          3 : }</span>
+<span class="lineNum">      63 </span><span class="lineCov">          3 :         quit_mutex.lock();</span>
+<span class="lineNum">      64 </span><span class="lineCov">       1865 :         while (! quit) {</span>
+<span class="lineNum">      65 </span><span class="lineCov">       1859 :                 quit_mutex.unlock();</span>
+<span class="lineNum">      66 </span><span class="lineCov">       1859 :                 server.run();</span>
+<span class="lineNum">      67 </span><span class="lineCov">       1859 :                 quit_mutex.lock();</span>
+<span class="lineNum">      68 </span>            :         }
+<span class="lineNum">      69 </span><span class="lineCov">          3 :         quit_mutex.unlock();</span>
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span><span class="lineCov">          3 :         quit_control_thread.join();</span>
+<span class="lineNum">      72 </span><span class="lineCov">          3 :         RestClient::disable();</span>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          3 :         LOGG(INFO) &lt;&lt; &quot;Closing server&quot;;</span></a>
+<span class="lineNum">      74 </span><span class="lineCov">          6 :     return 0;</span>
+<span class="lineNum">      75 </span><span class="lineCov">          9 : }</span>
 </pre>
       </td>
     </tr>
