@@ -20,6 +20,28 @@ void hasToQuit(bool& result,  std::mutex& result_mutex) {
 	result_mutex.unlock();
 }
 
+void cleanDatabase(rocksdb::DB* db){
+	DatabaseManager* dbManager = new DatabaseManager(db);
+	dbManager->createIterator();
+	string key;
+	string value;
+	if(dbManager->validIterator()){
+		dbManager->getActualPair(key,value);
+		LOGG(INFO) << "Borrando key: " << key;
+		dbManager->deleteEntry(key);
+
+		while(dbManager->advanceIterator()){
+			if(dbManager->validIterator()){
+				dbManager->getActualPair(key,value);
+				LOGG(INFO) << "Borrando key: " << key;
+				dbManager->deleteEntry(key);
+			}
+		}
+	}
+	dbManager->deleteIterator();
+	delete dbManager;
+}
+
 void setUpDatabase(rocksdb::DB** db, std::string db_name) {
 	rocksdb::Options options;
 	options.create_if_missing = true;
@@ -31,6 +53,8 @@ void setUpDatabase(rocksdb::DB** db, std::string db_name) {
 		LOGG(ERROR) << "Could not open database";
 	}else{
 		LOGG(INFO) << "Conexion exitosa a la base de datos";
+		LOGG(INFO) << "Limpiando base de datos" << db_name;
+		cleanDatabase(*db);
 	}
 }
 
