@@ -27,13 +27,13 @@ void cleanDatabase(rocksdb::DB* db){
 	string value;
 	if(dbManager->validIterator()){
 		dbManager->getActualPair(key,value);
-		LOGG(INFO) << "Borrando key: " << key;
+		LOGG(DEBUG) << "Borrando key: " << key;
 		dbManager->deleteEntry(key);
 
 		while(dbManager->advanceIterator()){
 			if(dbManager->validIterator()){
 				dbManager->getActualPair(key,value);
-				LOGG(INFO) << "Borrando key: " << key;
+				LOGG(DEBUG) << "Borrando key: " << key;
 				dbManager->deleteEntry(key);
 			}
 		}

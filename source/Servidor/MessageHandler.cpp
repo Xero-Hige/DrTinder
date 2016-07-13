@@ -263,7 +263,6 @@ bool MessageHandler::getInterestPhoto(std::string& photo_64, std::string id_inte
 
 bool MessageHandler::getChat(std::string friend_username, string& chat_history) {
 	LOGG(INFO) << "Fetching chat history from " << username << " and " << friend_username;
-	//TODO DELETE NEW MESSAGES FROM THIS CONVERSATION.
 	return chatDB->getHistory(username, friend_username, chat_history);
 }
 
