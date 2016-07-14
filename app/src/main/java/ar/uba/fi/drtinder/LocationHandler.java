@@ -43,7 +43,7 @@ public final class LocationHandler {
     public static final String LOCATION_FAILED = "";
 
 
-    private static String locationString = "0,0";
+    private static String locationString = "-58.367996,-34.617627";
 
     private LocationHandler() {
     }
@@ -84,6 +84,8 @@ public final class LocationHandler {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
+            Utility.showMessage("La aplicacion necesita tener habilitado el gps",
+                    Utility.getViewgroup(activity));
             DrTinderLogger.writeLog(DrTinderLogger.WARN, "App needs location permission");
 
             return PERMISSION_MISSING;
