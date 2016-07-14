@@ -417,7 +417,9 @@ void RequestHandler::listenNewChatGet(){
 
 	bool result_ok = msgHandler->getNewMessages(friend_name, newMessages);
 	if(result_ok){
-		LOGG(INFO) << "RETURNING NEW MESSAGES: " << newMessages;
+		if(!newMessages.empty()){
+			LOGG(DEBUG) << "RETURNING NEW MESSAGES: " << newMessages;
+		}
 		sendHttpReply(newMessages, CONTENT_TYPE_HEADER_CSV, STATUS_OK);
 	}else{
 		LOGG(WARNING) << "BAD GET NEW MESSAGES REQUEST. ";
