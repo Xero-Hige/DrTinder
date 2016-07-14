@@ -361,7 +361,8 @@ public class UserProfileActivity extends AppCompatActivity {
             return false;
         }
 
-        if (!UserHandler.isValidPassword(mPasswordView.getText().toString())) {
+        if (!UserHandler.isValidPassword(mPasswordView.getText().toString())
+                && mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             Utility.showMessage("Password invalida", Utility.getViewgroup(this));
             return false;
         }
