@@ -194,10 +194,10 @@
 </div>
 <div class="section" id="creacion-rol-y-db">
 <h2>Creación Rol y DB<a class="headerlink" href="#creacion-rol-y-db" title="Permalink to this headline">¶</a></h2>
-<p>Primero para tener la base de datos local es necesario ejecutar el archivo createDB.sql, para ello debe ejecutar lo siguiente siendo <em>&lt;usrid&gt;</em> su nombre de usuario. Estara creando un rol y podrá ejecutar el último comando desde su terminal.</p>
+<p>Primero para tener la base de datos local es necesario ejecutar el archivo createDB.sql, para ello debe ejecutar lo siguiente siendo <em>&lt;username&gt;</em> su nombre de usuario(guest, etc.). Estara creando un rol y podrá ejecutar el último comando desde su terminal.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sudo -i -u postgres
-psql -s -d -P &lt;usrid&gt;  <span class="c1">#prompt para setear pass</span>
-createdb &lt;usrid&gt;
+createuser -s -d -P &lt;username&gt;  <span class="c1">#prompt para setear pass</span>
+createdb &lt;username&gt;
 <span class="nb">exit</span>
 </pre></div>
 </div>
@@ -209,16 +209,16 @@ createdb &lt;usrid&gt;
 </div>
 <div class="section" id="configuracion-env">
 <h2>Configuracion (.env)<a class="headerlink" href="#configuracion-env" title="Permalink to this headline">¶</a></h2>
-<p>Para poder correr localmente el shared server se debe escribir un archivo .env que solo contenga en formato “key=value” el puerto(PORT) y la url(DATABASE_URL) a la base de datos de Postgres. Para levantar este archivo y setear las variables se utiliza el paquete  node-env-file. Un ejemplo de archivo sería:</p>
+<p>Para poder correr localmente el shared server se debe escribir un archivo llamado <code class="docutils literal"><span class="pre">.env</span></code> que solo contenga en formato “key=value” el puerto(PORT) y la url(DATABASE_URL) a la base de datos de Postgres. Para levantar este archivo y setear las variables se utiliza el paquete ** node-env-file**. Un ejemplo de archivo sería:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">PORT</span> <span class="o">=</span> 8000
 <span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://user:pass@localhost:5432/dbname
 </pre></div>
 </div>
 <p>La composición de la url de la base de datos es la siguiente:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>postgres:://&lt;userid&gt;:&lt;pass&gt;@localhost:5432/tinder
+<div class="highlight-bash"><div class="highlight"><pre><span></span>postgres:://&lt;username&gt;:&lt;pass&gt;@localhost:5432/tinder
 </pre></div>
 </div>
-<p>Donde <em>&lt;userid&gt;</em> y <em>&lt;pass&gt;</em> corresponden al rol creado.</p>
+<p>Donde <em>&lt;username&gt;</em> y <em>&lt;pass&gt;</em> corresponden al rol creado.</p>
 </div>
 <div class="section" id="puesta-en-marcha">
 <h2>Puesta en marcha<a class="headerlink" href="#puesta-en-marcha" title="Permalink to this headline">¶</a></h2>
@@ -258,7 +258,7 @@ createdb &lt;usrid&gt;
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Gaston Alberto Martinez.
-      Last updated on Jul 12, 2016.
+      Last updated on Jul 14, 2016.
 
     </p>
   </div>
