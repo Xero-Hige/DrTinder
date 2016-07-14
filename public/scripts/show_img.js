@@ -200,7 +200,8 @@ function showImg(e){
 		}  
 	};
 	var url = e.target.getAttribute('data-value');
-	xhttp.open("GET", url, true);
+	var id = $(e.target).closest('tr').attr('id');
+	xhttp.open("GET", using_url + '/users/' + id + '/photo', true);
 	xhttp.setRequestHeader('Content-Type', 'application/json');
 	xhttp.send();
 	
