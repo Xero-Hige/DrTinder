@@ -361,13 +361,14 @@ public class UserProfileActivity extends AppCompatActivity {
             return false;
         }
 
-        if (!UserHandler.isValidPassword(mPasswordView.getText().toString())) {
+        if (!UserHandler.isValidPassword(mPasswordView.getText().toString())
+                && mActivityAction.equals(PROFILE_ACTION_CREATE)) {
             Utility.showMessage("Password invalida", Utility.getViewgroup(this));
             return false;
         }
 
         int age = Integer.parseInt(sAge);
-        if (age >= 18) {
+        if (age < 18) {
             Utility.showMessage("Debe ser mayor de 18", Utility.getViewgroup(this));
             return false;
         }
@@ -476,7 +477,9 @@ public class UserProfileActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             mResult = UserHandler.signUp(mEmail, mPasswd, getUserdataMap());
-            UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
+            if (mResult.equals(UserHandler.SIGNUP_SUCCESS)) {
+                UserHandler.uploadProfilePicture(mProfileImage, UserHandler.getToken());
+            }
             return mResult.equals(UserHandler.SIGNUP_SUCCESS);
         }
 
@@ -485,6 +488,12 @@ public class UserProfileActivity extends AppCompatActivity {
             if (!success) {
                 if (mResult.equals(UserHandler.SIGNUP_FAILED)) {
                     Utility.showMessage("Fallo al crear el usuario. Intente mas tarde",
+                            Utility.getViewgroup(mContext), "Ok");
+                    enableButtons();
+                    return;
+                }
+                if (mResult.equals(UserHandler.SIGNUP_USEREXIST)) {
+                    Utility.showMessage("El email ya esta registrado. Elija otro",
                             Utility.getViewgroup(mContext), "Ok");
                     enableButtons();
                     return;
