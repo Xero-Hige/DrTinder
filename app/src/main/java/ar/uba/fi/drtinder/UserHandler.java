@@ -279,6 +279,9 @@ public final class UserHandler {
             return SIGNUP_FAILED;
         } catch (HttpClientErrorException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_ERRO, "Client error: " + e.getMessage());
+            if (e.getStatusCode().value() == 401) {
+                return SIGNUP_USEREXIST;
+            }
             return SIGNUP_FAILED;
         } catch (ResourceAccessException e) {
             DrTinderLogger.writeLog(DrTinderLogger.NET_WARN, "Failed to connect: " + e.getMessage());
@@ -288,9 +291,6 @@ public final class UserHandler {
         int statusCode = response.getStatusCode().value();
 
         if (statusCode != 201) {
-            if (statusCode == 401) {
-                return SIGNUP_USEREXIST;
-            }
             String errorMessage = "Failed login post: "
                     + response.getStatusCode().value()
                     + " " + response.getStatusCode().getReasonPhrase();
