@@ -66,13 +66,13 @@ Instalación de postgres
 Creación Rol y DB
 ******************
 
-Primero para tener la base de datos local es necesario ejecutar el archivo createDB.sql, para ello debe ejecutar lo siguiente siendo *<usrid>* su nombre de usuario. Estara creando un rol y podrá ejecutar el último comando desde su terminal.
+Primero para tener la base de datos local es necesario ejecutar el archivo createDB.sql, para ello debe ejecutar lo siguiente siendo *<username>* su nombre de usuario(guest, etc.). Estara creando un rol y podrá ejecutar el último comando desde su terminal.
 
 .. code-block:: bash
 
 	sudo -i -u postgres
-	psql -s -d -P <usrid>  #prompt para setear pass
-	createdb <usrid>
+	createuser -s -d -P <username>  #prompt para setear pass
+	createdb <username>
 	exit
 
 Por último ejecute(una vez creado el rol puede correr este comando para reiniciar la base de datos):
@@ -87,7 +87,7 @@ La definición de la base de datos la puede ver en :ref:`dbDiagram`.
 Configuracion (.env)
 ********************
 
-Para poder correr localmente el shared server se debe escribir un archivo .env que solo contenga en formato “key=value” el puerto(PORT) y la url(DATABASE_URL) a la base de datos de Postgres. Para levantar este archivo y setear las variables se utiliza el paquete  node-env-file. Un ejemplo de archivo sería:
+Para poder correr localmente el shared server se debe escribir un archivo llamado ``.env`` que solo contenga en formato “key=value” el puerto(PORT) y la url(DATABASE_URL) a la base de datos de Postgres. Para levantar este archivo y setear las variables se utiliza el paquete ** node-env-file**. Un ejemplo de archivo sería:
 
 .. code-block:: bash
 
@@ -98,9 +98,9 @@ La composición de la url de la base de datos es la siguiente:
 
 .. code-block:: bash
 
-	postgres:://<userid>:<pass>@localhost:5432/tinder
+	postgres:://<username>:<pass>@localhost:5432/tinder
 
-Donde *<userid>* y *<pass>* corresponden al rol creado.
+Donde *<username>* y *<pass>* corresponden al rol creado.
 
 ****************
 Puesta en marcha
